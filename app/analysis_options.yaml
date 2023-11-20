@@ -1,0 +1,10 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    avoid_print: true  # Use logging libraries instead of print statements.
+    prefer_single_quotes: true  # Use single quotes for string literals.
+    prefer_final_locals: true  # Prefer using 'final' for local variables when possible.
+    prefer_const_constructors: true  # Use const constructors for immutable instances.
+    prefer_if_elements_to_conditional_expressions: true  # Prefer 'if' elements over conditional expressions for collections.
+
