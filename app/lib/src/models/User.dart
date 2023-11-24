@@ -1,5 +1,11 @@
-enum UserType { admin, student, stuff }
+/// Represents the type of a user in the application.
+enum UserType {
+  admin,
+  student,
+  stuff,
+}
 
+/// Represents a user in the application.
 class User {
   late String name;
   late String email;
@@ -7,12 +13,15 @@ class User {
   late String token;
   late UserType userType;
 
-  User(
-      {required this.name,
-      required this.email,
-      required this.password,
-      required this.token});
+  /// Constructs a User object with the specified [name], [email], [password], and [token].
+  User({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.token,
+  });
 
+  /// Constructs a User object from a JSON map.
   User.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     email = json['email'];
@@ -20,6 +29,7 @@ class User {
     token = json['token'];
   }
 
+  /// Converts the User object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
@@ -29,6 +39,7 @@ class User {
     return data;
   }
 
+  /// Sets the user type based on the provided [userType] string.
   void setUserType(String userType) {
     switch (userType) {
       case 'admin':
@@ -43,5 +54,10 @@ class User {
       default:
         this.userType = UserType.student;
     }
+  }
+
+  @override
+  String toString() {
+    return 'name: $name, email: $email, password: $password, token: $token';
   }
 }
