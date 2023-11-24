@@ -1,9 +1,14 @@
+import 'package:GUConnect/src/models/User.dart';
+
 /// Represents a lost and found item.
 class LostAndFound {
   late String content;
   late String image;
   late String location;
   late String contact;
+  late DateTime createdAt;
+  late bool isFound;
+  late User user;
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
@@ -11,6 +16,9 @@ class LostAndFound {
     required this.image,
     required this.location,
     required this.contact,
+    required this.createdAt,
+    required this.isFound,
+    required this.user,
   });
 
   /// Constructs a [LostAndFound] object from a JSON [Map].
@@ -19,6 +27,9 @@ class LostAndFound {
     image = json['image'];
     location = json['location'];
     contact = json['contact'];
+    createdAt = DateTime.parse(json['createdAt']);
+    isFound = json['isFound'];
+    user = User.fromJson(json['user']);
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
@@ -28,6 +39,9 @@ class LostAndFound {
     data['image'] = image;
     data['location'] = location;
     data['contact'] = contact;
+    data['createdAt'] = createdAt.toString();
+    data['isFound'] = isFound;
+    data['user'] = user.toJson();
     return data;
   }
 
@@ -38,6 +52,6 @@ class LostAndFound {
 
   @override
   String toString() {
-    return 'content: $content, image: $image, location: $location, contact: $contact';
+    return 'content: $content, image: $image, location: $location, contact: $contact, createdAt: $createdAt, isFound: $isFound, user: $user';
   }
 }
