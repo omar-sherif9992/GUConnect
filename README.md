@@ -41,6 +41,31 @@ short description
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+
+### Flutter Folder Structure
+
+```
+lib/
+|-- main.dart
+|-- src/
+|   |-- screens/
+|   |   |-- home_screen.dart
+|   |   |-- profile_screen.dart
+|   |-- widgets/
+|   |   |-- custom_button.dart
+|   |   |-- app_drawer.dart
+|   |-- models/
+|   |   |-- user.dart
+|   |-- services/
+|   |   |-- api_service.dart
+|   |-- utils/
+|   |   |-- constants.dart
+|   |   |-- helpers.dart
+|-- themes/
+|   |-- app_theme.dart
+|-- main_app.dart
+```
+
 ### ⚠️ Disclaimer
 
 Users who will Use this Data should only use it for Practice and <strong>not for Commercial Purposes !</strong>
