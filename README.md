@@ -30,6 +30,21 @@ short description
   </p>
 </div>
 
+## Open the App
+- ```
+  git clone
+  ```
+- ```
+  cd app
+  ```
+- ```
+flutter pub get
+```
+
+- ```
+flutter run
+```
+
 
 ## 💡 Description
 
