@@ -3,7 +3,7 @@
 <h1 align="center">Welcome to GUConnect</h1>
 
 <div align="center">
-    <img src="./app/assets/GUConnect-Logo.png" alt="Logo" width="150" height="140">
+    <img src="./app/assets/images/GUConnect-Logo.png" alt="Logo" width="150" height="140">
 
 
 
@@ -31,19 +31,13 @@ short description
 </div>
 
 ## Open the App
-- ```
-  git clone
-  ```
-- ```
-  cd app
-  ```
-- ```
-flutter pub get
-```
+- clone the repo ```git clone```
 
-- ```
-flutter run
-```
+- ```cd app```
+
+- Install dependencies ``` flutter pub get```
+
+- run the project ```flutter run```
 
 
 ## 💡 Description
