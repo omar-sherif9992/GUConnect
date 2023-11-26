@@ -1,5 +1,4 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/screens/Home.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'GUConnect',
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
+      initialRoute: '/',
       routes: CustomRoutes.routes,
     );
   }
