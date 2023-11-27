@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/screens/Home.dart';
+import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
@@ -25,7 +25,10 @@ class CustomRoutes {
   static const String news = '/news';
   static const String newsDetail = '/news-detail';
   static const String confessions = '/confessions';
-
+  static const String confessionsDetail = '/confessions-detail';
+  static const String lostAndFound = '/lost-and-found';
+  static const String lostAndFoundDetail = '/lost-and-found-detail';
+  static const String report = '/report';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -33,11 +36,8 @@ class CustomRoutes {
       login: (context) => const Login(),
       register: (context) => const Register(),
       profile: (context) => const Profile(),
-      profileEdit: (context) => const ProfileEdit(),
+      profileEdit: (context) =>  ProfileEdit(),
       settings: (context) => const Settings(),
     };
   }
-
-
-
 }
