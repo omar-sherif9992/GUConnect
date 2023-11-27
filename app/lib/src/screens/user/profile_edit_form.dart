@@ -1,3 +1,5 @@
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/user_provider.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
@@ -7,7 +9,8 @@ import 'package:flutter/material.dart';
 class ProfileEditForm extends StatelessWidget {
   final TextEditingController emailController =
       TextEditingController(text: 'omar');
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -15,13 +18,22 @@ class ProfileEditForm extends StatelessWidget {
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final User user;
 
   ProfileEditForm({
     super.key,
+    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
+    fullNameController.text = user.fullName;
+    userNameController.text = user.userName;
+    emailController.text = user.email;
+    bioController.text = user.biography;
+    phoneController.text = user.phoneNumber;
+    passwordController.text = user.password;
+
     return Form(
         key: _formKey,
         child: Padding(
@@ -31,12 +43,12 @@ class ProfileEditForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InputField(
-                controller: nameController,
-                label: 'Name',
+                controller: fullNameController,
+                label: 'Full Name',
                 icon: Icons.person,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Enter a name';
+                    return 'Enter your full name';
                   } else {
                     return null;
                   }
@@ -44,7 +56,9 @@ class ProfileEditForm extends StatelessWidget {
                 keyboardType: TextInputType.name,
               ),
               EmailField(emailController: emailController),
-              PhoneInputField(controller: phoneController,),
+              PhoneInputField(
+                controller: phoneController,
+              ),
               InputField(
                 controller: bioController,
                 label: 'Bio',

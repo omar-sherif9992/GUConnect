@@ -16,10 +16,9 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final TextEditingController _searchController = TextEditingController();
 
   final List<User> users = dummy_users;
-  final List<User> users_display = dummy_users;
+  final List<User> usersDisplay = dummy_users;
   final bool _isLoading = false;
 
   @override
@@ -49,10 +48,10 @@ class _SearchScreenState extends State<SearchScreen>
         ),
         onChanged: (value) {
           setState(() {
-            users_display.clear();
-            users_display.addAll(users
+            usersDisplay.clear();
+            usersDisplay.addAll(users
                 .where((element) =>
-                    element.name.toLowerCase().contains(value.toLowerCase()))
+                    element.fullName.toLowerCase().contains(value.toLowerCase()))
                 .toList());
           });
         },
@@ -61,14 +60,14 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildProfessorsTab() {
-    final List<User> professors = users_display
+    final List<User> professors = usersDisplay
         .where((element) => element.userType == UserType.professor)
         .toList();
 
     return _isLoading
         ? Loader()
-        : professors.length == 0
-            ? Center(child: Text('No professors found'))
+        : professors.isEmpty
+            ? const Center(child: Text('No professors found'))
             : Container(
               child: ListView.builder(
                   itemCount: professors.length,
@@ -110,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen>
                   _buildProfessorsTab(),
                   Center(child: Text('Tab 2 content')),
                   Center(child: Text('Tab 3 content')),
+                  Center(child: Text('Tab 4 content')),
                 ],
               ),
             ),
@@ -151,8 +151,15 @@ class UserTile extends StatelessWidget {
                 backgroundImage: NetworkImage(user.image),
               ),
             ),
-            title: Text('${userTitle()} ${titleCase(user.name)}'),
+            title: Text('${userTitle()} ${titleCase(user.fullName)}'),
             subtitle: Text(user.biography),
+            trailing: IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(CustomRoutes.profile, arguments: user);
+              },
+            ),
             onTap: () {
               Navigator.of(context)
                   .pushNamed(CustomRoutes.profile, arguments: user);

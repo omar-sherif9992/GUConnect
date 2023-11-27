@@ -6,6 +6,7 @@ class Confession {
   late User sender;
   late bool isAnonymous;
   late DateTime createdAt;
+  
 
   /// Constructs a Confession object with the given parameters.
   Confession({

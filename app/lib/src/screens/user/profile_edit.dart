@@ -1,17 +1,38 @@
 import 'dart:io';
 
+import 'package:GUConnect/src/providers/user_provider.dart';
 import 'package:GUConnect/src/screens/user/profile_edit_form.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:GUConnect/themes/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ProfileEditScreen extends StatelessWidget {
+class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({super.key});
-  void onPickImage(File pickedImage) {}
+
+  @override
+  State<ProfileEditScreen> createState() => _ProfileEditScreenState();
+}
+
+class _ProfileEditScreenState extends State<ProfileEditScreen> {
+  File? profileImage;
+
+  void onPickImage(File pickedImage) {
+    setState(() {
+      profileImage = pickedImage;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    profileImage = userProvider.user?.image as File?;
+
+    if (userProvider.user == null) {
+      Navigator.of(context).pushNamed('/login');
+    }
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Edit Profile',
@@ -29,11 +50,12 @@ class ProfileEditScreen extends StatelessWidget {
             const SizedBox(
               height: Sizes.medium,
             ),
-            UserImagePicker(onPickImage: onPickImage),
+            UserImagePicker(onPickImage: onPickImage, pickedImageFile: profileImage),
             const SizedBox(
               height: Sizes.medium,
             ),
-            SizedBox(height: 500, child: ProfileEditForm()),
+            SizedBox(
+                height: 500, child: ProfileEditForm(user: userProvider.user!)),
           ],
         ),
       ),
