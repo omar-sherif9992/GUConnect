@@ -2,11 +2,14 @@
 enum UserType {
   admin,
   student,
+  professor,
+  ta,
   stuff,
 }
 
 /// Represents a user in the application.
 class User {
+  late String id;
   late String name;
   late String image;
   late String email;
@@ -16,14 +19,23 @@ class User {
   late UserType userType;
 
   /// Constructs a User object with the specified [name],[image], [email], [password], [biograpghy], and [token].
-  User({
-    required this.name,
-    required this.image,
-    required this.email,
-    required this.password,
-    required this.biography,
-    required this.token,
-  });
+  User(
+      {required this.name,
+      required this.image,
+      required this.email,
+      required this.password,
+      required this.biography,
+      required this.token,
+      required this.userType});
+  User.dummy(
+      {required this.id,
+      required this.name,
+      required this.image,
+      required this.email,
+      required this.password,
+      required this.biography,
+      required this.token,
+      required this.userType});
 
   /// Constructs a User object from a JSON map.
   User.fromJson(Map<String, dynamic> json) {
@@ -38,6 +50,7 @@ class User {
   /// Converts the User object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
     data['email'] = this.email;

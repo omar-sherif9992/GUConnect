@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:GUConnect/src/screens/user/profile_edit_form.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:GUConnect/themes/sizes.dart';
 import 'package:flutter/material.dart';
 
-class ProfileEdit extends StatelessWidget {
-  const ProfileEdit({super.key});
+class ProfileEditScreen extends StatelessWidget {
+  const ProfileEditScreen({super.key});
   void onPickImage(File pickedImage) {}
 
   @override

@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/src/screens/search/search.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
@@ -32,12 +33,13 @@ class CustomRoutes {
 
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const Home(),
-      login: (context) => const Login(),
-      register: (context) => const Register(),
-      profile: (context) => const Profile(),
-      profileEdit: (context) =>  ProfileEdit(),
-      settings: (context) => const Settings(),
+      home: (context) => const HomeScreen(),
+      login: (context) => const LoginScreen(),
+      register: (context) => const RegisterScreen(),
+      profile: (context) => const ProfileScreen(),
+      search: (context) => const SearchScreen(),
+      profileEdit: (context) =>  const ProfileEditScreen(),
+      settings: (context) => const SettingsScreen(),
     };
   }
 }
