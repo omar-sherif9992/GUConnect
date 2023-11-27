@@ -1,9 +1,10 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/screens/Home.dart';
+import 'package:GUConnect/src/providers/user_provider.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:provider/provider.dart';
 
 void main() async {
   await initializeApp();
@@ -17,17 +18,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GUConnect',
-      theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
-      routes: CustomRoutes.routes,
-    );
+    return ChangeNotifierProvider(
+        create: (_) => UserProvider(),
+        child: MaterialApp(
+          title: 'GUConnect',
+          theme: CustomTheme.lightTheme,
+          darkTheme: CustomTheme.darkTheme,
+          initialRoute: '/',
+          routes: CustomRoutes.routes,
+        ));
   }
 }
 
 Future initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Allow only portrait mode
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
+
 /*   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ); */

@@ -1,3 +1,4 @@
+import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -5,6 +6,11 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      appBar: CustomAppBar(
+        title: 'Login',
+        isAuthenticated: false,
+      ),
+    );
   }
 }
