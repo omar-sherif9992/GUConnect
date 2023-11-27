@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
+import 'package:GUConnect/src/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 
 class ProfileEditForm extends StatelessWidget {
@@ -43,10 +44,7 @@ class ProfileEditForm extends StatelessWidget {
                 keyboardType: TextInputType.name,
               ),
               EmailField(emailController: emailController),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Phone'),
-                textInputAction: TextInputAction.next,
-              ),
+              PhoneInputField(controller: phoneController,),
               InputField(
                 controller: bioController,
                 label: 'Bio',
@@ -86,10 +84,10 @@ class ProfileEditForm extends StatelessWidget {
                           );
                         }
                       },
-                      
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
