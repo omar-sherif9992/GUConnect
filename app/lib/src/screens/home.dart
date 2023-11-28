@@ -11,17 +11,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void showToast() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
+    return  Scaffold(
       drawer: MainDrawer(),
       appBar: CustomAppBar(
-        title: 'Home', actions: [], isAuthenticated: false,
+        title: 'Home',
+        actions: [],
+        isAuthenticated: false,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton(
+                onPressed: () {
+                  showToast();
+                },
+                child: const Text('Toast')),
             Text(
               'You have pushed the button this many times:',
             ),

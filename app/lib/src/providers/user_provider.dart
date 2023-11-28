@@ -4,17 +4,21 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider with ChangeNotifier {
-  late User? _user;
-
-  void setUser(User user) {
-    _user = user;
-    notifyListeners();
-  }
+  User? _user;
 
   User? get user => _user;
 
-  void logout() {
+  Future<void> register(String email, String password) async {
+    notifyListeners();
+  }
+
+  Future<void> login(String email, String password) async {
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
     _user = null;
+
     notifyListeners();
   }
 }
