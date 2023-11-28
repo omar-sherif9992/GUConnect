@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "332165266496",
+    "project_id": "guconnect-aed4f",
+    "storage_bucket": "guconnect-aed4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332165266496:android:787f108300ff390bf1f3a5",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRgPA2P7B_bFNUKcBsIp_aTodNP26Dh-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
