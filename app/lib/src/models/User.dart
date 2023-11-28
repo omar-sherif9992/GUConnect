@@ -10,27 +10,28 @@ enum UserType {
 /// Represents a user in the application.
 class User {
   late String id;
-  late String fullName;
-  late String userName;
-  late String phoneNumber;
-  late String image;
+  late String? fullName;
+  late String? userName;
+  late String? phoneNumber;
+  late String? image;
   late String email;
   late String password;
-  late String biography;
-  late String token;
+  late String? biography;
   late UserType userType;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
-  User(
-      {required this.fullName,
-      required this.userName,
-      required this.image,
-      required this.email,
-      required this.password,
-      required this.biography,
-      required this.phoneNumber,
-      required this.token,
-      required this.userType});
+  User({
+    required this.id,
+    this.fullName,
+    this.userName,
+    this.image,
+    required this.email,
+    required this.password,
+    this.biography,
+    this.phoneNumber,
+  }) {
+    this.userType = getUserType();
+  }
   User.dummy(
       {required this.id,
       required this.fullName,
@@ -39,7 +40,6 @@ class User {
       required this.email,
       required this.password,
       required this.biography,
-      required this.token,
       required this.userType});
 
   /// Constructs a User object from a JSON map.
@@ -51,7 +51,6 @@ class User {
     email = json['email'];
     biography = json['biography'];
     password = json['password'];
-    token = json['token'];
   }
 
   /// Converts the User object to a JSON map.
@@ -65,29 +64,24 @@ class User {
     data['email'] = this.email;
     data['password'] = this.password;
     data['biography'] = this.biography;
-    data['token'] = this.token;
     return data;
   }
 
-  /// Sets the user type based on the provided [userType] string.
-  void setUserType(String userType) {
-    switch (userType) {
-      case 'admin':
-        this.userType = UserType.admin;
-        break;
-      case 'student':
-        this.userType = UserType.student;
-        break;
-      case 'stuff':
-        this.userType = UserType.stuff;
-        break;
-      default:
-        this.userType = UserType.student;
+  UserType getUserType() {
+    String split = this.email.split('@')[1];
+    split = split.split('.')[0];
+    split = split.toLowerCase();
+    if (split == 'student') {
+      return UserType.student;
+    } else if (split == 'gucconnect') {
+      return UserType.admin;
+    } else {
+      return UserType.stuff;
     }
   }
 
   @override
   String toString() {
-    return 'fullName: $fullName, email: $email, password: $password, token: $token';
+    return 'fullName: $fullName, email: $email, password: $password';
   }
 }

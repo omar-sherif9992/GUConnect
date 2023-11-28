@@ -50,8 +50,9 @@ class _SearchScreenState extends State<SearchScreen>
           setState(() {
             usersDisplay.clear();
             usersDisplay.addAll(users
-                .where((element) =>
-                    element.fullName.toLowerCase().contains(value.toLowerCase()))
+                .where((element) => (element.fullName ?? '')
+                    .toLowerCase()
+                    .contains(value.toLowerCase()))
                 .toList());
           });
         },
@@ -69,17 +70,18 @@ class _SearchScreenState extends State<SearchScreen>
         : professors.isEmpty
             ? const Center(child: Text('No professors found'))
             : Container(
-              child: ListView.builder(
+                child: ListView.builder(
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: UserTile(
-                          user: professors[index], userType: UserType.professor),
+                          user: professors[index],
+                          userType: UserType.professor),
                     );
                   },
                 ),
-            );
+              );
   }
 
   @override
@@ -136,8 +138,6 @@ class UserTile extends StatelessWidget {
     return title;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -148,11 +148,11 @@ class UserTile extends StatelessWidget {
             leading: Hero(
               tag: user.id,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(user.image),
+                backgroundImage: NetworkImage(user.image ?? ''),
               ),
             ),
-            title: Text('${userTitle()} ${titleCase(user.fullName)}'),
-            subtitle: Text(user.biography),
+            title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
+            subtitle: Text(user.biography ?? ''),
             trailing: IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
@@ -167,7 +167,6 @@ class UserTile extends StatelessWidget {
           ),
           const Divider(
             thickness: 1.1,
-
           ),
         ],
       ),
