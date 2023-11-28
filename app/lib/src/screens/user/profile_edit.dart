@@ -24,14 +24,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    profileImage = userProvider.user?.image as File?;
-
     if (userProvider.user == null) {
-      Navigator.of(context).pushNamed('/login');
+      Navigator.of(context).popAndPushNamed('/login');
     }
+    profileImage = userProvider.user?.image as File?;
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -50,7 +51,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             const SizedBox(
               height: Sizes.medium,
             ),
-            UserImagePicker(onPickImage: onPickImage, pickedImageFile: profileImage),
+            UserImagePicker(
+                onPickImage: onPickImage, pickedImageFile: profileImage),
             const SizedBox(
               height: Sizes.medium,
             ),

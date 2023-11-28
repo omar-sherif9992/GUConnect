@@ -29,8 +29,9 @@ dependencies:
   image_picker: ^1.0.4
   provider: ^6.1.1
   email_validator: ^2.1.17
-  intl_phone_number_input: ^0.7.3+1
-  
+  intl_phone_number_input: ^0.7.3+1  
+  flash: ^3.1.0
+  device_preview: ^1.1.0
   
 
 
