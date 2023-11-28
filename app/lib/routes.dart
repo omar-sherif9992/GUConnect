@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/screens/Home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 
 class CustomRoutes {
   static const String home = '/';
+  static const String splash = '/splash';
   static const String login = '/login';
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
@@ -30,6 +32,7 @@ class CustomRoutes {
   static Map<String, WidgetBuilder> get routes {
     return {
       home: (context) => const Home(),
+      splash: (context) => const Splash(),
       login: (context) => const Login(),
       register: (context) => const Register(),
       profile: (context) => const Profile(),
