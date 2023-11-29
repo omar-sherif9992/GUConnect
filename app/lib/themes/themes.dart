@@ -17,8 +17,9 @@ class CustomTheme {
       onSurface: Colors.black,
     );
 
-    return ThemeData()
-        .copyWith(useMaterial3: true, colorScheme: lightColorScheme);
+    return ThemeData(
+      primarySwatch: Colors.deepOrange,
+    ).copyWith(useMaterial3: true, colorScheme: lightColorScheme);
   }
 
   static ThemeData get darkTheme {

@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, controller) {
           return Flash(
             position: FlashPosition.top,
-          
             controller: controller,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -37,35 +36,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Overlay(
-      initialEntries: [
-        OverlayEntry(
-          builder: (context) => Scaffold(
-            drawer: MainDrawer(),
-            appBar: CustomAppBar(
-              title: 'Home',
-              actions: [],
-              isAuthenticated: false,
+    return Scaffold(
+      drawer: MainDrawer(),
+      appBar: CustomAppBar(
+        title: 'Home',
+        actions: [],
+        isAuthenticated: false,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+                onPressed: () {
+                  showToast();
+                },
+                child: const Text('Toast')),
+            Text(
+              'You have pushed the button this many times:',
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                      onPressed: () {
-                        showToast();
-                      },
-                      child: const Text('Toast')),
-                  Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  PopupMenu()
-                ],
-              ),
-            ),
-          ),
+            PopupMenu()
+          ],
         ),
-      ],
+      ),
     );
   }
 }
