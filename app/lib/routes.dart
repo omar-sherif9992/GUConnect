@@ -3,6 +3,7 @@ import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/search/search.dart';
+import 'package:GUConnect/src/screens/user/importent_phone_numbers.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
@@ -32,6 +33,7 @@ class CustomRoutes {
   static const String lostAndFound = '/lost-and-found';
   static const String lostAndFoundDetail = '/lost-and-found-detail';
   static const String report = '/report';
+  static const String impPhoneNumber = '/important-phone-numbers';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -42,6 +44,7 @@ class CustomRoutes {
       search: (context) => const SearchScreen(),
       profileEdit: (context) =>  const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
+      impPhoneNumber: (context) => const ImportantPhoneNumbersScreen(),
     };
   }
 }
