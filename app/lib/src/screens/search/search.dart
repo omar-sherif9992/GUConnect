@@ -50,8 +50,9 @@ class _SearchScreenState extends State<SearchScreen>
           setState(() {
             usersDisplay.clear();
             usersDisplay.addAll(users
-                .where((element) =>
-                    element.fullName.toLowerCase().contains(value.toLowerCase()))
+                .where((element) => element.fullName
+                    .toLowerCase()
+                    .contains(value.toLowerCase()))
                 .toList());
           });
         },
@@ -68,18 +69,22 @@ class _SearchScreenState extends State<SearchScreen>
         ? Loader()
         : professors.isEmpty
             ? const Center(child: Text('No professors found'))
-            : Container(
-              child: ListView.builder(
+            : RefreshIndicator(
+                onRefresh: () async {
+                  // TODO: request users
+                },
+                child: ListView.builder(
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: UserTile(
-                          user: professors[index], userType: UserType.professor),
+                          user: professors[index],
+                          userType: UserType.professor),
                     );
                   },
                 ),
-            );
+              );
   }
 
   @override
@@ -136,8 +141,6 @@ class UserTile extends StatelessWidget {
     return title;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -167,7 +170,6 @@ class UserTile extends StatelessWidget {
           ),
           const Divider(
             thickness: 1.1,
-
           ),
         ],
       ),

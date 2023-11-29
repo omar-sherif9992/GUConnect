@@ -1,11 +1,16 @@
+import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class OfficesAndOutlets extends StatelessWidget {
+  const OfficesAndOutlets({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Offices'),
+      appBar: const CustomAppBar(
+        title: 'Offices and Outlets',
+        actions: [],
+        isAuthenticated: false,
       ),
       body: ListView(
         children: <Widget>[
