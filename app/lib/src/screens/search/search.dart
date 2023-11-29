@@ -109,7 +109,6 @@ class _SearchScreenState extends State<SearchScreen>
                 Tab(text: 'Profs'),
                 Tab(text: 'TAs'),
                 Tab(text: 'Places'),
-                Tab(text: 'Numbers'),
               ],
             ),
             Expanded(
@@ -119,7 +118,6 @@ class _SearchScreenState extends State<SearchScreen>
                   _buildProfessorsTab(),
                   Center(child: Text('Tab 2 content')),
                   Center(child: Text('Tab 3 content')),
-                  Center(child: Text('Tab 4 content')),
                 ],
               ),
             ),
