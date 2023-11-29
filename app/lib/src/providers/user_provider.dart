@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
+import 'package:GUConnect/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
 import 'package:GUConnect/src/models/User.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../../firebase_options.dart';
 
 class UserProvider with ChangeNotifier {
   CustomUser? _user;
