@@ -37,7 +37,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Edit Profile',
-        isAuthenticated: true,
         isLogo: false,
       ),
       body: SingleChildScrollView(

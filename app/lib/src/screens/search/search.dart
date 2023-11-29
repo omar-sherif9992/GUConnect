@@ -92,7 +92,6 @@ class _SearchScreenState extends State<SearchScreen>
     return Scaffold(
       appBar: const CustomAppBar(
         title: '',
-        isAuthenticated: true,
       ),
       body: SafeArea(
         child: Column(
