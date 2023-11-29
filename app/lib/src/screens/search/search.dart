@@ -69,7 +69,10 @@ class _SearchScreenState extends State<SearchScreen>
         ? Loader()
         : professors.isEmpty
             ? const Center(child: Text('No professors found'))
-            : Container(
+            : RefreshIndicator(
+                onRefresh: () async {
+                  // TODO: request users
+                },
                 child: ListView.builder(
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
