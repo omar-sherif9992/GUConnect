@@ -9,7 +9,6 @@ class LoginScreen extends StatelessWidget {
     return const Scaffold(
       appBar: CustomAppBar(
         title: 'Login',
-        isAuthenticated: false,
       ),
     );
   }

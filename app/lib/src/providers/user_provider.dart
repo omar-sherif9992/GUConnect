@@ -80,4 +80,38 @@ class UserProvider with ChangeNotifier {
     await _firebaseAuth.signOut();
     return true;
   }
+
+  Future<bool> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        throw Exception('No user found for that email.');
+      }
+    }
+    return false;
+  }
+
+  Future<bool> updatePassword(String password) async {
+    try {
+      await _firebaseAuth.currentUser!.updatePassword(password);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        throw Exception('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        throw Exception('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+
+
 }

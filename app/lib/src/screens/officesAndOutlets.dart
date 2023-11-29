@@ -10,7 +10,6 @@ class OfficesAndOutlets extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Offices and Outlets',
         actions: [],
-        isAuthenticated: false,
       ),
       body: ListView(
         children: <Widget>[
@@ -72,7 +71,7 @@ class OfficeItem extends StatelessWidget {
               children: <Widget>[
                 Text(
                   officeName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -82,13 +81,13 @@ class OfficeItem extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Get directions'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ),
               ),
+              child: const Text('Get directions'),
             ),
           ],
         ),
