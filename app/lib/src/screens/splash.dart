@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:GUConnect/routes.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
+class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   double _opacity = 0;
