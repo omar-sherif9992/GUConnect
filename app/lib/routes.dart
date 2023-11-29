@@ -2,7 +2,7 @@ import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/screens/search/search.dart';
-import 'package:GUConnect/src/screens/user/importent_phone_numbers.dart';
+import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
@@ -42,7 +42,7 @@ class CustomRoutes {
       search: (context) => const SearchScreen(),
       profileEdit: (context) =>  const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
-      impPhoneNumber: (context) => const ImportantPhoneNumbersScreen(),
+      impPhoneNumber: (context) => const ImportantContactsScreen(),
     };
   }
 }
