@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -7,6 +8,7 @@ class LoginScreen extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return MaterialApp(
+    theme: CustomTheme.lightTheme,
     home: Scaffold(
       appBar: AppBar(
         title: Center(
@@ -115,8 +117,18 @@ class LoginForm extends StatelessWidget {
                // Handle Register
              },
              style: ElevatedButton.styleFrom(
-               minimumSize: Size(double.infinity, 50), // Set the width to a larger value
-             ),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // size 30% of screen width
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width * 0.3, 50),
+                        alignment: Alignment.center,
+                      ),
              child: Text(
                'Login',
                style: TextStyle(fontSize: 18), // Customize the text size if needed
@@ -187,12 +199,23 @@ class RegisterForm extends StatelessWidget {
          Padding(
            padding: const EdgeInsets.only(top:10.0),
            child: ElevatedButton(
+            
              onPressed: () {
                // Handle Register
              },
-             style: ElevatedButton.styleFrom(
-               minimumSize: Size(double.infinity, 50), // Set the width to a larger value
-             ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // size 30% of screen width
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width * 0.3, 50),
+                        alignment: Alignment.center,
+                      ),
              child: Text(
                'Register',
                style: TextStyle(fontSize: 18), // Customize the text size if needed
