@@ -1,7 +1,7 @@
 import 'package:GUConnect/src/models/User.dart';
 
-List<User> dummy_users = [
-  User.dummy(
+List<CustomUser> dummy_users = [
+  CustomUser.dummy(
     id: '1',
     fullName: 'John Doe',
     userName: 'John_Doe',
@@ -12,7 +12,7 @@ List<User> dummy_users = [
     biography: '',
     userType: UserType.student,
   ),
-  User.dummy(
+  CustomUser.dummy(
     id: '2',
     fullName: 'Ali Doe',
     userName: 'Ali_Doe',
@@ -23,7 +23,7 @@ List<User> dummy_users = [
     biography: '',
     userType: UserType.professor,
   ),
-  User.dummy(
+  CustomUser.dummy(
     id: '3',
     fullName: 'yasser Doe',
     userName: 'yasser_Doe',

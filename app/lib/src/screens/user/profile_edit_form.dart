@@ -17,7 +17,7 @@ class ProfileEditForm extends StatelessWidget {
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final User user;
+  final CustomUser user;
 
   ProfileEditForm({
     super.key,

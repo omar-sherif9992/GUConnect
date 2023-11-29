@@ -1,4 +1,5 @@
 /// Represents the type of a user in the application.
+
 enum UserType {
   admin,
   student,
@@ -8,7 +9,7 @@ enum UserType {
 }
 
 /// Represents a user in the application.
-class User {
+class CustomUser {
   late String id;
   late String? fullName;
   late String? userName;
@@ -20,7 +21,7 @@ class User {
   late UserType userType;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
-  User({
+  CustomUser({
     required this.id,
     this.fullName,
     this.userName,
@@ -32,7 +33,7 @@ class User {
   }) {
     this.userType = getUserType();
   }
-  User.dummy(
+  CustomUser.dummy(
       {required this.id,
       required this.fullName,
       required this.userName,
@@ -43,7 +44,7 @@ class User {
       required this.userType});
 
   /// Constructs a User object from a JSON map.
-  User.fromJson(Map<String, dynamic> json) {
+  CustomUser.fromJson(Map<String, dynamic> json) {
     fullName = json['fullName'];
     userName = json['userName'];
     phoneNumber = json['phoneNumber'];

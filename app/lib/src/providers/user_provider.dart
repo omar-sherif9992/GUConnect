@@ -10,11 +10,11 @@ import 'package:firebase_core/firebase_core.dart';
 import '../../firebase_options.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  CustomUser? _user;
   bool _loggedIn = false;
 
   bool get loggedIn => _loggedIn;
-  User? get user => _user;
+  CustomUser? get user => _user;
 
   UserProvider() {
     init();
@@ -28,7 +28,7 @@ class UserProvider with ChangeNotifier {
       if (user != null) {
         _loggedIn = true;
         print(user.toString());
-        _user = User.fromJson(jsonDecode(user.toString()));
+        _user = CustomUser.fromJson(jsonDecode(user.toString()));
       } else {
         _loggedIn = false;
         _user = null;
@@ -57,6 +57,18 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> login(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        throw Exception('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        throw Exception('Wrong password provided for that user.');
+      }
+    }
     notifyListeners();
   }
 

@@ -17,8 +17,8 @@ class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<User> users = dummy_users;
-  final List<User> usersDisplay = dummy_users;
+  final List<CustomUser> users = dummy_users;
+  final List<CustomUser> usersDisplay = dummy_users;
   final bool _isLoading = false;
 
   @override
@@ -61,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildProfessorsTab() {
-    final List<User> professors = usersDisplay
+    final List<CustomUser> professors = usersDisplay
         .where((element) => element.userType == UserType.professor)
         .toList();
 
@@ -123,7 +123,7 @@ class _SearchScreenState extends State<SearchScreen>
 }
 
 class UserTile extends StatelessWidget {
-  final User user;
+  final CustomUser user;
   final UserType userType;
 
   const UserTile({required this.user, super.key, required this.userType});
