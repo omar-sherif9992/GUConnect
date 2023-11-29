@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       title: 'GUConnect',
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
-      initialRoute: CustomRoutes.splash,
       routes: CustomRoutes.routes,
     );
   }
