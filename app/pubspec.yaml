@@ -37,22 +37,14 @@ dependencies:
   firebase_auth: ^4.15.0
   cloud_firestore: ^4.13.3
   firebase_ui_auth: ^1.10.0
-  
-
-
-
-
-
-
-
-
-
 
 
 dev_dependencies:
+  firebase_auth_mocks: ^0.13.0
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
+  mockito: ^5.0.15
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

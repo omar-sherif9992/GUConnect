@@ -15,19 +15,21 @@ class UserProvider with ChangeNotifier {
 
   bool get loggedIn => _loggedIn;
   CustomUser? get user => _user;
+  late FirebaseAuth _firebaseAuth;
 
-  UserProvider() {
+  UserProvider([FirebaseAuth? firebaseAuth]) {
     init();
+    _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
   }
 
   Future<void> init() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
 
-    FirebaseAuth.instance.userChanges().listen((user) {
+    _firebaseAuth = FirebaseAuth.instance;
+    _firebaseAuth.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
-        print(user.toString());
         _user = CustomUser.fromJson(jsonDecode(user.toString()));
       } else {
         _loggedIn = false;
@@ -37,10 +39,12 @@ class UserProvider with ChangeNotifier {
     });
   }
 
-  Future<void> register(String email, String password) async {
+  Future<bool> register(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      _firebaseAuth.currentUser!.sendEmailVerification();
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -52,14 +56,14 @@ class UserProvider with ChangeNotifier {
     } catch (e) {
       print(e);
     }
-
-    notifyListeners();
+    return false;
   }
 
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -69,12 +73,11 @@ class UserProvider with ChangeNotifier {
         throw Exception('Wrong password provided for that user.');
       }
     }
-    notifyListeners();
+    return false;
   }
 
-  Future<void> logout() async {
-    _user = null;
-    await FirebaseAuth.instance.signOut();
-    notifyListeners();
+  Future<bool> logout() async {
+    await _firebaseAuth.signOut();
+    return true;
   }
 }
