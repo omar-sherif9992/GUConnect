@@ -11,39 +11,29 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 0,
       child: Column(
         children: [
           DrawerHeader(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context)
-                      .colorScheme
-                      .primaryContainer
-                      .withOpacity(0.8),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 0,
+              horizontal: 10,
             ),
             child: Row(
               children: [
                 Image.asset(
                   'assets/images/GUConnect-horizontal-Logo.png',
-                  height: 240,
+                  height: 100,
                   width: 220,
                   fit: BoxFit.cover,
                 ),
-                const SizedBox(width: 18),
               ],
             ),
           ),
           ListTile(
             leading: Icon(
               Icons.remove_red_eye_outlined,
-              size: 26,
+              size: 24,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
@@ -53,24 +43,67 @@ class MainDrawer extends StatelessWidget {
                     fontSize: 24,
                   ),
             ),
-            onTap: () {},
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.lostAndFound);
+            },
           ),
           ListTile(
             leading: Icon(
-              Icons.settings,
-              size: 26,
+              Icons.search,
+              size: 24,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
-              'Settings',
+              'Search',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 24,
                   ),
             ),
             onTap: () {
-              onSelectScreen(context, CustomRoutes.settings);
+              onSelectScreen(context, CustomRoutes.search);
             },
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.edit,
+                    size: 24,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  title: Text(
+                    'Edit Profile',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 24,
+                        ),
+                  ),
+                  onTap: () {
+                    onSelectScreen(context, CustomRoutes.profileEdit);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.settings,
+                    size: 24,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  title: Text(
+                    'Settings',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 24,
+                        ),
+                  ),
+                  onTap: () {
+                    onSelectScreen(context, CustomRoutes.settings);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

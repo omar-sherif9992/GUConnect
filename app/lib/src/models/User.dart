@@ -1,63 +1,88 @@
 /// Represents the type of a user in the application.
+
 enum UserType {
   admin,
   student,
+  professor,
+  ta,
   stuff,
 }
 
 /// Represents a user in the application.
-class User {
-  late String name;
+class CustomUser {
+  late String id;
+  late String? fullName;
+  late String? userName;
+  late String? phoneNumber;
+  late String? image;
   late String email;
   late String password;
-  late String token;
+  late String? biography;
   late UserType userType;
 
-  /// Constructs a User object with the specified [name], [email], [password], and [token].
-  User({
-    required this.name,
+  /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
+  CustomUser({
+    required this.id,
+    this.fullName,
+    this.userName,
+    this.image,
     required this.email,
     required this.password,
-    required this.token,
-  });
+    this.biography,
+    this.phoneNumber,
+  }) {
+    this.userType = getUserType();
+  }
+  CustomUser.dummy(
+      {required this.id,
+      required this.fullName,
+      required this.userName,
+      required this.image,
+      required this.email,
+      required this.password,
+      required this.biography,
+      required this.userType});
 
   /// Constructs a User object from a JSON map.
-  User.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  CustomUser.fromJson(Map<String, dynamic> json) {
+    fullName = json['fullName'];
+    userName = json['userName'];
+    phoneNumber = json['phoneNumber'];
+    image = json['image'];
     email = json['email'];
+    biography = json['biography'];
     password = json['password'];
-    token = json['token'];
   }
 
   /// Converts the User object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    data['id'] = this.id;
+    data['fullName'] = this.fullName;
+    data['userName'] = this.userName;
+    data['phoneNumber'] = this.phoneNumber;
+    data['image'] = this.image;
     data['email'] = this.email;
     data['password'] = this.password;
-    data['token'] = this.token;
+    data['biography'] = this.biography;
     return data;
   }
 
-  /// Sets the user type based on the provided [userType] string.
-  void setUserType(String userType) {
-    switch (userType) {
-      case 'admin':
-        this.userType = UserType.admin;
-        break;
-      case 'student':
-        this.userType = UserType.student;
-        break;
-      case 'stuff':
-        this.userType = UserType.stuff;
-        break;
-      default:
-        this.userType = UserType.student;
+  UserType getUserType() {
+    String split = this.email.split('@')[1];
+    split = split.split('.')[0];
+    split = split.toLowerCase();
+    if (split == 'student') {
+      return UserType.student;
+    } else if (split == 'gucconnect') {
+      return UserType.admin;
+    } else {
+      return UserType.stuff;
     }
   }
 
   @override
   String toString() {
-    return 'name: $name, email: $email, password: $password, token: $token';
+    return 'fullName: $fullName, email: $email, password: $password';
   }
 }
