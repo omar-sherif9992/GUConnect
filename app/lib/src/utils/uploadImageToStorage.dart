@@ -10,6 +10,9 @@ Future<String> uploadImageToStorage(
       .child(collectionName)
       .child(fileName + (fileName.endsWith('.jpg') ? '' : '.jpg'));
 
+  // Delete the existing image
+  await storageRef.delete();
+  
   await storageRef.putFile(imageFile);
 
   final String imageUrl = await storageRef.getDownloadURL();
