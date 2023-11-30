@@ -1,8 +1,9 @@
 //  user provider
+import 'dart:io';
 
-import 'dart:convert';
-
+import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
@@ -148,17 +149,14 @@ class UserProvider with ChangeNotifier {
       {String? fullName,
       String? userName,
       String? phoneNumber,
-      String? image,
       String? biography}) async {
     try {
-
       final DocumentSnapshot<CustomUser> documentSnapshot =
           await usersRef.doc(_firebaseAuth.currentUser!.uid).get();
       final CustomUser user = documentSnapshot.data()!;
       user.fullName = fullName;
       user.userName = userName;
       user.phoneNumber = phoneNumber;
-      user.image = image;
       user.biography = biography;
       await usersRef.doc(_firebaseAuth.currentUser!.uid).set(user);
       return true;
@@ -177,5 +175,33 @@ class UserProvider with ChangeNotifier {
       print(e);
     }
     return false;
+  }
+
+  Future updateImage(File image) async {
+    final String fileName = _firebaseAuth.currentUser!.uid;
+    const String collectionName = 'users';
+    final String imageUrl =
+        await uploadImageToStorage(image, collectionName, fileName);
+    return usersRef
+        .doc(_firebaseAuth.currentUser!.uid)
+        .update({'image': imageUrl});
+  }
+
+  
+  Future deleteUser() async {
+    try {
+      await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
+
+      await _firebaseAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print(
+            'The user must reauthenticate before this operation can be done.');
+        throw Exception(
+            'The user must reauthenticate before this operation can be done.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
