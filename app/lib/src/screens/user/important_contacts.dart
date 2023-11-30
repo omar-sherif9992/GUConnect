@@ -54,9 +54,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         decoration: InputDecoration(
-          hintText:
-          'Search Contacts',
-          labelText:  'Search Contacts',
+          hintText: 'Search Contacts',
+          labelText: 'Search Contacts',
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -102,14 +101,34 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
           : ListView.builder(
               itemCount: impPhoneNumbersDisplay.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(impPhoneNumbersDisplay[index].title),
-                  subtitle: Text(impPhoneNumbersDisplay[index].phoneNumber),
-                  trailing: const Icon(Icons.call),
-                  onTap: () async {
-                    await FlutterPhoneDirectCaller.callNumber(
-                        impPhoneNumbersDisplay[index].phoneNumber);
-                  },
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
+                  child: ListTile(
+                    title: Text(
+                      impPhoneNumbersDisplay[index].title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      impPhoneNumbersDisplay[index].phoneNumber,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    trailing: const Icon(Icons.call),
+                    onTap: () async {
+                      await FlutterPhoneDirectCaller.callNumber(
+                          impPhoneNumbersDisplay[index].phoneNumber);
+                    },
+                  ),
                 );
               },
             ),
@@ -123,7 +142,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
 
         filterContacts(_searchController.text);
       },
-      child:impEmailsDisplay.isEmpty
+      child: impEmailsDisplay.isEmpty
           ? Center(
               child: Text(
               'No Emails found',
@@ -131,46 +150,71 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                   fontSize: 20, color: Theme.of(context).colorScheme.secondary),
             ))
           : ListView.builder(
-        itemCount: impEmailsDisplay.length,
-        itemBuilder: (context, index) {
-          ListTile(
-            title: Text(impEmailsDisplay[index].title),
-            subtitle: Text(impEmailsDisplay[index].email),
-            trailing: const Icon(Icons.email),
-            onTap: () async {
-              final String email =
-                  Uri.encodeComponent(impEmailsDisplay[index].email);
-              final String subject = Uri.encodeComponent('I need help');
-              final String body = Uri.encodeComponent('');
-              final Uri mail =
-                  Uri.parse('mailto:$email?subject=$subject&body=$body');
-              if (await launchUrl(mail)) {
-                // email app opened
-              } else {
-                // alert dialog  appears something went wrong
+              scrollDirection: Axis.vertical,
+              itemCount: impEmailsDisplay.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
+                  child: ListTile(
+                    title: Text(
+                      impEmailsDisplay[index].title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      impEmailsDisplay[index].email,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    trailing: const Icon(Icons.email),
+                    onTap: () async {
+                      final String email =
+                          Uri.encodeComponent(impEmailsDisplay[index].email);
+                      final String subject = Uri.encodeComponent('I need help');
+                      final String body = Uri.encodeComponent('');
+                      final Uri mail = Uri.parse(
+                          'mailto:$email?subject=$subject&body=$body');
+                      if (await launchUrl(mail)) {
+                        // email app opened
+                      } else {
+                        // alert dialog  appears something went wrong
 
-                // ignore: use_build_context_synchronously
-                showAdaptiveDialog(
-                    context: context,
-                    anchorPoint: const Offset(0.0, 0.0),
-                    builder: (context) {
-                      return MessageDialog(
-                        title: 'Something went wrong , with your email app',
-                        message: 'Please try again later',
-                        onCancel: () {},
-                      );
-                    });
-              }
-            },
-          );
-        },
-      ),
+                        // ignore: use_build_context_synchronously
+                        showAdaptiveDialog(
+                            context: context,
+                            anchorPoint: const Offset(0.0, 0.0),
+                            builder: (context) {
+                              return MessageDialog(
+                                title:
+                                    'Something went wrong , with your email app',
+                                message: 'Please try again later',
+                                onCancel: () {},
+                              );
+                            });
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      
       appBar: const CustomAppBar(
         title: 'Important Contacts',
         isLogo: false,

@@ -83,11 +83,8 @@ class _SearchScreenState extends State<SearchScreen>
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: UserTile(
-                          user: professors[index],
-                          userType: UserType.professor),
-                    );
+                    return UserTile(
+                        user: professors[index], userType: UserType.professor);
                   },
                 ),
               );
@@ -146,35 +143,36 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          ListTile(
-            leading: Hero(
-              tag: user.id,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(user.image ?? ''),
-              ),
-            ),
-            title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
-            subtitle: Text(user.biography ?? ''),
-            trailing: IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(CustomRoutes.profile, arguments: user);
-              },
-            ),
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(CustomRoutes.profile, arguments: user);
-            },
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
+      child: ListTile(
+        leading: Hero(
+          tag: user.id,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user.image ?? ''),
           ),
-          const Divider(
-            thickness: 1.1,
-          ),
-        ],
+        ),
+        title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
+        subtitle: Text(user.biography ?? ''),
+        trailing: IconButton(
+          icon: const Icon(Icons.arrow_forward_ios),
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(CustomRoutes.profile, arguments: user);
+          },
+        ),
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed(CustomRoutes.profile, arguments: user);
+        },
       ),
     );
   }
