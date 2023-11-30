@@ -1,5 +1,5 @@
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';

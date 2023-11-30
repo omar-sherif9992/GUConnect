@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Loading extends StatelessWidget {
-  const Loading({super.key});
+class ApproveConfessionScren extends StatelessWidget {
+  const ApproveConfessionScren({super.key});
 
   @override
   Widget build(BuildContext context) {
