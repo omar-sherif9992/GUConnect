@@ -24,8 +24,6 @@ class ProfileEditForm extends StatelessWidget {
     required this.user,
   });
 
-  
-
   @override
   Widget build(BuildContext context) {
     fullNameController.text = user.fullName ?? '';

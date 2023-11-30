@@ -214,7 +214,6 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      
       appBar: const CustomAppBar(
         title: 'Important Contacts',
         isLogo: false,
