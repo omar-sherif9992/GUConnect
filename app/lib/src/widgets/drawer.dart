@@ -49,7 +49,7 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.remove_red_eye_outlined,
+              Icons.phone,
               size: 24,
               color: Theme.of(context).colorScheme.onBackground,
             ),
