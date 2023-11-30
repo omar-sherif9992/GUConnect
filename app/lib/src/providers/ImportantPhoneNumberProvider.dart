@@ -26,4 +26,12 @@ class ImportantPhoneNumberProvider extends ChangeNotifier {
     });
     return numbers;
   }
+
+  Future<void> addNumber(ImportantPhoneNumber number) async {
+    await _firestore
+        .collection('importantPhoneNumbers')
+        .doc(number.title)
+        .set(number.toJson());
+    notifyListeners();
+  }
 }
