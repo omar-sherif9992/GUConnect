@@ -68,7 +68,13 @@ class _SearchScreenState extends State<SearchScreen>
     return _isLoading
         ? Loader()
         : professors.isEmpty
-            ? const Center(child: Text('No professors found'))
+            ? Center(
+                child: Text(
+                'No professors found',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.secondary),
+              ))
             : RefreshIndicator(
                 onRefresh: () async {
                   // TODO: request users
@@ -103,7 +109,6 @@ class _SearchScreenState extends State<SearchScreen>
                 Tab(text: 'Profs'),
                 Tab(text: 'TAs'),
                 Tab(text: 'Places'),
-                Tab(text: 'Numbers'),
               ],
             ),
             Expanded(
@@ -113,7 +118,6 @@ class _SearchScreenState extends State<SearchScreen>
                   _buildProfessorsTab(),
                   Center(child: Text('Tab 2 content')),
                   Center(child: Text('Tab 3 content')),
-                  Center(child: Text('Tab 4 content')),
                 ],
               ),
             ),
