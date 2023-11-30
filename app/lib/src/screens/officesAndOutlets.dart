@@ -11,42 +11,67 @@ class OfficesAndOutlets extends StatelessWidget {
         title: 'Offices and Outlets',
         actions: [],
       ),
-      body: ListView(
-        children: <Widget>[
-          OfficeItem(
-            officeName: 'Finance Office',
-            officeLocation: 'B4 001',
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Handle button 1 press
+                },
+                child: Text('Offices'),
+              ),
+              SizedBox(width: 20), // Add some spacing between buttons
+              ElevatedButton(
+                onPressed: () {
+                  // Handle button 2 press
+                },
+                child: Text('Outlets'),
+              ),
+            ],
           ),
-          OfficeItem(
-            officeName: 'Military Office',
-            officeLocation: 'B2 017',
-          ),
-          OfficeItem(
-            officeName: 'Travel Office',
-            officeLocation: 'C7 210',
-          ),
-          OfficeItem(
-            officeName: 'SCAD Office',
-            officeLocation: 'C7 001',
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                OfficeItem(
+                  officeName: 'Finance Office',
+                  officeLocation: 'B4 001',
+                ),
+                OfficeItem(
+                  officeName: 'Military Office',
+                  officeLocation: 'B2 017',
+                ),
+                OfficeItem(
+                  officeName: 'Travel Office',
+                  officeLocation: 'C7 210',
+                ),
+                OfficeItem(
+                  officeName: 'SCAD Office',
+                  officeLocation: 'C7 001',
+                ),
+              ],
+            ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(icon: Icon(Icons.home), onPressed: () {}),
-            IconButton(icon: Icon(Icons.search), onPressed: () {}),
-            IconButton(icon: Icon(Icons.add_circle_outline), onPressed: () {}),
-            IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      )
+      // bottomNavigationBar: BottomAppBar(
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: <Widget>[
+      //       IconButton(icon: Icon(Icons.home), onPressed: () {}),
+      //       IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      //       IconButton(icon: Icon(Icons.add_circle_outline), onPressed: () {}),
+      //       IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.add),
+      //   onPressed: () {},
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ,
     );
   }
 }

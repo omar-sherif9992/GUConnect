@@ -101,6 +101,7 @@ class ProfileScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
+                                    width: 60,
                                     margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
@@ -108,13 +109,15 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      'C7 203',
+                                      'C7\n203',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 13,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Container(
+                                    width: 60,
                                     margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
@@ -123,13 +126,15 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      '20 Posts',
+                                      '20\nPosts',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 13,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Container(
+                                    width: 60,
                                     margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
@@ -138,10 +143,11 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Rating : 4.7',
+                                      'Rating\n4.7',
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 13,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ],
@@ -155,27 +161,31 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     ClickableIcon(Icons.grid_on, 'Posts', () {}),
-          //     ClickableIcon(Icons.message, 'Confessions', () {}),
-          //   ],
-          // ),
-          // Divider(
-          //   color: Colors.grey,
-          //   thickness: 1.0,
-          //   height: 0.0,
-          // ),
-          // Row(
-          //   children: [
-          //     Column(
-          //       children: List.generate(posts.length, (index) {
-          //         return Post_Widget(posts[index]);
-          //       }),
-          //     )
-          //   ],
-          // )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClickableIcon(Icons.grid_on, 'Posts', () {}),
+              ClickableIcon(Icons.message, 'Confessions', () {}),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1.0,
+              height: 2.0,
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Post_Widget(posts[index]),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -193,19 +203,22 @@ class ClickableIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            size: 50.0,
-            color: Colors.blue,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            labelText,
-            style: TextStyle(fontSize: 16.0),
-          ),
-        ],
+      child: Container(
+        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              size: 20.0,
+              color: Colors.black,
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              labelText,
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ],
+        ),
       ),
     );
   }
