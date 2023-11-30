@@ -2,6 +2,7 @@ import 'package:GUConnect/src/models/User.dart';
 
 /// Represents an academic question.
 class AcademicQuestion {
+  late String? id;
   late String content;
   late CustomUser user;
   late String image;
@@ -16,6 +17,7 @@ class AcademicQuestion {
 
   /// Constructs an [AcademicQuestion] object from a JSON map.
   AcademicQuestion.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     content = json['content'];
     user = CustomUser.fromJson(json['user']);
     image = json['image'];
@@ -25,6 +27,7 @@ class AcademicQuestion {
   /// Converts the [AcademicQuestion] object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['content'] = content;
     data['user'] = user.toJson();
     data['image'] = image;

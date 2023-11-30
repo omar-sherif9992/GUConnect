@@ -2,6 +2,7 @@ import 'package:GUConnect/src/models/User.dart';
 
 /// Represents a lost and found item.
 class LostAndFound {
+  late String? id;
   late String content;
   late String image;
   late String location;
@@ -23,6 +24,7 @@ class LostAndFound {
 
   /// Constructs a [LostAndFound] object from a JSON [Map].
   LostAndFound.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     content = json['content'];
     image = json['image'];
     location = json['location'];
@@ -33,8 +35,9 @@ class LostAndFound {
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
-  Map<String, Object> toJson() {
-    final Map<String, Object> data = <String, Object>{};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, Object>{};
+    data['id'] = id;
     data['content'] = content;
     data['image'] = image;
     data['location'] = location;
