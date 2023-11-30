@@ -7,36 +7,39 @@ NewsEventClub	- Content
 */
 
 class NewsEventClub {
+  late String id;
   late String content;
   late String image;
-  late bool isApproved;
+  late String approvalStatus;
   late DateTime createdAt;
 
   NewsEventClub({
     required this.content,
     required this.image,
-    required this.isApproved,
+    required this.approvalStatus,
     required this.createdAt,
   });
 
   NewsEventClub.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     content = json['content'];
     image = json['image'];
-    isApproved = json['isApproved'];
+    approvalStatus = json['approvalStatus'];
     createdAt = DateTime.parse(json['createdAt']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['content'] = content;
     data['image'] = image;
-    data['isApproved'] = isApproved;
+    data['approvalStatus'] = approvalStatus;
     data['createdAt'] = createdAt.toString();
     return data;
   }
 
   @override
   String toString() {
-    return 'content: $content, image: $image, isApproved: $isApproved , createdAt: ${createdAt.toString()}';
+    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}';
   }
 }
