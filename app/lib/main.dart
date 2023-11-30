@@ -1,5 +1,7 @@
 import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/ImportantEmail.dart';
+import 'package:GUConnect/src/providers/ImportantEmail.dart';
 import 'package:GUConnect/src/providers/user_provider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
@@ -42,6 +44,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ImportantEmailProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => LostAndFoundProvider(),
@@ -89,7 +94,7 @@ Future initializeApp() async {
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
-  
+
   // ex:
 /*       String apiKey = dotenv.env['API_KEY']!;
     String baseUrl = dotenv.env['BASE_URL']!;

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class Loader extends StatefulWidget {
+  const Loader({super.key});
+
   @override
   _LoaderState createState() => _LoaderState();
 }
