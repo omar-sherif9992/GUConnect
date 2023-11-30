@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/user/profile_edit_form.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
