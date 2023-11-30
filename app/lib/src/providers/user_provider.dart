@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
@@ -187,7 +186,7 @@ class UserProvider with ChangeNotifier {
         .update({'image': imageUrl});
   }
 
-  
+
   Future deleteUser() async {
     try {
       await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
