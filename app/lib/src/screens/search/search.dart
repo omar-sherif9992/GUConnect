@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen>
         .toList();
 
     return _isLoading
-        ? Loader()
+        ? const Loader()
         : professors.isEmpty
             ? Center(
                 child: Text(
