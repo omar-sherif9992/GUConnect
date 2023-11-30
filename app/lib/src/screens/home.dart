@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: CustomAppBar(
         title: 'Home',
         actions: [],
-        isAuthenticated: false,
       ),
       body: Center(
         child: Column(

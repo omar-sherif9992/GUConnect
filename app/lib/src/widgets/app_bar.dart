@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isAuthenticated;
-
   final String title;
 
   final List<Widget> actions;
@@ -11,7 +9,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
       {super.key,
       required this.title,
-      required this.isAuthenticated,
       this.isLogo = true,
       this.actions = const []});
 
@@ -22,12 +19,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      
       title: isLogo
           ? Center(
               child: Image.asset(
                 alignment: Alignment.center,
-
                 'assets/images/logo-icon.png',
                 height: 30,
                 fit: BoxFit.fitHeight,
@@ -36,13 +31,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           : Text(title),
       actions: <Widget>[
         ...actions,
-        if (isAuthenticated == false)
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
-          ),
       ],
     );
   }
