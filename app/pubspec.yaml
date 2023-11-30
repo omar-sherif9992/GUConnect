@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore: ^4.13.3
   url_launcher: ^6.2.1
   flutter_phone_direct_caller: ^2.1.1
+  firebase_storage: ^11.5.3
 
 
 dev_dependencies:
