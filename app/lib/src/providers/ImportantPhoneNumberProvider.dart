@@ -1,7 +1,8 @@
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
-class ImportantPhoneNumberProvider {
+class ImportantPhoneNumberProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<ImportantPhoneNumber>> searchNumber(String name) async {

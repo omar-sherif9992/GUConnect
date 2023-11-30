@@ -1,7 +1,8 @@
 import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
-class LostAndFoundProvider {
+class LostAndFoundProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> postItem(LostAndFound Item) async {

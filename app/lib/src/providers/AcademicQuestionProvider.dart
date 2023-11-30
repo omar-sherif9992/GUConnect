@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:GUConnect/src/models/AcademicQuestion.dart';
+import 'package:flutter/foundation.dart';
 
-class AcademicQuestionProvider {
+class AcademicQuestionProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> askQuestion(AcademicQuestion question) async {

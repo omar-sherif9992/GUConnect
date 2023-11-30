@@ -1,5 +1,10 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
+import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
+import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flash/flash_helper.dart';
@@ -29,6 +34,21 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AcademicQuestionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ImportantPhoneNumberProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LostAndFoundProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NewsEventClubProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OfficeLocationProvider(),
         ),
       ],
       child: MaterialApp(
