@@ -29,9 +29,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
+    
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
     }
+
     profileImage = userProvider.user?.image as File?;
 
     return Scaffold(

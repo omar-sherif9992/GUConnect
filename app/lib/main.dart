@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
 
 Future initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Allow only portrait mode
   await SystemChrome.setPreferredOrientations(
     [
@@ -82,11 +83,13 @@ Future initializeApp() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   //tz.initializeTimeZones();
   // FirebaseMessaging.instance.getInitialMessage();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
+  
   // ex:
 /*       String apiKey = dotenv.env['API_KEY']!;
     String baseUrl = dotenv.env['BASE_URL']!;

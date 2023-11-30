@@ -13,6 +13,7 @@ class ImportantEmailProvider extends ChangeNotifier {
         toFirestore: (importantEmail, _) => importantEmail.toJson(),
       );
 
+
   Future<List<ImportantEmail>> searchEmail(String name) async {
     final List<ImportantEmail> emails = [];
     final QuerySnapshot<ImportantEmail> querySnapshot =
