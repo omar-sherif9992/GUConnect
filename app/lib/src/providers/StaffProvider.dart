@@ -21,8 +21,12 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<List<Staff>> getProffessors() async {
+
     final List<Staff> profs = [];
-    final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef.where(
+      'staffType',
+      isEqualTo: StaffType.professor,
+    ).get();
 
     querySnapshot.docs.forEach((doc) {
       profs.add(doc.data());
@@ -32,7 +36,10 @@ class StaffProvider extends ChangeNotifier {
 
   Future<List<Staff>> getTas() async {
     final List<Staff> tas = [];
-    final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef.where(
+      'staffType',
+      isEqualTo: StaffType.ta,
+    ).get();
 
 
     querySnapshot.docs.forEach((doc) {
@@ -43,6 +50,7 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<List<Staff>> getStaffs() async {
+    
     final List<Staff> staffs = [];
     final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
     querySnapshot.docs.forEach((doc) {
