@@ -1,24 +1,83 @@
 //  user provider
 
-import 'package:GUConnect/src/models/User.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider, User;
+import 'package:GUConnect/src/models/User.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../../firebase_options.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  CustomUser? _user;
+  bool _loggedIn = false;
 
-  User? get user => _user;
+  bool get loggedIn => _loggedIn;
+  CustomUser? get user => _user;
+  late FirebaseAuth _firebaseAuth;
 
-  Future<void> register(String email, String password) async {
-    notifyListeners();
+  UserProvider([FirebaseAuth? firebaseAuth]) {
+    init();
+    _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
   }
 
-  Future<void> login(String email, String password) async {
-    notifyListeners();
+  Future<void> init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    _firebaseAuth = FirebaseAuth.instance;
+    _firebaseAuth.userChanges().listen((user) {
+      if (user != null) {
+        _loggedIn = true;
+        _user = CustomUser.fromJson(jsonDecode(user.toString()));
+      } else {
+        _loggedIn = false;
+        _user = null;
+      }
+      notifyListeners();
+    });
   }
 
-  Future<void> logout() async {
-    _user = null;
+  Future<bool> register(String email, String password) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      _firebaseAuth.currentUser!.sendEmailVerification();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        throw Exception('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        throw Exception('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
 
-    notifyListeners();
+  Future<bool> login(String email, String password) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        throw Exception('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        throw Exception('Wrong password provided for that user.');
+      }
+    }
+    return false;
+  }
+
+  Future<bool> logout() async {
+    await _firebaseAuth.signOut();
+    return true;
   }
 }

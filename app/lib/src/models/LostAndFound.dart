@@ -8,7 +8,7 @@ class LostAndFound {
   late String contact;
   late DateTime createdAt;
   late bool isFound;
-  late User user;
+  late CustomUser user;
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
@@ -29,7 +29,7 @@ class LostAndFound {
     contact = json['contact'];
     createdAt = DateTime.parse(json['createdAt']);
     isFound = json['isFound'];
-    user = User.fromJson(json['user']);
+    user = CustomUser.fromJson(json['user']);
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].

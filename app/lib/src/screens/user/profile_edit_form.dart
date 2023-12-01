@@ -1,5 +1,4 @@
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/user_provider.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
@@ -18,20 +17,22 @@ class ProfileEditForm extends StatelessWidget {
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final User user;
+  final CustomUser user;
 
   ProfileEditForm({
     super.key,
     required this.user,
   });
 
+  
+
   @override
   Widget build(BuildContext context) {
-    fullNameController.text = user.fullName;
-    userNameController.text = user.userName;
+    fullNameController.text = user.fullName ?? '';
+    userNameController.text = user.userName ?? '';
     emailController.text = user.email;
-    bioController.text = user.biography;
-    phoneController.text = user.phoneNumber;
+    bioController.text = user.biography ?? '';
+    phoneController.text = user.phoneNumber ?? '';
     passwordController.text = user.password;
 
     return Form(

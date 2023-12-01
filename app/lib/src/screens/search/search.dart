@@ -17,8 +17,8 @@ class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<User> users = dummy_users;
-  final List<User> usersDisplay = dummy_users;
+  final List<CustomUser> users = dummy_users;
+  final List<CustomUser> usersDisplay = dummy_users;
   final bool _isLoading = false;
 
   @override
@@ -50,8 +50,9 @@ class _SearchScreenState extends State<SearchScreen>
           setState(() {
             usersDisplay.clear();
             usersDisplay.addAll(users
-                .where((element) =>
-                    element.fullName.toLowerCase().contains(value.toLowerCase()))
+                .where((element) => (element.fullName ?? '')
+                    .toLowerCase()
+                    .contains(value.toLowerCase()))
                 .toList());
           });
         },
@@ -60,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildProfessorsTab() {
-    final List<User> professors = usersDisplay
+    final List<CustomUser> professors = usersDisplay
         .where((element) => element.userType == UserType.professor)
         .toList();
 
@@ -68,18 +69,22 @@ class _SearchScreenState extends State<SearchScreen>
         ? Loader()
         : professors.isEmpty
             ? const Center(child: Text('No professors found'))
-            : Container(
-              child: ListView.builder(
+            : RefreshIndicator(
+                onRefresh: () async {
+                  // TODO: request users
+                },
+                child: ListView.builder(
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: UserTile(
-                          user: professors[index], userType: UserType.professor),
+                          user: professors[index],
+                          userType: UserType.professor),
                     );
                   },
                 ),
-            );
+              );
   }
 
   @override
@@ -121,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen>
 }
 
 class UserTile extends StatelessWidget {
-  final User user;
+  final CustomUser user;
   final UserType userType;
 
   const UserTile({required this.user, super.key, required this.userType});
@@ -136,8 +141,6 @@ class UserTile extends StatelessWidget {
     return title;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -148,11 +151,11 @@ class UserTile extends StatelessWidget {
             leading: Hero(
               tag: user.id,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(user.image),
+                backgroundImage: NetworkImage(user.image ?? ''),
               ),
             ),
-            title: Text('${userTitle()} ${titleCase(user.fullName)}'),
-            subtitle: Text(user.biography),
+            title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
+            subtitle: Text(user.biography ?? ''),
             trailing: IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
@@ -167,7 +170,6 @@ class UserTile extends StatelessWidget {
           ),
           const Divider(
             thickness: 1.1,
-
           ),
         ],
       ),

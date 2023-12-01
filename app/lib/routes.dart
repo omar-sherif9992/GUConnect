@@ -1,3 +1,4 @@
+import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
@@ -30,6 +31,7 @@ class CustomRoutes {
   static const String lostAndFound = '/lost-and-found';
   static const String lostAndFoundDetail = '/lost-and-found-detail';
   static const String report = '/report';
+  static const String clubsAndEvents = '/club-posts-and-events';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -40,6 +42,7 @@ class CustomRoutes {
       search: (context) => const SearchScreen(),
       profileEdit: (context) =>  const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
+      clubsAndEvents: (context) => const ClubsAndEvents()
     };
   }
 }
