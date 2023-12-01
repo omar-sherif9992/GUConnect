@@ -36,6 +36,7 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
             'assets/images/logo_icon.png', // Path to your logo image
             width: 100, // Adjust width as needed
             height: 100, // Adjust height as needed
+            fit: BoxFit.fitHeight,
           ),
         ),
     );

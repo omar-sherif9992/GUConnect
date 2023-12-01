@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class StaffProvider extends ChangeNotifier {
-
   final staffsRef =
       FirebaseFirestore.instance.collection('staffs').withConverter<Staff>(
             fromFirestore: (snapshot, _) => Staff.fromJson(snapshot.data()!),
@@ -23,9 +22,7 @@ class StaffProvider extends ChangeNotifier {
 
   Future<List<Staff>> getProffessors() async {
     final List<Staff> profs = [];
-    final QuerySnapshot<Staff> querySnapshot = await staffsRef
-        .where('staffType', isEqualTo: StaffType.professor)
-        .get();
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
 
     querySnapshot.docs.forEach((doc) {
       profs.add(doc.data());
@@ -35,10 +32,11 @@ class StaffProvider extends ChangeNotifier {
 
   Future<List<Staff>> getTas() async {
     final List<Staff> tas = [];
-    final QuerySnapshot<Staff> querySnapshot =
-        await staffsRef.where('staffType', isEqualTo: StaffType.ta).get();
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
+
 
     querySnapshot.docs.forEach((doc) {
+      print(doc.data());
       tas.add(doc.data());
     });
     return tas;
@@ -54,7 +52,7 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<void> addStaff(Staff staff) async {
-    await staffsRef.doc(staff.id).set(staff);
+    await staffsRef.add(staff);
     notifyListeners();
   }
 }

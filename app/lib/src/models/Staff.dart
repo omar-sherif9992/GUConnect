@@ -32,7 +32,7 @@ class OfficeHour{
 
 class Staff {
   late String id;
-  late String? fullName;
+  late String fullName;
   late String? image;
   late String email;
   late StaffType staffType;
@@ -53,7 +53,7 @@ class Staff {
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   Staff({
     required this.id,
-    this.fullName,
+    required this.fullName,
     this.image,
     required this.email,
     this.officeLocation,

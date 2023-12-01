@@ -49,7 +49,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
               _isLoading = false;
             }));
 
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 
   Future fetchContact(ImportantEmailProvider importantEmailProvider,

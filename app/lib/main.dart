@@ -1,7 +1,7 @@
 import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/providers/ImportantEmail.dart';
+import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StaffProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantEmailProvider(),
