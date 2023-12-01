@@ -7,6 +7,7 @@ class MainDrawer extends StatelessWidget {
   void onSelectScreen(BuildContext context, String routeName) {
     Navigator.of(context).pushNamed(routeName);
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,23 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.contact_emergency,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'IMP Contacts',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.impPhoneNumber);
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.search,
               size: 24,
               color: Theme.of(context).colorScheme.onBackground,
@@ -62,6 +80,23 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(context, CustomRoutes.search);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.edit,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Offices and Outlets',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.officesAndOutlets);
             },
           ),
           ListTile(
@@ -85,6 +120,23 @@ class MainDrawer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.edit,
+                    size: 24,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  title: Text(
+                    'View Profile',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 24,
+                        ),
+                  ),
+                  onTap: () {
+                    onSelectScreen(context, CustomRoutes.profile);
+                  },
+                ),
                 ListTile(
                   leading: Icon(
                     Icons.edit,

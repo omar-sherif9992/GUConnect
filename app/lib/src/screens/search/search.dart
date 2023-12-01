@@ -66,9 +66,15 @@ class _SearchScreenState extends State<SearchScreen>
         .toList();
 
     return _isLoading
-        ? Loader()
+        ? const Loader()
         : professors.isEmpty
-            ? const Center(child: Text('No professors found'))
+            ? Center(
+                child: Text(
+                'No professors found',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.secondary),
+              ))
             : RefreshIndicator(
                 onRefresh: () async {
                   // TODO: request users
@@ -77,11 +83,8 @@ class _SearchScreenState extends State<SearchScreen>
                   itemCount: professors.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: UserTile(
-                          user: professors[index],
-                          userType: UserType.professor),
-                    );
+                    return UserTile(
+                        user: professors[index], userType: UserType.professor);
                   },
                 ),
               );
@@ -92,7 +95,6 @@ class _SearchScreenState extends State<SearchScreen>
     return Scaffold(
       appBar: const CustomAppBar(
         title: '',
-        isAuthenticated: true,
       ),
       body: SafeArea(
         child: Column(
@@ -104,7 +106,6 @@ class _SearchScreenState extends State<SearchScreen>
                 Tab(text: 'Profs'),
                 Tab(text: 'TAs'),
                 Tab(text: 'Places'),
-                Tab(text: 'Numbers'),
               ],
             ),
             Expanded(
@@ -114,7 +115,6 @@ class _SearchScreenState extends State<SearchScreen>
                   _buildProfessorsTab(),
                   Center(child: Text('Tab 2 content')),
                   Center(child: Text('Tab 3 content')),
-                  Center(child: Text('Tab 4 content')),
                 ],
               ),
             ),
@@ -143,35 +143,36 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          ListTile(
-            leading: Hero(
-              tag: user.id,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(user.image ?? ''),
-              ),
-            ),
-            title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
-            subtitle: Text(user.biography ?? ''),
-            trailing: IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(CustomRoutes.profile, arguments: user);
-              },
-            ),
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(CustomRoutes.profile, arguments: user);
-            },
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
+      child: ListTile(
+        leading: Hero(
+          tag: user.id,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user.image ?? ''),
           ),
-          const Divider(
-            thickness: 1.1,
-          ),
-        ],
+        ),
+        title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
+        subtitle: Text(user.biography ?? ''),
+        trailing: IconButton(
+          icon: const Icon(Icons.arrow_forward_ios),
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(CustomRoutes.profile, arguments: user);
+          },
+        ),
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed(CustomRoutes.profile, arguments: user);
+        },
       ),
     );
   }

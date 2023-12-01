@@ -1,5 +1,3 @@
-import 'package:GUConnect/src/screens/clubsAndEvents.dart';
-import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/popup_menue_button.dart';
@@ -41,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: MainDrawer(),
       appBar: CustomAppBar(
-        isAuthenticated: true,
         title: 'Home',
         actions: [],
       ),

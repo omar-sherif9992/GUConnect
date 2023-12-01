@@ -1,12 +1,12 @@
 class Post {
   final String text;
-  final String imageUrl;
+  final String? imageUrl;
   final int likes;
   final List<Comment> comments;
 
   Post(
       {required this.text,
-      required this.imageUrl,
+      this.imageUrl,
       required this.likes,
       required this.comments});
 

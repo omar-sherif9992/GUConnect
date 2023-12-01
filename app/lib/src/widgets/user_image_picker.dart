@@ -5,8 +5,13 @@ import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
   File? pickedImageFile;
+  String? profileImageUrl;
 
-  UserImagePicker({super.key, required this.onPickImage, this.pickedImageFile});
+  UserImagePicker(
+      {super.key,
+      required this.onPickImage,
+      this.pickedImageFile,
+      this.profileImageUrl});
 
   final void Function(File pickedImage) onPickImage;
 
@@ -54,8 +59,10 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   backgroundImage: const AssetImage('assets/images/user.png'),
                   onBackgroundImageError: (exception, stackTrace) =>
                       const AssetImage('assets/images/user.png'),
-                  foregroundImage: widget.pickedImageFile != null
-                      ? FileImage(widget.pickedImageFile!)
+                  foregroundImage: (widget.pickedImageFile != null)
+                    ? FileImage(widget.pickedImageFile!)
+                    : (widget.profileImageUrl != null)
+                      ? NetworkImage(widget.profileImageUrl!) as ImageProvider<Object>?
                       : null,
                 ),
                 Positioned(
@@ -63,7 +70,6 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   right: 0,
                   child: Container(
                     color: Theme.of(context).colorScheme.primary,
-                    
                     child: Icon(
                       Icons.camera_alt,
                       color: Theme.of(context).colorScheme.onPrimary,
