@@ -1,10 +1,13 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/dummy_data/user.dart';
+import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -17,13 +20,23 @@ class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<CustomUser> users = dummy_users;
-  final List<CustomUser> usersDisplay = dummy_users;
+  late final TextEditingController _searchController = TextEditingController();
+
+  final List<Staff> proffs = [];
+  List<Staff> proffsDisplay = [];
+
+  final List<Staff> tas = [];
+  List<Staff> tasDisplay = [];
+
   final bool _isLoading = false;
+
+  late StaffProvider staffProvider;
 
   @override
   void initState() {
     // TODO: request users
+
+    staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
@@ -48,26 +61,18 @@ class _SearchScreenState extends State<SearchScreen>
         ),
         onChanged: (value) {
           setState(() {
-            usersDisplay.clear();
-            usersDisplay.addAll(users
-                .where((element) => (element.fullName ?? '')
-                    .toLowerCase()
-                    .contains(value.toLowerCase()))
-                .toList());
+            filterItems(value);
           });
         },
+        controller: _searchController,
       ),
     );
   }
 
   Widget _buildProfessorsTab() {
-    final List<CustomUser> professors = usersDisplay
-        .where((element) => element.userType == UserType.professor)
-        .toList();
-
     return _isLoading
         ? const Loader()
-        : professors.isEmpty
+        : proffsDisplay.isEmpty
             ? Center(
                 child: Text(
                 'No professors found',
@@ -78,16 +83,63 @@ class _SearchScreenState extends State<SearchScreen>
             : RefreshIndicator(
                 onRefresh: () async {
                   // TODO: request users
+                  await staffProvider.getProffessors();
+
                 },
                 child: ListView.builder(
-                  itemCount: professors.length,
+                  itemCount: proffsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return UserTile(
-                        user: professors[index], userType: UserType.professor);
+                    return StaffTile(
+                        staff: proffsDisplay[index], staffType: StaffType.professor);
                   },
                 ),
               );
+  }  Widget _buildTasTab() {
+    return _isLoading
+        ? const Loader()
+        : tasDisplay.isEmpty
+            ? Center(
+                child: Text(
+                'No tas found',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.secondary),
+              ))
+            : RefreshIndicator(
+                onRefresh: () async {
+                  await staffProvider.getTas();
+                  
+                },
+                child: ListView.builder(
+                  itemCount: tasDisplay.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return StaffTile(
+                        staff: tasDisplay[index], staffType: StaffType.professor);
+                  },
+                ),
+              );
+  }
+
+  void filterItems(String value) {
+    value = value.trim().toLowerCase();
+    setState(() {
+      _searchController.text = value;
+
+      proffsDisplay = [];
+      proffsDisplay.addAll(proffs
+          .where((element) => (element.fullName ?? '')
+              .toLowerCase()
+              .contains(value.toLowerCase()))
+          .toList());
+      tasDisplay = [];
+      tasDisplay.addAll(tas
+          .where((element) => (element.fullName ?? '')
+              .toLowerCase()
+              .contains(value.toLowerCase()))
+          .toList());
+    });
   }
 
   @override
@@ -125,17 +177,17 @@ class _SearchScreenState extends State<SearchScreen>
   }
 }
 
-class UserTile extends StatelessWidget {
-  final CustomUser user;
-  final UserType userType;
+class StaffTile extends StatelessWidget {
+  final Staff staff;
+  final StaffType staffType;
 
-  const UserTile({required this.user, super.key, required this.userType});
+  const StaffTile({required this.staff, super.key, required this.staffType});
 
-  String userTitle() {
+  String staffTitle() {
     String title = '';
-    if (user.userType == UserType.professor) {
+    if (staff.staffType == StaffType.professor) {
       title = 'Prof.';
-    } else if (user.userType == UserType.ta) {
+    } else if (staff.staffType == StaffType.ta) {
       title = 'Dr.';
     }
     return title;
@@ -155,23 +207,23 @@ class UserTile extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: ListTile(
         leading: Hero(
-          tag: user.id,
+          tag: staff.id,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(user.image ?? ''),
+            backgroundImage: NetworkImage(staff.image ?? ''),
           ),
         ),
-        title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
-        subtitle: Text(user.biography ?? ''),
+        title: Text('${staffTitle()} ${titleCase(staff.fullName ?? '')}'),
+        subtitle: Text(staff.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(CustomRoutes.profile, arguments: user);
+                .pushNamed(CustomRoutes.profile, arguments: staff);
           },
         ),
         onTap: () {
           Navigator.of(context)
-              .pushNamed(CustomRoutes.profile, arguments: user);
+              .pushNamed(CustomRoutes.profile, arguments: staff);
         },
       ),
     );

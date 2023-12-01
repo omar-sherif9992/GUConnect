@@ -37,6 +37,10 @@ class CustomRoutes {
   static const String impPhoneNumber = '/important-phone-numbers';
   static const String officesAndOutlets = '/offices-and-outlets';
 
+
+  // STAFF ROUTES
+  static const String staff = '/staff/profile';
+
   // ADMIN ROUTES
   static const String admin = '/admin';
   static const String adminPendings = '/admin/pendings';
