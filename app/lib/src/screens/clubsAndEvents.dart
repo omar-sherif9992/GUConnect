@@ -31,7 +31,6 @@ class ClubsAndEvents extends StatelessWidget{
         actions: [
           addPost
         ],
-        isAuthenticated: false,
       ),
 
       body: Column(
@@ -46,7 +45,7 @@ class ClubsAndEvents extends StatelessWidget{
                     const SizedBox(height: 20,),
                     PostW(
                       caption: posts[index].text,
-                      imgUrl: posts[index].imageUrl,
+                      imgUrl: posts[index].imageUrl.toString(),
                       username: username,
                       userImage: userImg,
                       likes: 500,
