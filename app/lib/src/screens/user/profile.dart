@@ -2,9 +2,18 @@ import 'package:GUConnect/src/dummy_data/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<StatefulWidget> createState() {
+    return _ProfileScreenState();
+  }
+}
+
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,20 +22,6 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     IconButton(
-          //       icon: Icon(Icons.arrow_back),
-          //       onPressed: () {},
-          //     ),
-          //     SizedBox(width: 16), // Add some spacing between buttons
-          //     IconButton(
-          //       icon: Icon(Icons.more_vert),
-          //       onPressed: () {},
-          //     ),
-          //   ],
-          // ),
           Container(
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(10),
@@ -161,11 +156,17 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ClickableIcon(Icons.grid_on, 'Posts', () {}),
-              ClickableIcon(Icons.message, 'Confessions', () {}),
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(
+                text: 'Posts',
+                icon: Icon(Icons.grid_on),
+              ),
+              Tab(
+                text: 'Confessions',
+                icon: Icon(Icons.message),
+              ),
             ],
           ),
           Container(
@@ -177,18 +178,29 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Post_Widget(posts[index]),
-                );
-              },
-            ),
-          ),
+              child: TabBarView(
+            controller: _tabController,
+            children: [_buildPosts(posts), _buildPosts(posts)],
+          )),
         ],
       ),
     );
+  }
+
+  Widget _buildPosts(posts) {
+    return ListView.builder(
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        return Post_Widget(posts[index]);
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 }
 

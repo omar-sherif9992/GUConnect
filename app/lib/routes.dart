@@ -48,9 +48,6 @@ class CustomRoutes {
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
 
-
-
-
   static Map<String, WidgetBuilder> get routes {
     return {
       home: (context) => const HomeScreen(),
@@ -61,9 +58,8 @@ class CustomRoutes {
       profileEdit: (context) => const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
       impPhoneNumber: (context) => const ImportantContactsScreen(),
-      officesAndOutlets: (context) => const OfficesAndOutlets(),
-      adminPendings: (context) =>  PendingsScreen(),
-
+      officesAndOutlets: (context) => OfficesAndOutlets(),
+      adminPendings: (context) => PendingsScreen(),
     };
   }
 }
