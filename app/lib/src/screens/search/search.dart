@@ -39,7 +39,6 @@ class _SearchScreenState extends State<SearchScreen>
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
     staffProvider.addStaff(Staff(
-      id: '1',
       fullName: 'John Doe',
       email: 'abdo@gmail.com',
       rating: 2,
@@ -49,7 +48,6 @@ class _SearchScreenState extends State<SearchScreen>
       staffType: StaffType.professor,
     ));
     staffProvider.addStaff(Staff(
-      id: '12',
       fullName: 'Mohy',
       email: 'mohy@gmail.com',
       rating: 5,
@@ -278,7 +276,7 @@ class StaffTile extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: ListTile(
         leading: Hero(
-          tag: staff.id,
+          tag: staff.email,
           child: CircleAvatar(
             backgroundImage: NetworkImage(staff.image ?? ''),
           ),

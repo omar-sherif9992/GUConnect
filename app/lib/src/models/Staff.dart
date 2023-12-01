@@ -5,11 +5,11 @@ enum StaffType {
   ta,
 }
 
-class OfficeHour{
+class OfficeHour {
   late String day;
   late String from;
   late String to;
-  OfficeHour({required this.day,required this.from,required this.to});
+  OfficeHour({required this.day, required this.from, required this.to});
 
   OfficeHour.fromJson(Map<String, dynamic> json) {
     day = json['day'];
@@ -24,14 +24,9 @@ class OfficeHour{
     data['to'] = this.to;
     return data;
   }
-
-
-
 }
 
-
 class Staff {
-  late String id;
   late String fullName;
   late String? image;
   late String email;
@@ -42,17 +37,8 @@ class Staff {
   late List<String> reviews;
   late List<String> courses;
 
-
-
-
-
-
-
-
-
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   Staff({
-    required this.id,
     required this.fullName,
     this.image,
     required this.email,
@@ -62,7 +48,6 @@ class Staff {
     required this.officeHours,
     required this.reviews,
     required this.staffType,
-
   });
 
   /// Constructs a User object from a JSON map.
@@ -73,16 +58,14 @@ class Staff {
     officeLocation = json['officeLocation'];
     rating = json['rating'];
     courses = json['courses'];
-    officeHours = json['officeHours'];
+    officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
     reviews = json['reviews'];
     staffType = json['staffType'];
-
   }
 
   /// Converts the User object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['fullName'] = this.fullName;
     data['image'] = this.image;
     data['email'] = this.email;
@@ -95,8 +78,6 @@ class Staff {
 
     return data;
   }
-
-
 
   @override
   String toString() {

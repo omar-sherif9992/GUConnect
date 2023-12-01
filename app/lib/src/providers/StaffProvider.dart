@@ -52,7 +52,12 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<void> addStaff(Staff staff) async {
-    await staffsRef.add(staff);
+
+    try{
+    await staffsRef.doc(staff.email).set(staff);
     notifyListeners();
+    }catch(e){
+      print(e);
+    }
   }
 }
