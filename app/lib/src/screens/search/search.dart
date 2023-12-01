@@ -1,7 +1,5 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/dummy_data/user.dart';
 import 'package:GUConnect/src/models/Staff.dart';
-import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
@@ -42,18 +40,12 @@ class _SearchScreenState extends State<SearchScreen>
       fullName: 'John Doe',
       email: 'abdo@gmail.com',
       rating: 2,
-      courses: [],
-      officeHours: [],
-      reviews: [],
       staffType: StaffType.professor,
     ));
     staffProvider.addStaff(Staff(
       fullName: 'Mohy',
       email: 'mohy@gmail.com',
       rating: 5,
-      courses: [],
-      officeHours: [],
-      reviews: [],
       staffType: StaffType.ta,
     ));
 
@@ -63,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen>
           })
         });
 
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 
   Future fetchStaff(
@@ -104,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen>
       _isLoading = true;
     });
 
-    staffProvider.getStaffs().then((value) => setState(() {
+    staffProvider.getTas().then((value) => setState(() {
           tas = value;
           tasDisplay = value;
         }));
@@ -113,6 +105,7 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -138,6 +131,7 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildProfessorsTab() {
+    print(proffs);
     return _isLoading
         ? const Loader()
         : proffsDisplay.isEmpty
@@ -202,13 +196,11 @@ class _SearchScreenState extends State<SearchScreen>
 
       proffsDisplay = [];
       proffsDisplay.addAll(proffs
-          .where((element) =>
-              (element.fullName).toLowerCase().contains(value.toLowerCase()))
+          .where((element) => (element.fullName).toLowerCase().contains(value))
           .toList());
       tasDisplay = [];
       tasDisplay.addAll(tas
-          .where((element) =>
-              (element.fullName).toLowerCase().contains(value.toLowerCase()))
+          .where((element) => (element.fullName).toLowerCase().contains(value))
           .toList());
     });
   }
@@ -218,29 +210,28 @@ class _SearchScreenState extends State<SearchScreen>
     return Scaffold(
       appBar: const CustomAppBar(
         title: '',
+        isLogo: false,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildSearchBar(),
-            TabBar(
+      body: Column(
+        children: [
+          _buildSearchBar(),
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(text: 'Profs'),
+              Tab(text: 'TAs'),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
               controller: _tabController,
-              tabs: const [
-                Tab(text: 'Profs'),
-                Tab(text: 'TAs'),
+              children: [
+                _buildProfessorsTab(),
+                _buildTasTab(),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildProfessorsTab(),
-                  _buildTasTab(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -248,7 +239,7 @@ class _SearchScreenState extends State<SearchScreen>
 
 class StaffTile extends StatelessWidget {
   final Staff staff;
-  final StaffType staffType;
+  final String staffType;
 
   const StaffTile({required this.staff, super.key, required this.staffType});
 

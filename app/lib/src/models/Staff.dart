@@ -1,11 +1,31 @@
 /// Represents the type of a user in the application.
 
-enum StaffType {
-  professor,
-  ta,
+class StaffType {
+  static String professor = 'professor';
+  static String ta = 'ta';
+
+  static String getStaffType(String staffType) {
+    if (staffType == StaffType.professor) {
+      return 'professor';
+    } else if (staffType == StaffType.ta) {
+      return 'ta';
+    } else {
+      return 'Stuff';
+    }
+  }
+
+  static String getStaffTypeValue(String staffType) {
+    if (staffType == 'professor') {
+      return StaffType.professor;
+    } else if (staffType == 'ta') {
+      return StaffType.ta;
+    } else {
+      return 'Stuff';
+    }
+  }
 }
 
-class OfficeHour {
+/* class OfficeHour {
   late String day;
   late String from;
   late String to;
@@ -24,18 +44,16 @@ class OfficeHour {
     data['to'] = this.to;
     return data;
   }
-}
+} */
 
 class Staff {
   late String fullName;
   late String? image;
   late String email;
-  late StaffType staffType;
+  late String staffType;
   late String? officeLocation;
-  late List<OfficeHour> officeHours;
+  // late List<OfficeHour> officeHours;
   late double rating;
-  late List<String> reviews;
-  late List<String> courses;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   Staff({
@@ -44,9 +62,7 @@ class Staff {
     required this.email,
     this.officeLocation,
     required this.rating,
-    required this.courses,
-    required this.officeHours,
-    required this.reviews,
+    //required this.officeHours,
     required this.staffType,
   });
 
@@ -56,11 +72,9 @@ class Staff {
     image = json['image'];
     email = json['email'];
     officeLocation = json['officeLocation'];
-    rating = json['rating'];
-    courses = json['courses'];
-    officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
-    reviews = json['reviews'];
-    staffType = json['staffType'];
+    rating =json['rating'];
+    //officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
+    staffType = StaffType.getStaffTypeValue(json['staffType']);
   }
 
   /// Converts the User object to a JSON map.
@@ -71,16 +85,15 @@ class Staff {
     data['email'] = this.email;
     data['officeLocation'] = this.officeLocation;
     data['rating'] = this.rating;
-    data['courses'] = this.courses;
-    data['officeHours'] = this.officeHours;
-    data['reviews'] = this.reviews;
-    data['staffType'] = this.staffType;
+    // data['officeHours'] = this.officeHours;
+    print(this.staffType.toString());
+    data['staffType'] = StaffType.getStaffType(staffType);
 
     return data;
   }
 
   @override
   String toString() {
-    return 'fullName: $fullName, email: $email, officeLocation: $officeLocation, rating: $rating, courses: $courses, officeHours: $officeHours, reviews: $reviews, staffType: $staffType';
+    return 'fullName: $fullName, email: $email, staffType: $staffType';
   }
 }

@@ -1,6 +1,6 @@
 import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
-import 'package:GUConnect/src/providers/ImportantEmail.dart';
+import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -43,6 +43,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
         Provider.of<ImportantEmailProvider>(context, listen: false);
     importantPhoneNumberProvider =
         Provider.of<ImportantPhoneNumberProvider>(context, listen: false);
+
+
 
     fetchContact(importantEmailProvider, importantPhoneNumberProvider)
         .then((value) => setState(() {
@@ -102,6 +104,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
