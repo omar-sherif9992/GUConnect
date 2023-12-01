@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class ImportantEmailProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final importantEmailsRef = FirebaseFirestore.instance
       .collection('importantEmails')
@@ -12,6 +11,7 @@ class ImportantEmailProvider extends ChangeNotifier {
             ImportantEmail.fromJson(snapshot.data()!),
         toFirestore: (importantEmail, _) => importantEmail.toJson(),
       );
+
 
   Future<List<ImportantEmail>> searchEmail(String name) async {
     final List<ImportantEmail> emails = [];

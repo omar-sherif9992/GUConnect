@@ -1,9 +1,11 @@
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
 import 'package:GUConnect/src/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileEditForm extends StatelessWidget {
   final TextEditingController emailController =
@@ -17,15 +19,22 @@ class ProfileEditForm extends StatelessWidget {
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final CustomUser user;
+  late final CustomUser user;
 
   ProfileEditForm({
     super.key,
-    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+
+    if (userProvider.user == null) {
+      Navigator.of(context).popAndPushNamed('/login');
+    }
+
+    user = userProvider.user as CustomUser;
+
     fullNameController.text = user.fullName ?? '';
     userNameController.text = user.userName ?? '';
     emailController.text = user.email;
@@ -90,11 +99,20 @@ class ProfileEditForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Processing Data')),
                           );
+
+                          await userProvider.updateProfile(
+                              fullName: fullNameController.text,
+                              userName: userNameController.text,
+                              phoneNumber: phoneController.text,
+                              biography: bioController.text);
+
+                          await userProvider.updateEmail(emailController.text);
+
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -42,6 +42,7 @@ dependencies:
   fluttertoast: ^8.2.4
   mailer: ^6.0.1
 
+  emoji_picker_flutter: ^1.6.3
 
 dev_dependencies:
   firebase_auth_mocks: ^0.13.0
@@ -73,10 +74,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - assets/
-    - .env
-    - assets/images/
+
+
 
   fonts:
     - family: Roboto
@@ -87,3 +86,7 @@ flutter:
         - asset: assets/fonts/Poppins-Regular.ttf
 
 
+  assets:
+    - assets/
+    - .env
+    - assets/images/

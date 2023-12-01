@@ -1,3 +1,5 @@
+import 'package:GUConnect/src/screens/admin/pendings__screen.dart';
+import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:GUConnect/src/screens/officesAndOutlets.dart';
 
 class CustomRoutes {
+  // USER ROUTES
   static const String home = '/';
   // static const String splash = '/splash';
   static const String login = '/login';
@@ -36,6 +39,23 @@ class CustomRoutes {
   static const String report = '/report';
   static const String impPhoneNumber = '/important-phone-numbers';
   static const String officesAndOutlets = '/offices-and-outlets';
+  static const String clubsAndEvents = '/club-posts-and-events';
+
+
+  // STAFF ROUTES
+  static const String staff = '/staff/profile';
+
+  // ADMIN ROUTES
+  static const String admin = '/admin';
+  static const String adminPendings = '/admin/pendings';
+  static const String adminConfessionsDetail = '/admin/confessions-detail';
+  static const String adminAcademicQuestions = '/admin/academic-questions';
+  static const String adminAcademicQuestionsDetail =
+      '/admin/academic-questions-detail';
+  static const String adminLostAndFoundDetail = '/admin/lost-and-found-detail';
+  static const String adminUsers = '/admin/users';
+  static const String adminUsersDetail = '/admin/users-detail';
+  
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -47,7 +67,9 @@ class CustomRoutes {
       profileEdit: (context) => const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
       impPhoneNumber: (context) => const ImportantContactsScreen(),
-      officesAndOutlets: (context) => const OfficesAndOutlets(),
+      officesAndOutlets: (context) => OfficesAndOutlets(),
+      adminPendings: (context) => PendingsScreen(),
+      clubsAndEvents: (context) => const ClubsAndEvents()
     };
   }
 }

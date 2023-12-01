@@ -34,10 +34,10 @@ class _PopupMenuState extends State<PopupMenu> {
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-            const PopupMenuItem<SampleItem>(
+            /*const PopupMenuItem<SampleItem>(
               value: SampleItem.itemOne,
               child: Text('Share'),
-            ),
+            ),*/
             const PopupMenuItem<SampleItem>(
               value: SampleItem.itemTwo,
               child: Text('Report'),
@@ -94,6 +94,7 @@ class _PopupMenuState extends State<PopupMenu> {
                   'type': 'post',
                   'id': '1',
                 });
+                
               },
               child: Text(
                 'Yes',

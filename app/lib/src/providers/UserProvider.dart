@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
@@ -193,7 +192,7 @@ class UserProvider with ChangeNotifier {
         .update({'image': imageUrl});
   }
 
-  
+
   Future deleteUser() async {
     try {
       await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
@@ -242,6 +241,9 @@ Future<void> sendOtpToEmail(String receiverEmail) async {
     print('Message sent: ' + sendReport.toString());
   } catch (e) {
     print('Error sending email: $e');
+  Future getUsers() async {
+    final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
+    return querySnapshot.docs;
   }
 }
 bool verifyOTP(String email, String submittedOTP) {
@@ -255,7 +257,7 @@ bool verifyOTP(String email, String submittedOTP) {
   }
 }
 
-}
+}}
 class OTPData {
   String otp;
   DateTime expiryTime;

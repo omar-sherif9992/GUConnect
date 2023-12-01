@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class Loader extends StatefulWidget {
+  const Loader({super.key});
+
   @override
   _LoaderState createState() => _LoaderState();
 }
@@ -29,11 +31,13 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return  Center(
         child: RotationTransition(
+          alignment: Alignment.center,
           turns: _controller,
           child: Image.asset(
-            'assets/images/logo_icon.png', // Path to your logo image
+            'assets/images/logo-icon.png', // Path to your logo image
             width: 100, // Adjust width as needed
             height: 100, // Adjust height as needed
+            fit: BoxFit.fitHeight,
           ),
         ),
     );
