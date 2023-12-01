@@ -131,7 +131,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildProfessorsTab() {
-    print(proffs);
     return _isLoading
         ? const Loader()
         : proffsDisplay.isEmpty
@@ -146,6 +145,10 @@ class _SearchScreenState extends State<SearchScreen>
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
                   filterItems(_searchController.text);
+
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
                 child: ListView.builder(
                   itemCount: proffsDisplay.length,
@@ -177,6 +180,9 @@ class _SearchScreenState extends State<SearchScreen>
                 onRefresh: () async {
                   await fetchTas(staffProvider);
                   filterItems(_searchController.text);
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
                 child: ListView.builder(
                   itemCount: tasDisplay.length,

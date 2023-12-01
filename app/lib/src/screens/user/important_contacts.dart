@@ -44,8 +44,6 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
     importantPhoneNumberProvider =
         Provider.of<ImportantPhoneNumberProvider>(context, listen: false);
 
-
-
     fetchContact(importantEmailProvider, importantPhoneNumberProvider)
         .then((value) => setState(() {
               _isLoading = false;
@@ -148,8 +146,10 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
     return RefreshIndicator(
       onRefresh: () async {
         await fetchPhoneNumbers();
-
         filterContacts(_searchController.text);
+        setState(() {
+          _isLoading = false;
+        });
       },
       child: _isLoading
           ? const Loader()
@@ -204,6 +204,9 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
         await fetchEmails();
 
         filterContacts(_searchController.text);
+        setState(() {
+          _isLoading = false;
+        });
       },
       child: _isLoading
           ? const Loader()
