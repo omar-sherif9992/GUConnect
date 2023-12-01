@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/screens/admin/pendings__screen.dart';
+import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
@@ -36,6 +37,7 @@ class CustomRoutes {
   static const String report = '/report';
   static const String impPhoneNumber = '/important-phone-numbers';
   static const String officesAndOutlets = '/offices-and-outlets';
+  static const String clubsAndEvents = '/club-posts-and-events';
 
   // ADMIN ROUTES
   static const String admin = '/admin';
@@ -47,6 +49,7 @@ class CustomRoutes {
   static const String adminLostAndFoundDetail = '/admin/lost-and-found-detail';
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
+  
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -60,6 +63,7 @@ class CustomRoutes {
       impPhoneNumber: (context) => const ImportantContactsScreen(),
       officesAndOutlets: (context) => OfficesAndOutlets(),
       adminPendings: (context) => PendingsScreen(),
+      clubsAndEvents: (context) => const ClubsAndEvents()
     };
   }
 }
