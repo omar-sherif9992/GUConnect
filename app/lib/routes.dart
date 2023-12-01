@@ -39,6 +39,10 @@ class CustomRoutes {
   static const String officesAndOutlets = '/offices-and-outlets';
   static const String clubsAndEvents = '/club-posts-and-events';
 
+
+  // STAFF ROUTES
+  static const String staff = '/staff/profile';
+
   // ADMIN ROUTES
   static const String admin = '/admin';
   static const String adminPendings = '/admin/pendings';
