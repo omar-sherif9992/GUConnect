@@ -42,6 +42,10 @@ class CustomUser {
       required this.password,
       required this.biography,
       required this.userType});
+    CustomUser.register(
+      { 
+      required this.email,
+      required this.password});
 
   /// Constructs a User object from a JSON map.
   CustomUser.fromJson(Map<String, dynamic> json) {
