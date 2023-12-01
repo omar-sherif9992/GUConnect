@@ -203,4 +203,9 @@ class UserProvider with ChangeNotifier {
       print(e);
     }
   }
+
+  Future getUsers() async {
+    final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
+    return querySnapshot.docs;
+  }
 }
