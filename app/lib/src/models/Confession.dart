@@ -6,6 +6,7 @@ class Confession {
   late CustomUser sender;
   late bool isAnonymous;
   late DateTime createdAt;
+  late String id;
 
   /// Constructs a Confession object with the given parameters.
   Confession({
@@ -13,7 +14,9 @@ class Confession {
     required this.sender,
     required this.isAnonymous,
     required this.createdAt,
-  });
+  }) {
+    id = sender.email + createdAt.toString();
+  }
 
   /// Constructs a Confession object from a JSON map.
   Confession.fromJson(Map<String, dynamic> json) {
@@ -28,7 +31,7 @@ class Confession {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['content'] = content;
     data['sender'] = sender.toJson();
-    data['isAnonymous'] = isAnonymous;
+    data['isAnonymous'] = bool.tryParse(isAnonymous.toString());
     data['createdAt'] = createdAt.toString();
     return data;
   }

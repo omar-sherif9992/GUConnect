@@ -28,6 +28,7 @@ class AcademicQuestionProvider extends ChangeNotifier {
   }
 
   Future<List<AcademicQuestion>> getQuestions() async {
+
     final List<AcademicQuestion> questions = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await _firestore.collection('academicQuestions').get();

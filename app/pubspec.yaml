@@ -38,7 +38,8 @@ dependencies:
   cloud_firestore: ^4.13.3
   url_launcher: ^6.2.1
   flutter_phone_direct_caller: ^2.1.1
-
+  firebase_storage: ^11.5.3
+  emoji_picker_flutter: ^1.6.3
 
 dev_dependencies:
   firebase_auth_mocks: ^0.13.0
@@ -70,10 +71,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - assets/
-    - .env
-    - assets/images/
+
+
 
   fonts:
     - family: Roboto
@@ -84,3 +83,7 @@ flutter:
         - asset: assets/fonts/Poppins-Regular.ttf
 
 
+  assets:
+    - assets/
+    - .env
+    - assets/images/

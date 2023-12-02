@@ -9,6 +9,8 @@ class LostAndFound {
   late String contact;
   late DateTime createdAt;
   late bool isFound;
+  late String approvalStatus = 'pending';
+
   late CustomUser user;
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
@@ -20,7 +22,10 @@ class LostAndFound {
     required this.createdAt,
     required this.isFound,
     required this.user,
-  });
+  })
+  {
+    id = user.email + createdAt.toString();
+  }
 
   /// Constructs a [LostAndFound] object from a JSON [Map].
   LostAndFound.fromJson(Map<String, dynamic> json) {
@@ -32,6 +37,7 @@ class LostAndFound {
     createdAt = DateTime.parse(json['createdAt']);
     isFound = json['isFound'];
     user = CustomUser.fromJson(json['user']);
+    approvalStatus = json['approvalStatus'];
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
@@ -45,6 +51,7 @@ class LostAndFound {
     data['createdAt'] = createdAt.toString();
     data['isFound'] = isFound;
     data['user'] = user.toJson();
+    data['approvalStatus'] = approvalStatus;
     return data;
   }
 

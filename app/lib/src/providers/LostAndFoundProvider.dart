@@ -6,7 +6,11 @@ class LostAndFoundProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> postItem(LostAndFound Item) async {
-    await _firestore.collection('lostAndFound').add(Item.toJson());
+    try{
+    await _firestore.collection('lostAndFound').doc(Item.id).set(Item.toJson());
+    }catch(e){
+      print(e);
+    }
   }
 
   Future<void> uploadImage(String itemId, String imageUrl) async {
@@ -31,4 +35,5 @@ class LostAndFoundProvider extends ChangeNotifier {
     });
     return items;
   }
+
 }

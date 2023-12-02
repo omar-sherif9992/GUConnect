@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

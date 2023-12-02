@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class ImportantPhoneNumberProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
 
   Future<List<ImportantPhoneNumber>> searchNumber(String name) async {
     final List<ImportantPhoneNumber> numbers = [];
@@ -25,5 +26,13 @@ class ImportantPhoneNumberProvider extends ChangeNotifier {
       numbers.add(ImportantPhoneNumber.fromJson(doc.data()));
     });
     return numbers;
+  }
+
+  Future<void> addNumber(ImportantPhoneNumber number) async {
+    await _firestore
+        .collection('importantPhoneNumbers')
+        .doc(number.title)
+        .set(number.toJson());
+    notifyListeners();
   }
 }

@@ -2,8 +2,12 @@ import 'package:GUConnect/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTheme {
+
+  
+
   static ThemeData get lightTheme {
     final lightColorScheme = ColorScheme(
+      
       brightness: Brightness.light,
       primary: AppColors.primary,
       onPrimary: AppColors.light,
@@ -16,10 +20,28 @@ class CustomTheme {
       surface: Colors.white,
       onSurface: Colors.black,
     );
+    const TextTheme textTheme =  TextTheme(
+        displayMedium: TextStyle(fontFamily: 'Poppins'),
+        displaySmall: TextStyle(fontFamily: 'Poppins'),
+        displayLarge: TextStyle(fontFamily: 'Poppins'),
+        headlineLarge: TextStyle(fontFamily: 'Poppins'),
+        headlineMedium: TextStyle(fontFamily: 'Poppins'),
+        headlineSmall: TextStyle(fontFamily: 'Poppins'),
+        titleLarge: TextStyle(fontFamily: 'Poppins'),
+        titleMedium: TextStyle(fontFamily: 'Poppins'),
+        titleSmall: TextStyle(fontFamily: 'Poppins'),
+        bodyLarge: TextStyle(fontFamily: 'Poppins'),
+        bodyMedium: TextStyle(fontFamily: 'Poppins'),
+        bodySmall: TextStyle(fontFamily: 'Poppins'),
+        labelLarge: TextStyle(fontFamily: 'Poppins'),
+        labelMedium: TextStyle(fontFamily: 'Poppins'),
+        labelSmall: TextStyle(fontFamily: 'Poppins'),
+  );
 
     return ThemeData(
       primarySwatch: Colors.deepOrange,
-    ).copyWith(useMaterial3: true, colorScheme: lightColorScheme);
+      textTheme: textTheme
+      ).copyWith(useMaterial3: true, colorScheme: lightColorScheme);
   }
 
   static ThemeData get darkTheme {

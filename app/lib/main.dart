@@ -1,6 +1,8 @@
 import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
@@ -9,7 +11,6 @@ import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,6 +45,12 @@ class MyApp extends StatelessWidget {
           create: (context) => ImportantPhoneNumberProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => StaffProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ImportantEmailProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => LostAndFoundProvider(),
         ),
         ChangeNotifierProvider(
@@ -71,6 +78,7 @@ class MyApp extends StatelessWidget {
 
 Future initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Allow only portrait mode
   await SystemChrome.setPreferredOrientations(
     [
@@ -82,11 +90,13 @@ Future initializeApp() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   //tz.initializeTimeZones();
   // FirebaseMessaging.instance.getInitialMessage();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
+
   // ex:
 /*       String apiKey = dotenv.env['API_KEY']!;
     String baseUrl = dotenv.env['BASE_URL']!;
