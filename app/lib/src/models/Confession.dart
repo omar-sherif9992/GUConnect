@@ -14,8 +14,9 @@ class Confession {
     required this.sender,
     required this.isAnonymous,
     required this.createdAt,
-    required this.id,
-  });
+  }) {
+    id = sender.email + createdAt.toString();
+  }
 
   /// Constructs a Confession object from a JSON map.
   Confession.fromJson(Map<String, dynamic> json) {

@@ -10,8 +10,7 @@ OfficeLocation	- Name
 enum OfficeType { PROFESSOR, TA, OFFICE, FOOD_OUTLET }
 
 class OfficeAndLocation {
-  late String? id;
-  late String name;
+  late String name; // acts as the office's id
   late double latitude;
   late double longitude;
   late String building;
@@ -28,7 +27,6 @@ class OfficeAndLocation {
   });
 
   OfficeAndLocation.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     name = json['name'];
     latitude = json['latitude'];
     longitude = json['longitude'];
@@ -39,7 +37,6 @@ class OfficeAndLocation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
     data['name'] = name;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
