@@ -49,6 +49,14 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _officeController.dispose();
+    super.dispose();
+  }
+
   Widget _buildForm() {
     return Form(
         key: _formKey,
@@ -163,6 +171,46 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
       appBar: CustomAppBar(
         title: widget.staff == null ? 'Add Staff' : 'Edit Staff',
         isLogo: false,
+        actions: [
+          if (widget.staff != null)
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () async {
+                final bool? confirm = await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Are you sure?'),
+                    content: const Text(
+                        'Do you want to delete this staff member permanently?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: const Text('No'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: const Text('Yes'),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (widget.staff != null && confirm == true) {
+                  await staffProvider.deleteStaff(widget.staff!);
+
+                  Navigator.of(context).pop({
+                    'message': 'Staff deleted successfully',
+                    'success': true,
+                    'staff': widget.staff,
+                  });
+                }
+              },
+            )
+        ],
       ),
       body: _buildForm(),
     );

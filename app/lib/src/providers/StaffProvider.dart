@@ -79,4 +79,14 @@ class StaffProvider extends ChangeNotifier {
       print(e);
     }
   }
+
+  Future<void> deleteStaff(Staff staff) async {
+    try {
+      await staffsRef.doc(staff.email).delete();
+      notifyListeners();
+    } catch (e) {
+      print("Error deleting staff");
+      print(e);
+    }
+  }
 }
