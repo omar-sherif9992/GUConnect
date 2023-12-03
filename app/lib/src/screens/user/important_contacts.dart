@@ -58,15 +58,21 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
       _isLoading = true;
     });
 
-    importantEmailProvider.getEmails().then((value) => setState(() {
-          impEmails = value;
-          impEmailsDisplay = value;
-        }));
+    final List<ImportantEmail> emailsList =
+        await importantEmailProvider.getEmails();
 
-    importantPhoneNumberProvider.getNumbers().then((value) => setState(() {
-          impPhoneNumbers = value;
-          impPhoneNumbersDisplay = value;
-        }));
+    final List<ImportantPhoneNumber> numbersList =
+        await importantPhoneNumberProvider.getNumbers();
+
+    setState(() {
+      impEmails = emailsList;
+      impEmailsDisplay = emailsList;
+
+      impPhoneNumbers = numbersList;
+      impPhoneNumbersDisplay = numbersList;
+
+      _isLoading = false;
+    });
   }
 
   Future fetchPhoneNumbers() async {
