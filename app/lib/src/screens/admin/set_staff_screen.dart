@@ -21,6 +21,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _officeController = TextEditingController();
+  bool _isLoading = false;
 
   File? profileImageFile;
   String? profileImageUrl;
@@ -125,39 +126,53 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           });
                         },
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            final Staff staff = Staff(
-                              fullName: _nameController.text,
-                              email: _emailController.text,
-                              officeLocation: _officeController.text,
-                              staffType: dropdownvalue,
-                            );
+                      if (_isLoading)
+                        const CircularProgressIndicator()
+                      else
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final Staff staff = Staff(
+                                fullName: _nameController.text,
+                                email: _emailController.text,
+                                officeLocation: _officeController.text,
+                                staffType: dropdownvalue,
+                              );
 
-                            await staffProvider.setStaff(
-                              staff,
-                              profileImageFile,
-                            );
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSecondary,
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                              setState(() {
+                                _isLoading = true;
+                              });
+
+                              try {
+                                await staffProvider.setStaff(
+                                  staff,
+                                  profileImageFile,
+                                );
+                                Navigator.of(context).pop();
+                              } catch (e) {
+                                print(e);
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onSecondary,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            // size 30% of screen width
+                            minimumSize: Size(
+                                MediaQuery.of(context).size.width * 0.3, 50),
+                            alignment: Alignment.center,
                           ),
-                          // size 30% of screen width
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width * 0.3, 50),
-                          alignment: Alignment.center,
-                        ),
-                        child: const Text('Submit'),
-                      )
+                          child: const Text('Submit'),
+                        )
                     ]),
               ),
             ),
