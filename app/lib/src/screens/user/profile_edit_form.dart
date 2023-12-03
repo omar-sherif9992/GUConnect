@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
@@ -8,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileEditForm extends StatelessWidget {
-  final TextEditingController emailController =
-      TextEditingController(text: 'omar');
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
@@ -20,9 +21,11 @@ class ProfileEditForm extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   late final CustomUser user;
+  final File? profileImageFile;
 
   ProfileEditForm({
     super.key,
+    this.profileImageFile,
   });
 
   @override
@@ -106,13 +109,15 @@ class ProfileEditForm extends StatelessWidget {
                           );
 
                           await userProvider.updateProfile(
-                              fullName: fullNameController.text,
-                              userName: userNameController.text,
-                              phoneNumber: phoneController.text,
-                              biography: bioController.text);
+                              CustomUser.edit(
+                                  email: emailController.text,
+                                  fullName: fullNameController.text,
+                                  userName: userNameController.text,
+                                  phoneNumber: phoneController.text,
+                                  biography: bioController.text),
+                              profileImageFile);
 
                           await userProvider.updateEmail(emailController.text);
-
                         }
                       },
                       style: ElevatedButton.styleFrom(

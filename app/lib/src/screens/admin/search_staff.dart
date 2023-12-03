@@ -1,20 +1,20 @@
-import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchStaffScreen extends StatefulWidget {
+  const SearchStaffScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchStaffScreen> createState() => _SearchStaffScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
+class _SearchStaffScreenState extends State<SearchStaffScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -35,7 +35,6 @@ class _SearchScreenState extends State<SearchScreen>
     super.initState();
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
-
 
     fetchStaff(staffProvider).then((value) => {
           setState(() {
@@ -151,8 +150,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildTasTab() {
-    print(tas.length);
-
     return _isLoading
         ? const Loader()
         : tasDisplay.isEmpty
@@ -202,9 +199,31 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const SetStaffScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      appBar: CustomAppBar(
         title: '',
         isLogo: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SetStaffScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -237,9 +256,9 @@ class StaffTile extends StatelessWidget {
 
   const StaffTile({required this.staff, super.key, required this.staffType});
 
-
   @override
   Widget build(BuildContext context) {
+    print(staff.image);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -262,11 +281,13 @@ class StaffTile extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            Navigator.of(context)
-                .pushNamed(CustomRoutes.profile, arguments: staff);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => SetStaffScreen(
+                staff: staff,
+              ),
+            ));
           },
         ),
-
       ),
     );
   }

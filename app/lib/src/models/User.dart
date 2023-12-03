@@ -27,13 +27,20 @@ class CustomUser {
     required this.email,
     required this.password,
     this.biography,
-    this.phoneNumber, required UserType userType,
+    this.phoneNumber,
+    required UserType userType,
   }) {
     this.userType = getUserType();
   }
+  CustomUser.edit({
+    this.fullName,
+    this.userName,
+    required this.email,
+    this.biography,
+    this.phoneNumber,
+  });
   CustomUser.dummy(
-      {
-      required this.fullName,
+      {required this.fullName,
       required this.userName,
       required this.image,
       required this.email,
@@ -66,18 +73,18 @@ class CustomUser {
   }
 
   UserType getUserType() {
-    try{
-    String split = this.email.split('@')[1];
-    split = split.split('.')[0];
-    split = split.toLowerCase();
-    if (split == 'student') {
-      return UserType.student;
-    } else if (split == 'gucconnect') {
-      return UserType.admin;
-    } else {
-      return UserType.stuff;
-    }
-    }catch(e){
+    try {
+      String split = this.email.split('@')[1];
+      split = split.split('.')[0];
+      split = split.toLowerCase();
+      if (split == 'student') {
+        return UserType.student;
+      } else if (split == 'gucconnect') {
+        return UserType.admin;
+      } else {
+        return UserType.stuff;
+      }
+    } catch (e) {
       return UserType.stuff;
     }
   }
