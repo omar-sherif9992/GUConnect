@@ -1,3 +1,5 @@
+import 'package:GUConnect/src/models/User.dart';
+
 /**
 NewsEventClub	- Content
 - Image
@@ -7,16 +9,17 @@ NewsEventClub	- Content
 */
 
 class NewsEventClub {
-  late String id;
+  late String id = '1';
+  late CustomUser poster;
   late String content;
   late String image;
-  late String approvalStatus;
+  late String approvalStatus = 'approved';
   late DateTime createdAt;
 
   NewsEventClub({
     required this.content,
+    required this.poster,
     required this.image,
-    required this.approvalStatus,
     required this.createdAt,
   });
 
@@ -26,6 +29,7 @@ class NewsEventClub {
     image = json['image'];
     approvalStatus = json['approvalStatus'];
     createdAt = DateTime.parse(json['createdAt']);
+    poster = CustomUser.fromJson((json['poster'] as Map<String, dynamic>));
   }
 
   Map<String, dynamic> toJson() {
@@ -35,11 +39,12 @@ class NewsEventClub {
     data['image'] = image;
     data['approvalStatus'] = approvalStatus;
     data['createdAt'] = createdAt.toString();
+    data['poster'] = poster.toJson();
     return data;
   }
 
   @override
   String toString() {
-    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}';
+    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, poster: ${poster.toString()}';
   }
 }

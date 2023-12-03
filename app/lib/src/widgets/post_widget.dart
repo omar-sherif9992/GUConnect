@@ -38,7 +38,7 @@ class Post_Widget extends StatelessWidget {
                 children: [
                   Icon(Icons.comment),
                   SizedBox(width: 4),
-                  Text('${post.comments}'),
+                  Text('${post.comments.length}'),
                 ],
               ),
             ],

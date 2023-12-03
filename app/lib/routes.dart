@@ -1,3 +1,6 @@
+//import 'dart:js';
+
+import 'package:GUConnect/src/screens/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
 import 'package:GUConnect/src/screens/clubsAndEvents.dart';
@@ -39,6 +42,7 @@ class CustomRoutes {
   static const String impPhoneNumber = '/important-phone-numbers';
   static const String officesAndOutlets = '/offices-and-outlets';
   static const String clubsAndEvents = '/club-posts-and-events';
+  static const String addClubPost = '/club-and-events-addPost';
 
 
   // STAFF ROUTES
@@ -69,8 +73,7 @@ class CustomRoutes {
       impPhoneNumber: (context) => const ImportantContactsScreen(),
       officesAndOutlets: (context) => OfficesAndOutlets(),
       adminPendings: (context) => PendingsScreen(),
-      clubsAndEvents: (context) => const ClubsAndEvents(),
-      adminStaff: (context) => const SearchStaffScreen(),
+      clubsAndEvents: (context) => const ClubsAndEvents()
     };
   }
 }
