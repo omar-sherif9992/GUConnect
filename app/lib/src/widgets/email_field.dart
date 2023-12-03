@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
 class EmailField extends StatefulWidget {
-
   final TextEditingController emailController;
 
   const EmailField({super.key, required this.emailController});
@@ -28,9 +27,12 @@ class _EmailFieldState extends State<EmailField> {
         },
         decoration: const InputDecoration(
           labelText: 'Email',
-          icon: Icon(Icons.email),
+          prefixIcon: Icon(Icons.email),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
         ),
-  
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
+        onSaved: (value) => widget.emailController.text = value!,
         keyboardType: TextInputType.emailAddress);
   }
 }

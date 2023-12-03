@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:GUConnect/src/models/Staff.dart';
+import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -21,12 +24,13 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<List<Staff>> getProffessors() async {
-
     final List<Staff> profs = [];
-    final QuerySnapshot<Staff> querySnapshot = await staffsRef.where(
-      'staffType',
-      isEqualTo: StaffType.professor,
-    ).get();
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef
+        .where(
+          'staffType',
+          isEqualTo: StaffType.professor,
+        )
+        .get();
 
     querySnapshot.docs.forEach((doc) {
       profs.add(doc.data());
@@ -36,11 +40,12 @@ class StaffProvider extends ChangeNotifier {
 
   Future<List<Staff>> getTas() async {
     final List<Staff> tas = [];
-    final QuerySnapshot<Staff> querySnapshot = await staffsRef.where(
-      'staffType',
-      isEqualTo: StaffType.ta,
-    ).get();
-
+    final QuerySnapshot<Staff> querySnapshot = await staffsRef
+        .where(
+          'staffType',
+          isEqualTo: StaffType.ta,
+        )
+        .get();
 
     querySnapshot.docs.forEach((doc) {
       print(doc.data());
@@ -50,7 +55,6 @@ class StaffProvider extends ChangeNotifier {
   }
 
   Future<List<Staff>> getStaffs() async {
-    
     final List<Staff> staffs = [];
     final QuerySnapshot<Staff> querySnapshot = await staffsRef.get();
     querySnapshot.docs.forEach((doc) {
@@ -59,12 +63,29 @@ class StaffProvider extends ChangeNotifier {
     return staffs;
   }
 
-  Future<void> addStaff(Staff staff) async {
+  Future<void> setStaff(Staff staff, File? profileImageFile) async {
+    try {
+      if (profileImageFile != null) {
+        String imageUrl = await uploadImageToStorage(
+            profileImageFile, 'staff_images', staff.email);
+        print('imageUrl');
+        print(imageUrl);
+        staff.image = imageUrl;
+      }
+      await staffsRef.doc(staff.email).set(staff);
+      notifyListeners();
+    } catch (e) {
+      print("Error setting staff");
+      print(e);
+    }
+  }
 
-    try{
-    await staffsRef.doc(staff.email).set(staff);
-    notifyListeners();
-    }catch(e){
+  Future<void> deleteStaff(Staff staff) async {
+    try {
+      await staffsRef.doc(staff.email).delete();
+      notifyListeners();
+    } catch (e) {
+      print("Error deleting staff");
       print(e);
     }
   }
