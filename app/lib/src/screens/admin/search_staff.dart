@@ -1,27 +1,29 @@
-import 'package:GUConnect/routes.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchStaffScreen extends StatefulWidget {
+  const SearchStaffScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchStaffScreen> createState() => _SearchStaffScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
+class _SearchStaffScreenState extends State<SearchStaffScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   late final TextEditingController _searchController = TextEditingController();
 
-  List<Staff> proffs = [];
-  List<Staff> proffsDisplay = [];
+  List<Staff> profs = [];
+  List<Staff> profsDisplay = [];
 
   List<Staff> tas = [];
   List<Staff> tasDisplay = [];
@@ -36,12 +38,21 @@ class _SearchScreenState extends State<SearchScreen>
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
+    setState(() {
+      _isLoading = true;
+    });
 
-    fetchStaff(staffProvider).then((value) => {
-          setState(() {
-            _isLoading = false;
-          })
-        });
+    fetchStaff(staffProvider)
+        .then((value) => {
+              setState(() {
+                _isLoading = false;
+              })
+            })
+        .catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
 
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
@@ -53,15 +64,16 @@ class _SearchScreenState extends State<SearchScreen>
       _isLoading = true;
     });
 
-    staffProvider.getProffessors().then((value) => setState(() {
-          proffs = value;
-          proffsDisplay = value;
-        }));
+    final List<Staff> profsList = await staffProvider.getProffessors();
 
-    staffProvider.getStaffs().then((value) => setState(() {
-          tas = value;
-          tasDisplay = value;
-        }));
+    final List<Staff> tasList = await staffProvider.getTas();
+
+    setState(() {
+      tas = tasList;
+      tasDisplay = tasList;
+      profs = profsList;
+      profsDisplay = profsList;
+    });
   }
 
   Future fetchProffs(
@@ -71,10 +83,21 @@ class _SearchScreenState extends State<SearchScreen>
       _isLoading = true;
     });
 
-    staffProvider.getProffessors().then((value) => setState(() {
-          proffs = value;
-          proffsDisplay = value;
-        }));
+    staffProvider
+        .getProffessors()
+        .then((value) => setState(() {
+              profs = value;
+              profsDisplay = value;
+
+              filterItems(_searchController.text);
+
+              _isLoading = false;
+            }))
+        .catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   Future fetchTas(
@@ -84,10 +107,18 @@ class _SearchScreenState extends State<SearchScreen>
       _isLoading = true;
     });
 
-    staffProvider.getTas().then((value) => setState(() {
-          tas = value;
-          tasDisplay = value;
-        }));
+    staffProvider
+        .getTas()
+        .then((value) => setState(() {
+              tas = value;
+              tasDisplay = value;
+              filterItems(_searchController.text);
+
+              _isLoading = false;
+            }))
+        .catchError((error) => setState(() {
+              _isLoading = false;
+            }));
   }
 
   @override
@@ -121,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen>
   Widget _buildProfessorsTab() {
     return _isLoading
         ? const Loader()
-        : proffsDisplay.isEmpty
+        : profsDisplay.isEmpty
             ? Center(
                 child: Text(
                 'No professors found',
@@ -132,18 +163,13 @@ class _SearchScreenState extends State<SearchScreen>
             : RefreshIndicator(
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
-                  filterItems(_searchController.text);
-
-                  setState(() {
-                    _isLoading = false;
-                  });
                 },
                 child: ListView.builder(
-                  itemCount: proffsDisplay.length,
+                  itemCount: profsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return StaffTile(
-                        staff: proffsDisplay[index],
+                        staff: profsDisplay[index],
                         staffType: StaffType.professor);
                   },
                 ),
@@ -151,8 +177,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildTasTab() {
-    print(tas.length);
-
     return _isLoading
         ? const Loader()
         : tasDisplay.isEmpty
@@ -167,10 +191,6 @@ class _SearchScreenState extends State<SearchScreen>
             : RefreshIndicator(
                 onRefresh: () async {
                   await fetchTas(staffProvider);
-                  filterItems(_searchController.text);
-                  setState(() {
-                    _isLoading = false;
-                  });
                 },
                 child: ListView.builder(
                   itemCount: tasDisplay.length,
@@ -188,8 +208,8 @@ class _SearchScreenState extends State<SearchScreen>
     setState(() {
       _searchController.text = value;
 
-      proffsDisplay = [];
-      proffsDisplay.addAll(proffs
+      profsDisplay = [];
+      profsDisplay.addAll(profs
           .where((element) => (element.fullName).toLowerCase().contains(value))
           .toList());
       tasDisplay = [];
@@ -202,9 +222,32 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const SetStaffScreen(),
+              maintainState: false,
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      appBar: CustomAppBar(
         title: '',
         isLogo: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => const SetStaffScreen(),
+                    maintainState: false),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -237,9 +280,9 @@ class StaffTile extends StatelessWidget {
 
   const StaffTile({required this.staff, super.key, required this.staffType});
 
-
   @override
   Widget build(BuildContext context) {
+    print(staff.image);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -261,12 +304,25 @@ class StaffTile extends StatelessWidget {
         subtitle: Text(staff.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(CustomRoutes.profile, arguments: staff);
+          onPressed: () async {
+            Staff deletedStaff = await Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => SetStaffScreen(
+                  staff: staff,
+                ),
+                maintainState: false,
+              ),
+            );
+
+            if (deletedStaff != null && deletedStaff.email == staff.email) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Staff deleted'),
+                ),
+              );
+            }
           },
         ),
-
       ),
     );
   }

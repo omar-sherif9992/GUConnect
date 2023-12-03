@@ -97,6 +97,22 @@ class MainDrawer extends StatelessWidget {
             onTap: () {
               onSelectScreen(context, CustomRoutes.adminPendings);
             },
+          ),ListTile(
+            leading: Icon(
+              Icons.search,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Search Admin',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.adminStaff);
+            },
           ),
           ListTile(
             leading: Icon(

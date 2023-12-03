@@ -19,7 +19,7 @@ class BottomBar extends StatelessWidget{
             child: Transform.rotate(
               angle: pi/4,
               child: Container(
-                height: 70,
+                height: 55,
                 width: 67,
                 decoration:  BoxDecoration(
                   borderRadius:const  BorderRadius.all(Radius.circular(20)),

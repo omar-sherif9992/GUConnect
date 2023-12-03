@@ -16,15 +16,12 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  File? profileImage;
+  File? profileImageFile;
   String? profileImageUrl;
 
   void onPickImage(File pickedImage) {
-    setState(() {
-      profileImage = pickedImage;
-    });
+    profileImageFile = pickedImage;
   }
-
 
 
   @override
@@ -54,12 +51,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               height: Sizes.medium,
             ),
             UserImagePicker(
-                onPickImage: onPickImage, pickedImageFile: profileImage,profileImageUrl: profileImageUrl),
+                onPickImage: onPickImage,profileImageUrl: profileImageUrl),
             const SizedBox(
               height: Sizes.medium,
             ),
             SizedBox(
-                height: 500, child: ProfileEditForm()),
+                height: 500, child: ProfileEditForm(
+                  profileImageFile: profileImageFile,
+                )),
           ],
         ),
       ),

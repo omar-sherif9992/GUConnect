@@ -147,19 +147,15 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> updateProfile(
-      {String? fullName,
-      String? userName,
-      String? phoneNumber,
-      String? biography}) async {
+  Future<bool> updateProfile(CustomUser user, File? pickedImageFile) async {
     try {
-      final DocumentSnapshot<CustomUser> documentSnapshot =
-          await usersRef.doc(_firebaseAuth.currentUser!.uid).get();
-      final CustomUser user = documentSnapshot.data()!;
-      user.fullName = fullName;
-      user.userName = userName;
-      user.phoneNumber = phoneNumber;
-      user.biography = biography;
+      if (pickedImageFile != null) {
+        String imageUrl = await uploadImageToStorage(
+            pickedImageFile, 'user_images', _firebaseAuth.currentUser!.uid);
+
+        user.image = imageUrl;
+      }
+
       await usersRef.doc(_firebaseAuth.currentUser!.uid).set(user);
       return true;
     } on FirebaseAuthException catch (e) {
