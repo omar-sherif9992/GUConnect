@@ -73,7 +73,9 @@ class CustomRoutes {
       impPhoneNumber: (context) => const ImportantContactsScreen(),
       officesAndOutlets: (context) => OfficesAndOutlets(),
       adminPendings: (context) => PendingsScreen(),
-      clubsAndEvents: (context) => const ClubsAndEvents()
+      clubsAndEvents: (context) => const ClubsAndEvents(), 
+      addClubPost: (context) => const AddPost(),
+      adminStaff: (context) => const SearchStaffScreen(),
     };
   }
 }
