@@ -110,11 +110,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   _register() async {
-    final CustomUser newUser = CustomUser.register(
+
+    final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
-        password: passwordController.text.trim());
+        password: passwordController.text.trim(),
+        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.professor);
+
     final RegExp emailRegExp = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    
     if (emailRegExp.hasMatch(emailController.text)) {
       if (passwordController.text.trim().length >= 6) {
         if(passwordController.text.trim() == confirmPasswordController.text.trim()) {
