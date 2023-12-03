@@ -4,14 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  File? pickedImageFile;
   String? profileImageUrl;
 
-  UserImagePicker(
-      {super.key,
-      required this.onPickImage,
-      this.pickedImageFile,
-      this.profileImageUrl});
+  UserImagePicker({super.key, required this.onPickImage, this.profileImageUrl});
 
   final void Function(File pickedImage) onPickImage;
 
@@ -20,6 +15,8 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
+  File? pickedImageFile;
+
   void _pickImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -32,10 +29,10 @@ class _UserImagePickerState extends State<UserImagePicker> {
     }
 
     setState(() {
-      widget.pickedImageFile = File(pickedImage.path);
+      pickedImageFile = File(pickedImage.path);
     });
 
-    widget.onPickImage(widget.pickedImageFile!);
+    widget.onPickImage(File(pickedImage.path));
   }
 
   @override
@@ -59,11 +56,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   backgroundImage: const AssetImage('assets/images/user.png'),
                   onBackgroundImageError: (exception, stackTrace) =>
                       const AssetImage('assets/images/user.png'),
-                  foregroundImage: (widget.pickedImageFile != null)
-                    ? FileImage(widget.pickedImageFile!)
-                    : (widget.profileImageUrl != null)
-                      ? NetworkImage(widget.profileImageUrl!) as ImageProvider<Object>?
-                      : null,
+                  foregroundImage: (pickedImageFile != null)
+                      ? FileImage(pickedImageFile!)
+                      : (widget.profileImageUrl != null &&
+                              widget.profileImageUrl!.isNotEmpty)
+                          ? NetworkImage(widget.profileImageUrl!)
+                              as ImageProvider<Object>?
+                          : null,
                 ),
                 Positioned(
                   bottom: 0,

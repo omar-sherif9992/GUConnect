@@ -46,6 +46,24 @@ class StaffType {
   }
 } */
 
+class Rating {
+  late String userEmail;
+  late double rating;
+  Rating({required this.userEmail, required this.rating});
+
+  Rating.fromJson(Map<String, dynamic> json) {
+    userEmail = json['userEmail'];
+    rating = json['rating'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userEmail'] = this.userEmail;
+    data['rating'] = this.rating;
+    return data;
+  }
+}
+
 class Staff {
   late String fullName;
   late String? image;
@@ -53,7 +71,9 @@ class Staff {
   late String staffType;
   late String? officeLocation;
   // late List<OfficeHour> officeHours;
-  late double rating;
+  late List<String> courses;
+  late List<Rating> ratings;
+  
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   Staff({
@@ -61,7 +81,6 @@ class Staff {
     this.image,
     required this.email,
     this.officeLocation,
-    required this.rating,
     //required this.officeHours,
     required this.staffType,
   });
@@ -72,7 +91,6 @@ class Staff {
     image = json['image'];
     email = json['email'];
     officeLocation = json['officeLocation'];
-    rating =json['rating'];
     //officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
     staffType = StaffType.getStaffTypeValue(json['staffType']);
   }
@@ -84,9 +102,7 @@ class Staff {
     data['image'] = this.image;
     data['email'] = this.email;
     data['officeLocation'] = this.officeLocation;
-    data['rating'] = this.rating;
     // data['officeHours'] = this.officeHours;
-    print(this.staffType.toString());
     data['staffType'] = StaffType.getStaffType(staffType);
 
     return data;
