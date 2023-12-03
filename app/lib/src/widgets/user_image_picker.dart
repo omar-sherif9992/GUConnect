@@ -17,7 +17,47 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   File? pickedImageFile;
 
-  void _pickImage() async {
+  void _pickImage() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 150,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Text(
+              'Pick an Image',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _takeImage();
+                  },
+                  icon: const Icon(Icons.camera),
+                  label: const Text('Camera'),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _takeGallery();
+                  },
+                  icon: const Icon(Icons.image),
+                  label: const Text('Gallery'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _takeImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       imageQuality: 50,
@@ -28,6 +68,20 @@ class _UserImagePickerState extends State<UserImagePicker> {
       return;
     }
 
+    setState(() {
+      pickedImageFile = File(pickedImage.path);
+    });
+
+    widget.onPickImage(File(pickedImage.path));
+  }
+
+  void _takeGallery() async {
+    final pickedImage = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, maxWidth: 600);
+
+    if (pickedImage == null) {
+      return;
+    }
     setState(() {
       pickedImageFile = File(pickedImage.path);
     });
