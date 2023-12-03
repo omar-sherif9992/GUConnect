@@ -4,7 +4,8 @@ import 'package:GUConnect/themes/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/user_provider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -63,11 +64,11 @@ class LoginScreen extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.label,
                 ),
               ),
-              const Expanded(
+               Expanded(
                 child: TabBarView(
                   children: [
                     LoginForm(),
-                    RegisterScreen(),
+                    const RegisterScreen(),
                   ],
                 ),
               ),
@@ -80,7 +81,25 @@ class LoginScreen extends StatelessWidget {
 }
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  LoginForm({super.key});
+
+  _login(BuildContext context) async{
+     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+     final bool success= await userProvider.login(emailController.text, passwordController.text);
+     if(success){
+       Navigator.pushNamed(context, '/home');
+     }
+     else{
+       Fluttertoast.showToast(
+         msg: 'Wrong credentials.',
+         gravity: ToastGravity.BOTTOM,
+         backgroundColor: Colors.red,
+       );
+     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +107,11 @@ class LoginForm extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
-              decoration: InputDecoration(
+              controller: emailController,
+              decoration: const InputDecoration(
                 labelText: 'Email Address',
                 hintText: 'Sample@guc.edu.eg',
                 border: OutlineInputBorder(
@@ -102,10 +122,11 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
-              decoration: InputDecoration(
+              controller: passwordController,
+              decoration: const InputDecoration(
                 labelText: 'Password',
                 hintText: '********',
                 border: OutlineInputBorder(
@@ -121,9 +142,7 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10.0),
             child: ElevatedButton(
               onPressed: () {
-                UserProvider userProvider =
-                    Provider.of<UserProvider>(context, listen: false);
-                userProvider.login('email', 'password');
+               _login(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
@@ -133,7 +152,7 @@ class LoginForm extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 // size 30% of screen width
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.3, 50),
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),
                 alignment: Alignment.center,
               ),
               child: const Text(
