@@ -39,6 +39,9 @@ dependencies:
   url_launcher: ^6.2.1
   flutter_phone_direct_caller: ^2.1.1
   firebase_storage: ^11.5.3
+  fluttertoast: ^8.2.4
+  mailer: ^6.0.1
+
   emoji_picker_flutter: ^1.6.3
 
 dev_dependencies:

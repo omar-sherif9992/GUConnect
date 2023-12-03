@@ -1,5 +1,6 @@
 //  user provider
 import 'dart:io';
+import 'dart:math';
 
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
 import 'package:GUConnect/src/models/User.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class UserProvider with ChangeNotifier {
   CustomUser? _user;
@@ -31,7 +34,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> init() async {
-/*     await Firebase.initializeApp(
+    /*     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform); */
 
     _firebaseAuth = FirebaseAuth.instance;
@@ -199,8 +202,61 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  Map<String, OTPData> otpStore = {};
+
+  Future<void> sendOtpToEmail(String receiverEmail) async {
+    const String sendermail = 'GUConnect.help@gmail.com';
+    const String password = 'guc12345';
+    const String smtpServer = 'smtp.gmail.com';
+    final Random random = Random();
+    final String otp = (100000 + random.nextInt(900000)).toString();
+    final DateTime expiryTime = DateTime.now().add(const Duration(minutes: 5));
+    otpStore[receiverEmail] = OTPData(otp: otp, expiryTime: expiryTime);
+    final smtpServerDetails = SmtpServer(
+      smtpServer,
+      username: sendermail,
+      password: password,
+      port: 465,
+      ssl: true,
+      allowInsecure: false,
+    );
+
+    final message = Message()
+      ..from = const Address(sendermail, 'GuConnect')
+      ..recipients.add(receiverEmail)
+      ..subject = 'OTP Verification'
+      ..text = 'Your OTP is: $otp';
+
+    try {
+      final sendReport = await send(message, smtpServerDetails);
+
+      print('Message sent: ' + sendReport.toString());
+    } catch (e) {
+      print('Error sending email: $e');
+    }
+  }
+
+  bool verifyOTP(String email, String submittedOTP) {
+    final OTPData? otpData = otpStore[email];
+    if (otpData != null &&
+        otpData.otp == submittedOTP &&
+        DateTime.now().isBefore(otpData.expiryTime)) {
+      otpStore.remove(email);
+      return true;
+      }
+    return false; 
+  }
+  
+
   Future getUsers() async {
     final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
     return querySnapshot.docs;
   }
+    
+}
+
+class OTPData {
+  String otp;
+  DateTime expiryTime;
+  OTPData({required this.otp, required this.expiryTime});
 }
