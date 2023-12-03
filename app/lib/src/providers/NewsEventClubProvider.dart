@@ -7,9 +7,12 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<bool> postContent(NewsEventClub post) async {
     try {
+      print("YALA NGRAB");
       await _firestore.collection('newsEventClubs').add(post.toJson());
+      print('RAAAA7');
       return true;
     } catch (e) {
+      print("A l Mo4kla TYEB");      
       return false;
     }
   }
