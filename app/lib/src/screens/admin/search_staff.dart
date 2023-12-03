@@ -22,8 +22,8 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
 
   late final TextEditingController _searchController = TextEditingController();
 
-  List<Staff> proffs = [];
-  List<Staff> proffsDisplay = [];
+  List<Staff> profs = [];
+  List<Staff> profsDisplay = [];
 
   List<Staff> tas = [];
   List<Staff> tasDisplay = [];
@@ -38,11 +38,21 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
-    fetchStaff(staffProvider).then((value) => {
-          setState(() {
-            _isLoading = false;
-          })
-        });
+    setState(() {
+      _isLoading = true;
+    });
+
+    fetchStaff(staffProvider)
+        .then((value) => {
+              setState(() {
+                _isLoading = false;
+              })
+            })
+        .catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
 
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
@@ -54,15 +64,16 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
       _isLoading = true;
     });
 
-    staffProvider.getProffessors().then((value) => setState(() {
-          proffs = value;
-          proffsDisplay = value;
-        }));
+    final List<Staff> profsList = await staffProvider.getProffessors();
 
-    staffProvider.getStaffs().then((value) => setState(() {
-          tas = value;
-          tasDisplay = value;
-        }));
+    final List<Staff> tasList = await staffProvider.getTas();
+
+    setState(() {
+      tas = tasList;
+      tasDisplay = tasList;
+      profs = profsList;
+      profsDisplay = profsList;
+    });
   }
 
   Future fetchProffs(
@@ -72,10 +83,21 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
       _isLoading = true;
     });
 
-    staffProvider.getProffessors().then((value) => setState(() {
-          proffs = value;
-          proffsDisplay = value;
-        }));
+    staffProvider
+        .getProffessors()
+        .then((value) => setState(() {
+              profs = value;
+              profsDisplay = value;
+
+              filterItems(_searchController.text);
+
+              _isLoading = false;
+            }))
+        .catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   Future fetchTas(
@@ -85,10 +107,18 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
       _isLoading = true;
     });
 
-    staffProvider.getTas().then((value) => setState(() {
-          tas = value;
-          tasDisplay = value;
-        }));
+    staffProvider
+        .getTas()
+        .then((value) => setState(() {
+              tas = value;
+              tasDisplay = value;
+              filterItems(_searchController.text);
+
+              _isLoading = false;
+            }))
+        .catchError((error) => setState(() {
+              _isLoading = false;
+            }));
   }
 
   @override
@@ -122,7 +152,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
   Widget _buildProfessorsTab() {
     return _isLoading
         ? const Loader()
-        : proffsDisplay.isEmpty
+        : profsDisplay.isEmpty
             ? Center(
                 child: Text(
                 'No professors found',
@@ -133,18 +163,13 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
             : RefreshIndicator(
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
-                  filterItems(_searchController.text);
-
-                  setState(() {
-                    _isLoading = false;
-                  });
                 },
                 child: ListView.builder(
-                  itemCount: proffsDisplay.length,
+                  itemCount: profsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return StaffTile(
-                        staff: proffsDisplay[index],
+                        staff: profsDisplay[index],
                         staffType: StaffType.professor);
                   },
                 ),
@@ -166,10 +191,6 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
             : RefreshIndicator(
                 onRefresh: () async {
                   await fetchTas(staffProvider);
-                  filterItems(_searchController.text);
-                  setState(() {
-                    _isLoading = false;
-                  });
                 },
                 child: ListView.builder(
                   itemCount: tasDisplay.length,
@@ -187,8 +208,8 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
     setState(() {
       _searchController.text = value;
 
-      proffsDisplay = [];
-      proffsDisplay.addAll(proffs
+      profsDisplay = [];
+      profsDisplay.addAll(profs
           .where((element) => (element.fullName).toLowerCase().contains(value))
           .toList());
       tasDisplay = [];
@@ -206,6 +227,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const SetStaffScreen(),
+              maintainState: false,
             ),
           );
         },
@@ -220,8 +242,8 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const SetStaffScreen(),
-                ),
+                    builder: (context) => const SetStaffScreen(),
+                    maintainState: false),
               );
             },
           ),
@@ -290,10 +312,9 @@ class StaffTile extends StatelessWidget {
                 ),
                 maintainState: false,
               ),
-
             );
 
-            if (deletedStaff != null) {
+            if (deletedStaff != null && deletedStaff.email == staff.email) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Staff deleted'),

@@ -35,8 +35,8 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
           turns: _controller,
           child: Image.asset(
             'assets/images/logo-icon.png', // Path to your logo image
-            width: 120, // Adjust width as needed
-            height: 120, // Adjust height as needed
+            width: 100, // Adjust width as needed
+            height: 100, // Adjust height as needed
             fit: BoxFit.fitHeight,
           ),
         ),
