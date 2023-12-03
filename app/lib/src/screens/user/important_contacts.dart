@@ -186,11 +186,13 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.secondary),
                         ),
-                        trailing: const Icon(Icons.call),
-                        onTap: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              impPhoneNumbersDisplay[index].phoneNumber);
-                        },
+                        trailing: IconButton(
+                          icon: const Icon(Icons.call),
+                          onPressed: () async {
+                            await FlutterPhoneDirectCaller.callNumber(
+                                impPhoneNumbersDisplay[index].phoneNumber);
+                          },
+                        ),
                       ),
                     );
                   },
@@ -213,11 +215,12 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
           : impEmailsDisplay.isEmpty
               ? Center(
                   child: Text(
-                  'No Emails found',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).colorScheme.secondary),
-                ))
+                    'No Emails found',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.secondary),
+                  ),
+                )
               : ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: impEmailsDisplay.length,
@@ -245,34 +248,36 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.secondary),
                         ),
-                        trailing: const Icon(Icons.email),
-                        onTap: () async {
-                          final String email = Uri.encodeComponent(
-                              impEmailsDisplay[index].email);
-                          final String subject =
-                              Uri.encodeComponent('I need help');
-                          final String body = Uri.encodeComponent('');
-                          final Uri mail = Uri.parse(
-                              'mailto:$email?subject=$subject&body=$body');
-                          if (await launchUrl(mail)) {
-                            // email app opened
-                          } else {
-                            // alert dialog  appears something went wrong
+                        trailing: IconButton(
+                          icon: const Icon(Icons.email),
+                          onPressed: () async {
+                            final String email = Uri.encodeComponent(
+                                impEmailsDisplay[index].email);
+                            final String subject =
+                                Uri.encodeComponent('I need help');
+                            final String body = Uri.encodeComponent('');
+                            final Uri mail = Uri.parse(
+                                'mailto:$email?subject=$subject&body=$body');
+                            if (await launchUrl(mail)) {
+                              // email app opened
+                            } else {
+                              // alert dialog  appears something went wrong
 
-                            // ignore: use_build_context_synchronously
-                            showAdaptiveDialog(
-                                context: context,
-                                anchorPoint: const Offset(0.0, 0.0),
-                                builder: (context) {
-                                  return MessageDialog(
-                                    title:
-                                        'Something went wrong , with your email app',
-                                    message: 'Please try again later',
-                                    onCancel: () {},
-                                  );
-                                });
-                          }
-                        },
+                              // ignore: use_build_context_synchronously
+                              showAdaptiveDialog(
+                                  context: context,
+                                  anchorPoint: const Offset(0.0, 0.0),
+                                  builder: (context) {
+                                    return MessageDialog(
+                                      title:
+                                          'Something went wrong , with your email app',
+                                      message: 'Please try again later',
+                                      onCancel: () {},
+                                    );
+                                  });
+                            }
+                          },
+                        ),
                       ),
                     );
                   },

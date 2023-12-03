@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
@@ -201,7 +203,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const SetStaffScreen(),
             ),
@@ -216,7 +218,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const SetStaffScreen(),
                 ),
@@ -280,12 +282,24 @@ class StaffTile extends StatelessWidget {
         subtitle: Text(staff.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SetStaffScreen(
-                staff: staff,
+          onPressed: () async {
+            Staff deletedStaff = await Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => SetStaffScreen(
+                  staff: staff,
+                ),
+                maintainState: false,
               ),
-            ));
+
+            );
+
+            if (deletedStaff != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Staff deleted'),
+                ),
+              );
+            }
           },
         ),
       ),
