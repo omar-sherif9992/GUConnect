@@ -1,16 +1,41 @@
-import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/screens/authentication/register.dart';
-import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:GUConnect/themes/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/UserProvider.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/themes/themes.dart';
+import 'package:flutter/material.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:GUConnect/routes.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+    _login( ) async{
+     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+     final bool success= await userProvider.login(emailController.text, passwordController.text);
+     if(success){
+       if (context.mounted){ 
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(CustomRoutes.profile);
+       };
+     }
+     else{
+       Fluttertoast.showToast(
+         msg: 'Wrong credentials.',
+         gravity: ToastGravity.BOTTOM,
+         backgroundColor: Colors.red,
+       );
+     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +57,7 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment
                 .start, // Aligns children to the start of the Column
             children: [
-              // Text on the left with subtext under it
+              // login 
               const Padding(
                 padding:
                     EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
@@ -68,43 +93,7 @@ class LoginScreen extends StatelessWidget {
                Expanded(
                 child: TabBarView(
                   children: [
-                    LoginForm(),
-                    const RegisterScreen(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginForm extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  LoginForm({super.key});
-
-  _login(BuildContext context) async{
-     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-     final bool success= await userProvider.login(emailController.text, passwordController.text);
-     if(success){
-       Navigator.of(context).pushNamed( CustomRoutes.home);
-     }
-     else{
-       /*Fluttertoast.showToast(
-         msg: 'Wrong credentials.',
-         gravity: ToastGravity.BOTTOM,
-         backgroundColor: Colors.red,
-       );*/
-     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
+                     Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
@@ -143,7 +132,7 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10.0),
             child: ElevatedButton(
               onPressed: () {
-               _login(context);
+               _login();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
@@ -165,6 +154,17 @@ class LoginForm extends StatelessWidget {
           )
         ],
       ),
+    ),
+                    const RegisterScreen(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
+
+
