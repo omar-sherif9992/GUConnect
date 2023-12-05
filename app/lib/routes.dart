@@ -1,8 +1,17 @@
+
 import 'package:GUConnect/src/screens/admin/pendings__screen.dart';
 import 'package:GUConnect/src/screens/confessions.dart';
+
+//import 'dart:js';
+
+import 'package:GUConnect/src/screens/addPostClubs.dart';
+import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
+import 'package:GUConnect/src/screens/admin/search_staff.dart';
+import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/search/search.dart';
 import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
@@ -14,6 +23,7 @@ import 'package:GUConnect/src/screens/officesAndOutlets.dart';
 class CustomRoutes {
   // USER ROUTES
   static const String home = '/';
+  // static const String splash = '/splash';
   static const String login = '/login';
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
@@ -37,6 +47,12 @@ class CustomRoutes {
   static const String report = '/report';
   static const String impPhoneNumber = '/important-phone-numbers';
   static const String officesAndOutlets = '/offices-and-outlets';
+  static const String clubsAndEvents = '/club-posts-and-events';
+  static const String addClubPost = '/club-and-events-addPost';
+
+
+  // STAFF ROUTES
+  static const String staff = '/staff/profile';
 
   // ADMIN ROUTES
   static const String admin = '/admin';
@@ -48,10 +64,12 @@ class CustomRoutes {
   static const String adminLostAndFoundDetail = '/admin/lost-and-found-detail';
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
+  static const String adminStaff = '/admin/staff';
+  
 
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const HomeScreen(),
+      home: (context) => const SplashScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
       profile: (context) => const ProfileScreen(),
@@ -62,6 +80,9 @@ class CustomRoutes {
       officesAndOutlets: (context) => const OfficesAndOutlets(),
       confessions: (context) => const Confessions(),
       adminPendings: (context) => PendingsScreen(),
+      clubsAndEvents: (context) => const ClubsAndEvents(), 
+      addClubPost: (context) => const AddPost(),
+      adminStaff: (context) => const SearchStaffScreen(),
     };
   }
 }

@@ -4,14 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  File? pickedImageFile;
   String? profileImageUrl;
 
-  UserImagePicker(
-      {super.key,
-      required this.onPickImage,
-      this.pickedImageFile,
-      this.profileImageUrl});
+  UserImagePicker({super.key, required this.onPickImage, this.profileImageUrl});
 
   final void Function(File pickedImage) onPickImage;
 
@@ -20,7 +15,50 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  void _pickImage() async {
+  File? pickedImageFile;
+
+  void _pickImage() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 150,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Text(
+              'Pick an Image',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _takeImage();
+                  },
+                  icon: const Icon(Icons.camera),
+                  label: const Text('Camera'),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _takeGallery();
+                  },
+                  icon: const Icon(Icons.image),
+                  label: const Text('Gallery'),
+                  
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _takeImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       imageQuality: 50,
@@ -32,10 +70,24 @@ class _UserImagePickerState extends State<UserImagePicker> {
     }
 
     setState(() {
-      widget.pickedImageFile = File(pickedImage.path);
+      pickedImageFile = File(pickedImage.path);
     });
 
-    widget.onPickImage(widget.pickedImageFile!);
+    widget.onPickImage(File(pickedImage.path));
+  }
+
+  void _takeGallery() async {
+    final pickedImage = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, maxWidth: 600);
+
+    if (pickedImage == null) {
+      return;
+    }
+    setState(() {
+      pickedImageFile = File(pickedImage.path);
+    });
+
+    widget.onPickImage(File(pickedImage.path));
   }
 
   @override
@@ -59,11 +111,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   backgroundImage: const AssetImage('assets/images/user.png'),
                   onBackgroundImageError: (exception, stackTrace) =>
                       const AssetImage('assets/images/user.png'),
-                  foregroundImage: (widget.pickedImageFile != null)
-                    ? FileImage(widget.pickedImageFile!)
-                    : (widget.profileImageUrl != null)
-                      ? NetworkImage(widget.profileImageUrl!) as ImageProvider<Object>?
-                      : null,
+                  foregroundImage: (pickedImageFile != null)
+                      ? FileImage(pickedImageFile!)
+                      : (widget.profileImageUrl != null &&
+                              widget.profileImageUrl!.isNotEmpty)
+                          ? NetworkImage(widget.profileImageUrl!)
+                              as ImageProvider<Object>?
+                          : null,
                 ),
                 Positioned(
                   bottom: 0,

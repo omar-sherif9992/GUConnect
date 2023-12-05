@@ -80,6 +80,38 @@ class MainDrawer extends StatelessWidget {
             onTap: () {
               onSelectScreen(context, CustomRoutes.search);
             },
+          ), ListTile(
+            leading: Icon(
+              Icons.search,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Admin',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.adminPendings);
+            },
+          ),ListTile(
+            leading: Icon(
+              Icons.search,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Search Admin',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.adminStaff);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -100,19 +132,22 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.edit,
+
+              Icons.search,
               size: 24,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
-              'Confessions',
+
+              'Clubs and Events',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 24,
                   ),
             ),
             onTap: () {
-              onSelectScreen(context, CustomRoutes.confessions);
+
+              onSelectScreen(context, CustomRoutes.clubsAndEvents);
             },
           ),
           Expanded(

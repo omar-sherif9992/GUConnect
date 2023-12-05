@@ -1,7 +1,7 @@
 import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/ImportantEmail.dart';
-import 'package:GUConnect/src/providers/ImportantEmail.dart';
+import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
@@ -11,7 +11,6 @@ import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StaffProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantEmailProvider(),

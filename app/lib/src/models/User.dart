@@ -10,19 +10,17 @@ enum UserType {
 
 /// Represents a user in the application.
 class CustomUser {
-  late String id;
   late String? fullName;
   late String? userName;
   late String? phoneNumber;
   late String? image;
-  late String email;
+  late String email; // acts as the user's id
   late String password;
   late String? biography;
   late UserType userType;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   CustomUser({
-    required this.id,
     this.fullName,
     this.userName,
     this.image,
@@ -30,12 +28,19 @@ class CustomUser {
     required this.password,
     this.biography,
     this.phoneNumber,
+    required UserType userType,
   }) {
     this.userType = getUserType();
   }
+  CustomUser.edit({
+    this.fullName,
+    this.userName,
+    required this.email,
+    this.biography,
+    this.phoneNumber,
+  });
   CustomUser.dummy(
-      {required this.id,
-      required this.fullName,
+      {required this.fullName,
       required this.userName,
       required this.image,
       required this.email,
@@ -57,7 +62,6 @@ class CustomUser {
   /// Converts the User object to a JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['fullName'] = this.fullName;
     data['userName'] = this.userName;
     data['phoneNumber'] = this.phoneNumber;
@@ -69,14 +73,18 @@ class CustomUser {
   }
 
   UserType getUserType() {
-    String split = this.email.split('@')[1];
-    split = split.split('.')[0];
-    split = split.toLowerCase();
-    if (split == 'student') {
-      return UserType.student;
-    } else if (split == 'gucconnect') {
-      return UserType.admin;
-    } else {
+    try {
+      String split = this.email.split('@')[1];
+      split = split.split('.')[0];
+      split = split.toLowerCase();
+      if (split == 'student') {
+        return UserType.student;
+      } else if (split == 'gucconnect') {
+        return UserType.admin;
+      } else {
+        return UserType.stuff;
+      }
+    } catch (e) {
       return UserType.stuff;
     }
   }

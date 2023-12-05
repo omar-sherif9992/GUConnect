@@ -1,5 +1,6 @@
 //  user provider
 import 'dart:io';
+import 'dart:math';
 
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider, User;
 import 'package:GUConnect/src/models/User.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class UserProvider with ChangeNotifier {
   CustomUser? _user;
@@ -31,7 +34,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> init() async {
-/*     await Firebase.initializeApp(
+    /*     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform); */
 
     _firebaseAuth = FirebaseAuth.instance;
@@ -144,19 +147,15 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> updateProfile(
-      {String? fullName,
-      String? userName,
-      String? phoneNumber,
-      String? biography}) async {
+  Future<bool> updateProfile(CustomUser user, File? pickedImageFile) async {
     try {
-      final DocumentSnapshot<CustomUser> documentSnapshot =
-          await usersRef.doc(_firebaseAuth.currentUser!.uid).get();
-      final CustomUser user = documentSnapshot.data()!;
-      user.fullName = fullName;
-      user.userName = userName;
-      user.phoneNumber = phoneNumber;
-      user.biography = biography;
+      if (pickedImageFile != null) {
+        String imageUrl = await uploadImageToStorage(
+            pickedImageFile, 'user_images', _firebaseAuth.currentUser!.uid);
+
+        user.image = imageUrl;
+      }
+
       await usersRef.doc(_firebaseAuth.currentUser!.uid).set(user);
       return true;
     } on FirebaseAuthException catch (e) {
@@ -186,7 +185,6 @@ class UserProvider with ChangeNotifier {
         .update({'image': imageUrl});
   }
 
-
   Future deleteUser() async {
     try {
       await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
@@ -203,4 +201,62 @@ class UserProvider with ChangeNotifier {
       print(e);
     }
   }
+
+  Map<String, OTPData> otpStore = {};
+
+  Future<void> sendOtpToEmail(String receiverEmail) async {
+    const String sendermail = 'GUConnect.help@gmail.com';
+    const String password = 'guc12345';
+    const String smtpServer = 'smtp.gmail.com';
+    final Random random = Random();
+    final String otp = (100000 + random.nextInt(900000)).toString();
+    final DateTime expiryTime = DateTime.now().add(const Duration(minutes: 5));
+    otpStore[receiverEmail] = OTPData(otp: otp, expiryTime: expiryTime);
+    final smtpServerDetails = SmtpServer(
+      smtpServer,
+      username: sendermail,
+      password: password,
+      port: 465,
+      ssl: true,
+      allowInsecure: false,
+    );
+
+    final message = Message()
+      ..from = const Address(sendermail, 'GuConnect')
+      ..recipients.add(receiverEmail)
+      ..subject = 'OTP Verification'
+      ..text = 'Your OTP is: $otp';
+
+    try {
+      final sendReport = await send(message, smtpServerDetails);
+
+      print('Message sent: ' + sendReport.toString());
+    } catch (e) {
+      print('Error sending email: $e');
+    }
+  }
+
+  bool verifyOTP(String email, String submittedOTP) {
+    final OTPData? otpData = otpStore[email];
+    if (otpData != null &&
+        otpData.otp == submittedOTP &&
+        DateTime.now().isBefore(otpData.expiryTime)) {
+      otpStore.remove(email);
+      return true;
+      }
+    return false; 
+  }
+  
+
+  Future getUsers() async {
+    final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
+    return querySnapshot.docs;
+  }
+    
+}
+
+class OTPData {
+  String otp;
+  DateTime expiryTime;
+  OTPData({required this.otp, required this.expiryTime});
 }

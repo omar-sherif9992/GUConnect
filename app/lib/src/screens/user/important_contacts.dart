@@ -1,6 +1,6 @@
 import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
-import 'package:GUConnect/src/providers/ImportantEmail.dart';
+import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -58,15 +58,21 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
       _isLoading = true;
     });
 
-    importantEmailProvider.getEmails().then((value) => setState(() {
-          impEmails = value;
-          impEmailsDisplay = value;
-        }));
+    final List<ImportantEmail> emailsList =
+        await importantEmailProvider.getEmails();
 
-    importantPhoneNumberProvider.getNumbers().then((value) => setState(() {
-          impPhoneNumbers = value;
-          impPhoneNumbersDisplay = value;
-        }));
+    final List<ImportantPhoneNumber> numbersList =
+        await importantPhoneNumberProvider.getNumbers();
+
+    setState(() {
+      impEmails = emailsList;
+      impEmailsDisplay = emailsList;
+
+      impPhoneNumbers = numbersList;
+      impPhoneNumbersDisplay = numbersList;
+
+      _isLoading = false;
+    });
   }
 
   Future fetchPhoneNumbers() async {
@@ -102,6 +108,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -145,8 +152,10 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
     return RefreshIndicator(
       onRefresh: () async {
         await fetchPhoneNumbers();
-
         filterContacts(_searchController.text);
+        setState(() {
+          _isLoading = false;
+        });
       },
       child: _isLoading
           ? const Loader()
@@ -183,11 +192,13 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.secondary),
                         ),
-                        trailing: const Icon(Icons.call),
-                        onTap: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              impPhoneNumbersDisplay[index].phoneNumber);
-                        },
+                        trailing: IconButton(
+                          icon: const Icon(Icons.call),
+                          onPressed: () async {
+                            await FlutterPhoneDirectCaller.callNumber(
+                                impPhoneNumbersDisplay[index].phoneNumber);
+                          },
+                        ),
                       ),
                     );
                   },
@@ -201,17 +212,21 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
         await fetchEmails();
 
         filterContacts(_searchController.text);
+        setState(() {
+          _isLoading = false;
+        });
       },
       child: _isLoading
           ? const Loader()
           : impEmailsDisplay.isEmpty
               ? Center(
                   child: Text(
-                  'No Emails found',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).colorScheme.secondary),
-                ))
+                    'No Emails found',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.secondary),
+                  ),
+                )
               : ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: impEmailsDisplay.length,
@@ -239,34 +254,36 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.secondary),
                         ),
-                        trailing: const Icon(Icons.email),
-                        onTap: () async {
-                          final String email = Uri.encodeComponent(
-                              impEmailsDisplay[index].email);
-                          final String subject =
-                              Uri.encodeComponent('I need help');
-                          final String body = Uri.encodeComponent('');
-                          final Uri mail = Uri.parse(
-                              'mailto:$email?subject=$subject&body=$body');
-                          if (await launchUrl(mail)) {
-                            // email app opened
-                          } else {
-                            // alert dialog  appears something went wrong
+                        trailing: IconButton(
+                          icon: const Icon(Icons.email),
+                          onPressed: () async {
+                            final String email = Uri.encodeComponent(
+                                impEmailsDisplay[index].email);
+                            final String subject =
+                                Uri.encodeComponent('I need help');
+                            final String body = Uri.encodeComponent('');
+                            final Uri mail = Uri.parse(
+                                'mailto:$email?subject=$subject&body=$body');
+                            if (await launchUrl(mail)) {
+                              // email app opened
+                            } else {
+                              // alert dialog  appears something went wrong
 
-                            // ignore: use_build_context_synchronously
-                            showAdaptiveDialog(
-                                context: context,
-                                anchorPoint: const Offset(0.0, 0.0),
-                                builder: (context) {
-                                  return MessageDialog(
-                                    title:
-                                        'Something went wrong , with your email app',
-                                    message: 'Please try again later',
-                                    onCancel: () {},
-                                  );
-                                });
-                          }
-                        },
+                              // ignore: use_build_context_synchronously
+                              showAdaptiveDialog(
+                                  context: context,
+                                  anchorPoint: const Offset(0.0, 0.0),
+                                  builder: (context) {
+                                    return MessageDialog(
+                                      title:
+                                          'Something went wrong , with your email app',
+                                      message: 'Please try again later',
+                                      onCancel: () {},
+                                    );
+                                  });
+                            }
+                          },
+                        ),
                       ),
                     );
                   },
