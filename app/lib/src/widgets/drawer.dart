@@ -7,7 +7,6 @@ class MainDrawer extends StatelessWidget {
   void onSelectScreen(BuildContext context, String routeName) {
     Navigator.of(context).pushNamed(routeName);
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +132,13 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+
               Icons.search,
               size: 24,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
+
               'Clubs and Events',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
@@ -145,6 +146,7 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () {
+
               onSelectScreen(context, CustomRoutes.clubsAndEvents);
             },
           ),
