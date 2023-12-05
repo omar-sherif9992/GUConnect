@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/screens/admin/pendings__screen.dart';
+import 'package:GUConnect/src/screens/confessions.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
@@ -58,7 +59,8 @@ class CustomRoutes {
       profileEdit: (context) => const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
       impPhoneNumber: (context) => const ImportantContactsScreen(),
-      officesAndOutlets: (context) => OfficesAndOutlets(),
+      officesAndOutlets: (context) => const OfficesAndOutlets(),
+      confessions: (context) => const Confessions(),
       adminPendings: (context) => PendingsScreen(),
     };
   }
