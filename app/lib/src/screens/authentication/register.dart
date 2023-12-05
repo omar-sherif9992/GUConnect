@@ -19,7 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
 
-  _verifyOtp(String enteredOtp, UserProvider userProvider, String email) {
+  _verifyOtp(String enteredOtp, UserProvider userProvider, String email ,CustomUser newUser) async {
     final bool verified = userProvider.verifyOTP(email, enteredOtp);
     if (verified) {
       Fluttertoast.showToast(
@@ -27,16 +27,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.green,
       );
+       final bool success= await userProvider.register(newUser);
+               if (success) {
+          Fluttertoast.showToast(
+            msg: 'Registration successful.',
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+          );
+
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Registration failed as email already exists.',
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+          );
+        }
     } else {
       Fluttertoast.showToast(
         msg: 'OTP verification failed:',
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
       );
+
     }
   }
 
-  void _showOtpInputDialog(UserProvider userProvider, String email) {
+  void _showOtpInputDialog(UserProvider userProvider, String email,CustomUser newUser) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -86,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 final String enteredOtp = otpController.text;
                 _verifyOtp(
-                    enteredOtp, userProvider, email); // Verify the entered OTP
+                    enteredOtp, userProvider, email,newUser); // Verify the entered OTP
                 // Close the dialog
                 Navigator.pop(context);
               },
@@ -122,22 +138,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (emailRegExp.hasMatch(emailController.text)) {
       if (passwordController.text.trim().length >= 6) {
         if(passwordController.text.trim() == confirmPasswordController.text.trim()) {
-        final bool success = await userProvider.register(newUser);
-        if (success) {
-          Fluttertoast.showToast(
-            msg: 'Registration successful. Check your email for verification.',
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.green,
-          );
           userProvider.sendOtpToEmail(emailController.text.trim());
-          _showOtpInputDialog(userProvider, emailController.text.trim());
-        } else {
-          Fluttertoast.showToast(
-            msg: 'Registration failed as email already exists.',
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-          );
-        }
+          _showOtpInputDialog(userProvider, emailController.text.trim(),newUser);
+        
+
         }else{
           Fluttertoast.showToast(
             msg: 'Passwords do not match.',

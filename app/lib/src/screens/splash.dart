@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:GUConnect/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,10 +36,17 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
     );
 
     // Add a delay to simulate a splash screen
-    Future.delayed(const Duration(seconds: 3), () {
-      // Navigate to the main content of the app after the delay
+
+    Future.delayed(const Duration(seconds: 3), () async {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      User? user = auth.currentUser;
+
       Navigator.pop(context, CustomRoutes.home);
-      Navigator.pushNamed(context, CustomRoutes.login);
+      if (user != null) {
+        Navigator.pushNamed(context, CustomRoutes.profile);
+      } else {
+        Navigator.pushNamed(context, CustomRoutes.login);
+      }
     });
 
     // Start the animations after a short delay
