@@ -68,4 +68,53 @@ class NewsEventClubProvider extends ChangeNotifier {
     });
     return posts;
   }
+
+  Future<List<dynamic>> likePost(String postId, String userId) async{
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    .collection('newsEventClubs')
+    .where('id', isEqualTo: postId)
+    .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+ 
+      final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+      final List<dynamic> likesOfPost = documentSnapshot['likes'] ?? [];
+      likesOfPost.add(userId);
+
+      await FirebaseFirestore.instance.collection('newsEventClubs').doc(documentSnapshot.id).update({
+        'likes': FieldValue.arrayUnion([userId]),
+      });
+
+      
+
+      return likesOfPost;
+    }
+    return [];
+  }
+
+  Future<List<dynamic>> dislike(String postId, String userId) async{
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    .collection('newsEventClubs')
+    .where('id', isEqualTo: postId)
+    .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+ 
+      final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+      final List<dynamic> likesOfPost = documentSnapshot['likes'] ?? [];
+
+        likesOfPost.remove(userId);
+
+        await FirebaseFirestore.instance.collection('newsEventClubs').doc(documentSnapshot.id).update({
+          'likes': likesOfPost,
+        });
+
+        return likesOfPost;
+      
+    }
+    return [];
+  }
+
 }

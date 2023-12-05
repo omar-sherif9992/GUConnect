@@ -1,14 +1,26 @@
 
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'dart:ffi';
+
+import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CommentModal extends StatefulWidget
 {
-  const CommentModal({super.key, required this.comments});
+  const CommentModal({super.key, required this.postType, required this.postId});
 
-  final List<Comment> comments;
+  
+
+  final int postType;
+
+  final String postId;
+
+
 
   @override
   State<CommentModal> createState() => _CommentModalState();
@@ -16,11 +28,54 @@ class CommentModal extends StatefulWidget
 
 class _CommentModalState extends State<CommentModal> {
 
+  late CommentProvider commentProvider;
+
+  late List<Comment> comments;
+
+  bool _isLoading = true;
+
+  final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
+    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', fullName: 'Mr Milad Ghantous');
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    commentProvider = Provider.of<CommentProvider>(context, listen: false);
+
+    
+
+    commentProvider.getPostComments(widget.postId, widget.postType).then((value){
+      setState(() {
+        comments = value;
+        comments.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        _isLoading = false;
+      });
+    });
+
+  }
+
+  Future addComment(String content) async
+  {
+    final Comment newComment = Comment(content: content, commenter: posterPerson, createdAt: DateTime.now(), postType: widget.postType);
+    commentProvider.addComment(newComment, widget.postId).then(
+      (val){
+        setState(() {
+          comments = val;
+          comments.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        });
+      }
+    );
+  }
+
   final TextEditingController _commentController = TextEditingController();
 
   bool isEmojiPickerVisible = false;
 
-  final Config emojiPicker = const Config(
+
+  final
+   Config emojiPicker = const Config(
         columns: 7,
         verticalSpacing: 0,
         horizontalSpacing: 0,
@@ -56,7 +111,9 @@ class _CommentModalState extends State<CommentModal> {
         heightFactor: 0.95,
         child: Padding(
           padding:  const EdgeInsets.all(16.0),
-          child: Column(
+          child: 
+          _isLoading? const Loader():
+          Column(
             children: [
               const Icon(Icons.maximize,),
               Text(
@@ -66,16 +123,16 @@ class _CommentModalState extends State<CommentModal> {
               ),
               Expanded(
             child: ListView.builder(
-              itemCount: widget.comments.length,
+              itemCount: comments.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
                     const SizedBox(height: 20,),
                     CommentW(
-                      comment: widget.comments[index].content,
-                      userName: widget.comments[index].userName,
-                      userImgUrl: widget.comments[index].userImgUrl,
-                      createdAt: widget.comments[index].createdAt,
+                      comment: comments[index].content,
+                      userName: comments[index].commenter.fullName??'',
+                      userImgUrl: comments[index].commenter.image??'',
+                      createdAt: comments[index].createdAt,
                     )
                   ],
                 );
@@ -132,7 +189,8 @@ class _CommentModalState extends State<CommentModal> {
               // Handle comment submission here
               final String commentText = _commentController.text;
               // Perform any necessary actions with the commentText
-              print('Comment submitted: $commentText');
+              addComment(commentText);
+              print(commentText + " Raye7 ahu");
 
               // Clear the comment input field
               _commentController.clear();

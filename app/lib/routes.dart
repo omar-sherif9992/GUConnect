@@ -1,3 +1,7 @@
+
+import 'package:GUConnect/src/screens/admin/pendings__screen.dart';
+import 'package:GUConnect/src/screens/confessions.dart';
+
 //import 'dart:js';
 
 import 'package:GUConnect/src/screens/addPostClubs.dart';
@@ -65,7 +69,7 @@ class CustomRoutes {
 
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const SplashScreen(),
+      home: (context) => const HomeScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
       profile: (context) => const ProfileScreen(),
@@ -73,7 +77,8 @@ class CustomRoutes {
       profileEdit: (context) => const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),
       impPhoneNumber: (context) => const ImportantContactsScreen(),
-      officesAndOutlets: (context) => OfficesAndOutlets(),
+      officesAndOutlets: (context) => const OfficesAndOutlets(),
+      confessions: (context) => const Confessions(),
       adminPendings: (context) => PendingsScreen(),
       clubsAndEvents: (context) => const ClubsAndEvents(), 
       addClubPost: (context) => const AddPost(),

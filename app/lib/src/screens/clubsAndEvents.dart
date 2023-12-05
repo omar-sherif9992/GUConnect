@@ -5,7 +5,6 @@ import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
-import 'package:GUConnect/src/dummy_data/posts.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +25,9 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
   final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
     image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'HusseinYasser');
 
-  late NewsEventClub post = NewsEventClub(content: "IEEE is helding the new mega event, the MEGAMIND. Don't miss it out, we are waiting for you all next wednesday, registerations is open through this link ..... .", 
-  poster: posterPerson, image: 'https://www.guc-asic.com/upload/images/ieee.png', createdAt: DateTime.now());
-
   late NewsEventClubProvider clubPostProvider;
 
-  List<NewsEventClub> posts2 = [];
+  List<NewsEventClub> posts = [];
 
   bool _isLoading = true;
 
@@ -40,25 +36,29 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
     super.initState();
 
     clubPostProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+  }
 
-
-    fetchPosts(clubPostProvider).then((value)=>{
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // When it comes back to view
+    _isLoading = true;
+    fetchPosts(clubPostProvider).then((_){
         setState((){
           _isLoading = false;
-        })
+        });
       }
     );
-    
+
   }
 
   Future fetchPosts(NewsEventClubProvider provider) async{
-    provider.getPosts().then((value) => {
+    provider.getApprovedPosts().then((value) => {
       setState((){
-        posts2 = value;
-        posts2.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        posts = value;
+        posts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       })
     });
-    
   }
 
   Future<void> _refresh() async {
@@ -90,34 +90,50 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
         ],
       ),
 
-      body: _isLoading? const Loader(): Column(
+      body: _isLoading? const Loader(): posts.isNotEmpty
+      ?
+      Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: RefreshIndicator(
               onRefresh: _refresh,
               child: ListView.builder(
-                itemCount: posts2.length,
+                itemCount: posts.length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
                       const SizedBox(height: 20,),
                       PostW(
-                        caption: posts2[index].content,
-                        imgUrl: posts2[index].image,
-                        username: posts2[index].poster.userName ?? '',
-                        userImage: posts2[index].poster.image ?? '',
-                        likes: 500,
-                        createdAt: posts2[index].createdAt,
-                        comments: posts[0].comments,
+                        postId: posts[index].id,
+                        caption: posts[index].content,
+                        imgUrl: posts[index].image,
+                        username: posts[index].poster.userName ?? '',
+                        userImage: posts[index].poster.image ?? '',
+                        likes: posts[index].likes,
+                        createdAt: posts[index].createdAt,
+                        comments: posts[index].comments,
+                        postType: 0,
                       ),
                     ],
                   );
                   }
               ),
             ),
-          ),
+          ) 
         ],
+      )
+      :
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Center(
+              child: Text("Looks like it's a quiet day here. Why not break the silence with a new post?",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 20,
+                ), 
+              ),
+              ),
       ),
       bottomNavigationBar: const BottomBar(),
     );
