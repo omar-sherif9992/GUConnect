@@ -1,3 +1,4 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/themes/themes.dart';
@@ -5,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -90,14 +91,14 @@ class LoginForm extends StatelessWidget {
      final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
      final bool success= await userProvider.login(emailController.text, passwordController.text);
      if(success){
-       Navigator.pushNamed(context, '/home');
+       Navigator.of(context).pushNamed( CustomRoutes.home);
      }
      else{
-       Fluttertoast.showToast(
+       /*Fluttertoast.showToast(
          msg: 'Wrong credentials.',
          gravity: ToastGravity.BOTTOM,
          backgroundColor: Colors.red,
-       );
+       );*/
      }
   }
 

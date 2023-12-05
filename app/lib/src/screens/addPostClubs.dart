@@ -63,12 +63,12 @@ class _AddPostState extends State<AddPost> {
 
  
 
-  Future _addPost(NewsEventClubProvider provider, String content) async {
+  Future _addPost(NewsEventClubProvider provider, String content, String reason) async {
     const String imgUrl = 'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
     final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
     image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'Mr Milad Ghantous');
 
-    final NewsEventClub addedPost = NewsEventClub(content: content,  image: imgUrl, createdAt: DateTime.now(), poster: posterPerson);
+    final NewsEventClub addedPost = NewsEventClub(content: content,  image: imgUrl, createdAt: DateTime.now(), poster: posterPerson, reason: reason);
 
     showDialog(
       context: context,
@@ -105,14 +105,14 @@ class _AddPostState extends State<AddPost> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('Failed to upload post. Please try again.'),
+              title: const Text('Error'),
+              content: const Text('Failed to upload post. Please try again.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -125,7 +125,7 @@ class _AddPostState extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
     
-    double containerHeight =calculateAspectRatio();
+    final double containerHeight =calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Post'),
@@ -223,7 +223,7 @@ class _AddPostState extends State<AddPost> {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String reason = reasonController.text;
-                      _addPost(clubPostProvider, content);
+                      _addPost(clubPostProvider, content, reason);
 
 
                       
