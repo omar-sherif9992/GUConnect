@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/models/User.dart';
+/* import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.professor);
+        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.professor, fullName: emailController.text.trim().split('@')[0], userName: '');
 
     final RegExp emailRegExp = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -169,85 +169,88 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email Address',
-                hintText: 'Sample@guc.edu.eg',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2.0, // change this to adjust the width
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email Address',
+                  hintText: 'Sample@guc.edu.eg',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0, // change this to adjust the width
+                    ),
                   ),
                 ),
+                
+                inputFormatters: [NoSpaceInputFormatter()]
               ),
-              inputFormatters: [NoSpaceInputFormatter()]
             ),
-          ),
-           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                hintText: '********',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2.0, // change this to adjust the width
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  hintText: '********',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0, // change this to adjust the width
+                    ),
                   ),
                 ),
+                obscureText: true,
+                inputFormatters: [NoSpaceInputFormatter()]
               ),
-              obscureText: true,
-              inputFormatters: [NoSpaceInputFormatter()]
             ),
-          ),
-           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: confirmPasswordController,
-              decoration: const InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: '********',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2.0, // change this to adjust the width
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(
+                  labelText: 'Confirm Password',
+                  hintText: '********',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0, // change this to adjust the width
+                    ),
                   ),
                 ),
+                obscureText: true,
+                inputFormatters: [NoSpaceInputFormatter()],
               ),
-              obscureText: true,
-              inputFormatters: [NoSpaceInputFormatter()],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _register(); // Handle Register
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  _register(); // Handle Register
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  // size 30% of screen width
+                  minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),
+                  alignment: Alignment.center,
                 ),
-                // size 30% of screen width
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),
-                alignment: Alignment.center,
+                child: const Text(
+                  'Register',
+                  style: TextStyle(
+                      fontSize: 18), // Customize the text size if needed
+                ),
               ),
-              child: const Text(
-                'Register',
-                style: TextStyle(
-                    fontSize: 18), // Customize the text size if needed
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -262,4 +265,4 @@ class NoSpaceInputFormatter extends TextInputFormatter {
     }
     return newValue;
   }
-}
+} */

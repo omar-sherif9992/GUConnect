@@ -31,7 +31,7 @@ class _CommentModalState extends State<CommentModal> {
       userType: UserType.student,
       image:
           'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-      fullName: 'Mr Milad Ghantous');
+      fullName: 'Mr Milad Ghantous', userName: 'omar');
 
   @override
   void initState() {

@@ -1,9 +1,7 @@
-import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
-import 'package:GUConnect/src/models/Confession.dart';
-import 'package:GUConnect/src/models/LostAndFound.dart';
+import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/screens/admin/request_post_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -17,54 +15,37 @@ class PendingsScreen extends StatefulWidget {
   State<PendingsScreen> createState() => _PendingsScreenState();
 }
 
-class _PendingsScreenState extends State<PendingsScreen>
-    with SingleTickerProviderStateMixin {
-  final List<Confession> confessionPosts = [];
-  final List<AcademicQuestion> academicPosts = [];
-  List<LostAndFound> lostAndFoundPosts = [];
-  List<Confession> confessionPostsDisplay = [];
-  List<AcademicQuestion> academicPostsDisplay = [];
-  List<LostAndFound> lostAndFoundPostsDisplay = [];
-  late TabController _tabController;
+class _PendingsScreenState extends State<PendingsScreen> {
+  List<NewsEventClub> posts = [];
+  List<NewsEventClub> postsDisplay = [];
 
   late final TextEditingController _searchController = TextEditingController();
   bool _isLoading = false;
 
-  late LostAndFoundProvider lostAndFoundPostsProvider;
+  late NewsEventClubProvider newsEventClubProvider;
 
   @override
   void initState() {
     super.initState();
 
-    //confessionPosts = Provider.of<ConfessionProvider>(context, listen: false).confessions;
-    //academicPosts = Provider.of<AcademicQuestionProvider>(context, listen: false).academicQuestions;
-    lostAndFoundPostsProvider =
-        Provider.of<LostAndFoundProvider>(context, listen: false);
+    newsEventClubProvider =
+        Provider.of<NewsEventClubProvider>(context, listen: false);
 
-    lostAndFoundPostsProvider.postItem(LostAndFound(
-      user: CustomUser(
-        fullName: 'John Doe',
-        email: ' ooo@gmail.com',
-        userType: UserType.student,
-        password: '',
-        image: '',
-        
-      ),
-      location: 'location',
-      createdAt: DateTime.now(),
-      content: '',
-      contact: '',
-      image: '',
-      isFound: false,
-    ));
+    newsEventClubProvider.postContent(NewsEventClub(
+        content: 'I hate you',
+        poster: CustomUser(
+          fullName: 'Omar',
+          email: 'omar@guc.edu.eg',
+          password: '',
+          userType: UserType.professor,
+          userName: 'omar.kaa',
+        ),
+        image:
+            'https://upload.wikimedia.org/wikipedia/en/thumb/7/71/MaxPayneMP3.jpg/235px-MaxPayneMP3.jpg',
+        reason: 'I love life',
+        createdAt: DateTime.now()));
 
-    fetchItems().then((value) => {
-          setState(() {
-            _isLoading = false;
-          })
-        });
-
-    _tabController = TabController(length: 3, vsync: this);
+    fetchItems();
   }
 
   Future fetchItems() async {
@@ -72,15 +53,18 @@ class _PendingsScreenState extends State<PendingsScreen>
       _isLoading = true;
     });
 
-    lostAndFoundPostsProvider.getItems().then((value) => setState(() {
-          lostAndFoundPosts = value;
-          lostAndFoundPostsDisplay = value;
-        }));
+    newsEventClubProvider
+        .getRequestedApprovalPosts()
+        .then((value) => setState(() {
+              posts = value;
+              postsDisplay = value;
+              _isLoading = false;
+            }));
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -89,24 +73,12 @@ class _PendingsScreenState extends State<PendingsScreen>
     setState(() {
       _searchController.text = value;
 
-      lostAndFoundPostsDisplay = [];
-      lostAndFoundPostsDisplay.addAll(lostAndFoundPosts
+      postsDisplay = [];
+      postsDisplay.addAll(posts
           .where((element) =>
-              (element.user.fullName ?? '').toLowerCase().contains(value))
-          .toList());
-
-      academicPostsDisplay = [];
-      academicPostsDisplay.addAll(academicPosts
-          .where((element) =>
-              (element.user.fullName ?? '').toLowerCase().contains(value))
+              (element.poster.fullName ?? '').toLowerCase().contains(value))
           .toList());
     });
-
-    confessionPostsDisplay = [];
-    confessionPostsDisplay.addAll(confessionPosts
-        .where((element) =>
-            (element.sender.fullName ?? '').toLowerCase().contains(value))
-        .toList());
   }
 
   Widget _buildSearchBar() {
@@ -129,13 +101,13 @@ class _PendingsScreenState extends State<PendingsScreen>
     );
   }
 
-  Widget _buildLostAndFounds() {
+  Widget _buildPosts() {
     return _isLoading
         ? const Loader()
-        : lostAndFoundPostsDisplay.isEmpty
+        : posts.isEmpty
             ? Center(
                 child: Text(
-                'No lost and founds found',
+                'No requested posts found',
                 style: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
@@ -148,89 +120,51 @@ class _PendingsScreenState extends State<PendingsScreen>
                   });
                 },
                 child: ListView.builder(
-                  itemCount: lostAndFoundPostsDisplay.length,
+                  itemCount: postsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return UserTile(
-                      user: lostAndFoundPostsDisplay[index].user,
-                      createdAt: lostAndFoundPostsDisplay[index].createdAt,
-                      onNavigate: () {
-                        Navigator.of(context).pushNamed(
-                            CustomRoutes.lostAndFoundDetail,
-                            arguments: lostAndFoundPostsDisplay[index]);
+                    return Dismissible(
+                      key: Key(postsDisplay[index].id),
+                      onDismissed: (direction) {
+                        if (direction.index == 2) {
+                          newsEventClubProvider
+                              .deletePost(postsDisplay[index].id);
+                        } else if (direction.index == 3) {
+                          newsEventClubProvider
+                              .approvePost(postsDisplay[index].id);
+                        } else if (direction.index == 4) {
+                          newsEventClubProvider
+                              .disapprovePost(postsDisplay[index].id);
+                        }
+                        setState(() {
+                          postsDisplay.removeAt(index);
+                        });
                       },
-                    );
-                  },
-                ),
-              );
-  }
-
-  Widget _buildAcademicPosts() {
-    return _isLoading
-        ? const Loader()
-        : academicPostsDisplay.isEmpty
-            ? Center(
-                child: Text(
-                'No academic posts found',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).colorScheme.secondary),
-              ))
-            : RefreshIndicator(
-                onRefresh: () async {
-                  filterItems(_searchController.text);
-                  setState(() {
-                    _isLoading = false;
-                  });
-                },
-                child: ListView.builder(
-                  itemCount: academicPostsDisplay.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return UserTile(
-                      user: academicPostsDisplay[index].user,
-                      createdAt: academicPostsDisplay[index].createdAt,
-                      onNavigate: () {
-                        Navigator.of(context).pushNamed(
-                            CustomRoutes.adminAcademicQuestionsDetail,
-                            arguments: academicPostsDisplay[index]);
-                      },
-                    );
-                  },
-                ),
-              );
-  }
-
-  Widget _buildConfessionPosts() {
-    return _isLoading
-        ? const Loader()
-        : confessionPostsDisplay.isEmpty
-            ? Center(
-                child: Text(
-                'No confession posts found',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).colorScheme.secondary),
-              ))
-            : RefreshIndicator(
-                onRefresh: () async {
-                  filterItems(_searchController.text);
-                  setState(() {
-                    _isLoading = false;
-                  });
-                },
-                child: ListView.builder(
-                  itemCount: confessionPostsDisplay.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return UserTile(
-                      user: confessionPostsDisplay[index].sender,
-                      createdAt: confessionPostsDisplay[index].createdAt,
-                      onNavigate: () {
-                        Navigator.of(context).pushNamed(
-                            CustomRoutes.adminConfessionsDetail,
-                            arguments: confessionPostsDisplay[index]);
-                      },
+                      background: Container(
+                        color: Colors.red,
+                        child: const Icon(Icons.delete),
+                      ),
+                      secondaryBackground: Container(
+                        color: Colors.green,
+                        child: const Icon(Icons.check),
+                      ),
+                      child: PostTile(
+                        user: postsDisplay[index].poster,
+                        post: postsDisplay[index],
+                        onTap: (NewsEventClub post, bool decision) async {
+                          if (decision) {
+                            await newsEventClubProvider
+                                .approvePost(postsDisplay[index].id);
+                          } else {
+                            await newsEventClubProvider
+                                .disapprovePost(postsDisplay[index].id);
+                          }
+                          setState(() {
+                            posts.removeWhere((element) =>
+                                element.id == postsDisplay[index].id);
+                          });
+                        },
+                      ),
                     );
                   },
                 ),
@@ -247,50 +181,30 @@ class _PendingsScreenState extends State<PendingsScreen>
         body: Column(
           children: [
             _buildSearchBar(),
-            TabBar(
-              controller: _tabController,
-              tabs: const [
-                Tab(text: 'Confessions'),
-                Tab(text: 'Academic'),
-                Tab(text: 'Lost & Found'),
-              ],
-            ),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildConfessionPosts(),
-                  _buildAcademicPosts(),
-                  _buildLostAndFounds(),
-                ],
-              ),
+              child: _buildPosts(),
             ),
           ],
         ));
   }
 }
 
-class UserTile extends StatelessWidget {
+class PostTile extends StatelessWidget {
+  final NewsEventClub post;
   final CustomUser user;
+  final Function(NewsEventClub, bool) onTap;
 
-  final Function onNavigate;
-
-  final DateTime createdAt;
-
-  const UserTile(
-      {required this.user,
-      super.key,
-      required this.onNavigate,
-      required this.createdAt});
+  const PostTile(
+      {required this.user, super.key, required this.post, required this.onTap});
 
   String userTitle() {
     String title = '';
     if (user.userType == UserType.professor) {
-      title = 'Prof.';
+      title = '(Prof.)';
     } else if (user.userType == UserType.ta) {
-      title = 'Dr.';
+      title = '(Dr.)';
     } else if (user.userType == UserType.student) {
-      title = 'Student';
+      title = '(Stud)';
     }
     return title;
   }
@@ -315,29 +229,47 @@ class UserTile extends StatelessWidget {
       child: ListTile(
         leading: Hero(
           tag: user.email,
-          child: CircleAvatar(
-            foregroundImage: user.image == null || user.image == ''
-                ? NetworkImage(user.image ?? '')
-                : null,
-                backgroundImage: const AssetImage('assets/images/user.png'),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
+            ),
+            child: CircleAvatar(
+              foregroundImage: user.image == null || user.image == ''
+                  ? NetworkImage(user.image ?? '')
+                  : null,
+              backgroundImage: const AssetImage('assets/images/user.png'),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ),
-        title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
-        subtitle: Text(
-          '${user.email} \n ${formatDate(createdAt)}',
-          style: const TextStyle(fontSize: 12),
-        ),
+        title: Text('${titleCase(user.fullName ?? '')} - ${userTitle()}'),
+        subtitle: Text(user.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(CustomRoutes.profile, arguments: user);
+          onPressed: () async {
+            final bool decision = await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => RequestPostScreen(
+                  post: post,
+                ),
+                maintainState: false,
+              ),
+            );
+            if (decision == null) return;
+
+            onTap(post, decision);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(decision ? 'Post Approved' : 'Post Disapproved'),
+              ),
+            );
           },
         ),
-        onTap: () {
-          onNavigate();
-        },
       ),
     );
   }

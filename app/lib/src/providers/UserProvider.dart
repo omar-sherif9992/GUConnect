@@ -219,7 +219,7 @@ class UserProvider with ChangeNotifier {
       ..recipients.add(receiverEmail)
       ..subject = 'OTP Verification'
       ..text = 'Your OTP is: $otp';
-
+    
     try {
       final sendReport = await send(message, smtpServerDetails);
 

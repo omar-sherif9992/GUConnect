@@ -21,8 +21,8 @@ class CustomUser {
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   CustomUser({
-    this.fullName,
-    this.userName,
+    required this.fullName,
+    required this.userName,
     this.image,
     required this.email,
     required this.password,
@@ -57,6 +57,15 @@ class CustomUser {
     email = json['email'];
     biography = json['biography'];
     password = json['password'];
+    userType = json['userType'] == 'admin'
+        ? UserType.admin
+        : json['userType'] == 'student'
+            ? UserType.student
+            : json['userType'] == 'professor'
+                ? UserType.professor
+                : json['userType'] == 'ta'
+                    ? UserType.ta
+                    : UserType.stuff;
   }
 
   /// Converts the User object to a JSON map.
@@ -69,6 +78,7 @@ class CustomUser {
     data['email'] = this.email;
     data['password'] = this.password;
     data['biography'] = this.biography;
+    data['userType'] = this.userType;
     return data;
   }
 
