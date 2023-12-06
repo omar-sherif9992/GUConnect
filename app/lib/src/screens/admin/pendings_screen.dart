@@ -1,4 +1,3 @@
-
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
@@ -33,13 +32,13 @@ class _PendingsScreenState extends State<PendingsScreen> {
         Provider.of<NewsEventClubProvider>(context, listen: false);
 
     newsEventClubProvider.postContent(NewsEventClub(
-        id: 'adad',
         content: 'I hate you',
         poster: CustomUser(
           fullName: 'Omar',
           email: 'omar@guc.edu.eg',
           password: '',
-          userType: UserType.professor, userName: 'omar.kaa',
+          userType: UserType.professor,
+          userName: 'omar.kaa',
         ),
         image:
             'https://upload.wikimedia.org/wikipedia/en/thumb/7/71/MaxPayneMP3.jpg/235px-MaxPayneMP3.jpg',
@@ -152,6 +151,19 @@ class _PendingsScreenState extends State<PendingsScreen> {
                       child: PostTile(
                         user: postsDisplay[index].poster,
                         post: postsDisplay[index],
+                        onTap: (NewsEventClub post, bool decision) async {
+                          if (decision) {
+                            await newsEventClubProvider
+                                .approvePost(postsDisplay[index].id);
+                          } else {
+                            await newsEventClubProvider
+                                .disapprovePost(postsDisplay[index].id);
+                          }
+                          setState(() {
+                            posts.removeWhere((element) =>
+                                element.id == postsDisplay[index].id);
+                          });
+                        },
                       ),
                     );
                   },
@@ -177,81 +189,13 @@ class _PendingsScreenState extends State<PendingsScreen> {
   }
 }
 
-class UserTile extends StatelessWidget {
-  final CustomUser user;
-
-  final Function onNavigate;
-
-  final DateTime createdAt;
-
-  const UserTile(
-      {required this.user,
-      super.key,
-      required this.onNavigate,
-      required this.createdAt});
-
-  String userTitle() {
-    String title = '';
-    print(user);
-    if (user.userType == UserType.professor) {
-      title = 'Prof.';
-    } else if (user.userType == UserType.ta) {
-      title = 'Dr.';
-    } else if (user.userType == UserType.student) {
-      title = 'Student';
-    }
-    return title;
-  }
-
-  // format date function
-  String formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.all(4.0),
-      child: ListTile(
-        leading: Hero(
-          tag: user.email,
-          child: CircleAvatar(
-            foregroundImage: user.image == null || user.image == ''
-                ? NetworkImage(user.image ?? '')
-                : null,
-            backgroundImage: const AssetImage('assets/images/user.png'),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-        title: Text('${userTitle()} ${titleCase(user.fullName ?? '')}'),
-        subtitle: Text(
-          '${user.email} \n ${formatDate(createdAt)}',
-          style: const TextStyle(fontSize: 12),
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-            onNavigate();
-          },
-        ),
-      ),
-    );
-  }
-}
-
 class PostTile extends StatelessWidget {
   final NewsEventClub post;
   final CustomUser user;
+  final Function(NewsEventClub, bool) onTap;
 
-  const PostTile({required this.user, super.key, required this.post});
+  const PostTile(
+      {required this.user, super.key, required this.post, required this.onTap});
 
   String userTitle() {
     String title = '';
@@ -315,6 +259,9 @@ class PostTile extends StatelessWidget {
                 maintainState: false,
               ),
             );
+            if (decision == null) return;
+
+            onTap(post, decision);
 
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

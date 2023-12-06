@@ -32,7 +32,6 @@ class NewsEventClub {
  */
 
   NewsEventClub( {
-    String? id,
     required this.content,
     required this.poster,
     required this.image,
