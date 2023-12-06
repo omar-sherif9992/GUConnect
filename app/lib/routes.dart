@@ -1,16 +1,13 @@
-import 'package:GUConnect/src/screens/confessions.dart';
-
-//import 'dart:js';
-
-import 'package:GUConnect/src/screens/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
+import 'package:GUConnect/src/screens/confessions.dart';
+import 'package:GUConnect/src/screens/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
 import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
-import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/search/search.dart';
+import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
@@ -48,7 +45,6 @@ class CustomRoutes {
   static const String clubsAndEvents = '/club-posts-and-events';
   static const String addClubPost = '/club-and-events-addPost';
 
-
   // STAFF ROUTES
   static const String staff = '/staff/profile';
 
@@ -63,7 +59,6 @@ class CustomRoutes {
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
   static const String adminStaff = '/admin/staff';
-  
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -78,7 +73,7 @@ class CustomRoutes {
       officesAndOutlets: (context) => const OfficesAndOutlets(),
       confessions: (context) => const Confessions(),
       adminPendings: (context) => PendingsScreen(),
-      clubsAndEvents: (context) => const ClubsAndEvents(), 
+      clubsAndEvents: (context) => const ClubsAndEvents(),
       addClubPost: (context) => const AddPost(),
       adminStaff: (context) => const SearchStaffScreen(),
     };

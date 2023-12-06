@@ -203,7 +203,7 @@ class _SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: '',
+        title: 'Search Staff',
         isLogo: false,
       ),
       body: Column(

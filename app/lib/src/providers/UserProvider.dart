@@ -236,16 +236,14 @@ class UserProvider with ChangeNotifier {
         DateTime.now().isBefore(otpData.expiryTime)) {
       otpStore.remove(email);
       return true;
-      }
-    return false; 
+    }
+    return false;
   }
-  
 
   Future getUsers() async {
     final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
     return querySnapshot.docs;
   }
-    
 }
 
 class OTPData {
