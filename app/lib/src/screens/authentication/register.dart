@@ -1,6 +1,5 @@
-/* import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -130,7 +129,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.professor, fullName: emailController.text.trim().split('@')[0], userName: '');
+        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.stuff,
+        fullName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1],
+        userName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1]);
 
     final RegExp emailRegExp = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -187,7 +188,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                
                 inputFormatters: [NoSpaceInputFormatter()]
               ),
             ),
@@ -265,4 +265,4 @@ class NoSpaceInputFormatter extends TextInputFormatter {
     }
     return newValue;
   }
-} */
+}

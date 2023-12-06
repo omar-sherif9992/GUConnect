@@ -218,7 +218,7 @@ class UserProvider with ChangeNotifier {
       ..from = Address(sendermail.toString())
       ..recipients.add(receiverEmail)
       ..subject = 'OTP Verification'
-      ..text = 'Your OTP is: $otp';
+      ..text = 'Your OTP is: $otp \n\nThis OTP will expire in 5 minutes.';
     
     try {
       final sendReport = await send(message, smtpServerDetails);
