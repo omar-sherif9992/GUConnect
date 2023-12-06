@@ -129,7 +129,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.professor);
+        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.stuff,
+        fullName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1],
+        userName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1]);
 
     final RegExp emailRegExp = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
