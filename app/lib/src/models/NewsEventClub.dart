@@ -21,7 +21,17 @@ class NewsEventClub {
   late Set<String> likes = {};
   late List<Comment> comments = [];
 
-  NewsEventClub({
+/*   NewsEventClub(Future fetchItems, {
+    String? id,
+    required this.content,
+    required this.poster,
+    required this.image,
+    required this.createdAt,
+    required this.reason,
+  }): id = FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
+ */
+
+  NewsEventClub( {
     String? id,
     required this.content,
     required this.poster,

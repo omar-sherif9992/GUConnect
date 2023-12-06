@@ -11,6 +11,7 @@ import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/screens/search/search.dart';
+import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';

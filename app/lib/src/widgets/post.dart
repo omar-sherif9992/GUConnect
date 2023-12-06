@@ -1,10 +1,8 @@
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
-import 'package:GUConnect/src/widgets/cached_image.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
 import 'package:GUConnect/src/widgets/likable_image.dart';
-import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/popup_menue_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

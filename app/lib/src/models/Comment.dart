@@ -24,7 +24,7 @@ class Comment{
     postType = json['postType'];
     commenter = json['commenter'] != null
     ? CustomUser.fromJson(json['commenter'] as Map<String, dynamic>)
-    : CustomUser(email: 'bla', password: 'bla', userType: UserType.student);
+    : CustomUser(email: 'bla', password: 'bla', userType: UserType.student, fullName: 'om', userName: 'ss');
   }
 
   Map<String, dynamic> toJson() {

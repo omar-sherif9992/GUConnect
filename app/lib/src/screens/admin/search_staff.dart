@@ -234,7 +234,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
         child: const Icon(Icons.add),
       ),
       appBar: CustomAppBar(
-        title: '',
+        title: 'Search Staff',
         isLogo: false,
         actions: [
           IconButton(
@@ -296,8 +296,21 @@ class StaffTile extends StatelessWidget {
       child: ListTile(
         leading: Hero(
           tag: staff.email,
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(staff.image ?? ''),
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
+            ),
+            child: CircleAvatar(
+              foregroundImage: staff.image == null || staff.image == ''
+                  ? NetworkImage(staff.image ?? '')
+                  : null,
+              backgroundImage: const AssetImage('assets/images/user.png'),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ),
         title: Text(titleCase(staff.fullName)),

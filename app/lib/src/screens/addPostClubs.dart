@@ -66,7 +66,7 @@ class _AddPostState extends State<AddPost> {
   Future _addPost(NewsEventClubProvider provider, String content, String reason) async {
     const String imgUrl = 'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
     final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
-    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'Mr Milad Ghantous');
+    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'Mr Milad Ghantous', fullName: 'omar');
 
     final NewsEventClub addedPost = NewsEventClub(content: content,  image: imgUrl, createdAt: DateTime.now(), poster: posterPerson, reason: reason);
 
