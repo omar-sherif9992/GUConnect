@@ -219,7 +219,7 @@ class UserProvider with ChangeNotifier {
       ..recipients.add(receiverEmail)
       ..subject = 'OTP Verification'
       ..text = 'Your OTP is: $otp';
-    
+
     try {
       final sendReport = await send(message, smtpServerDetails);
 
@@ -236,16 +236,14 @@ class UserProvider with ChangeNotifier {
         DateTime.now().isBefore(otpData.expiryTime)) {
       otpStore.remove(email);
       return true;
-      }
-    return false; 
+    }
+    return false;
   }
-  
 
   Future getUsers() async {
     final QuerySnapshot<CustomUser> querySnapshot = await usersRef.get();
     return querySnapshot.docs;
   }
-    
 }
 
 class OTPData {

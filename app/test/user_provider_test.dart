@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -52,7 +50,7 @@ void main() {
         throw FirebaseAuthException(code: 'email-already-in-use');
       });
 
- //     expect(() => userProvider.register(email, password), throwsException);
+      //     expect(() => userProvider.register(email, password), throwsException);
     });
 
     test('login should return true when login is successful', () async {

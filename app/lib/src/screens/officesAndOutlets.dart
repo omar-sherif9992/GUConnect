@@ -144,24 +144,18 @@ class OfficeItem extends StatelessWidget {
           style: TextStyle(fontSize: 14),
         ),
         onTap: () async {
-          () => _launchGoogleMaps(latitude, longitude);
+          openMap(latitude, longitude);
         },
       ),
     );
   }
 
-  _launchGoogleMaps(double latitude, double longitude) async {
-    // Construct the Google Maps URL with the specified latitude and longitude
-    final url = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
-
-    // Check if the URL can be launched
-    if (await canLaunchUrl(url)) {
-      // Launch the URL
-      await launchUrl(url);
-    } else {
-      // Handle error, e.g., show an alert
-      throw 'Could not launch $url';
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    Uri googleUri = Uri.parse(googleUrl);
+    if (!await launchUrl(googleUri)) {
+      throw Exception('Could not launch $googleUri');
     }
   }
 }
