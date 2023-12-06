@@ -205,28 +205,21 @@ class UserProvider with ChangeNotifier {
   Map<String, OTPData> otpStore = {};
 
   Future<void> sendOtpToEmail(String receiverEmail) async {
-    const String sendermail = 'GUConnect.help@gmail.com';
+    const String sendermail = 'guconnect.help@gmail.com';
     const String password = 'guc12345';
-    const String smtpServer = 'smtp.gmail.com';
+    const String accesstoken = 'cfjrrcqxgjuntfke';
     final Random random = Random();
     final String otp = (100000 + random.nextInt(900000)).toString();
     final DateTime expiryTime = DateTime.now().add(const Duration(minutes: 5));
     otpStore[receiverEmail] = OTPData(otp: otp, expiryTime: expiryTime);
-    final smtpServerDetails = SmtpServer(
-      smtpServer,
-      username: sendermail,
-      password: password,
-      port: 465,
-      ssl: true,
-      allowInsecure: false,
-    );
-
+    final smtpServerDetails = gmail(sendermail, accesstoken);
+//david.ywakeem@student.guc.edu.eg
     final message = Message()
-      ..from = const Address(sendermail, 'GuConnect')
+      ..from = Address(sendermail.toString())
       ..recipients.add(receiverEmail)
       ..subject = 'OTP Verification'
       ..text = 'Your OTP is: $otp';
-
+    
     try {
       final sendReport = await send(message, smtpServerDetails);
 

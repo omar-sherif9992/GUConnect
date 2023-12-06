@@ -1,4 +1,4 @@
-import 'package:GUConnect/routes.dart';
+/* import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,33 @@ import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+    _login( ) async{
+     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+     final bool success= await userProvider.login(emailController.text, passwordController.text);
+     if(success){
+       if (context.mounted){ 
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(CustomRoutes.profile);
+       };
+     }
+     else{
+       Fluttertoast.showToast(
+         msg: 'Wrong credentials.',
+         gravity: ToastGravity.BOTTOM,
+         backgroundColor: Colors.red,
+       );
+     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +55,7 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment
                 .start, // Aligns children to the start of the Column
             children: [
-              // Text on the left with subtext under it
+              // login 
               const Padding(
                 padding:
                     EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
@@ -163,6 +190,6 @@ class LoginForm extends StatelessWidget {
           ],
         ),
       ),
-    );
+    );  
   }
-}
+} */
