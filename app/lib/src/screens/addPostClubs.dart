@@ -5,13 +5,11 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
-import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddPost extends StatefulWidget{
-
+class AddPost extends StatefulWidget {
   const AddPost({super.key});
 
   @override
@@ -26,11 +24,11 @@ class _AddPostState extends State<AddPost> {
   late NewsEventClubProvider clubPostProvider;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
 
-    clubPostProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+    clubPostProvider =
+        Provider.of<NewsEventClubProvider>(context, listen: false);
   }
 
   Future<void> _getImage() async {
@@ -51,24 +49,34 @@ class _AddPostState extends State<AddPost> {
     }
 
     final image = Image.file(_selectedImage!);
-    return MediaQuery.of(context).size.width / (image.width??1.0 / (image.height??1.0)) ;
+    return MediaQuery.of(context).size.width /
+        (image.width ?? 1.0 / (image.height ?? 1.0));
   }
 
-  void _removeImage()
-  {
+  void _removeImage() {
     setState(() {
       _selectedImage = null;
     });
   }
 
- 
+  Future _addPost(
+      NewsEventClubProvider provider, String content, String reason) async {
+    const String imgUrl =
+        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
+    final CustomUser posterPerson = CustomUser(
+        email: 'hussein.ebrahim@student.guc.edu.eg',
+        password: 'Don Ciristiane Ronaldo',
+        userType: UserType.student,
+        image:
+            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
+        userName: 'Mr Milad Ghantous');
 
-  Future _addPost(NewsEventClubProvider provider, String content, String reason) async {
-    const String imgUrl = 'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
-    final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
-    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'Mr Milad Ghantous');
-
-    final NewsEventClub addedPost = NewsEventClub(content: content,  image: imgUrl, createdAt: DateTime.now(), poster: posterPerson, reason: reason);
+    final NewsEventClub addedPost = NewsEventClub(
+        content: content,
+        image: imgUrl,
+        createdAt: DateTime.now(),
+        poster: posterPerson,
+        reason: reason);
 
     showDialog(
       context: context,
@@ -87,45 +95,44 @@ class _AddPostState extends State<AddPost> {
       },
     );
 
-
     provider.postContent(addedPost).then((value) => {
-      Navigator.pop(context),
-      if(value)
-      {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ClubsAndEvents(),
-          ),
-        )
-      }
-      else
-      {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: const Text('Failed to upload post. Please try again.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK'),
+          Navigator.pop(context),
+          if (value)
+            {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ClubsAndEvents(),
                 ),
-              ],
-            );
-          },
-        )
-      }
-    });
+              )
+            }
+          else
+            {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content:
+                        const Text('Failed to upload post. Please try again.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              )
+            }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    final double containerHeight =calculateAspectRatio();
+    final double containerHeight = calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Post'),
@@ -141,7 +148,10 @@ class _AddPostState extends State<AddPost> {
               children: [
                 Text(
                   'Post:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -173,9 +183,15 @@ class _AddPostState extends State<AddPost> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.cloud_upload, size: 50, color: Theme.of(context).colorScheme.primary),
+                              Icon(Icons.cloud_upload,
+                                  size: 50,
+                                  color: Theme.of(context).colorScheme.primary),
                               const SizedBox(height: 8),
-                              Text('Upload an Image', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                              Text('Upload an Image',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
                             ],
                           )
                         : Stack(
@@ -183,20 +199,27 @@ class _AddPostState extends State<AddPost> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: Image.file(_selectedImage!, fit: BoxFit.cover),
+                                child: Image.file(_selectedImage!,
+                                    fit: BoxFit.cover),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.close, color: Colors.black),
+                                icon: const Icon(Icons.close,
+                                    color: Colors.black),
                                 onPressed: _removeImage,
                               ),
                             ],
                           ),
                   ),
                 ),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Text(
                   'Reason for the post:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -213,7 +236,6 @@ class _AddPostState extends State<AddPost> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(18)),
                     ),
-                    
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -224,20 +246,17 @@ class _AddPostState extends State<AddPost> {
                       final String content = contentController.text;
                       final String reason = reasonController.text;
                       _addPost(clubPostProvider, content, reason);
-
-
-                      
                     }
-            
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-                    foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.onSecondary),
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.primary),
+                    foregroundColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.onSecondary),
                   ),
-                  child: const Text('Add Post', style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500
-                  )),
+                  child: const Text('Add Post',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 ),
               ],
             ),
