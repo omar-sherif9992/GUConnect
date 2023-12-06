@@ -36,6 +36,33 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+    _login( ) async{
+     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+     final bool success= await userProvider.login(emailController.text, passwordController.text);
+     if(success){
+       if (context.mounted){ 
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(CustomRoutes.profile);
+       };
+     }
+     else{
+       Fluttertoast.showToast(
+         msg: 'Wrong credentials.',
+         gravity: ToastGravity.BOTTOM,
+         backgroundColor: Colors.red,
+       );
+     }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: CustomTheme.lightTheme,
@@ -91,58 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
                Expanded(
                 child: TabBarView(
                   children: [
-                    LoginForm(),
-                    const RegisterScreen(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginForm extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  LoginForm({super.key});
-
-  _login(BuildContext context) async{
-     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-     final bool success= await userProvider.login(emailController.text, passwordController.text);
-     if(success){
-       Navigator.of(context).pushNamed( CustomRoutes.home);
-     }
-     else{
-       /*Fluttertoast.showToast(
-         msg: 'Wrong credentials.',
-         gravity: ToastGravity.BOTTOM,
-         backgroundColor: Colors.red,
-       );*/
-     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  hintText: 'Sample@guc.edu.eg',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2.0, // change this to adjust the width
-                    ),
+                     Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email Address',
+                hintText: 'Sample@guc.edu.eg',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 2.0, // change this to adjust the width
                   ),
                 ),
               ),
@@ -163,33 +152,37 @@ class LoginForm extends StatelessWidget {
                 obscureText: true,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                 _login(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // size 30% of screen width
-                  minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),
-                  alignment: Alignment.center,
-                ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                      fontSize: 18), // Customize the text size if needed
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: ElevatedButton(
+              onPressed: () {
+               _login();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             )
           ],
         ),
       ),
-    );  
+    ),
+                    const RegisterScreen(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
-} */
+}
+
+
+*/
