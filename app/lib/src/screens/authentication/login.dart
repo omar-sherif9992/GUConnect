@@ -2,7 +2,7 @@ import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:GUConnect/routes.dart';
 
@@ -28,11 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
        };
      }
      else{
-       Fluttertoast.showToast(
-         msg: 'Wrong credentials.',
-         gravity: ToastGravity.BOTTOM,
-         backgroundColor: Colors.red,
-       );
+      //  Fluttertoast.showToast(
+      //    msg: 'Wrong credentials.',
+      //    gravity: ToastGravity.BOTTOM,
+      //    backgroundColor: Colors.red,
+      //  );
      }
   }
 
@@ -165,5 +165,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-

@@ -2,7 +2,7 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -21,32 +21,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
   _verifyOtp(String enteredOtp, UserProvider userProvider, String email ,CustomUser newUser) async {
     final bool verified = userProvider.verifyOTP(email, enteredOtp);
     if (verified) {
-      Fluttertoast.showToast(
-        msg: 'OTP verification successful!',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-      );
+      // Fluttertoast.showToast(
+      //   msg: 'OTP verification successful!',
+      //   gravity: ToastGravity.BOTTOM,
+      //   backgroundColor: Colors.green,
+      // );
        final bool success= await userProvider.register(newUser);
                if (success) {
-          Fluttertoast.showToast(
-            msg: 'Registration successful.',
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.green,
-          );
+          // Fluttertoast.showToast(
+          //   msg: 'Registration successful.',
+          //   gravity: ToastGravity.BOTTOM,
+          //   backgroundColor: Colors.green,
+          // );
 
         } else {
-          Fluttertoast.showToast(
-            msg: 'Registration failed as email already exists.',
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-          );
+          // Fluttertoast.showToast(
+          //   msg: 'Registration failed as email already exists.',
+          //   gravity: ToastGravity.BOTTOM,
+          //   backgroundColor: Colors.red,
+          // );
         }
     } else {
-      Fluttertoast.showToast(
-        msg: 'OTP verification failed:',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-      );
+      // Fluttertoast.showToast(
+      //   msg: 'OTP verification failed:',
+      //   gravity: ToastGravity.BOTTOM,
+      //   backgroundColor: Colors.red,
+      // );
 
     }
   }
@@ -144,27 +144,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         
 
         }else{
-          Fluttertoast.showToast(
-            msg: 'Passwords do not match.',
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-          );
+          // Fluttertoast.showToast(
+          //   msg: 'Passwords do not match.',
+          //   gravity: ToastGravity.BOTTOM,
+          //   backgroundColor: Colors.red,
+          // );
         }
         // final bool success = userProvider.register(newUser) as bool;
         
       } else {
-        Fluttertoast.showToast(
-          msg: 'Password must be at least 6 characters long.',
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-        );
+        // Fluttertoast.showToast(
+        //   msg: 'Password must be at least 6 characters long.',
+        //   gravity: ToastGravity.BOTTOM,
+        //   backgroundColor: Colors.red,
+        // );
       }
     } else {
-      Fluttertoast.showToast(
-        msg: 'Invalid email address.',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-      );
+      // Fluttertoast.showToast(
+      //   msg: 'Invalid email address.',
+      //   gravity: ToastGravity.BOTTOM,
+      //   backgroundColor: Colors.red,
+      // );
     }
   }
 
