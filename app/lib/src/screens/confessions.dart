@@ -1,4 +1,6 @@
 import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 
@@ -14,6 +16,7 @@ class Confessions extends StatefulWidget {
 class _ConfessionsState extends State<Confessions>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<Confession> confessions = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +42,15 @@ class _ConfessionsState extends State<Confessions>
         return Post_Widget(posts[index]);
       },
     );
+  }
+
+  Future fetchConfessions(ConfessionProvider provider) async {
+    provider.getConfessions().then((value) => {
+          setState(() {
+            confessions = value;
+            confessions.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+          })
+        });
   }
 
   @override
