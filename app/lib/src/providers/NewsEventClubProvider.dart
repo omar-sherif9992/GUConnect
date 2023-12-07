@@ -22,18 +22,28 @@ class NewsEventClubProvider extends ChangeNotifier {
         .update({'approvalStatus': 'requested'});
   }
 
-  Future<void> approvePost(String postId) async {
-    await _firestore
-        .collection('newsEventClubs')
-        .doc(postId)
-        .update({'approvalStatus': 'approved'});
+  Future<void> approvePost(NewsEventClub newsEventClub) async {
+    print(newsEventClub.id);
+    try {
+      await _firestore
+          .collection('newsEventClubs')
+          .doc(newsEventClub.id)
+          .update({'approvalStatus': 'approved'});
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future<void> disapprovePost(String postId) async {
-    await _firestore
-        .collection('newsEventClubs')
-        .doc(postId)
-        .update({'approvalStatus': 'disapproved'});
+  Future<void> disapprovePost(NewsEventClub newsEventClub) async {
+    try {
+      print(newsEventClub.id);
+      await _firestore
+          .collection('newsEventClubs')
+          .doc(newsEventClub.id)
+          .update({'approvalStatus': 'disapproved'});
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> deletePost(String postId) async {
