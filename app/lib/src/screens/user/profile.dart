@@ -1,4 +1,6 @@
 import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
+import 'package:GUConnect/src/screens/user/user_drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
@@ -18,6 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const BottomBar(),
+      drawer: const UserDrawer(),
       appBar: const CustomAppBar(title: 'Profile'),
       body: Column(
         children: [
