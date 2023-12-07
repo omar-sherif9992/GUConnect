@@ -66,7 +66,6 @@ class _AddPostState extends State<AddPost> {
     final CustomUser posterPerson = CustomUser(
         email: 'hussein.ebrahim@student.guc.edu.eg',
         password: 'Don Ciristiane Ronaldo',
-        userType: UserType.student,
         image:
             'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
         userName: 'Mr Milad Ghantous', fullName: 'omar');

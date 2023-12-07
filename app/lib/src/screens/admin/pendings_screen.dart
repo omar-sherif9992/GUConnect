@@ -37,7 +37,6 @@ class _PendingsScreenState extends State<PendingsScreen> {
           fullName: 'Omar',
           email: 'omar@guc.edu.eg',
           password: '',
-          userType: UserType.professor,
           userName: 'omar.kaa',
         ),
         image:

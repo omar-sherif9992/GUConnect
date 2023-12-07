@@ -10,9 +10,7 @@ import 'package:GUConnect/src/screens/user/user_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-class ClubsAndEvents extends StatefulWidget{
-
+class ClubsAndEvents extends StatefulWidget {
   const ClubsAndEvents({super.key});
 
   @override
@@ -20,10 +18,13 @@ class ClubsAndEvents extends StatefulWidget{
 }
 
 class _ClubsAndEventsState extends State<ClubsAndEvents> {
-  
-
-  final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', userType: UserType.student,
-    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', userName: 'HusseinYasser', fullName: 'omar');
+  final CustomUser posterPerson = CustomUser(
+      email: 'hussein.ebrahim@student.guc.edu.eg',
+      password: 'Don Ciristiane Ronaldo',
+      image:
+          'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
+      userName: 'HusseinYasser',
+      fullName: 'omar');
 
   late NewsEventClubProvider clubPostProvider;
 
@@ -35,7 +36,8 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
   void initState() {
     super.initState();
 
-    clubPostProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+    clubPostProvider =
+        Provider.of<NewsEventClubProvider>(context, listen: false);
   }
 
   @override
@@ -43,22 +45,20 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
     super.didChangeDependencies();
     // When it comes back to view
     _isLoading = true;
-    fetchPosts(clubPostProvider).then((_){
-        setState((){
-          _isLoading = false;
-        });
-      }
-    );
-
+    fetchPosts(clubPostProvider).then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
-  Future fetchPosts(NewsEventClubProvider provider) async{
+  Future fetchPosts(NewsEventClubProvider provider) async {
     provider.getApprovedPosts().then((value) => {
-      setState((){
-        posts = value;
-        posts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      })
-    });
+          setState(() {
+            posts = value;
+            posts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+          })
+        });
   }
 
   Future<void> _refresh() async {
@@ -67,74 +67,69 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
   }
 
   @override
-  Widget build(context)
-  {
-    
+  Widget build(context) {
     final IconButton addPost = IconButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.of(context).pushNamed(CustomRoutes.addClubPost);
       },
       icon: Icon(Icons.add_box_outlined,
-        color: Theme.of(context).colorScheme.onBackground,
-        size: 24),
-      );
-    
-    
+          color: Theme.of(context).colorScheme.onBackground, size: 24),
+    );
 
     return Scaffold(
       drawer: const UserDrawer(),
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: '',
-        actions: [
-          addPost
-        ],
+        actions: [addPost],
       ),
-
-      body: _isLoading? const Loader(): posts.isNotEmpty
-      ?
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _refresh,
-              child: ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 20,),
-                      PostW(
-                        postId: posts[index].id,
-                        caption: posts[index].content,
-                        imgUrl: posts[index].image,
-                        username: posts[index].poster.userName ?? '',
-                        userImage: posts[index].poster.image ?? '',
-                        likes: posts[index].likes,
-                        createdAt: posts[index].createdAt,
-                        comments: posts[index].comments,
-                        postType: 0,
+      body: _isLoading
+          ? const Loader()
+          : posts.isNotEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: _refresh,
+                        child: ListView.builder(
+                            itemCount: posts.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  PostW(
+                                    postId: posts[index].id,
+                                    caption: posts[index].content,
+                                    imgUrl: posts[index].image,
+                                    username:
+                                        posts[index].poster.userName ?? '',
+                                    userImage: posts[index].poster.image ?? '',
+                                    likes: posts[index].likes,
+                                    createdAt: posts[index].createdAt,
+                                    comments: posts[index].comments,
+                                    postType: 0,
+                                  ),
+                                ],
+                              );
+                            }),
                       ),
-                    ],
-                  );
-                  }
-              ),
-            ),
-          ) 
-        ],
-      )
-      :
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Center(
-              child: Text("Looks like it's a quiet day here. Why not break the silence with a new post?",
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 20,
-                ), 
-              ),
-              ),
-      ),
+                    )
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                    child: Text(
+                      "Looks like it's a quiet day here. Why not break the silence with a new post?",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 20,
+                          ),
+                    ),
+                  ),
+                ),
       bottomNavigationBar: const UserBottomBar(),
     );
   }
