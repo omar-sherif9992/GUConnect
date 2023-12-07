@@ -1,14 +1,27 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:provider/provider.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});
 
   @override
   Widget build(context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+
+    if (userProvider.user == null) {
+      Navigator.of(context).popAndPushNamed('/login');
+    }
+
+    final CustomUser user = userProvider.user as CustomUser;
     // check if user is admin
-    bool isAdmin = false;
+    final bool isAdmin = user.userType == 'admin';
+
+    //  final bool isAdmin = false;
 
     // check which page is active
     bool isActive(String routeName) {
@@ -18,7 +31,7 @@ class BottomBar extends StatelessWidget {
     final adminRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.admin);
+          Navigator.pushNamed(context, CustomRoutes.clubsAndEvents);
         },
         icon: Icon(
           Icons.home_outlined,
@@ -99,7 +112,7 @@ class BottomBar extends StatelessWidget {
     final userRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.home);
+          Navigator.pushNamed(context, CustomRoutes.clubsAndEvents);
         },
         icon: Icon(
           Icons.home_outlined,

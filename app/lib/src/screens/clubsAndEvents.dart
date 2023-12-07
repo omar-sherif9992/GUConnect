@@ -6,7 +6,7 @@ import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:GUConnect/src/screens/user/user_drawer.dart';
+import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +77,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
     );
 
     return Scaffold(
-      drawer: const UserDrawer(),
+      drawer: const MainDrawer(),
       appBar: CustomAppBar(
         title: '',
         actions: [addPost],

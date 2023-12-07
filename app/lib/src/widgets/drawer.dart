@@ -1,8 +1,8 @@
 import 'package:GUConnect/routes.dart';
 import 'package:flutter/material.dart';
 
-class UserDrawer extends StatelessWidget {
-  const UserDrawer({super.key});
+class MainDrawer extends StatelessWidget {
+  const MainDrawer({super.key});
 
   void onSelectScreen(BuildContext context, String routeName) {
     Navigator.of(context).pushNamed(routeName);
@@ -80,7 +80,8 @@ class UserDrawer extends StatelessWidget {
             onTap: () {
               onSelectScreen(context, CustomRoutes.search);
             },
-          ), ListTile(
+          ),
+          ListTile(
             leading: Icon(
               Icons.search,
               size: 24,
@@ -96,7 +97,8 @@ class UserDrawer extends StatelessWidget {
             onTap: () {
               onSelectScreen(context, CustomRoutes.adminPendings);
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: Icon(
               Icons.search,
               size: 24,
@@ -128,26 +130,6 @@ class UserDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(context, CustomRoutes.officesAndOutlets);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-
-              Icons.search,
-              size: 24,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text(
-
-              'Clubs and Events',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-
-              onSelectScreen(context, CustomRoutes.clubsAndEvents);
             },
           ),
           Expanded(
