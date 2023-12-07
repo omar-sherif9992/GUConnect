@@ -2,7 +2,7 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
-import 'package:GUConnect/src/widgets/bottom_bar.dart';
+import 'package:GUConnect/src/widgets/user_bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
@@ -135,7 +135,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
               ),
               ),
       ),
-      bottomNavigationBar: const BottomBar(),
+      bottomNavigationBar: const UserBottomBar(),
     );
   }
 
