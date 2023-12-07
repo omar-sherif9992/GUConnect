@@ -2,11 +2,11 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
-import 'package:GUConnect/src/widgets/user_bottom_bar.dart';
+import 'package:GUConnect/src/screens/user/user_bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:GUConnect/src/widgets/drawer.dart';
+import 'package:GUConnect/src/screens/user/user_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +82,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
     
 
     return Scaffold(
-      drawer: const MainDrawer(),
+      drawer: const UserDrawer(),
       appBar:  CustomAppBar(
         title: '',
         actions: [

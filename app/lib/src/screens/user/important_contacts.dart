@@ -168,6 +168,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ))
               : ListView.builder(
+                  key: const PageStorageKey('phoneNumbers'),
+                  scrollDirection: Axis.vertical,
                   itemCount: impPhoneNumbersDisplay.length,
                   itemBuilder: (context, index) {
                     return Container(
@@ -228,6 +230,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                   ),
                 )
               : ListView.builder(
+                  key: const PageStorageKey('emails'),
                   scrollDirection: Axis.vertical,
                   itemCount: impEmailsDisplay.length,
                   itemBuilder: (context, index) {

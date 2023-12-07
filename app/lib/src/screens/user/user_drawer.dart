@@ -1,8 +1,8 @@
 import 'package:GUConnect/routes.dart';
 import 'package:flutter/material.dart';
 
-class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+class UserDrawer extends StatelessWidget {
+  const UserDrawer({super.key});
 
   void onSelectScreen(BuildContext context, String routeName) {
     Navigator.of(context).pushNamed(routeName);

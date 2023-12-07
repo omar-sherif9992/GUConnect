@@ -114,6 +114,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
               ))
             : RefreshIndicator(
                 onRefresh: () async {
+                  fetchItems();
                   filterItems(_searchController.text);
                   setState(() {
                     _isLoading = false;
@@ -121,6 +122,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
                 },
                 child: ListView.builder(
                   itemCount: postsDisplay.length,
+                  key: const PageStorageKey('pending_posts'),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return Dismissible(
