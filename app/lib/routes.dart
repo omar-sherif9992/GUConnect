@@ -50,6 +50,7 @@ class CustomRoutes {
 
   // ADMIN ROUTES
   static const String admin = '/admin';
+  static const String adminNotifications = '/admin/notifications';
   static const String adminPendings = '/admin/pendings';
   static const String adminConfessionsDetail = '/admin/confessions-detail';
   static const String adminAcademicQuestions = '/admin/academic-questions';

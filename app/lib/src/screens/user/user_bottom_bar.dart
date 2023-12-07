@@ -1,3 +1,4 @@
+import 'package:GUConnect/routes.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -9,10 +10,15 @@ class UserBottomBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Icon(
-          Icons.home_outlined,
-          color: Theme.of(context).colorScheme.onBackground,
-          size: 28,
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, CustomRoutes.home);
+          },
+          icon: Icon(
+            Icons.home_outlined,
+            color: Theme.of(context).colorScheme.onBackground,
+            size: 28,
+          ),
         ), // Your home icon or any other icon
         Transform.translate(
           offset: const Offset(
@@ -44,11 +50,16 @@ class UserBottomBar extends StatelessWidget {
             ),
           ),
         ),
-        Icon(
-          Icons.notifications_outlined,
-          color: Theme.of(context).colorScheme.onBackground,
-          size: 28,
-        ), // Another icon in the bottom bar
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, CustomRoutes.notifications);
+          },
+          icon: Icon(
+            Icons.notifications_outlined,
+            color: Theme.of(context).colorScheme.onBackground,
+            size: 28,
+          ),
+        ),
       ],
     );
   }
