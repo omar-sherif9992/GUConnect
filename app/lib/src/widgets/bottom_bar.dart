@@ -11,7 +11,7 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    /*  final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
@@ -20,8 +20,8 @@ class BottomBar extends StatelessWidget {
     final CustomUser user = userProvider.user as CustomUser;
     // check if user is admin
     final bool isAdmin = user.userType == 'admin';
-
-    //  final bool isAdmin = false;
+ */
+    final bool isAdmin = false;
 
     // check which page is active
     bool isActive(String routeName) {

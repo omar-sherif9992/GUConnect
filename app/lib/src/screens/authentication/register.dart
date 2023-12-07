@@ -47,8 +47,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       //   gravity: ToastGravity.BOTTOM,
       //   backgroundColor: Colors.red,
       // );
-
     }
+
   }
 
   void _showOtpInputDialog(UserProvider userProvider, String email,CustomUser newUser) {
