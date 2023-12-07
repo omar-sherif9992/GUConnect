@@ -11,7 +11,7 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    /*  final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
@@ -20,8 +20,15 @@ class BottomBar extends StatelessWidget {
     final CustomUser user = userProvider.user as CustomUser;
     // check if user is admin
     final bool isAdmin = user.userType == 'admin';
+ */
 
-    //  final bool isAdmin = false;
+    final bool isAdmin = false;
+
+    void navigate(String routeName) {
+      if (ModalRoute.of(context)!.settings.name != routeName) {
+        Navigator.pushNamed(context, routeName);
+      }
+    }
 
     // check which page is active
     bool isActive(String routeName) {
@@ -85,7 +92,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.adminNotifications);
+          navigate(CustomRoutes.adminNotifications);
         },
         icon: Icon(
           Icons.notifications_outlined,
@@ -97,7 +104,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.profile);
+          navigate(CustomRoutes.profile);
         },
         icon: Icon(
           Icons.person_outline,
@@ -112,7 +119,7 @@ class BottomBar extends StatelessWidget {
     final userRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.clubsAndEvents);
+          navigate(CustomRoutes.clubsAndEvents);
         },
         icon: Icon(
           Icons.home_outlined,
@@ -124,7 +131,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.confessions);
+          navigate(CustomRoutes.confessions);
         },
         icon: Icon(
           Icons.people_outline_rounded,
@@ -166,7 +173,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.notifications);
+          navigate(CustomRoutes.notifications);
         },
         icon: Icon(
           Icons.notifications_outlined,
@@ -178,7 +185,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.profile);
+          navigate(CustomRoutes.profile);
         },
         icon: Icon(
           Icons.person_outline,
