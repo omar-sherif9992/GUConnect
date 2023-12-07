@@ -36,7 +36,6 @@ class _SearchScreenState extends State<SearchScreen>
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
-
     fetchStaff(staffProvider).then((value) => {
           setState(() {
             _isLoading = false;
@@ -139,6 +138,7 @@ class _SearchScreenState extends State<SearchScreen>
                   });
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('profs_user'),
                   itemCount: proffsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -173,6 +173,7 @@ class _SearchScreenState extends State<SearchScreen>
                   });
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('tas_user'),
                   itemCount: tasDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -237,7 +238,6 @@ class StaffTile extends StatelessWidget {
 
   const StaffTile({required this.staff, super.key, required this.staffType});
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -266,7 +266,6 @@ class StaffTile extends StatelessWidget {
                 .pushNamed(CustomRoutes.profile, arguments: staff);
           },
         ),
-
       ),
     );
   }

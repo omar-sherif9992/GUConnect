@@ -165,6 +165,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                   await fetchProffs(staffProvider);
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('profs'),
                   itemCount: profsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -193,6 +194,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                   await fetchTas(staffProvider);
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('tas'),
                   itemCount: tasDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {

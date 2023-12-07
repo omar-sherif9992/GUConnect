@@ -9,7 +9,8 @@ class SplashScreen extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   double _opacity = 0;
@@ -43,6 +44,7 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
 
       Navigator.pop(context, CustomRoutes.home);
       if (user != null) {
+       
         Navigator.pushNamed(context, CustomRoutes.profile);
       } else {
         Navigator.pushNamed(context, CustomRoutes.login);
@@ -77,7 +79,8 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
               offset: Offset(0, _bounceAnimation.value),
               child: Opacity(
                 opacity: _opacity,
-                child: Image.asset('assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
+                child: Image.asset(
+                    'assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
               ),
             );
           },

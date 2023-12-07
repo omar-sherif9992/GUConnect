@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class BottomBar extends StatelessWidget{
+class AdminBottomBar extends StatelessWidget{
 
-  const BottomBar({super.key});
+  const AdminBottomBar({super.key});
 
 
   @override
