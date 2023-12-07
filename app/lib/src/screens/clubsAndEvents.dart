@@ -2,7 +2,7 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
-import 'package:GUConnect/src/screens/user/user_bottom_bar.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
@@ -123,6 +123,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                   child: Center(
                     child: Text(
                       "Looks like it's a quiet day here. Why not break the silence with a new post?",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontSize: 20,
@@ -130,7 +131,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                     ),
                   ),
                 ),
-      bottomNavigationBar: const UserBottomBar(),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 
