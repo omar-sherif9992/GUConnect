@@ -99,6 +99,12 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter an office location';
                           }
+                          // value must be in this forma C7.201
+                          if (!RegExp(r'^[A-Z][0-9]\.[0-9]{3}$')
+                              .hasMatch(value)) {
+                            return 'Please enter a valid office location in this format C7.201';
+                          }
+
                           return null;
                         },
                       ),

@@ -42,6 +42,9 @@ class _SplashState extends State<SplashScreen>
       final FirebaseAuth auth = FirebaseAuth.instance;
       User? user = auth.currentUser;
 
+      // 
+      
+
       Navigator.pop(context, CustomRoutes.home);
       if (user != null) {
        

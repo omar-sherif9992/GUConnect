@@ -59,7 +59,7 @@ class UserProvider with ChangeNotifier {
           email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
 
-      usersRef.add(newUser);
+      await usersRef.add(newUser);
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -219,7 +219,7 @@ class UserProvider with ChangeNotifier {
       ..recipients.add(receiverEmail)
       ..subject = 'OTP Verification'
       ..text = 'Your OTP is: $otp \n\nThis OTP will expire in 5 minutes.';
-    
+
     try {
       final sendReport = await send(message, smtpServerDetails);
 
