@@ -23,12 +23,15 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<void> approvePost(NewsEventClub newsEventClub) async {
-    print(newsEventClub.id);
     try {
-      await _firestore
+      final QuerySnapshot document =  await _firestore
           .collection('newsEventClubs')
-          .doc(newsEventClub.id)
-          .update({'approvalStatus': 'approved'});
+          .where('id', isEqualTo: newsEventClub.id).get();
+
+      if (document.docs.isNotEmpty) {
+        await _firestore.collection('newsEventClubs')
+          .doc(document.docs.first.id).update({'approvalStatus': 'approved'});
+      }
     } catch (e) {
       print(e);
     }
@@ -36,11 +39,17 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<void> disapprovePost(NewsEventClub newsEventClub) async {
     try {
-      print(newsEventClub.id);
-      await _firestore
+      final QuerySnapshot document =  await _firestore
           .collection('newsEventClubs')
-          .doc(newsEventClub.id)
-          .update({'approvalStatus': 'disapproved'});
+          .where('id', isEqualTo: newsEventClub.id).get();
+
+      if (document.docs.isNotEmpty) {
+        await _firestore.collection('newsEventClubs')
+          .doc(document.docs.first.id).update({'approvalStatus': 'disapproved'});
+      }
+      
+
+      
     } catch (e) {
       print(e);
     }
