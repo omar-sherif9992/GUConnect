@@ -85,7 +85,7 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<List<dynamic>> likePost(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final QuerySnapshot querySnapshot = await _firestore
         .collection('newsEventClubs')
         .where('id', isEqualTo: postId)
         .get();
@@ -109,7 +109,7 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<List<dynamic>> dislike(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final QuerySnapshot querySnapshot = await _firestore
         .collection('newsEventClubs')
         .where('id', isEqualTo: postId)
         .get();
