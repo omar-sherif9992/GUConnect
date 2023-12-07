@@ -97,12 +97,11 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                         keyboardType: TextInputType.streetAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter an office location';
+                            return 'Please enter a valid office location ex: C7.201';
                           }
-                          // value must be in this forma C7.201
                           if (!RegExp(r'^[A-Z][0-9]\.[0-9]{3}$')
                               .hasMatch(value)) {
-                            return 'Please enter a valid office location in this format C7.201';
+                            return 'Please enter a valid office location ex: C7.201';
                           }
 
                           return null;

@@ -30,6 +30,7 @@ class _EmailFieldState extends State<EmailField> {
         },
         decoration: const InputDecoration(
           labelText: 'Email',
+          hintText: 'name@student.guc.edu.eg/name@guc.edu.eg',  
           prefixIcon: Icon(Icons.email),
           border:
               OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
