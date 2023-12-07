@@ -10,6 +10,7 @@ class NewsEventClubProvider extends ChangeNotifier {
       await _firestore.collection('newsEventClubs').add(post.toJson());
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }

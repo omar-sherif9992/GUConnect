@@ -28,7 +28,6 @@ class CustomUser {
     required this.password,
     this.biography,
     this.phoneNumber,
-    required UserType userType,
   }) {
     this.userType = getUserType();
   }
@@ -78,7 +77,7 @@ class CustomUser {
     data['email'] = this.email;
     data['password'] = this.password;
     data['biography'] = this.biography;
-    data['userType'] = this.userType;
+    data['userType'] = this.userType.toString();
     return data;
   }
 

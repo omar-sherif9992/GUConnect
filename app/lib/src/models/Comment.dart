@@ -1,8 +1,7 @@
 import 'package:GUConnect/src/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Comment{
-
+class Comment {
   late String id = '';
   late String content;
   late CustomUser commenter;
@@ -15,7 +14,7 @@ class Comment{
     required this.commenter,
     required this.createdAt,
     required this.postType,
-  }): id = id ?? FirebaseFirestore.instance.collection('comments').doc().id;
+  }) : id = id ?? FirebaseFirestore.instance.collection('comments').doc().id;
 
   Comment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,8 +22,9 @@ class Comment{
     createdAt = DateTime.parse(json['createdAt']);
     postType = json['postType'];
     commenter = json['commenter'] != null
-    ? CustomUser.fromJson(json['commenter'] as Map<String, dynamic>)
-    : CustomUser(email: 'bla', password: 'bla', userType: UserType.student, fullName: 'om', userName: 'ss');
+        ? CustomUser.fromJson(json['commenter'] as Map<String, dynamic>)
+        : CustomUser(
+            email: 'bla', password: 'bla', fullName: 'om', userName: 'ss');
   }
 
   Map<String, dynamic> toJson() {
@@ -41,8 +41,4 @@ class Comment{
   String toString() {
     return 'content: $content, createdAt: ${createdAt.toString()}, commenter: ${commenter.toString()}, postType: $postType';
   }
-
-
-
-
 }
