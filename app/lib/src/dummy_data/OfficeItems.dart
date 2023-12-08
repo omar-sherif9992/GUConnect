@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/screens/officesAndOutlets.dart';
+import 'package:GUConnect/src/screens/common/officesAndOutlets.dart';
 
 List<OfficeItem> dummy_outlets = [
   OfficeItem(

@@ -1,19 +1,18 @@
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
-import 'package:GUConnect/src/screens/confessions.dart';
-import 'package:GUConnect/src/screens/addPostClubs.dart';
+import 'package:GUConnect/src/screens/common/confessions.dart';
+import 'package:GUConnect/src/screens/common/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
-import 'package:GUConnect/src/screens/clubsAndEvents.dart';
-import 'package:GUConnect/src/screens/home.dart';
+import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/screens/user/search.dart';
-import 'package:GUConnect/src/screens/splash.dart';
+import 'package:GUConnect/src/screens/common/splash.dart';
 import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
 import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:GUConnect/src/screens/officesAndOutlets.dart';
+import 'package:GUConnect/src/screens/common/officesAndOutlets.dart';
 
 class CustomRoutes {
   // USER ROUTES
