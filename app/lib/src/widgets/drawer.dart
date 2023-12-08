@@ -144,7 +144,7 @@ class MainDrawer extends StatelessWidget {
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
-          'Search Profs/Tas',
+          'Search Staff',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 24,
@@ -152,6 +152,23 @@ class MainDrawer extends StatelessWidget {
         ),
         onTap: () {
           onSelectScreen(context, CustomRoutes.search);
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          Icons.search,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Pending Posts',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.adminPendings);
         },
       ),
       endCommonRoutes
@@ -190,6 +207,23 @@ class MainDrawer extends StatelessWidget {
         ),
         onTap: () {
           onSelectScreen(context, CustomRoutes.adminStaff);
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          Icons.add,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Add Staff',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.adminAddStaff);
         },
       ),
       endCommonRoutes
