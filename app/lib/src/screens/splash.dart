@@ -47,7 +47,7 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final CustomUser? userWithDetails=await userProvider.getUser(user.email!);
-        // print(userWithDetails);
+        print(userWithDetails);
         userProvider.setUser(userWithDetails!);
         Navigator.popAndPushNamed(context, CustomRoutes.profile);
       } else {

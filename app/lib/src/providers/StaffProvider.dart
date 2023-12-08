@@ -66,7 +66,7 @@ class StaffProvider extends ChangeNotifier {
   Future<void> setStaff(Staff staff, File? profileImageFile) async {
     try {
       if (profileImageFile != null) {
-        String imageUrl = await uploadImageToStorage(
+        final String? imageUrl = await uploadImageToStorage(
             profileImageFile, 'staff_images', staff.email);
         if (imageUrl != null) staff.image = imageUrl;
       }
