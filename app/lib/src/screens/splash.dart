@@ -1,6 +1,9 @@
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,8 +12,7 @@ class SplashScreen extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   double _opacity = 0;
@@ -39,15 +41,15 @@ class _SplashState extends State<SplashScreen>
     // Add a delay to simulate a splash screen
 
     Future.delayed(const Duration(seconds: 3), () async {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      User? user = auth.currentUser;
-
-      // 
-      
-
-      Navigator.pop(context, CustomRoutes.home);
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    //  final bool loggedIn= userProvider.loggedIn;
+      final User? user = FirebaseAuth.instance.currentUser;
+      Navigator.pop(context);
       if (user != null) {
-       
+        final CustomUser? userWithDetails=await userProvider.getUser(user.email!);
+        // print(userWithDetails);
+        userProvider.setUser(userWithDetails!);
         Navigator.pushNamed(context, CustomRoutes.profile);
       } else {
         Navigator.pushNamed(context, CustomRoutes.login);
@@ -82,8 +84,7 @@ class _SplashState extends State<SplashScreen>
               offset: Offset(0, _bounceAnimation.value),
               child: Opacity(
                 opacity: _opacity,
-                child: Image.asset(
-                    'assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
+                child: Image.asset('assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
               ),
             );
           },

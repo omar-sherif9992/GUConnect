@@ -65,7 +65,7 @@ class CustomRoutes {
 
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const HomeScreen(),
+      home: (context) => const SplashScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
       profile: (context) => const ProfileScreen(),
