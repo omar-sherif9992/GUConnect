@@ -33,18 +33,20 @@ class _PendingsScreenState extends State<PendingsScreen> {
     newsEventClubProvider =
         Provider.of<NewsEventClubProvider>(context, listen: false);
 
-    newsEventClubProvider.postContent(NewsEventClub(
+/*     newsEventClubProvider.postContent(NewsEventClub(
         content: 'I hate you',
         poster: CustomUser(
           fullName: 'Ahmed',
           email: 'omar@student.guc.edu.eg',
           password: '',
           userName: 'omar.kaa',
+
         ),
+
         image:
             'https://upload.wikimedia.org/wikipedia/en/thumb/7/71/MaxPayneMP3.jpg/235px-MaxPayneMP3.jpg',
         reason: 'I love life',
-        createdAt: DateTime.now()));
+        createdAt: DateTime.now())); */
 
     fetchItems();
   }

@@ -38,4 +38,14 @@ class ImportantEmailProvider extends ChangeNotifier {
     await importantEmailsRef.doc(email.title).set(email);
     notifyListeners();
   }
+
+  Future<void> updateEmail(ImportantEmail email) async {
+    await importantEmailsRef.doc(email.title).update(email.toJson());
+    notifyListeners();
+  }
+
+  Future<void> deleteEmail(String title) async {
+    await importantEmailsRef.doc(title).delete();
+    notifyListeners();
+  }
 }
