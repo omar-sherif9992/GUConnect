@@ -9,6 +9,7 @@ import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/themes/themes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +20,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await initializeApp();
+
+  FirebaseNotification().initFirebaseMessaging();
 
   runApp(DevicePreview(
     enabled: true,
