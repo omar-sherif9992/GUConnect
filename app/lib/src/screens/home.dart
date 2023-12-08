@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/popup_menue_button.dart';
 import 'package:flash/flash.dart';
@@ -37,8 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MainDrawer(),
-      appBar: CustomAppBar(
+      drawer: const MainDrawer(),
+      bottomNavigationBar: const BottomBar(),
+      appBar: const CustomAppBar(
         title: 'Home',
         actions: [],
       ),

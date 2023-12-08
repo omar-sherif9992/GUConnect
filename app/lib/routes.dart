@@ -6,7 +6,7 @@ import 'package:GUConnect/src/screens/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/home.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
-import 'package:GUConnect/src/screens/search/search.dart';
+import 'package:GUConnect/src/screens/user/search.dart';
 import 'package:GUConnect/src/screens/splash.dart';
 import 'package:GUConnect/src/screens/user/important_contacts.dart';
 import 'package:GUConnect/src/screens/user/profile.dart';
@@ -50,6 +50,7 @@ class CustomRoutes {
 
   // ADMIN ROUTES
   static const String admin = '/admin';
+  static const String adminNotifications = '/admin/notifications';
   static const String adminPendings = '/admin/pendings';
   static const String adminConfessionsDetail = '/admin/confessions-detail';
   static const String adminAcademicQuestions = '/admin/academic-questions';
@@ -59,10 +60,12 @@ class CustomRoutes {
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
   static const String adminStaff = '/admin/staff';
+  static const String adminReports = '/admin/reports';
+  
 
   static Map<String, WidgetBuilder> get routes {
     return {
-      home: (context) => const SplashScreen(),
+      home: (context) => const HomeScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
       profile: (context) => const ProfileScreen(),
@@ -72,7 +75,7 @@ class CustomRoutes {
       impPhoneNumber: (context) => const ImportantContactsScreen(),
       officesAndOutlets: (context) => const OfficesAndOutlets(),
       confessions: (context) => const Confessions(),
-      adminPendings: (context) => PendingsScreen(),
+      adminPendings: (context) => const PendingsScreen(),
       clubsAndEvents: (context) => const ClubsAndEvents(),
       addClubPost: (context) => const AddPost(),
       adminStaff: (context) => const SearchStaffScreen(),

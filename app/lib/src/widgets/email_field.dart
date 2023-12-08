@@ -17,16 +17,20 @@ class _EmailFieldState extends State<EmailField> {
         controller: widget.emailController,
         enabled: true,
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value == null) {
+            return 'Enter an email';
+          } else if (value.isEmpty) {
             return 'Enter an email';
           } else if (!EmailValidator.validate(value)) {
-            return 'Enter a valid email';
-          } else {
-            return null;
+            return 'Enter a valid GUC email';
+          } else if (!value.contains('.guc.edu.eg')) {
+            return 'Enter a valid GUC email .guc.edu.eg';
           }
+          return null;
         },
         decoration: const InputDecoration(
           labelText: 'Email',
+          hintText: 'name@student.guc.edu.eg/name@guc.edu.eg',  
           prefixIcon: Icon(Icons.email),
           border:
               OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),

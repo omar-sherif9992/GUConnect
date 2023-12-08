@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PendingsScreen extends StatefulWidget {
-  PendingsScreen({super.key});
+  const PendingsScreen({super.key});
 
   @override
   State<PendingsScreen> createState() => _PendingsScreenState();
@@ -24,6 +24,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
 
   late NewsEventClubProvider newsEventClubProvider;
 
+  String _selectFilter = 'All';
+
   @override
   void initState() {
     super.initState();
@@ -34,10 +36,9 @@ class _PendingsScreenState extends State<PendingsScreen> {
     newsEventClubProvider.postContent(NewsEventClub(
         content: 'I hate you',
         poster: CustomUser(
-          fullName: 'Omar',
-          email: 'omar@guc.edu.eg',
+          fullName: 'Ahmed',
+          email: 'omar@student.guc.edu.eg',
           password: '',
-          userType: UserType.professor,
           userName: 'omar.kaa',
         ),
         image:
@@ -70,13 +71,16 @@ class _PendingsScreenState extends State<PendingsScreen> {
 
   void filterItems(String value) {
     value = value.trim().toLowerCase();
+    String tempSelectFilter = _selectFilter.toLowerCase();
     setState(() {
       _searchController.text = value;
 
       postsDisplay = [];
       postsDisplay.addAll(posts
           .where((element) =>
-              (element.poster.fullName ?? '').toLowerCase().contains(value))
+              ((element.poster.fullName ?? '').toLowerCase().contains(value) &&
+                  (element.poster.userType == tempSelectFilter ||
+                      tempSelectFilter == 'all')))
           .toList());
     });
   }
@@ -101,6 +105,80 @@ class _PendingsScreenState extends State<PendingsScreen> {
     );
   }
 
+  Widget _buildSelectFilter() {
+    /* return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DropdownButton<String>(
+        value: _selectFilter,
+        elevation: 16,
+        onChanged: (String? newValue) {
+          setState(() {
+            _selectFilter = newValue!;
+          });
+
+          filterItems(_searchController.text);
+        },
+        items: <String>['All', 'Stuff', 'Student']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 20),
+            ),
+          );
+        }).toList(),
+      ),
+    ); */
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Expanded(
+        child: ToggleButtons(
+          direction: Axis.horizontal,
+          borderRadius: BorderRadius.circular(10),
+          borderWidth: 2,
+          key: const PageStorageKey('pending_posts_select_filter'),
+          onPressed: (int index) {
+            setState(() {
+              _selectFilter = ['All', 'Stuff', 'Student'][index];
+            });
+
+            filterItems(_searchController.text);
+          },
+          isSelected: [
+            _selectFilter == 'All',
+            _selectFilter == 'Stuff',
+            _selectFilter == 'Student',
+          ],
+          children: const [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'All',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Stuff',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Student',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildPosts() {
     return _isLoading
         ? const Loader()
@@ -114,6 +192,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
               ))
             : RefreshIndicator(
                 onRefresh: () async {
+                  fetchItems();
                   filterItems(_searchController.text);
                   setState(() {
                     _isLoading = false;
@@ -121,6 +200,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
                 },
                 child: ListView.builder(
                   itemCount: postsDisplay.length,
+                  key: const PageStorageKey('pending_posts'),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return Dismissible(
@@ -128,13 +208,10 @@ class _PendingsScreenState extends State<PendingsScreen> {
                       onDismissed: (direction) {
                         if (direction.index == 2) {
                           newsEventClubProvider
-                              .deletePost(postsDisplay[index].id);
+                              .approvePost(postsDisplay[index]);
                         } else if (direction.index == 3) {
                           newsEventClubProvider
-                              .approvePost(postsDisplay[index].id);
-                        } else if (direction.index == 4) {
-                          newsEventClubProvider
-                              .disapprovePost(postsDisplay[index].id);
+                              .disapprovePost(postsDisplay[index]);
                         }
                         setState(() {
                           postsDisplay.removeAt(index);
@@ -142,7 +219,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
                       },
                       background: Container(
                         color: Colors.red,
-                        child: const Icon(Icons.delete),
+                        child: const Icon(Icons.disabled_by_default),
                       ),
                       secondaryBackground: Container(
                         color: Colors.green,
@@ -154,10 +231,10 @@ class _PendingsScreenState extends State<PendingsScreen> {
                         onTap: (NewsEventClub post, bool decision) async {
                           if (decision) {
                             await newsEventClubProvider
-                                .approvePost(postsDisplay[index].id);
+                                .approvePost(postsDisplay[index]);
                           } else {
                             await newsEventClubProvider
-                                .disapprovePost(postsDisplay[index].id);
+                                .disapprovePost(postsDisplay[index]);
                           }
                           setState(() {
                             posts.removeWhere((element) =>
@@ -181,6 +258,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
         body: Column(
           children: [
             _buildSearchBar(),
+            _buildSelectFilter(),
             Expanded(
               child: _buildPosts(),
             ),
@@ -199,12 +277,12 @@ class PostTile extends StatelessWidget {
 
   String userTitle() {
     String title = '';
-    if (user.userType == UserType.professor) {
-      title = '(Prof.)';
-    } else if (user.userType == UserType.ta) {
-      title = '(Dr.)';
-    } else if (user.userType == UserType.student) {
+    if (user.userType == UserType.student) {
       title = '(Stud)';
+    } else if (user.userType == UserType.stuff) {
+      title = '(Stuff)';
+    } else if (user.userType == UserType.admin) {
+      title = '(Admin)';
     }
     return title;
   }
@@ -246,7 +324,18 @@ class PostTile extends StatelessWidget {
             ),
           ),
         ),
-        title: Text('${titleCase(user.fullName ?? '')} - ${userTitle()}'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              titleCase(user.fullName ?? ''),
+            ),
+            Text(
+              userTitle(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
         subtitle: Text(user.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),

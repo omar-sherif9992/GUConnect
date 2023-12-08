@@ -10,6 +10,7 @@ class NewsEventClubProvider extends ChangeNotifier {
       await _firestore.collection('newsEventClubs').add(post.toJson());
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -21,18 +22,37 @@ class NewsEventClubProvider extends ChangeNotifier {
         .update({'approvalStatus': 'requested'});
   }
 
-  Future<void> approvePost(String postId) async {
-    await _firestore
-        .collection('newsEventClubs')
-        .doc(postId)
-        .update({'approvalStatus': 'approved'});
+  Future<void> approvePost(NewsEventClub newsEventClub) async {
+    try {
+      final QuerySnapshot document =  await _firestore
+          .collection('newsEventClubs')
+          .where('id', isEqualTo: newsEventClub.id).get();
+
+      if (document.docs.isNotEmpty) {
+        await _firestore.collection('newsEventClubs')
+          .doc(document.docs.first.id).update({'approvalStatus': 'approved'});
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future<void> disapprovePost(String postId) async {
-    await _firestore
-        .collection('newsEventClubs')
-        .doc(postId)
-        .update({'approvalStatus': 'disapproved'});
+  Future<void> disapprovePost(NewsEventClub newsEventClub) async {
+    try {
+      final QuerySnapshot document =  await _firestore
+          .collection('newsEventClubs')
+          .where('id', isEqualTo: newsEventClub.id).get();
+
+      if (document.docs.isNotEmpty) {
+        await _firestore.collection('newsEventClubs')
+          .doc(document.docs.first.id).update({'approvalStatus': 'disapproved'});
+      }
+      
+
+      
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> deletePost(String postId) async {
@@ -74,7 +94,7 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<List<dynamic>> likePost(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final QuerySnapshot querySnapshot = await _firestore
         .collection('newsEventClubs')
         .where('id', isEqualTo: postId)
         .get();
@@ -98,7 +118,7 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<List<dynamic>> dislike(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final QuerySnapshot querySnapshot = await _firestore
         .collection('newsEventClubs')
         .where('id', isEqualTo: postId)
         .get();
