@@ -4,6 +4,8 @@ import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/screens/admin/request_post_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
+import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,7 @@ class PendingsScreen extends StatefulWidget {
 }
 
 class _PendingsScreenState extends State<PendingsScreen> {
+  
   List<NewsEventClub> posts = [];
   List<NewsEventClub> postsDisplay = [];
 
@@ -251,6 +254,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const BottomBar(),
+      drawer: const MainDrawer(),
         appBar: const CustomAppBar(
           title: 'Pending Posts',
           isLogo: false,
