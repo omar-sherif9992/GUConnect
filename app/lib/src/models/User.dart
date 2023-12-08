@@ -38,6 +38,7 @@ class CustomUser {
   late String password;
   late String? biography;
   late String userType;
+  late String? user_id;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   CustomUser({
@@ -48,6 +49,7 @@ class CustomUser {
     required this.password,
     this.biography,
     this.phoneNumber,
+    this.user_id
   }) {
     this.userType = getUserType();
   }
@@ -81,6 +83,7 @@ class CustomUser {
         : json['userType'] == 'student'
             ? UserType.student
             : UserType.stuff;
+    user_id = json['user_id'];
   }
 
   /// Converts the User object to a JSON map.
@@ -94,6 +97,7 @@ class CustomUser {
     data['password'] = this.password;
     data['biography'] = this.biography;
     data['userType'] = this.userType.toString();
+    data['user_id'] = this.user_id;
     return data;
   }
 
