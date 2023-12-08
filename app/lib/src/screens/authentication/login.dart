@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value!.isEmpty) {
                                   return 'Enter your email address';
                                 } else if (!value.contains('@guc.edu.eg') &&
-                                    !value.contains('@student.guc.edu.eg')) {
+                                    !value.contains('@student.guc.edu.eg')&& !value.contains('@gucconnect.com')) {
                                   return 'Enter a valid GUC email address';
                                 } else {
                                   return null;
