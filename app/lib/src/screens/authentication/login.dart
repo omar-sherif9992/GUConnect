@@ -33,9 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        final CustomUser user =
+        final CustomUser? user =
             await userProvider.getUser(emailController.text);
-        userProvider.setUser(user);
+        if(user != null){
+          userProvider.setUser(user);}
+     
         if (context.mounted) {
           Navigator.of(context).pop();
           Navigator.of(context)

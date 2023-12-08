@@ -43,9 +43,13 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
     Future.delayed(const Duration(seconds: 3), () async {
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-     final bool loggedIn= userProvider.loggedIn;
+    //  final bool loggedIn= userProvider.loggedIn;
+      final User? user = FirebaseAuth.instance.currentUser;
       Navigator.pop(context);
-      if (loggedIn) {
+      if (user != null) {
+        final CustomUser? userWithDetails=await userProvider.getUser(user.email!);
+        // print(userWithDetails);
+        userProvider.setUser(userWithDetails!);
         Navigator.pushNamed(context, CustomRoutes.profile);
       } else {
         Navigator.pushNamed(context, CustomRoutes.login);

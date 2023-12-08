@@ -33,28 +33,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: Colors.green,
       ));
       final bool success = await userProvider.register(newUser);
-      print(newUser);
-      print(success);
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Register Successful'),
           backgroundColor: Colors.green,
         ));
         return true;
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Email already Registered'),
-          backgroundColor: Colors.red,
-        ));
-        return false;
-      }
+      } 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Wrong OTP'),
+        content: Text('Wrong OTP entered, please try again.'),
         backgroundColor: Colors.red,
       ));
       return false;
     }
+    return false;
   }
 
   void _showOtpInputDialog(UserProvider userProvider, CustomUser newUser) {
@@ -136,10 +129,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        userType:
-            emailController.text.trim().split('@')[1].split('.')[0] == 'student'
-                ? UserType.student
-                : UserType.stuff,
+        // userType:
+        //     emailController.text.trim().split('@')[1].split('.')[0] == 'student'
+        //         ? UserType.student
+        //         : UserType.staff,
         fullName: emailController.text.trim().split('@')[0].split('.')[0] +
             ' ' +
             emailController.text.trim().split('@')[0].split('.')[1],
@@ -241,6 +234,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        if(await userProvider.getUser(emailController.text.trim())!=null){
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Email already Registered'),
+                            backgroundColor: Colors.red,
+                          ));
+                          return;
+                        }
                         await _register(userProvider);
                       }
                     },

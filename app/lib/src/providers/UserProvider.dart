@@ -239,7 +239,7 @@ class UserProvider with ChangeNotifier {
     }
     return false;
   }
-  Future<CustomUser> getUser(String email) async{
+  Future<CustomUser?> getUser(String email) async{
     final QuerySnapshot<CustomUser> querySnapshot =await usersRef.where('email',isEqualTo: email).get() ;
     return querySnapshot.docs.first.data();
   }
