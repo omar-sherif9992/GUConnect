@@ -1,5 +1,7 @@
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/widgets/input_field.dart';
+import 'package:GUConnect/src/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -15,43 +17,47 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController otpController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-  _verifyOtp(String enteredOtp, UserProvider userProvider, String email ,CustomUser newUser) async {
-    final bool verified = userProvider.verifyOTP(email, enteredOtp);
+  Future<bool> _verifyOtp(
+      String enteredOtp, UserProvider userProvider, CustomUser newUser) async {
+    final bool verified =
+        userProvider.verifyOTP(emailController.text.trim(), enteredOtp);
+        print(verified);
     if (verified) {
-      // Fluttertoast.showToast(
-      //   msg: 'OTP verification successful!',
-      //   gravity: ToastGravity.BOTTOM,
-      //   backgroundColor: Colors.green,
-      // );
-       final bool success= await userProvider.register(newUser);
-               if (success) {
-          // Fluttertoast.showToast(
-          //   msg: 'Registration successful.',
-          //   gravity: ToastGravity.BOTTOM,
-          //   backgroundColor: Colors.green,
-          // );
-
-        } else {
-          // Fluttertoast.showToast(
-          //   msg: 'Registration failed as email already exists.',
-          //   gravity: ToastGravity.BOTTOM,
-          //   backgroundColor: Colors.red,
-          // );
-        }
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('otp verified.'),
+        backgroundColor: Colors.green,
+      ));
+      final bool success = await userProvider.register(newUser);
+      print(newUser);
+      print(success);
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Register Successful'),
+          backgroundColor: Colors.green,
+        ));
+        return true;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Email already Registered'),
+          backgroundColor: Colors.red,
+        ));
+        return false;
+      }
     } else {
-      // Fluttertoast.showToast(
-      //   msg: 'OTP verification failed:',
-      //   gravity: ToastGravity.BOTTOM,
-      //   backgroundColor: Colors.red,
-      // );
-
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Wrong OTP'),
+        backgroundColor: Colors.red,
+      ));
+      return false;
     }
   }
 
-  void _showOtpInputDialog(UserProvider userProvider, String email,CustomUser newUser) {
+  void _showOtpInputDialog(UserProvider userProvider, CustomUser newUser) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -98,12 +104,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final String enteredOtp = otpController.text;
-                _verifyOtp(
-                    enteredOtp, userProvider, email,newUser); // Verify the entered OTP
+                final bool flag = await _verifyOtp(enteredOtp, userProvider,
+                    newUser); // Verify the entered OTP
                 // Close the dialog
-                Navigator.pop(context);
+                if (flag) {
+                  Navigator.pop(context);
+                }
               },
               child: const Text('Submit'),
               style: ElevatedButton.styleFrom(
@@ -124,137 +132,145 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  _register() async {
-
+  _register(UserProvider userProvider) async {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        userType: emailController.text.trim().split('@')[1].split('.')[0] == 'student' ? UserType.student : UserType.stuff,
-        fullName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1],
-        userName: emailController.text.trim().split('@')[0].split('.')[0]+ ' ' + emailController.text.trim().split('@')[0].split('.')[1]);
+        userType:
+            emailController.text.trim().split('@')[1].split('.')[0] == 'student'
+                ? UserType.student
+                : UserType.stuff,
+        fullName: emailController.text.trim().split('@')[0].split('.')[0] +
+            ' ' +
+            emailController.text.trim().split('@')[0].split('.')[1],
+        userName: emailController.text.trim().split('@')[0].split('.')[0] +
+            ' ' +
+            emailController.text.trim().split('@')[0].split('.')[1]);
 
-    final RegExp emailRegExp = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
-    final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-    
-    if (emailRegExp.hasMatch(emailController.text)) {
-      if (passwordController.text.trim().length >= 6) {
-        if(passwordController.text.trim() == confirmPasswordController.text.trim()) {
-          userProvider.sendOtpToEmail(emailController.text.trim());
-          _showOtpInputDialog(userProvider, emailController.text.trim(),newUser);
-        
-
-        }else{
-          // Fluttertoast.showToast(
-          //   msg: 'Passwords do not match.',
-          //   gravity: ToastGravity.BOTTOM,
-          //   backgroundColor: Colors.red,
-          // );
-        }
-        // final bool success = userProvider.register(newUser) as bool;
-        
-      } else {
-        // Fluttertoast.showToast(
-        //   msg: 'Password must be at least 6 characters long.',
-        //   gravity: ToastGravity.BOTTOM,
-        //   backgroundColor: Colors.red,
-        // );
-      }
-    } else {
-      // Fluttertoast.showToast(
-      //   msg: 'Invalid email address.',
-      //   gravity: ToastGravity.BOTTOM,
-      //   backgroundColor: Colors.red,
-      // );
-    }
+    userProvider.sendOtpToEmail(emailController.text.trim());
+    _showOtpInputDialog(userProvider, newUser);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  hintText: 'Sample@guc.edu.eg',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2.0, // change this to adjust the width
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    return Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InputField(
+                    controller: emailController,
+                    label: 'Email Address',
+                    icon: Icons.email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      final RegExp emailRegExp = RegExp(
+                          r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
+                      if (value!.isEmpty) {
+                        return 'Enter your email address';
+                      } else if (!emailRegExp.hasMatch(value)) {
+                        return 'Enter a valid GUC email address';
+                      } else {
+                        return null;
+                      }
+                    },
+                    // decoration: const InputDecoration(
+                    //   labelText: 'Email Address',
+                    //   hintText: 'Sample@guc.edu.eg',
+                    //   border: OutlineInputBorder(
+                    //     borderSide: BorderSide(
+                    //       width: 2.0, // change this to adjust the width
+                    //     ),
+                    //   ),
+                    // ),
+                    // inputFormatters: [NoSpaceInputFormatter()]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PasswordField(
+                    passwordController: passwordController,
+                    hintText: 'Password',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      } else {
+                        return null;
+                      }
+                    },
+                    // decoration: const InputDecoration(
+                    //   labelText: 'Password',
+                    //   hintText: '********',
+                    //   border: OutlineInputBorder(
+                    //     borderSide: BorderSide(
+                    //       width: 2.0, // change this to adjust the width
+                    //     ),
+                    //   ),
+                    // ),
+                    // obscureText: true,
+                    // inputFormatters: [NoSpaceInputFormatter()]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PasswordField(
+                      passwordController: confirmPasswordController,
+                      hintText: 'Confirm Password',
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Confirm your password';
+                        } else if (value != passwordController.text.trim()) {
+                          return 'Passwords do not match';
+                        } else if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        } else {
+                          return null;
+                        }
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await _register(userProvider);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.onSecondary,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      // size 30% of screen width
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.9, 50),
+                      alignment: Alignment.center,
+                    ),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(
+                          fontSize: 18), // Customize the text size if needed
                     ),
                   ),
-                ),
-                inputFormatters: [NoSpaceInputFormatter()]
-              ),
+                )
+              ],
             ),
-             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  hintText: '********',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2.0, // change this to adjust the width
-                    ),
-                  ),
-                ),
-                obscureText: true,
-                inputFormatters: [NoSpaceInputFormatter()]
-              ),
-            ),
-             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: confirmPasswordController,
-                decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
-                  hintText: '********',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 2.0, // change this to adjust the width
-                    ),
-                  ),
-                ),
-                obscureText: true,
-                inputFormatters: [NoSpaceInputFormatter()],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  _register(); // Handle Register
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // size 30% of screen width
-                  minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 50),
-                  alignment: Alignment.center,
-                ),
-                child: const Text(
-                  'Register',
-                  style: TextStyle(
-                      fontSize: 18), // Customize the text size if needed
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
+
 class NoSpaceInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

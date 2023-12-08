@@ -59,7 +59,7 @@ class UserProvider with ChangeNotifier {
           email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
 
-      usersRef.add(newUser);
+      await usersRef.add(newUser);
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -238,6 +238,13 @@ class UserProvider with ChangeNotifier {
       return true;
     }
     return false;
+  }
+  Future<CustomUser> getUser(String email) async{
+    final QuerySnapshot<CustomUser> querySnapshot =await usersRef.where('email',isEqualTo: email).get() ;
+    return querySnapshot.docs.first.data();
+  }
+  void setUser(CustomUser user) {
+    _user = user;
   }
 
   Future getUsers() async {

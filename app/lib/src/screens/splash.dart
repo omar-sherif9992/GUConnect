@@ -1,6 +1,9 @@
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,11 +41,11 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
     // Add a delay to simulate a splash screen
 
     Future.delayed(const Duration(seconds: 3), () async {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      User? user = auth.currentUser;
-
-      Navigator.pop(context, CustomRoutes.home);
-      if (user != null) {
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+     final bool loggedIn= userProvider.loggedIn;
+      Navigator.pop(context);
+      if (loggedIn) {
         Navigator.pushNamed(context, CustomRoutes.profile);
       } else {
         Navigator.pushNamed(context, CustomRoutes.login);
