@@ -82,6 +82,7 @@ class CustomRoutes {
       adminStaff: (context) => const SearchStaffScreen(),
       adminAddStaff: (context) => const SearchStaffScreen(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
+      admin: (context) => const PendingsScreen(),
     };
   }
 }
