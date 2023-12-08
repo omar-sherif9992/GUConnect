@@ -163,7 +163,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       final RegExp emailRegExp = RegExp(
-                          r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
+  r'^[a-zA-Z]+\.[a-zA-Z]+@(guc\.edu\.eg|student\.guc\.edu\.eg|gucconnect\.com)$',
+);
+
                       if (value!.isEmpty) {
                         return 'Enter your email address';
                       } else if (!emailRegExp.hasMatch(value)) {

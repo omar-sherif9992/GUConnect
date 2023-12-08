@@ -39,9 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
           userProvider.setUser(user);}
      
         if (context.mounted) {
-          Navigator.of(context).pop();
-          Navigator.of(context)
-              .pushNamed(CustomRoutes.profile, arguments: user);
+          if(emailController.text.trim().contains('@gucconnect.com')){
+            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+          }else{
+            Navigator.popAndPushNamed(context, CustomRoutes.profile);
+          }
+
         }
       }
     } else {
