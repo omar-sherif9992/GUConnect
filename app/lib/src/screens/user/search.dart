@@ -36,19 +36,6 @@ class _SearchScreenState extends State<SearchScreen>
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
 
-    staffProvider.addStaff(Staff(
-      fullName: 'John Doe',
-      email: 'abdo@gmail.com',
-      rating: 2,
-      staffType: StaffType.professor,
-    ));
-    staffProvider.addStaff(Staff(
-      fullName: 'Mohy',
-      email: 'mohy@gmail.com',
-      rating: 5,
-      staffType: StaffType.ta,
-    ));
-
     fetchStaff(staffProvider).then((value) => {
           setState(() {
             _isLoading = false;
@@ -151,6 +138,7 @@ class _SearchScreenState extends State<SearchScreen>
                   });
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('profs_user'),
                   itemCount: proffsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -185,6 +173,7 @@ class _SearchScreenState extends State<SearchScreen>
                   });
                 },
                 child: ListView.builder(
+                  key: const PageStorageKey('tas_user'),
                   itemCount: tasDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -215,7 +204,7 @@ class _SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: '',
+        title: 'Search Staff',
         isLogo: false,
       ),
       body: Column(
@@ -249,16 +238,6 @@ class StaffTile extends StatelessWidget {
 
   const StaffTile({required this.staff, super.key, required this.staffType});
 
-  String staffTitle() {
-    String title = '';
-    if (staff.staffType == StaffType.professor) {
-      title = 'Prof.';
-    } else if (staff.staffType == StaffType.ta) {
-      title = 'Dr.';
-    }
-    return title;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -278,7 +257,7 @@ class StaffTile extends StatelessWidget {
             backgroundImage: NetworkImage(staff.image ?? ''),
           ),
         ),
-        title: Text('${staffTitle()} ${titleCase(staff.fullName)}'),
+        title: Text(titleCase(staff.fullName)),
         subtitle: Text(staff.email),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
@@ -287,10 +266,6 @@ class StaffTile extends StatelessWidget {
                 .pushNamed(CustomRoutes.profile, arguments: staff);
           },
         ),
-        onTap: () {
-          Navigator.of(context)
-              .pushNamed(CustomRoutes.profile, arguments: staff);
-        },
       ),
     );
   }

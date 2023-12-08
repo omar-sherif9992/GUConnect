@@ -2,13 +2,13 @@ name: GUConnect
 description: "Connecting Minds, Empowering Futures: Welcome to GUConnect - where innovation meets collaboration, and possibilities flourish."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ">=3.2.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -20,7 +20,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -29,7 +28,7 @@ dependencies:
   image_picker: ^1.0.4
   provider: ^6.1.1
   email_validator: ^2.1.17
-  intl_phone_number_input: ^0.7.3+1  
+  intl_phone_number_input: ^0.7.3+1
   flash: ^3.1.0
   device_preview: ^1.1.0
   cached_network_image: ^3.3.0
@@ -39,6 +38,8 @@ dependencies:
   url_launcher: ^6.2.1
   flutter_phone_direct_caller: ^2.1.1
   firebase_storage: ^11.5.3
+
+  mailer: ^6.0.1
   emoji_picker_flutter: ^1.6.3
   firebase_messaging: ^14.7.7
 
@@ -61,19 +62,15 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   image_path: "assets/images/GUConnect-Logo.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-
 
   fonts:
     - family: Roboto
@@ -82,7 +79,6 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
-
 
   assets:
     - assets/

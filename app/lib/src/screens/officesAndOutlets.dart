@@ -1,5 +1,7 @@
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:GUConnect/src/dummy_data/OfficeItems.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OfficesAndOutlets extends StatefulWidget {
   const OfficesAndOutlets({super.key});
@@ -11,6 +13,11 @@ class OfficesAndOutlets extends StatefulWidget {
 class _OfficesAndOutletsState extends State<OfficesAndOutlets>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<OfficeItem> offices = dummy_offices;
+  List<OfficeItem> outlets = dummy_outlets;
+
+  late final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +27,14 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
       ),
       body: Column(
         children: [
+          _buildSearchBar(),
           TabBar(
             controller: _tabController,
             tabs: const [
               Tab(
-                text: 'Phone Numbers',
+                text: 'Offices',
               ),
-              Tab(text: 'Emails'),
+              Tab(text: 'Outlets'),
             ],
           ),
           Expanded(
@@ -51,96 +59,103 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
   }
 
   Widget _buildOutlets() {
-    return ListView(
-      children: <Widget>[
-        OfficeItem(
-          officeName: '3am Saad',
-          officeLocation: 'under platform',
-        ),
-        OfficeItem(
-          officeName: 'Arabiata',
-          officeLocation: 'beside the B',
-        ),
-        OfficeItem(
-          officeName: 'L\'aroma',
-          officeLocation: 'Platform',
-        ),
-        OfficeItem(
-          officeName: 'Friends caffee',
-          officeLocation: 'Platform',
-        ),
-      ],
-    );
+    return ListView(children: outlets);
   }
 
   Widget _buildOffices() {
-    return ListView(
-      children: <Widget>[
-        OfficeItem(
-          officeName: 'Finance Office',
-          officeLocation: 'B4 001',
+    return ListView(children: offices);
+  }
+
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Search Offices/Outlets',
+          labelText: 'Search Offices/Outlets',
+          prefixIcon: const Icon(Icons.search),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        OfficeItem(
-          officeName: 'Military Office',
-          officeLocation: 'B2 017',
-        ),
-        OfficeItem(
-          officeName: 'Travel Office',
-          officeLocation: 'C7 210',
-        ),
-        OfficeItem(
-          officeName: 'SCAD Office',
-          officeLocation: 'C7 001',
-        ),
-      ],
+        onChanged: (value) {
+          filterOfficesAndOutlets(value);
+        },
+        controller: _searchController,
+      ),
     );
+  }
+
+  void filterOfficesAndOutlets(String value) {
+    value = value.trim().toLowerCase();
+    setState(() {
+      _searchController.text = value;
+
+      offices = [];
+      offices.addAll(dummy_offices
+          .where(
+              (element) => (element.officeName).toLowerCase().contains(value))
+          .toList());
+      outlets = [];
+      outlets.addAll(dummy_outlets
+          .where(
+              (element) => (element.officeName).toLowerCase().contains(value))
+          .toList());
+    });
   }
 }
 
 class OfficeItem extends StatelessWidget {
   final String officeName;
   final String officeLocation;
+  final double latitude;
+  final double longitude;
 
-  OfficeItem({required this.officeName, required this.officeLocation});
+  OfficeItem(
+      {required this.officeName,
+      required this.officeLocation,
+      required this.latitude,
+      required this.longitude});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  officeName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                Text(officeLocation),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-              ),
-              child: const Text(
-                'Get directions',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
         ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
+      child: ListTile(
+        title: Text(
+          officeName,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        subtitle: Text(
+          officeLocation,
+          style: TextStyle(
+              fontSize: 16, color: Theme.of(context).colorScheme.secondary),
+        ),
+        trailing: Text(
+          "Directons",
+          style: TextStyle(fontSize: 14),
+        ),
+        onTap: () async {
+          openMap(latitude, longitude);
+        },
       ),
     );
+  }
+
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    Uri googleUri = Uri.parse(googleUrl);
+    if (!await launchUrl(googleUri)) {
+      throw Exception('Could not launch $googleUri');
+    }
   }
 }

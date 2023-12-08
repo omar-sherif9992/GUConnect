@@ -1,11 +1,31 @@
 /// Represents the type of a user in the application.
 
-enum UserType {
-  admin,
-  student,
-  professor,
-  ta,
-  stuff,
+class UserType {
+  static String admin = 'admin';
+  static String student = 'student';
+  static String stuff = 'stuff';
+
+  static String getUserType(String staffType) {
+    if (staffType == UserType.student) {
+      return 'student';
+    } else if (staffType == UserType.admin) {
+      return 'admin';
+    } else {
+      return 'stuff';
+    }
+  }
+
+  static String getUserTypeValue(String userType) {
+    if (userType == 'student') {
+      return UserType.student;
+    } else if (userType == 'stuff') {
+      return UserType.stuff;
+    } else if (userType == 'admin') {
+      return UserType.admin;
+    } else {
+      return 'stuff';
+    }
+  }
 }
 
 /// Represents a user in the application.
@@ -17,23 +37,29 @@ class CustomUser {
   late String email; // acts as the user's id
   late String password;
   late String? biography;
-  late UserType userType;
+  late String userType;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
   CustomUser({
-    this.fullName,
-    this.userName,
+    required this.fullName,
+    required this.userName,
     this.image,
     required this.email,
     required this.password,
     this.biography,
-    this.phoneNumber, required UserType userType,
+    this.phoneNumber,
   }) {
     this.userType = getUserType();
   }
+  CustomUser.edit({
+    this.fullName,
+    this.userName,
+    required this.email,
+    this.biography,
+    this.phoneNumber,
+  });
   CustomUser.dummy(
-      {
-      required this.fullName,
+      {required this.fullName,
       required this.userName,
       required this.image,
       required this.email,
@@ -50,6 +76,11 @@ class CustomUser {
     email = json['email'];
     biography = json['biography'];
     password = json['password'];
+    userType = json['userType'] == 'admin'
+        ? UserType.admin
+        : json['userType'] == 'student'
+            ? UserType.student
+            : UserType.stuff;
   }
 
   /// Converts the User object to a JSON map.
@@ -62,22 +93,23 @@ class CustomUser {
     data['email'] = this.email;
     data['password'] = this.password;
     data['biography'] = this.biography;
+    data['userType'] = this.userType.toString();
     return data;
   }
 
-  UserType getUserType() {
-    try{
-    String split = this.email.split('@')[1];
-    split = split.split('.')[0];
-    split = split.toLowerCase();
-    if (split == 'student') {
-      return UserType.student;
-    } else if (split == 'gucconnect') {
-      return UserType.admin;
-    } else {
-      return UserType.stuff;
-    }
-    }catch(e){
+  String getUserType() {
+    try {
+      String split = this.email.split('@')[1];
+      split = split.split('.')[0];
+      split = split.toLowerCase();
+      if (split == 'student') {
+        return UserType.student;
+      } else if (split == 'gucconnect') {
+        return UserType.admin;
+      } else {
+        return UserType.stuff;
+      }
+    } catch (e) {
       return UserType.stuff;
     }
   }

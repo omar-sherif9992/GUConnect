@@ -7,7 +7,6 @@ class MainDrawer extends StatelessWidget {
   void onSelectScreen(BuildContext context, String routeName) {
     Navigator.of(context).pushNamed(routeName);
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +80,8 @@ class MainDrawer extends StatelessWidget {
             onTap: () {
               onSelectScreen(context, CustomRoutes.search);
             },
-          ), ListTile(
+          ),
+          ListTile(
             leading: Icon(
               Icons.search,
               size: 24,
@@ -100,6 +100,23 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.search,
+              size: 24,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Search Admin',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen(context, CustomRoutes.adminStaff);
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.edit,
               size: 24,
               color: Theme.of(context).colorScheme.onBackground,
@@ -113,23 +130,6 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(context, CustomRoutes.officesAndOutlets);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.search,
-              size: 24,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text(
-              'Clubs and Events',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-              onSelectScreen(context, CustomRoutes.clubsAndEvents);
             },
           ),
           Expanded(
