@@ -241,6 +241,9 @@ class UserProvider with ChangeNotifier {
   }
   Future<CustomUser?> getUser(String email) async{
     final QuerySnapshot<CustomUser> querySnapshot =await usersRef.where('email',isEqualTo: email).get() ;
+    if(querySnapshot.docs.isEmpty){
+      return null;
+    }
     return querySnapshot.docs.first.data();
   }
   void setUser(CustomUser user) {

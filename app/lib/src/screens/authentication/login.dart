@@ -62,7 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<UserProvider>(context, listen: false);
     return Form(
       key: _formKey,
-      child: Scaffold(
+      child: SingleChildScrollView(child: 
+      Scaffold(
         appBar: AppBar(
           title: Center(
             child: Image.asset(
@@ -79,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 .start, // Aligns children to the start of the Column
             children: [
               // login
+              
               const Padding(
                 padding:
                     EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
@@ -214,6 +216,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
