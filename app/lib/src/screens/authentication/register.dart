@@ -39,7 +39,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text('Register Successful'),
           backgroundColor: Colors.green,
         ));
-        userProvider.setUser(newUser);
+        CustomUser? userWithId=await userProvider.getUser(emailController.text.trim());
+        userProvider.setUser(userWithId!);
         Navigator.of(context).pop();
         Navigator.of(context).pushNamed(CustomRoutes.profile);
         return true;
