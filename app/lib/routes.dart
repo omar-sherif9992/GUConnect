@@ -78,6 +78,7 @@ class CustomRoutes {
       clubsAndEvents: (context) => const ClubsAndEvents(),
       addClubPost: (context) => const AddPost(),
       adminStaff: (context) => const SearchStaffScreen(),
+      admin: (context) => const PendingsScreen(),
     };
   }
 }
