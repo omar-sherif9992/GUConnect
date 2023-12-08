@@ -2,31 +2,55 @@ import 'dart:io';
 
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
 import 'package:GUConnect/src/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfileEditForm extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
+class ProfileEditForm extends StatefulWidget {
+  final File? profileImageFile;
+
+  const ProfileEditForm({
+    super.key,
+    this.profileImageFile,
+  });
+
+  @override
+  State<ProfileEditForm> createState() => _ProfileEditFormState();
+}
+
+class _ProfileEditFormState extends State<ProfileEditForm> {
+  final TextEditingController usernameController = TextEditingController();
+
   final TextEditingController fullNameController = TextEditingController();
+
   final TextEditingController userNameController = TextEditingController();
+
   final TextEditingController bioController = TextEditingController();
+
   final TextEditingController phoneController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  late final CustomUser user;
-  final File? profileImageFile;
 
-  ProfileEditForm({
-    super.key,
-    this.profileImageFile,
-  });
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    usernameController.dispose();
+    fullNameController.dispose();
+    userNameController.dispose();
+    bioController.dispose();
+    phoneController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +60,11 @@ class ProfileEditForm extends StatelessWidget {
       Navigator.of(context).popAndPushNamed('/login');
     }
 
-    user = userProvider.user as CustomUser;
+    final CustomUser user = userProvider.user as CustomUser;
 
     fullNameController.text = user.fullName ?? '';
     userNameController.text = user.userName ?? '';
-    emailController.text = user.email;
+    userNameController.text = user.userName ?? '';
     bioController.text = user.biography ?? '';
     phoneController.text = user.phoneNumber ?? '';
     passwordController.text = user.password;
@@ -66,7 +90,19 @@ class ProfileEditForm extends StatelessWidget {
                 },
                 keyboardType: TextInputType.name,
               ),
-              EmailField(emailController: emailController),
+              InputField(
+                controller: userNameController,
+                label: 'User Name',
+                icon: Icons.person,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter your user name';
+                  } else {
+                    return null;
+                  }
+                },
+                keyboardType: TextInputType.name,
+              ),
               PhoneInputField(
                 controller: phoneController,
               ),
@@ -101,39 +137,52 @@ class ProfileEditForm extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
+                  if (_isLoading)
+                    const CircularProgressIndicator()
+                  else
+                    ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                            setState(() {
+                              _isLoading = true;
+                            });
 
-                          await userProvider.updateProfile(
-                              CustomUser.edit(
-                                  email: emailController.text,
-                                  fullName: fullNameController.text,
-                                  userName: userNameController.text,
-                                  phoneNumber: phoneController.text,
-                                  biography: bioController.text),
-                              profileImageFile);
+                            await userProvider.updateProfile(
+                                CustomUser.edit(
+                                    fullName: fullNameController.text,
+                                    userName: userNameController.text,
+                                    phoneNumber: phoneController.text,
+                                    biography: bioController.text),
+                                widget.profileImageFile);
 
-                          await userProvider.updateEmail(emailController.text);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onSecondary,
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Profile Updated')),
+                            );
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // size 30% of screen width
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width * 0.3, 50),
+                          alignment: Alignment.center,
                         ),
-                        // size 30% of screen width
-                        minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.3, 50),
-                        alignment: Alignment.center,
-                      ),
-                      child: const Text('Edit Profile')),
+                        child: const Text('Edit Profile')),
                 ],
               ),
             ],

@@ -20,14 +20,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   String? profileImageUrl;
 
   void onPickImage(File pickedImage) {
-    profileImageFile = pickedImage;
+    setState(() {
+      profileImageFile = pickedImage;
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    
+
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
     }
@@ -51,12 +52,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               height: Sizes.medium,
             ),
             UserImagePicker(
-                onPickImage: onPickImage,profileImageUrl: profileImageUrl),
+                onPickImage: onPickImage, profileImageUrl: profileImageUrl),
             const SizedBox(
               height: Sizes.medium,
             ),
             SizedBox(
-                height: 500, child: ProfileEditForm(
+                height: 500,
+                child: ProfileEditForm(
                   profileImageFile: profileImageFile,
                 )),
           ],

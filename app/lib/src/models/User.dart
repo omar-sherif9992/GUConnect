@@ -56,7 +56,6 @@ class CustomUser {
   CustomUser.edit({
     this.fullName,
     this.userName,
-    required this.email,
     this.biography,
     this.phoneNumber,
   });
