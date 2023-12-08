@@ -1,3 +1,4 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
@@ -38,6 +39,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text('Register Successful'),
           backgroundColor: Colors.green,
         ));
+        userProvider.setUser(newUser);
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(CustomRoutes.profile);
         return true;
       } 
     } else {

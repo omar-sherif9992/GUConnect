@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<UserProvider>(context, listen: false);
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(child: 
+      child: 
       Scaffold(
         appBar: AppBar(
           title: Center(
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Padding(
+                    SingleChildScrollView(child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: <Widget>[
@@ -180,6 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   await _login(userProvider);
+                                  print('/////////////////////////////////////////////');
+                                  print(userProvider.user);
+                                  print('/////////////////////////////////////////////');
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -207,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         ],
                       ),
-                    ),
+                    )),
                     const RegisterScreen(),
                   ],
                 ),
@@ -216,6 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

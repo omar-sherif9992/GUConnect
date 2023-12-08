@@ -55,11 +55,15 @@ class UserProvider with ChangeNotifier {
 
   Future<bool> register(CustomUser newUser) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential=await _firebaseAuth.createUserWithEmailAndPassword(
           email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
-
-      await usersRef.add(newUser);
+      //  print('/////////////////////////////////////////////');
+      // print(userCredential.user);
+      newUser.user_id = userCredential.user?.uid;
+      // print(newUser);
+      //  print('/////////////////////////////////////////////');
+      await usersRef.doc(userCredential.user?.uid).set(newUser);
 
       return true;
     } on FirebaseAuthException catch (e) {
