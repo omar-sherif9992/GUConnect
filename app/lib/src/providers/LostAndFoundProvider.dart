@@ -5,13 +5,16 @@ import 'package:flutter/foundation.dart';
 class LostAndFoundProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> postItem(LostAndFound Item) async {
-    try{
-    await _firestore.collection('lostAndFound').doc(Item.id).set(Item.toJson());
-    }catch(e){
-      print(e);
+  Future<bool> postItem(LostAndFound item) async {
+    try {
+      await _firestore.collection('lostAndFound').add(item.toJson());
+      return true;
+    } catch (e) {
+      print('Problem Happened ' + e.toString());
+      return false;
     }
   }
+
 
   Future<void> uploadImage(String itemId, String imageUrl) async {
     await _firestore
@@ -20,9 +23,23 @@ class LostAndFoundProvider extends ChangeNotifier {
         .update({'image': imageUrl});
   }
 
+
   Future<void> deleteItem(String itemId) async {
-    await _firestore.collection('lostAndFound').doc(itemId).delete();
+    final QuerySnapshot querySnapshot = await _firestore
+        .collection('lostAndFound')
+        .where('id', isEqualTo: itemId)
+        .get();
+
+    if(querySnapshot.docs.isNotEmpty)
+    {
+      await _firestore.collection('lostAndFound').doc(querySnapshot.docs.first.id)
+      .delete();
+    }
   }
+
+
+
+
 
   Future<List<LostAndFound>> getItems() async {
     final List<LostAndFound> items = [];
