@@ -24,13 +24,16 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<void> approvePost(NewsEventClub newsEventClub) async {
     try {
-      final QuerySnapshot document =  await _firestore
+      final QuerySnapshot document = await _firestore
           .collection('newsEventClubs')
-          .where('id', isEqualTo: newsEventClub.id).get();
+          .where('id', isEqualTo: newsEventClub.id)
+          .get();
 
       if (document.docs.isNotEmpty) {
-        await _firestore.collection('newsEventClubs')
-          .doc(document.docs.first.id).update({'approvalStatus': 'approved'});
+        await _firestore
+            .collection('newsEventClubs')
+            .doc(document.docs.first.id)
+            .update({'approvalStatus': 'approved'});
       }
     } catch (e) {
       print(e);
@@ -39,17 +42,17 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<void> disapprovePost(NewsEventClub newsEventClub) async {
     try {
-      final QuerySnapshot document =  await _firestore
+      final QuerySnapshot document = await _firestore
           .collection('newsEventClubs')
-          .where('id', isEqualTo: newsEventClub.id).get();
+          .where('id', isEqualTo: newsEventClub.id)
+          .get();
 
       if (document.docs.isNotEmpty) {
-        await _firestore.collection('newsEventClubs')
-          .doc(document.docs.first.id).update({'approvalStatus': 'disapproved'});
+        await _firestore
+            .collection('newsEventClubs')
+            .doc(document.docs.first.id)
+            .update({'approvalStatus': 'disapproved'});
       }
-      
-
-      
     } catch (e) {
       print(e);
     }
@@ -140,5 +143,17 @@ class NewsEventClubProvider extends ChangeNotifier {
       return likesOfPost;
     }
     return [];
+  }
+
+  Future<List<NewsEventClub>> getMyPosts(String email) async {
+    final List<NewsEventClub> posts = [];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('newsEventClubs')
+        .where('email', isEqualTo: email)
+        .get();
+    querySnapshot.docs.forEach((doc) {
+      posts.add(NewsEventClub.fromJson(doc.data()));
+    });
+    return posts;
   }
 }
