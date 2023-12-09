@@ -1,17 +1,17 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
@@ -38,6 +38,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text('Register Successful'),
           backgroundColor: Colors.green,
         ));
+        CustomUser? userWithId=await userProvider.getUser(emailController.text.trim());
+        userProvider.setUser(userWithId!);
+        Navigator.of(context).popAndPushNamed(CustomRoutes.profile);
         return true;
       } 
     } else {
@@ -83,7 +86,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
               },
-              child: const Text('Cancel'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.onSecondary,
@@ -95,6 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.3, 50),
                 alignment: Alignment.center,
               ),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -106,7 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Submit'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.onSecondary,
@@ -118,6 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.3, 50),
                 alignment: Alignment.center,
               ),
+              child: const Text('Submit'),
             ),
           ],
         );
@@ -129,15 +132,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final CustomUser newUser = CustomUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        // userType:
-        //     emailController.text.trim().split('@')[1].split('.')[0] == 'student'
-        //         ? UserType.student
-        //         : UserType.staff,
         fullName: emailController.text.trim().split('@')[0].split('.')[0] +
             ' ' +
             emailController.text.trim().split('@')[0].split('.')[1],
         userName: emailController.text.trim().split('@')[0].split('.')[0] +
-            ' ' +
+            '' +
             emailController.text.trim().split('@')[0].split('.')[1]);
 
     userProvider.sendOtpToEmail(emailController.text.trim());

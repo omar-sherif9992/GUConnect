@@ -2,11 +2,8 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
-import 'package:GUConnect/themes/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:GUConnect/routes.dart';
 
@@ -35,13 +32,17 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         final CustomUser? user =
             await userProvider.getUser(emailController.text);
-        if(user != null){
-          userProvider.setUser(user);}
-     
+        if (user != null) {
+          userProvider.setUser(user);
+        }
+
         if (context.mounted) {
-          Navigator.of(context).pop();
-          Navigator.of(context)
-              .pushNamed(CustomRoutes.profile, arguments: user);
+          if (emailController.text.trim().contains('@gucconnect.com')) {
+            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+          } else {
+            Navigator.popAndPushNamed(context, CustomRoutes.profile,
+                arguments: {'user': user});
+          }
         }
       }
     } else {
@@ -79,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 .start, // Aligns children to the start of the Column
             children: [
               // login
+
               const Padding(
                 padding:
                     EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
@@ -114,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Padding(
+                    SingleChildScrollView(
+                        child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: <Widget>[
@@ -129,7 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value!.isEmpty) {
                                   return 'Enter your email address';
                                 } else if (!value.contains('@guc.edu.eg') &&
-                                    !value.contains('@student.guc.edu.eg')) {
+                                    !value.contains('@student.guc.edu.eg') &&
+                                    !value.contains('@gucconnect.com')) {
                                   return 'Enter a valid GUC email address';
                                 } else {
                                   return null;
@@ -178,6 +182,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   await _login(userProvider);
+                                  print(
+                                      '/////////////////////////////////////////////');
+                                  print(userProvider.user);
+                                  print(
+                                      '/////////////////////////////////////////////');
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -205,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         ],
                       ),
-                    ),
+                    )),
                     const RegisterScreen(),
                   ],
                 ),

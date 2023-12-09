@@ -1,3 +1,4 @@
+import 'package:GUConnect/themes/sizes.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -31,6 +32,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           : Text(title),
       actions: <Widget>[
         ...actions,
+        if (actions.isEmpty)
+          const SizedBox(
+            width: Sizes.xlarge,
+          ),
       ],
     );
   }

@@ -19,7 +19,8 @@ class RequestPostScreen extends StatelessWidget {
           child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
             child: Row(
               children: [
                 CircleAvatar(
@@ -74,21 +75,22 @@ class RequestPostScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+          Center(
+            child: Text(
+              'Reason for posting:\n"${post.reason}"',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text(
-                    'Approve',
-                    style: TextStyle(color: Colors.white),
-                  )),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context, false);
@@ -102,6 +104,18 @@ class RequestPostScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.white),
+                  )),
             ],
           )
         ],

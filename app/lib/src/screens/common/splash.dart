@@ -24,7 +24,7 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
     // Initialize AnimationController
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
 
     // Bounce Animation
@@ -45,14 +45,17 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
         Provider.of<UserProvider>(context, listen: false);
     //  final bool loggedIn= userProvider.loggedIn;
       final User? user = FirebaseAuth.instance.currentUser;
-      Navigator.pop(context);
       if (user != null) {
         final CustomUser? userWithDetails=await userProvider.getUser(user.email!);
-        // print(userWithDetails);
+        print(userWithDetails);
         userProvider.setUser(userWithDetails!);
-        Navigator.pushNamed(context, CustomRoutes.profile);
+        if(user.email!.trim().contains('@gucconnect.com')){
+            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+          }else{
+            Navigator.popAndPushNamed(context, CustomRoutes.profile);
+          }
       } else {
-        Navigator.pushNamed(context, CustomRoutes.login);
+        Navigator.popAndPushNamed(context, CustomRoutes.login);
       }
     });
 
@@ -67,7 +70,6 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
-    // Dispose the controller when the widget is disposed
     _controller.dispose();
     super.dispose();
   }

@@ -11,10 +11,11 @@ class PhoneInputField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   String? validator(String? value) {
+    print(value);
     if (value!.isEmpty) {
       return 'Enter a phone number';
     }
-    if (value.length < 11) {
+    if (value.length < 11 ) {
       return 'Enter a valid phone number';
     } else {
       return null;
@@ -27,7 +28,7 @@ class PhoneInputField extends StatelessWidget {
       onInputChanged: (PhoneNumber number) {
         print(number.phoneNumber);
       },
-      initialValue: PhoneNumber(isoCode: 'EG'), // Set initial country code
+      initialValue: PhoneNumber(isoCode: 'EG' , phoneNumber: controller.text), // Set initial country code
       textFieldController: controller,
       inputDecoration: InputDecoration(
         labelText: label,

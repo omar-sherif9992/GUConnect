@@ -1,3 +1,4 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,10 @@ class SettingsScreen extends StatelessWidget {
                     return MessageDialog(
                       title: 'Logout',
                       message: 'Are you sure you want to logout?',
-                      onApprove: () {
-                        userProvider.logout();
+                      onApprove: ()async {
+                        await userProvider.logout();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamed(CustomRoutes.login);
                       },
                       onCancel: () {},
                     );

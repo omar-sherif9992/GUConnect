@@ -1,6 +1,8 @@
 import 'package:GUConnect/src/dummy_data/posts.dart';
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
+import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 
@@ -20,6 +22,8 @@ class _ConfessionsState extends State<Confessions>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const BottomBar(),
+      drawer: const MainDrawer(),
       appBar: AppBar(
         title: Text('Confessions'),
       ),

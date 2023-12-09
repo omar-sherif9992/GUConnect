@@ -11,7 +11,7 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(context) {
-    /*  final userProvider = Provider.of<UserProvider>(context, listen: true);
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
@@ -19,10 +19,7 @@ class BottomBar extends StatelessWidget {
 
     final CustomUser user = userProvider.user as CustomUser;
     // check if user is admin
-    final bool isAdmin = user.userType == 'admin';
- */
-
-    final bool isAdmin = false;
+    final bool isAdmin = user.userType == UserType.admin;
 
     void navigate(String routeName) {
       if (ModalRoute.of(context)!.settings.name != routeName) {
@@ -163,10 +160,15 @@ class BottomBar extends StatelessWidget {
             ),
             child: Transform.rotate(
                 angle: -pi / 4,
-                child: Icon(
-                  Icons.search_outlined,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  size: 32,
+                child: IconButton(
+                  onPressed: () {
+                    navigate(CustomRoutes.search);
+                  },
+                  icon: Icon(
+                    Icons.search_outlined,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    size: 32,
+                  ),
                 )),
           ),
         ),

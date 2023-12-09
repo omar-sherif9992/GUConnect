@@ -4,6 +4,8 @@ import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/screens/admin/request_post_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/src/widgets/bottom_bar.dart';
+import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,7 @@ class PendingsScreen extends StatefulWidget {
 }
 
 class _PendingsScreenState extends State<PendingsScreen> {
+  
   List<NewsEventClub> posts = [];
   List<NewsEventClub> postsDisplay = [];
 
@@ -33,18 +36,20 @@ class _PendingsScreenState extends State<PendingsScreen> {
     newsEventClubProvider =
         Provider.of<NewsEventClubProvider>(context, listen: false);
 
-    newsEventClubProvider.postContent(NewsEventClub(
+/*     newsEventClubProvider.postContent(NewsEventClub(
         content: 'I hate you',
         poster: CustomUser(
           fullName: 'Ahmed',
           email: 'omar@student.guc.edu.eg',
           password: '',
           userName: 'omar.kaa',
+
         ),
+
         image:
             'https://upload.wikimedia.org/wikipedia/en/thumb/7/71/MaxPayneMP3.jpg/235px-MaxPayneMP3.jpg',
         reason: 'I love life',
-        createdAt: DateTime.now()));
+        createdAt: DateTime.now())); */
 
     fetchItems();
   }
@@ -251,6 +256,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const BottomBar(),
+      drawer: const MainDrawer(),
         appBar: const CustomAppBar(
           title: 'Pending Posts',
           isLogo: false,

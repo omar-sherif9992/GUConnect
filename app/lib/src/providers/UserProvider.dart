@@ -55,11 +55,16 @@ class UserProvider with ChangeNotifier {
 
   Future<bool> register(CustomUser newUser) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: newUser.email, password: newUser.password);
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+              email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
-
-      await usersRef.add(newUser);
+      //  print('/////////////////////////////////////////////');
+      // print(userCredential.user);
+      newUser.user_id = userCredential.user?.uid;
+      // print(newUser);
+      //  print('/////////////////////////////////////////////');
+      await usersRef.doc(userCredential.user?.uid).set(newUser);
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -147,16 +152,26 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> updateProfile(CustomUser user, File? pickedImageFile) async {
+  Future<bool> updateProfile(CustomUser editUser, File? pickedImageFile) async {
     try {
-      if (pickedImageFile != null) {
-        String imageUrl = await uploadImageToStorage(
-            pickedImageFile, 'user_images', _firebaseAuth.currentUser!.uid);
+      print('pickedImageFile ==================');
+      print(pickedImageFile);
+      if (_user != null) {
+        if (pickedImageFile != null) {
+          final String? imageUrl = await uploadImageToStorage(
+              pickedImageFile, 'user_images', _user!.user_id!);
+          if (imageUrl != null) {
+            _user!.image = imageUrl;
+          }
+        }
+        _user!.biography = editUser.biography;
+        _user!.fullName = editUser.fullName;
+        _user!.phoneNumber = editUser.phoneNumber;
+        _user!.userName = editUser.userName;
 
-        user.image = imageUrl;
+        await usersRef.doc(_user!.user_id).set(_user!);
       }
-
-      await usersRef.doc(_firebaseAuth.currentUser!.uid).set(user);
+      notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-display-name') {
@@ -170,6 +185,7 @@ class UserProvider with ChangeNotifier {
         throw Exception('The phone number provided is invalid.');
       }
     } catch (e) {
+      print("================================");
       print(e);
     }
     return false;
@@ -178,8 +194,9 @@ class UserProvider with ChangeNotifier {
   Future updateImage(File image) async {
     final String fileName = _firebaseAuth.currentUser!.uid;
     const String collectionName = 'users';
-    final String imageUrl =
+    final String? imageUrl =
         await uploadImageToStorage(image, collectionName, fileName);
+
     return usersRef
         .doc(_firebaseAuth.currentUser!.uid)
         .update({'image': imageUrl});
@@ -239,10 +256,16 @@ class UserProvider with ChangeNotifier {
     }
     return false;
   }
-  Future<CustomUser?> getUser(String email) async{
-    final QuerySnapshot<CustomUser> querySnapshot =await usersRef.where('email',isEqualTo: email).get() ;
+
+  Future<CustomUser?> getUser(String email) async {
+    final QuerySnapshot<CustomUser> querySnapshot =
+        await usersRef.where('email', isEqualTo: email).get();
+    if (querySnapshot.docs.isEmpty) {
+      return null;
+    }
     return querySnapshot.docs.first.data();
   }
+
   void setUser(CustomUser user) {
     _user = user;
   }
