@@ -228,36 +228,48 @@ class _ProfileScreenState extends State<ProfileScreen>
   Future<void> fetchPosts(
     String email,
   ) async {
-    final List<Object> p = [];
-    final List<Object> newsEventClub =
-        await newsEventClubProvider.getMyPosts(email);
-    final List<Object> lostAndFound =
-        await lostAndFoundProvider.getMyItems(email);
-    final List<Object> academicQuestions =
-        await academicQuestionProvider.getMyQuestions(email);
-    p.addAll(newsEventClub);
-    p.addAll(lostAndFound);
-    p.addAll(academicQuestions);
-    p.sort(
-        (a, b) => (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
-    setState(() {
-      posts = p;
-    });
+    try {
+      final List<Object> p = [];
+      final List<Object> newsEventClub =
+          await newsEventClubProvider.getMyPosts(email);
+      final List<Object> lostAndFound =
+          await lostAndFoundProvider.getMyItems(email);
+      final List<Object> academicQuestions =
+          await academicQuestionProvider.getMyQuestions(email);
+      p.addAll(newsEventClub);
+      p.addAll(lostAndFound);
+      p.addAll(academicQuestions);
+      p.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      setState(() {
+        posts = p;
+      });
+      print("NO ERROR");
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> fetchConfessions(
     String email,
   ) async {
-    final List<Confession> c = await confessionProvider.getMyConfessions(email);
-    setState(() {
-      confessions = c;
-    });
+    try {
+      final List<Confession> c =
+          await confessionProvider.getMyConfessions(email);
+      setState(() {
+        confessions = c;
+      });
+      print("NO ERROR Confessionss");
+    } catch (e) {
+      print("ERROR CONFESSIONS");
+    }
   }
 
   @override
   void initState() {
     super.initState();
-
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     confessionProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
     newsEventClubProvider =
@@ -266,12 +278,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<LostAndFoundProvider>(context, listen: false);
     academicQuestionProvider =
         Provider.of<AcademicQuestionProvider>(context, listen: false);
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
 
     user = userProvider.user!;
-    print("USER");
-    print(user);
+    print("EMAIL" + user.email);
     fetchPosts(user.email);
     fetchConfessions(user.email);
   }
