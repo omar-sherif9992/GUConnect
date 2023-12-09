@@ -43,7 +43,7 @@ class LostAndFoundProvider extends ChangeNotifier {
     final List<LostAndFound> items = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('lostAndFound')
-        .where('email', isEqualTo: email)
+        .where('user.email', isEqualTo: email)
         .orderBy('createdAt', descending: true)
         .get();
     querySnapshot.docs.forEach((doc) {

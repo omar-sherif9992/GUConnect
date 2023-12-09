@@ -27,7 +27,7 @@ class ConfessionProvider extends ChangeNotifier {
     final List<Confession> confessions = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('confessions')
-        .where('email', isEqualTo: email)
+        .where('sender.email', isEqualTo: email)
         .get();
     querySnapshot.docs.forEach((doc) {
       confessions.add(Confession.fromJson(doc.data()));

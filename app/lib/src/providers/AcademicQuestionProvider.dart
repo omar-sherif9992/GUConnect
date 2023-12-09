@@ -41,7 +41,7 @@ class AcademicQuestionProvider extends ChangeNotifier {
     final List<AcademicQuestion> questions = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('academicQuestions')
-        .where('email', isEqualTo: email)
+        .where('user.email', isEqualTo: email)
         .get();
     querySnapshot.docs.forEach((doc) {
       questions.add(AcademicQuestion.fromJson(doc.data()));
