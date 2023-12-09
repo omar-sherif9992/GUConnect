@@ -26,4 +26,36 @@ class OfficeLocationProvider extends ChangeNotifier {
     });
     return locations;
   }
+
+  Future<List<OfficeAndLocation>> getOffices() async {
+    final List<OfficeAndLocation> locations = [];
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+          .collection('officeAndLocation')
+          .where('isOffice', isEqualTo: true)
+          .get();
+      querySnapshot.docs.forEach((doc) {
+        locations.add(OfficeAndLocation.fromJson(doc.data()));
+      });
+    } catch (e) {
+      print(e);
+    }
+    return locations;
+  }
+
+  Future<List<OfficeAndLocation>> getOutlets() async {
+    final List<OfficeAndLocation> locations = [];
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+          .collection('officeAndLocation')
+          .where('isOffice', isEqualTo: false)
+          .get();
+      querySnapshot.docs.forEach((doc) {
+        locations.add(OfficeAndLocation.fromJson(doc.data()));
+      });
+    } catch (e) {
+      print(e);
+    }
+    return locations;
+  }
 }
