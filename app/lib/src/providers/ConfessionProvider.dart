@@ -22,4 +22,16 @@ class ConfessionProvider extends ChangeNotifier {
     });
     return confessions;
   }
+
+  Future<List<Confession>> getMyConfessions(String email) async {
+    final List<Confession> confessions = [];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('confessions')
+        .where('email', isEqualTo: email)
+        .get();
+    querySnapshot.docs.forEach((doc) {
+      confessions.add(Confession.fromJson(doc.data()));
+    });
+    return confessions;
+  }
 }

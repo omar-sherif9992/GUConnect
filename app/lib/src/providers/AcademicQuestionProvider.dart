@@ -28,10 +28,21 @@ class AcademicQuestionProvider extends ChangeNotifier {
   }
 
   Future<List<AcademicQuestion>> getQuestions() async {
-
     final List<AcademicQuestion> questions = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await _firestore.collection('academicQuestions').get();
+    querySnapshot.docs.forEach((doc) {
+      questions.add(AcademicQuestion.fromJson(doc.data()));
+    });
+    return questions;
+  }
+
+  Future<List<AcademicQuestion>> getMyQuestions(String email) async {
+    final List<AcademicQuestion> questions = [];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('academicQuestions')
+        .where('email', isEqualTo: email)
+        .get();
     querySnapshot.docs.forEach((doc) {
       questions.add(AcademicQuestion.fromJson(doc.data()));
     });
