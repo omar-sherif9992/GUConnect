@@ -106,7 +106,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                                     username:
                                         posts[index].poster.userName ?? '',
                                     userImage: posts[index].poster.image ?? '',
-                                    likes: posts[index].likes,
+                                    likers: posts[index].likers,
                                     createdAt: posts[index].createdAt,
                                     comments: posts[index].comments,
                                     postType: 0,
