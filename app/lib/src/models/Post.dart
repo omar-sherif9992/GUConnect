@@ -6,6 +6,7 @@ class Post {
   late DateTime createdAt;
   late String id;
   late String image;
+  late int likes;
 
   Post({
     required this.content,
@@ -14,6 +15,7 @@ class Post {
     required this.image,
   }) {
     id = sender.email + createdAt.toString();
+    likes = 0;
   }
 
   Post.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Post {
     sender = CustomUser.fromJson(json['sender']);
     createdAt = DateTime.parse(json['createdAt']);
     image = json['image'];
+    likes = json['likes'];
   }
 
   Map<String, dynamic> toJson() {
@@ -29,12 +32,12 @@ class Post {
     data['sender'] = sender.toJson();
     data['createdAt'] = createdAt.toString();
     data['image'] = image;
+    data['likes'] = likes;
     return data;
   }
 
   @override
   String toString() {
-    return 'content: $content, sender: $sender, createdAt: $createdAt'
-        'image: $image';
+    return 'content: $content, sender: $sender, createdAt: $createdAt, image: $image likes: $likes';
   }
 }

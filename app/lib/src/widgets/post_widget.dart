@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/Post.dart';
 
 class Post_Widget extends StatelessWidget {
   const Post_Widget(this.post);
@@ -11,13 +11,13 @@ class Post_Widget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            post.text,
+            post.content,
             style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 8),
-          post.imageUrl != null
+          post.image != null
               ? Image.network(
-                  post.imageUrl!,
+                  post.image!,
                   height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -38,7 +38,7 @@ class Post_Widget extends StatelessWidget {
                 children: [
                   Icon(Icons.comment),
                   SizedBox(width: 4),
-                  Text('${post.comments.length}'),
+                  // Text('${post.comments.length}'),
                 ],
               ),
             ],

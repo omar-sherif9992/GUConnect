@@ -1,5 +1,6 @@
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/LostAndFound.dart';
@@ -229,13 +230,13 @@ class _ProfileScreenState extends State<ProfileScreen>
     String email,
   ) async {
     try {
-      final List<Object> p = [];
-      final List<Object> newsEventClub =
-          await newsEventClubProvider.getMyPosts(email);
-      final List<Object> lostAndFound =
-          await lostAndFoundProvider.getMyItems(email);
-      final List<Object> academicQuestions =
-          await academicQuestionProvider.getMyQuestions(email);
+      final List<Post> p = [];
+      final List<Post> newsEventClub =
+          (await newsEventClubProvider.getMyPosts(email)).cast<Post>();
+      final List<Post> lostAndFound =
+          (await lostAndFoundProvider.getMyItems(email)).cast<Post>();
+      final List<Post> academicQuestions =
+          (await academicQuestionProvider.getMyQuestions(email)).cast<Post>();
       p.addAll(newsEventClub);
       p.addAll(lostAndFound);
       p.addAll(academicQuestions);

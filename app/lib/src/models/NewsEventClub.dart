@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,15 +11,11 @@ NewsEventClub	- Content
 - Get all events , posts
 */
 
-class NewsEventClub {
-  late String id;
+class NewsEventClub extends Post {
   late CustomUser poster;
-  late String content;
-  late String image;
   late String approvalStatus = 'requested';
-  late DateTime createdAt;
   late String reason;
-  late Set<String> likes = {};
+  late Set<String> likers = {};
   late List<Comment> comments = [];
 
 /*   NewsEventClub(Future fetchItems, {
@@ -31,43 +28,46 @@ class NewsEventClub {
   }): id = FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
  */
 
-  NewsEventClub( {
-    required this.content,
+  NewsEventClub({
+    String? id,
     required this.poster,
-    required this.image,
-    required this.createdAt,
     required this.reason,
-  }): id = FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
+    required super.content,
+    required super.sender,
+    required super.createdAt,
+    required super.image,
+  }) {
+    this.id =
+        id ?? FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
+  }
 
-  NewsEventClub.fromJson(Map<String, dynamic> json) {
+  NewsEventClub.fromJson(Map<String, dynamic> json)
+      : super(
+          content: json['content'],
+          sender: CustomUser.fromJson(json['sender']),
+          createdAt: DateTime.parse(json['createdAt']),
+          image: json['image'],
+        ) {
     id = json['id'];
-    content = json['content'];
-    image = json['image'];
     approvalStatus = json['approvalStatus'];
-    createdAt = DateTime.parse(json['createdAt']);
     poster = CustomUser.fromJson((json['poster'] as Map<String, dynamic>));
     reason = json['reason'];
-    comments = ((json['comments'] as List<dynamic>).map( (e) => Comment.fromJson(e as Map<String, dynamic>)) ).toList();
-    likes = Set<String>.from(json['likes']);
-   
+    comments = ((json['comments'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
+    likers = Set<String>.from(json['likers']);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['content'] = content;
-    data['image'] = image;
+    final Map<String, dynamic> data = super.toJson();
     data['approvalStatus'] = approvalStatus;
-    data['createdAt'] = createdAt.toString();
     data['poster'] = poster.toJson();
     data['reason'] = reason;
-    data['comments'] = comments.map((c)=> c.toJson()).toList();
-    data['likes'] = likes;
+    data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
   }
 
   @override
   String toString() {
-    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, poster: ${poster.toString()}, reason: $reason, comments: ${comments.map((e) => (c)=>c.toString())}';
+    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, poster: ${poster.toString()}, reason: $reason, comments: ${comments.map((e) => (c) => c.toString())}';
   }
 }
