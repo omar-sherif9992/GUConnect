@@ -5,6 +5,7 @@ import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dar
 import 'package:GUConnect/src/screens/common/AcademicRelated/addAcademicQuestion.dart';
 import 'package:GUConnect/src/screens/common/L&F/addLostAndFoundPost.dart';
 import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
+import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/screens/common/confessions.dart';
 import 'package:GUConnect/src/screens/common/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
@@ -92,9 +93,8 @@ class CustomRoutes {
       addLostAndFound: (context) => const AddLostAndFoundPost(),
       academicRelatedQuestions: (context) => const AcademicRelatedQuestions(),
       addAcademicRelatedQuestions: (context) => const AddAcademicPost(),
-      adminAddStaff: (context) => const SearchStaffScreen(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
-      admin: (context) => const PendingsScreen(),
+      adminAddStaff: (context) => const SetStaffScreen(),
     };
   }
 }

@@ -34,23 +34,6 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
-              'View Profile',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-              onSelectScreen(context, CustomRoutes.profile);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.edit,
-              size: 24,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text(
               'Edit Profile',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,

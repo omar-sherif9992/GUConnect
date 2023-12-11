@@ -5,6 +5,7 @@ import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
@@ -57,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -83,13 +84,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              user?.image ?? 'https://picsum.photos/200/300',
+                              user.image ?? 'https://picsum.photos/200/300',
                               width: 100.0,
                               height: 100.0,
                               fit: BoxFit.cover,
@@ -99,12 +100,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 200,
                                 child: Text(
-                                  user?.fullName ?? '',
+                                  titleCase(user.fullName ?? ''),
                                   overflow: TextOverflow.clip,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.5,
@@ -124,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (user.userType == 'stuff')
+                                  if (user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
@@ -135,8 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         color:
                                             Color.fromARGB(255, 242, 200, 147),
                                       ),
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text(
                                         'C7\n203',
                                         style: TextStyle(
                                           fontSize: 13,
@@ -153,16 +154,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       color: const Color.fromARGB(
                                           255, 242, 200, 147),
                                     ),
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       '$postsCount\nPosts',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  if (user.userType == 'stuff')
+                                  if (user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
@@ -173,8 +174,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         color: const Color.fromARGB(
                                             255, 242, 200, 147),
                                       ),
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text(
                                         'Rating\n4.7',
                                         style: TextStyle(
                                           fontSize: 13,
@@ -187,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ])
                       ],
                     ),
-                    Text(user?.biography ?? ""),
+                    Text(user.biography ?? ''),
                   ],
                 )
               ],
@@ -226,8 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ],
           ),
           Container(
-            margin: EdgeInsets.all(10),
-            child: Divider(
+            margin: const EdgeInsets.all(10),
+            child: const Divider(
               color: Colors.grey,
               thickness: 1.0,
               height: 2.0,
@@ -320,14 +321,14 @@ class ClickableIcon extends StatelessWidget {
   final String labelText;
   final VoidCallback onTap;
 
-  ClickableIcon(this.icon, this.labelText, this.onTap);
+  const ClickableIcon(this.icon, this.labelText, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Column(
           children: [
             Icon(
@@ -335,10 +336,10 @@ class ClickableIcon extends StatelessWidget {
               size: 20.0,
               color: Colors.black,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               labelText,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ],
         ),
