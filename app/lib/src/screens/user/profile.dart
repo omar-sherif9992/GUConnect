@@ -320,14 +320,14 @@ class ClickableIcon extends StatelessWidget {
   final String labelText;
   final VoidCallback onTap;
 
-  ClickableIcon(this.icon, this.labelText, this.onTap);
+  const ClickableIcon(this.icon, this.labelText, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Column(
           children: [
             Icon(
@@ -335,10 +335,10 @@ class ClickableIcon extends StatelessWidget {
               size: 20.0,
               color: Colors.black,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               labelText,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ],
         ),

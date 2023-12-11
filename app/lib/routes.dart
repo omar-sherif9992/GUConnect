@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/screens/addLostAndFoundPost.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
 import 'package:GUConnect/src/screens/admin/set_important_contacts_screen.dart';
+import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/screens/common/confessions.dart';
 import 'package:GUConnect/src/screens/common/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
@@ -85,9 +86,8 @@ class CustomRoutes {
       adminStaff: (context) => const SearchStaffScreen(),
       lostAndFound: (context) => const LostAndFoundW(),
       addLostAndFound: (context) => const AddLostAndFoundPost(),
-      adminAddStaff: (context) => const SearchStaffScreen(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
-      
+      adminAddStaff: (context) => const SetStaffScreen(),
     };
   }
 }
