@@ -26,6 +26,6 @@ class Confession extends Post {
 
   @override
   String toString() {
-    return '${super}isAnonymous: $isAnonymous';
+    return '${super.toString()}, isAnonymous: $isAnonymous';
   }
 }

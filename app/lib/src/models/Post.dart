@@ -6,7 +6,7 @@ class Post {
   late DateTime createdAt;
   late String id;
   late String image;
-  late int likes;
+  late Set<String> likes;
 
   Post({
     required this.content,
@@ -15,7 +15,7 @@ class Post {
     required this.image,
   }) {
     id = sender.email + createdAt.toString();
-    likes = 0;
+    likes = {};
   }
 
   Post.fromJson(Map<String, dynamic> json) {
@@ -23,7 +23,7 @@ class Post {
     sender = CustomUser.fromJson(json['sender']);
     createdAt = DateTime.parse(json['createdAt']);
     image = json['image'];
-    likes = json['likes'];
+    likes = Set<String>.from(json['likes']);
   }
 
   Map<String, dynamic> toJson() {
