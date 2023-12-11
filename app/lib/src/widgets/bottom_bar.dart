@@ -50,7 +50,7 @@ class BottomBar extends StatelessWidget {
           navigate(CustomRoutes.admin);
         },
         icon: Icon(
-          Icons.receipt,
+          Icons.receipt_outlined,
           color: isActive(CustomRoutes.adminReports)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
