@@ -84,7 +84,7 @@ class _LostAndFoundState extends State<LostAndFoundW> {
       body:
      _isLoading? const Loader() 
     :
-    RefreshIndicator(
+    RefreshIndicator.adaptive(
       onRefresh: _refresh,
       child:
       posts.isEmpty? 

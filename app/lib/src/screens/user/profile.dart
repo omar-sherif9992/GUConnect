@@ -9,6 +9,7 @@ import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -37,9 +38,13 @@ class _ProfileScreenState extends State<ProfileScreen>
   late List<Object> academicPosts = [];
   late List<Object> confessions = [];
   late int postsCount = 0;
+
+  late bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     // function that gets user posts
+
+    user = Provider.of<UserProvider>(context, listen: true).user!;
 
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
@@ -72,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           width: 110.0,
                           height: 110.0,
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -89,12 +94,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                           child: ClipOval(
-                            child: Image.network(
-                              user.image ?? 'https://picsum.photos/200/300',
-                              width: 100.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
+                            child: user.image != null && user.image!.isNotEmpty
+                                ? Image.network(
+                                    user.image ?? '',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/user.png',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                         Column(
@@ -112,15 +124,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                               ),
-                              // Text(
-
-                              //   "EMS Prof",
-                              //   style: TextStyle(
-                              //     fontSize: 15.0,
-                              //     fontWeight: FontWeight.w100,
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,8 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(16.0),
-                                        color:
-                                            Color.fromARGB(255, 242, 200, 147),
+                                        color: const Color.fromARGB(
+                                            255, 242, 200, 147),
                                       ),
                                       padding: const EdgeInsets.all(8.0),
                                       child: const Text(
@@ -148,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   Container(
                                     width: 60,
                                     margin: const EdgeInsets.only(
-                                        right: 10, top: 15),
+                                        right: 10, top: 15, left: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       color: const Color.fromARGB(
@@ -159,6 +162,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       '$postsCount\nPosts',
                                       style: const TextStyle(
                                         fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
@@ -179,6 +184,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         'Rating\n4.7',
                                         style: TextStyle(
                                           fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -188,7 +195,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ])
                       ],
                     ),
-                    Text(user.biography ?? ''),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Text(
+                        user.biography ?? '',
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -238,10 +255,10 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildPosts(academicPosts),
-              _buildPosts(lostPosts),
-              _buildPosts(clubPosts),
-              _buildPosts(confessions)
+              _buildPosts(academicPosts,'academic'),
+              _buildPosts(lostPosts,'lost'),
+              _buildPosts(clubPosts,'club'),
+              _buildPosts(confessions,'confession')
             ],
           )),
         ],
@@ -249,13 +266,34 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildPosts(posts) {
-    return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return Post_Widget(posts[index]);
-      },
-    );
+  Widget _buildPosts(posts , name) {
+    return _isLoading
+        ? const Loader()
+        : posts.length == 0
+            ? const Center(
+                child: Text(
+                  'No Posts',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            : RefreshIndicator.adaptive(
+                onRefresh: () async {
+                  await fetchAll();
+                },
+              child: ListView.builder(
+                  itemCount: posts.length,
+                  scrollDirection: Axis.vertical,
+                  
+                  key: PageStorageKey('profile_posts$name'),
+              
+                  itemBuilder: (context, index) {
+                    return Post_Widget(posts[index]);
+                  },
+                ),
+            );
   }
 
   Future<void> fetchPosts(
@@ -299,6 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     confessionProvider =
@@ -311,8 +350,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<AcademicQuestionProvider>(context, listen: false);
 
     user = userProvider.user!;
-    fetchPosts(user.email);
-    fetchConfessions(user.email);
+    fetchAll();
+  }
+
+  Future<void> fetchAll() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await fetchPosts(user.email);
+    await fetchConfessions(user.email);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
 

@@ -89,7 +89,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: RefreshIndicator(
+                      child: RefreshIndicator.adaptive(
                         onRefresh: _refresh,
                         child: ListView.builder(
                             itemCount: posts.length,

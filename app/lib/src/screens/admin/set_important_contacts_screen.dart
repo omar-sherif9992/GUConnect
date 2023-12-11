@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
 import 'package:GUConnect/src/models/Staff.dart';
@@ -169,6 +171,7 @@ class _SetImportantContactsScreenState
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
+                                      backgroundColor: Colors.green,
                                       content: Text(
                                           'Added Important Email successfully'),
                                     ),
@@ -194,6 +197,7 @@ class _SetImportantContactsScreenState
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
+                                      backgroundColor: Colors.green,
                                       content: Text(
                                           'Added Important Phone Number successfully'),
                                     ),
@@ -206,6 +210,7 @@ class _SetImportantContactsScreenState
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
+                                    backgroundColor: Colors.red,
                                     content: Text(
                                         'Something went wrong. Please try again later'),
                                   ),

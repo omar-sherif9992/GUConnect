@@ -160,7 +160,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
                 },
@@ -189,7 +189,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ),
               )
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchTas(staffProvider);
                 },
@@ -332,6 +332,7 @@ class StaffTile extends StatelessWidget {
             if (deletedStaff != null && deletedStaff.email == staff.email) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
+                  backgroundColor: Colors.green,
                   content: Text('Staff deleted'),
                 ),
               );
