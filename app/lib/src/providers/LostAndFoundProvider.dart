@@ -7,7 +7,7 @@ class LostAndFoundProvider extends ChangeNotifier {
 
   Future<bool> postItem(LostAndFound item) async {
     try {
-      await _firestore.collection('lostAndFound').add(item.toJson());
+      await _firestore.collection('lostAndFound').doc(item.id).set(item.toJson());
       return true;
     } catch (e) {
       print('Problem Happened ' + e.toString());
@@ -47,9 +47,9 @@ class LostAndFoundProvider extends ChangeNotifier {
         .collection('lostAndFound')
         .orderBy('createdAt', descending: true)
         .get();
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       items.add(LostAndFound.fromJson(doc.data()));
-    });
+    }
     return items;
   }
 

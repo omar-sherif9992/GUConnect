@@ -84,7 +84,7 @@ class CustomRoutes {
       addClubPost: (context) => const AddPost(),
       adminStaff: (context) => const SearchStaffScreen(),
       lostAndFound: (context) => const LostAndFoundW(),
-      addLostAndFound: (context) => const AddLostAndFoundPost()
+      addLostAndFound: (context) => const AddLostAndFoundPost(),
       adminAddStaff: (context) => const SearchStaffScreen(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
       admin: (context) => const PendingsScreen(),

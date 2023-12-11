@@ -48,10 +48,10 @@ class _LostAndFoundState extends State<LostAndFoundW> {
   }
 
   Future fetchPosts(LostAndFoundProvider provider) async {
-    provider.getItems().then((value) => {
+    provider.getItems().then((value){
           setState(() {
             posts = value;
-          })
+          });
         });
   }
 
@@ -123,7 +123,7 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                     userImage: posts[index].user.image ?? '',
                                     likes: posts[index].likes,
                                     createdAt: posts[index].createdAt,
-                                    comments: [],
+                                    comments: const [],
                                     postType: 1,
                                   ),
                                 ],

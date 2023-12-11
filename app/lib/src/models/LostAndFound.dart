@@ -1,3 +1,4 @@
+import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,12 +7,11 @@ class LostAndFound {
   late String id;
   late String content;
   late String image;
-  //late String location;
   late String contact;
   late DateTime createdAt;
-  //late bool isFound;
   late CustomUser user;
-  late Set<String> likes = {};
+  late Set<String> likes = <String>{};
+  late List<Comment> comments = [];
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
@@ -29,12 +29,17 @@ class LostAndFound {
     id = json['id'];
     content = json['content'];
     image = json['image'];
-    //location = json['location'];
     contact = json['contact'];
     createdAt = DateTime.parse(json['createdAt']);
-    //isFound = json['isFound'];
     user = CustomUser.fromJson(json['user']);
-    likes = Set<String>.from(json['likes']);
+    if (json.containsKey('likes') && json['likes'] != null) {
+      likes = Set<String>.from(json['likes']);
+    } else {
+      // Handle the case where 'likes' is not present or is null
+      likes = Set<String>(); // or any other default value or error handling strategy
+    }
+    comments = ((json['comments'] as List<dynamic>).map( (e) => Comment.fromJson(e as Map<String, dynamic>)) ).toList();
+    
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
@@ -43,12 +48,11 @@ class LostAndFound {
     data['id'] = id;
     data['content'] = content;
     data['image'] = image;
-    //data['location'] = location;
     data['contact'] = contact;
     data['createdAt'] = createdAt.toString();
-    //data['isFound'] = isFound;
     data['user'] = user.toJson();
     data['likes'] = likes;
+    data['comments'] = comments.map((c)=> c.toJson()).toList();
     return data;
   }
 
