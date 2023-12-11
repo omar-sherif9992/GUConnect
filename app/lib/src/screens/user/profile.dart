@@ -31,8 +31,11 @@ class _ProfileScreenState extends State<ProfileScreen>
   late LostAndFoundProvider lostAndFoundProvider;
   late AcademicQuestionProvider academicQuestionProvider;
   late UserProvider userProvider;
-  late List<Object> posts = [];
+  late List<Object> clubPosts = [];
+  late List<Object> lostPosts = [];
+  late List<Object> academicPosts = [];
   late List<Object> confessions = [];
+  late int postsCount = 0;
   @override
   Widget build(BuildContext context) {
     // function that gets user posts
@@ -118,45 +121,33 @@ class _ProfileScreenState extends State<ProfileScreen>
                               //   ),
                               // ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: Color.fromARGB(255, 242, 200, 147),
-                                    ),
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'C7\n203',
-                                      style: TextStyle(
-                                        fontSize: 13,
+                                  if (user.userType == 'stuff')
+                                    Container(
+                                      width: 60,
+                                      margin: const EdgeInsets.only(
+                                          right: 10, top: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color:
+                                            Color.fromARGB(255, 242, 200, 147),
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: const Color.fromARGB(
-                                          255, 242, 200, 147),
-                                    ),
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      (posts.length.toString()) + '\nPosts',
-                                      style: TextStyle(
-                                        fontSize: 13,
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'C7\n203',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
-                                  ),
                                   Container(
                                     width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
+                                    margin: const EdgeInsets.only(
+                                        right: 10, top: 15),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       color: const Color.fromARGB(
@@ -164,13 +155,33 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     ),
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Rating\n4.7',
+                                      '$postsCount\nPosts',
                                       style: TextStyle(
                                         fontSize: 13,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
+                                  if (user.userType == 'stuff')
+                                    Container(
+                                      width: 60,
+                                      margin: const EdgeInsets.only(
+                                          right: 10, top: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color: const Color.fromARGB(
+                                            255, 242, 200, 147),
+                                      ),
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Rating\n4.7',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                 ],
                               ),
                             ])
@@ -186,13 +197,32 @@ class _ProfileScreenState extends State<ProfileScreen>
             controller: _tabController,
             tabs: const [
               Tab(
-                text: 'Posts',
-                icon: Icon(Icons.grid_on),
+                icon: Icon(Icons.book),
+                child: Text(
+                  'Academic',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
               Tab(
-                text: 'Confessions',
-                icon: Icon(Icons.message),
+                icon: Icon(Icons.shopping_basket),
+                child: Text(
+                  'L&F',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
+              Tab(
+                icon: Icon(Icons.group),
+                child: Text(
+                  'Club Posts',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              Tab(
+                  icon: Icon(Icons.message),
+                  child: Text(
+                    'Confessions',
+                    style: TextStyle(fontSize: 10),
+                  )),
             ],
           ),
           Container(
@@ -206,7 +236,12 @@ class _ProfileScreenState extends State<ProfileScreen>
           Expanded(
               child: TabBarView(
             controller: _tabController,
-            children: [_buildPosts(posts), _buildPosts(confessions)],
+            children: [
+              _buildPosts(academicPosts),
+              _buildPosts(lostPosts),
+              _buildPosts(clubPosts),
+              _buildPosts(confessions)
+            ],
           )),
         ],
       ),
@@ -226,25 +261,26 @@ class _ProfileScreenState extends State<ProfileScreen>
     String email,
   ) async {
     try {
-      final List<Post> p = [];
       final List<Post> newsEventClub =
           (await newsEventClubProvider.getMyPosts(email)).cast<Post>();
       final List<Post> lostAndFound =
           (await lostAndFoundProvider.getMyItems(email)).cast<Post>();
       final List<Post> academicQuestions =
           (await academicQuestionProvider.getMyQuestions(email)).cast<Post>();
-      p.addAll(newsEventClub);
-      p.addAll(lostAndFound);
-      p.addAll(academicQuestions);
-      p.sort((a, b) =>
+
+      newsEventClub.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      lostAndFound.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      academicQuestions.sort((a, b) =>
           (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
       setState(() {
-        posts = p;
+        clubPosts = newsEventClub;
+        lostPosts = lostAndFound;
+        academicPosts = academicQuestions;
+        postsCount = clubPosts.length + lostPosts.length + academicPosts.length;
       });
-      print("NO ERROR");
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future<void> fetchConfessions(
@@ -256,16 +292,13 @@ class _ProfileScreenState extends State<ProfileScreen>
       setState(() {
         confessions = c;
       });
-      print("NO ERROR Confessionss");
-    } catch (e) {
-      print("ERROR CONFESSIONS");
-    }
+    } catch (e) {}
   }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     confessionProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
@@ -277,7 +310,6 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<AcademicQuestionProvider>(context, listen: false);
 
     user = userProvider.user!;
-    print("EMAIL" + user.email);
     fetchPosts(user.email);
     fetchConfessions(user.email);
   }
