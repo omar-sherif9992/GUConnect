@@ -4,6 +4,7 @@
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
@@ -30,6 +31,8 @@ class _CommentModalState extends State<CommentModal> {
 
   late CommentProvider commentProvider;
 
+  late UserProvider userProvider; 
+
   late List<Comment> comments;
 
   bool _isLoading = true;
@@ -44,7 +47,7 @@ class _CommentModalState extends State<CommentModal> {
 
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
-    
+    userProvider = Provider.of<UserProvider>(context, listen: false);
 
     commentProvider.getPostComments(widget.postId, widget.postType).then((value){
       setState(() {
@@ -58,7 +61,7 @@ class _CommentModalState extends State<CommentModal> {
 
   Future addComment(String content) async
   {
-    final Comment newComment = Comment(content: content, commenter: posterPerson, createdAt: DateTime.now(), postType: widget.postType);
+    final Comment newComment = Comment(content: content, commenter: userProvider.user!, createdAt: DateTime.now(), postType: widget.postType);
     commentProvider.addComment(newComment, widget.postId).then(
       (val){
         setState(() {
@@ -160,11 +163,11 @@ class _CommentModalState extends State<CommentModal> {
       padding: const EdgeInsets.all(6.0),
       child: Row(
         children: [
-        const CircleAvatar(
+        CircleAvatar(
                     // User profile picture
                     radius: 18,
                     // Replace with your image URL
-                    backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jason_Statham_2018.jpg/330px-Jason_Statham_2018.jpg'),
+                    backgroundImage: NetworkImage(userProvider.user?.image??''),
                   ),
                   const SizedBox(width: 8),
           Expanded(

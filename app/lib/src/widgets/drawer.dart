@@ -101,6 +101,23 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
+          Icons.menu_book,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Academic Related',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.academicRelatedQuestions);
+        },
+      ),
+      ListTile(
+        leading: Icon(
           Icons.contact_emergency,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,

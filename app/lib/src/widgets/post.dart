@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
 import 'package:GUConnect/src/widgets/likable_image.dart';
@@ -46,10 +47,10 @@ class PostW extends StatefulWidget {
 }
 
 class _PostWState extends State<PostW> {
-  final String userId = '1';
 
   late NewsEventClubProvider clubProvider;
   late LikesProvider likesProvider;
+  late UserProvider userProvider;
 
   late Set<String> likes2;
 
@@ -59,46 +60,25 @@ class _PostWState extends State<PostW> {
 
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
     likesProvider = Provider.of<LikesProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     likes2 = widget.likes;
   }
 
   void likePost(int like) {
-    switch (widget.postType) {
-      case 0:
-        {
-          if (like == 0) {
-            likesProvider.likePost(widget.postId, userId, widget.postType).then((val) {
+    if (like == 0) {
+            likesProvider.likePost(widget.postId, userProvider.user!.user_id??'', widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           } else {
-            likesProvider.dislike(widget.postId, userId, widget.postType).then((val) {
+            likesProvider.dislike(widget.postId, userProvider.user!.user_id??'', widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           }
           return;
-        }
-      case 1:
-      {
-          if (like == 0) {
-            likesProvider.likePost(widget.postId, userId, widget.postType).then((val) {
-              setState(() {
-                likes2 = Set<String>.from(val);
-              });
-            });
-          } else {
-            likesProvider.dislike(widget.postId, userId, widget.postType).then((val) {
-              setState(() {
-                likes2 = Set<String>.from(val);
-              });
-            });
-          }
-          return;
-        }
-    }
   }
 
   @override
@@ -106,7 +86,7 @@ class _PostWState extends State<PostW> {
     const Widget liked = Icon(Icons.favorite, color: Colors.red);
     const disliked = Icon(Icons.favorite_outline);
 
-    final Widget likeIcon = likes2.contains(userId) ? liked : disliked;
+    final Widget likeIcon = likes2.contains(userProvider.user!.user_id??'') ? liked : disliked;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
