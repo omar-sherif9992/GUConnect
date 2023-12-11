@@ -255,10 +255,10 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildPosts(academicPosts),
-              _buildPosts(lostPosts),
-              _buildPosts(clubPosts),
-              _buildPosts(confessions)
+              _buildPosts(academicPosts,'academic'),
+              _buildPosts(lostPosts,'lost'),
+              _buildPosts(clubPosts,'club'),
+              _buildPosts(confessions,'confession')
             ],
           )),
         ],
@@ -266,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildPosts(posts) {
+  Widget _buildPosts(posts , name) {
     return _isLoading
         ? const Loader()
         : posts.length == 0
@@ -279,12 +279,21 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
               )
-            : ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  return Post_Widget(posts[index]);
+            : RefreshIndicator.adaptive(
+                onRefresh: () async {
+                  await fetchAll();
                 },
-              );
+              child: ListView.builder(
+                  itemCount: posts.length,
+                  scrollDirection: Axis.vertical,
+                  
+                  key: PageStorageKey('profile_posts$name'),
+              
+                  itemBuilder: (context, index) {
+                    return Post_Widget(posts[index]);
+                  },
+                ),
+            );
   }
 
   Future<void> fetchPosts(

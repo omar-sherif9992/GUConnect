@@ -152,7 +152,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   }
 
   Widget _buildPhoneNumbers() {
-    return RefreshIndicator(
+    return RefreshIndicator.adaptive(
       onRefresh: () async {
         await fetchPhoneNumbers();
         filterContacts(_searchController.text);
@@ -212,7 +212,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   }
 
   Widget _buildEmails() {
-    return RefreshIndicator(
+    return RefreshIndicator.adaptive(
       onRefresh: () async {
         await fetchEmails();
 

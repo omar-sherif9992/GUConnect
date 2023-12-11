@@ -128,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen>
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
                   filterItems(_searchController.text);
@@ -164,7 +164,7 @@ class _SearchScreenState extends State<SearchScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ),
               )
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchTas(staffProvider);
                   filterItems(_searchController.text);
