@@ -75,8 +75,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SwitchListTile.adaptive(
             value: _isNotification,
             onChanged: (isChecked) async {
-              print(isChecked);
-
               await updateIsNotificationinPref(!_isNotification);
               setState(() {
                 _isNotification = !_isNotification;
@@ -120,14 +118,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             activeColor: Theme.of(context).colorScheme.primary,
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
           ), */
-          const Divider(
-            height: 0,
-            thickness: 1,
-          ),
+
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                const Divider(
+                  height: 0,
+                  thickness: 0.7,
+                ),
                 InkWell(
                   onTap: () {
                     showAdaptiveDialog(
@@ -142,7 +141,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Navigator.of(context)
                                   .popAndPushNamed(CustomRoutes.login);
                             },
-                            onCancel: () {},
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
                           );
                         });
                   },

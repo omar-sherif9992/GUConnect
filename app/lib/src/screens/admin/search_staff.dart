@@ -332,6 +332,7 @@ class StaffTile extends StatelessWidget {
             if (deletedStaff != null && deletedStaff.email == staff.email) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
+                  backgroundColor: Colors.green,
                   content: Text('Staff deleted'),
                 ),
               );

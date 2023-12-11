@@ -9,6 +9,7 @@ import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
+import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -37,6 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   late List<Object> academicPosts = [];
   late List<Object> confessions = [];
   late int postsCount = 0;
+
+  late bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     // function that gets user posts
@@ -148,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   Container(
                                     width: 60,
                                     margin: const EdgeInsets.only(
-                                        right: 10, top: 15 ,left: 10),
+                                        right: 10, top: 15, left: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       color: const Color.fromARGB(
@@ -264,12 +267,24 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   Widget _buildPosts(posts) {
-    return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return Post_Widget(posts[index]);
-      },
-    );
+    return _isLoading
+        ? const Loader()
+        : posts.length == 0
+            ? const Center(
+                child: Text(
+                  'No Posts',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  return Post_Widget(posts[index]);
+                },
+              );
   }
 
   Future<void> fetchPosts(
@@ -313,6 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     confessionProvider =
@@ -325,8 +341,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<AcademicQuestionProvider>(context, listen: false);
 
     user = userProvider.user!;
-    fetchPosts(user.email);
-    fetchConfessions(user.email);
+    fetchAll();
+  }
+
+  Future<void> fetchAll() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await fetchPosts(user.email);
+    await fetchConfessions(user.email);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
 
