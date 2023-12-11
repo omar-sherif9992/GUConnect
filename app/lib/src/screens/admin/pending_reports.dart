@@ -75,7 +75,7 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
             key: const PageStorageKey('pending_reports_select_filter'),
             onPressed: (int index) async {
               setState(() {
-                _selectFilter = ['Confessions', 'Comments'][index];
+                _selectFilter = ['Confessions', 'Posts','Comments'][index];
               });
               if (_selectFilter == 'Confessions') {
                 _isLoading = true;
@@ -86,7 +86,7 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
                           reportsDisplay = value;
                           _isLoading = false;
                         }));
-              } else {
+              } else if(_selectFilter == 'Comments') {
                 _isLoading = true;
                 reportsProvider
                     .getCommentReports()
@@ -96,9 +96,22 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
                           _isLoading = false;
                         }));
               }
+              else {
+                reports=[] ;
+                reportsDisplay = [];
+                // _isLoading = true;
+                // reportsProvider
+                //     .getPostReports()
+                //     .then((value) => setState(() {
+                //           reports = value;
+                //           reportsDisplay = value;
+                //           _isLoading = false;
+                //         }));
+              }
             },
             isSelected: [
               _selectFilter == 'Confessions',
+              _selectFilter == 'Posts',
               _selectFilter == 'Comments',
             ],
             children: const [
@@ -106,6 +119,13 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Confessions',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Posts',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -264,9 +284,9 @@ class ReportCard extends StatelessWidget {
             ),
           ],
         ),
-        subtitle: Text(report.createdAt.toString()),
+        subtitle: Text('${report.createdAt.year}-${_twoDigits(report.createdAt.month)}-${_twoDigits(report.createdAt.day)} ${_twoDigits12hr(report.createdAt.hour)}:${_twoDigits(report.createdAt.minute)} ${_amPm(report.createdAt.hour)}'),
         trailing: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios),
+          icon: const Icon(Icons.arrow_forward_ios,color: Colors.orange),
           onPressed: () async {
             final bool decision = await Navigator.of(context).push(
               MaterialPageRoute(
@@ -291,4 +311,8 @@ class ReportCard extends StatelessWidget {
       ),
     );
   }
+  String _twoDigits(int n) => n.toString().padLeft(2, '0');
+String _twoDigits12hr(int n) => n == 0 ? '12' : _twoDigits(n > 12 ? n - 12 : n);
+String _amPm(int n) => n >= 12 ? 'PM' : 'AM';
+
 }
