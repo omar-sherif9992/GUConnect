@@ -84,13 +84,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              user?.image ?? 'https://picsum.photos/200/300',
+                              user.image ?? 'https://picsum.photos/200/300',
                               width: 100.0,
                               height: 100.0,
                               fit: BoxFit.cover,
