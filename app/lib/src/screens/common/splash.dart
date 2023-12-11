@@ -12,7 +12,8 @@ class SplashScreen extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   double _opacity = 0;
@@ -41,19 +42,16 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
     // Add a delay to simulate a splash screen
 
     Future.delayed(const Duration(seconds: 3), () async {
-    final UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    //  final bool loggedIn= userProvider.loggedIn;
+      final UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      //  final bool loggedIn= userProvider.loggedIn;
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        final CustomUser? userWithDetails=await userProvider.getUser(user.email!);
-        print(userWithDetails);
+        final CustomUser? userWithDetails =
+            await userProvider.getUser(user.email!);
         userProvider.setUser(userWithDetails!);
-        if(user.email!.trim().contains('@gucconnect.com')){
-            Navigator.popAndPushNamed(context, CustomRoutes.profile);
-          }else{
-            Navigator.popAndPushNamed(context, CustomRoutes.profile);
-          }
+
+        Navigator.popAndPushNamed(context, CustomRoutes.profile);
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);
       }
@@ -70,7 +68,7 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_controller != null) _controller.dispose();
     super.dispose();
   }
 
@@ -86,7 +84,8 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
               offset: Offset(0, _bounceAnimation.value),
               child: Opacity(
                 opacity: _opacity,
-                child: Image.asset('assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
+                child: Image.asset(
+                    'assets/images/GUConnect-Logo.png'), // Replace with your app logo asset
               ),
             );
           },

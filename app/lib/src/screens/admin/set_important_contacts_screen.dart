@@ -140,13 +140,7 @@ class _SetImportantContactsScreenState
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              final Staff staff = Staff(
-                                fullName: _titleController.text,
-                                email: _emailController.text,
-                                officeLocation: _titleController.text,
-                                staffType: dropdownvalue,
-                              );
-
+                      
                               setState(() {
                                 _isLoading = true;
                               });

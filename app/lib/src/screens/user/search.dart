@@ -151,7 +151,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildTasTab() {
-    print(tas.length);
 
     return _isLoading
         ? const Loader()

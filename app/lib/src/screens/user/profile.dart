@@ -216,7 +216,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             tabs: const [
               Tab(
                 icon: Icon(Icons.book),
-                child: Text(
+                child: 
+                Text(
                   'Academic',
                   style: TextStyle(fontSize: 12),
                 ),

@@ -21,6 +21,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _officeController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _specialityController = TextEditingController();
   bool _isLoading = false;
 
   File? profileImageFile;
@@ -45,6 +47,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
       _officeController.text = widget.staff!.officeLocation ?? '';
       dropdownvalue = widget.staff!.staffType;
       profileImageUrl = widget.staff!.image;
+      _descriptionController.text = widget.staff!.description ?? '';
+      _specialityController.text = widget.staff!.speciality ?? '';
     }
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
@@ -55,6 +59,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _officeController.dispose();
+    _descriptionController.dispose();
+    _specialityController.dispose();
     super.dispose();
   }
 
@@ -66,7 +72,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 500,
+              height: 700,
               child: Expanded(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,6 +112,29 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
 
                           return null;
                         },
+                      ), InputField(
+                        controller: _specialityController,
+                        label: 'Speciality',
+                        icon: Icons.work,
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a valid speciality ex: Computer Science';
+                          }
+                        
+
+                          return null;
+                        },
+                      ), InputField(
+                        controller: _descriptionController,
+                        label: 'Description',
+                        icon: Icons.description,
+                        keyboardType: TextInputType.streetAddress,
+                        validator: (value) {
+                        
+          
+                          return null;
+                        },
                       ),
                       DropdownButton(
                         value: dropdownvalue,
@@ -142,6 +171,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                                 email: _emailController.text,
                                 officeLocation: _officeController.text,
                                 staffType: dropdownvalue,
+                                description: _descriptionController.text,
+                                speciality: _specialityController.text,
                               );
 
                               setState(() {
