@@ -106,7 +106,7 @@ Future initializeApp() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  //tz.initializeTimeZones();
+  // tz.initializeTimeZones();
   // FirebaseMessaging.instance.getInitialMessage();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
