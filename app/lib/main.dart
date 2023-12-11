@@ -3,6 +3,7 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -64,6 +65,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => OfficeLocationProvider(),
+        ),
+        ChangeNotifierProvider(create: (context) => CommentProvider(),
+        ),
+        ChangeNotifierProvider(create: (context) => ReportsProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => CommentProvider(),
