@@ -44,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
           }else{
             Navigator.popAndPushNamed(context, CustomRoutes.profile);
           }
-
         }
       }
     } else {
