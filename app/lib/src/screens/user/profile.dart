@@ -41,6 +41,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     // function that gets user posts
 
+    user = Provider.of<UserProvider>(context, listen: true).user!;
+
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
       drawer: const MainDrawer(),
@@ -72,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           width: 110.0,
                           height: 110.0,
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -89,12 +91,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                           child: ClipOval(
-                            child: Image.network(
-                              user.image ?? 'https://picsum.photos/200/300',
-                              width: 100.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
+                            child: user.image != null && user.image!.isNotEmpty
+                                ? Image.network(
+                                    user.image ?? '',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/user.png',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                         Column(
@@ -112,15 +121,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                               ),
-                              // Text(
-
-                              //   "EMS Prof",
-                              //   style: TextStyle(
-                              //     fontSize: 15.0,
-                              //     fontWeight: FontWeight.w100,
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,8 +133,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(16.0),
-                                        color:
-                                            Color.fromARGB(255, 242, 200, 147),
+                                        color: const Color.fromARGB(
+                                            255, 242, 200, 147),
                                       ),
                                       padding: const EdgeInsets.all(8.0),
                                       child: const Text(
@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   Container(
                                     width: 60,
                                     margin: const EdgeInsets.only(
-                                        right: 10, top: 15),
+                                        right: 10, top: 15 ,left: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       color: const Color.fromARGB(
@@ -159,6 +159,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       '$postsCount\nPosts',
                                       style: const TextStyle(
                                         fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
@@ -179,6 +181,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         'Rating\n4.7',
                                         style: TextStyle(
                                           fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -188,7 +192,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ])
                       ],
                     ),
-                    Text(user.biography ?? ''),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Text(
+                        user.biography ?? '',
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
                   ],
                 )
               ],
