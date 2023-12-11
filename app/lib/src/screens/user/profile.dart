@@ -1,9 +1,17 @@
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/Post.dart';
+import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
+import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,8 +25,18 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late CustomUser user;
+  late ConfessionProvider confessionProvider;
+  late NewsEventClubProvider newsEventClubProvider;
+  late LostAndFoundProvider lostAndFoundProvider;
+  late AcademicQuestionProvider academicQuestionProvider;
+  late UserProvider userProvider;
+  late List<Object> posts = [];
+  late List<Object> confessions = [];
   @override
   Widget build(BuildContext context) {
+    // function that gets user posts
+
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
       drawer: const MainDrawer(),
@@ -68,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                           child: ClipOval(
                             child: Image.network(
-                              'https://statusneo.com/wp-content/uploads/2023/02/MicrosoftTeams-image551ad57e01403f080a9df51975ac40b6efba82553c323a742b42b1c71c1e45f1.jpg',
+                              user?.image ?? 'https://picsum.photos/200/300',
                               width: 100.0,
                               height: 100.0,
                               fit: BoxFit.cover,
@@ -78,22 +96,27 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Anas Khan",
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  user?.fullName ?? '',
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                "EMS Prof",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                              // Text(
+
+                              //   "EMS Prof",
+                              //   style: TextStyle(
+                              //     fontSize: 15.0,
+                              //     fontWeight: FontWeight.w100,
+                              //     color: Colors.grey,
+                              //   ),
+                              // ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -124,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     ),
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      '20\nPosts',
+                                      (posts.length.toString()) + '\nPosts',
                                       style: TextStyle(
                                         fontSize: 13,
                                       ),
@@ -153,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ])
                       ],
                     ),
-                    Text("this is my bio , lorem ipsum gg"),
+                    Text(user?.biography ?? ""),
                   ],
                 )
               ],
@@ -183,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           Expanded(
               child: TabBarView(
             controller: _tabController,
-            children: [_buildPosts(posts), _buildPosts(posts)],
+            children: [_buildPosts(posts), _buildPosts(confessions)],
           )),
         ],
       ),
@@ -199,11 +222,64 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
+  Future<void> fetchPosts(
+    String email,
+  ) async {
+    try {
+      final List<Post> p = [];
+      final List<Post> newsEventClub =
+          (await newsEventClubProvider.getMyPosts(email)).cast<Post>();
+      final List<Post> lostAndFound =
+          (await lostAndFoundProvider.getMyItems(email)).cast<Post>();
+      final List<Post> academicQuestions =
+          (await academicQuestionProvider.getMyQuestions(email)).cast<Post>();
+      p.addAll(newsEventClub);
+      p.addAll(lostAndFound);
+      p.addAll(academicQuestions);
+      p.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      setState(() {
+        posts = p;
+      });
+      print("NO ERROR");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> fetchConfessions(
+    String email,
+  ) async {
+    try {
+      final List<Confession> c =
+          await confessionProvider.getMyConfessions(email);
+      setState(() {
+        confessions = c;
+      });
+      print("NO ERROR Confessionss");
+    } catch (e) {
+      print("ERROR CONFESSIONS");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    confessionProvider =
+        Provider.of<ConfessionProvider>(context, listen: false);
+    newsEventClubProvider =
+        Provider.of<NewsEventClubProvider>(context, listen: false);
+    lostAndFoundProvider =
+        Provider.of<LostAndFoundProvider>(context, listen: false);
+    academicQuestionProvider =
+        Provider.of<AcademicQuestionProvider>(context, listen: false);
+
+    user = userProvider.user!;
+    print("EMAIL" + user.email);
+    fetchPosts(user.email);
+    fetchConfessions(user.email);
   }
 }
 

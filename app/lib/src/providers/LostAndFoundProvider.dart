@@ -6,9 +6,12 @@ class LostAndFoundProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> postItem(LostAndFound Item) async {
-    try{
-    await _firestore.collection('lostAndFound').doc(Item.id).set(Item.toJson());
-    }catch(e){
+    try {
+      await _firestore
+          .collection('lostAndFound')
+          .doc(Item.id)
+          .set(Item.toJson());
+    } catch (e) {
       print(e);
     }
   }
@@ -36,4 +39,16 @@ class LostAndFoundProvider extends ChangeNotifier {
     return items;
   }
 
+  Future<List<LostAndFound>> getMyItems(String email) async {
+    final List<LostAndFound> items = [];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('lostAndFound')
+        .where('user.email', isEqualTo: email)
+        .orderBy('createdAt', descending: true)
+        .get();
+    querySnapshot.docs.forEach((doc) {
+      items.add(LostAndFound.fromJson(doc.data()));
+    });
+    return items;
+  }
 }
