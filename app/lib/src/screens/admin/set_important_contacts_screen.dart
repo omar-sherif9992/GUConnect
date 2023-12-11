@@ -73,26 +73,6 @@ class _SetImportantContactsScreenState
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (dropdownvalue == 'Important Email')
-                        EmailField(
-                          emailController: _emailController,
-                        ),
-                      if (dropdownvalue == 'Important Phone Number')
-                        InputField(
-                          controller: _phoneNumberController,
-                          label: 'Phone Number',
-                          icon: Icons.location_on,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.length < 2) {
-                              return 'Please enter a valid phone number';
-                            }
-
-                            return null;
-                          },
-                        ),
                       DropdownButton(
                         value: dropdownvalue,
 
@@ -117,6 +97,41 @@ class _SetImportantContactsScreenState
                           });
                         },
                       ),
+                      InputField(
+                        controller: _titleController,
+                        label: 'Title',
+                        icon: Icons.title,
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 2) {
+                            return 'Please enter a valid title';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      if (dropdownvalue == 'Important Email')
+                        EmailField(
+                          emailController: _emailController,
+                        ),
+                      if (dropdownvalue == 'Important Phone Number')
+                        InputField(
+                          controller: _phoneNumberController,
+                          label: 'Phone Number',
+                          icon: Icons.phone,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.length < 2) {
+                              return 'Please enter a valid phone number';
+                            }
+
+                            return null;
+                          },
+                        ),
                       if (_isLoading)
                         const CircularProgressIndicator()
                       else
@@ -135,21 +150,66 @@ class _SetImportantContactsScreenState
                               });
 
                               try {
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 if (dropdownvalue == 'Important Email') {
-                                  await importantEmailProvider.addEmail(
-                                      ImportantEmail(
-                                          title: _titleController.text,
-                                          email: _emailController.text));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Adding Important Email successfully'),
+                                    ),
+                                  );
+                                  final importantEmail = ImportantEmail(
+                                      title: _titleController.text,
+                                      email: _emailController.text);
+                                  await importantEmailProvider
+                                      .addEmail(importantEmail);
+
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Added Important Email successfully'),
+                                    ),
+                                  );
+
+                                  Navigator.of(context).pop('email');
                                 } else {
-                                  await importantPhoneNumberProvider.addNumber(
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Adding Important Phone successfully'),
+                                    ),
+                                  );
+                                  final importantPhoneNumber =
                                       ImportantPhoneNumber(
                                           title: _titleController.text,
                                           phoneNumber:
-                                              _phoneNumberController.text));
+                                              _phoneNumberController.text);
+                                  await importantPhoneNumberProvider
+                                      .addNumber(importantPhoneNumber);
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Added Important Phone Number successfully'),
+                                    ),
+                                  );
+
+                                  Navigator.of(context).pop('phone');
                                 }
-                                Navigator.of(context).pop();
                               } catch (e) {
-                                print(e);
+                                ScaffoldMessenger.of(context).clearSnackBars();
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Something went wrong. Please try again later'),
+                                  ),
+                                );
                                 setState(() {
                                   _isLoading = false;
                                 });
@@ -218,7 +278,8 @@ class _SetImportantContactsScreenState
                 );
 
                 if (widget.importantEmail != null && confirm == true) {
-                  await importantEmailProvider.deleteEmail(widget.importantEmail!.title);
+                  await importantEmailProvider
+                      .deleteEmail(widget.importantEmail!.title);
 
                   Navigator.of(context).pop({
                     'message': 'Important Email deleted successfully',
@@ -227,7 +288,8 @@ class _SetImportantContactsScreenState
                   });
                 } else if (widget.importantPhoneNumber != null &&
                     confirm == true) {
-                  await importantPhoneNumberProvider.deleteNumber(widget.importantPhoneNumber!.title);
+                  await importantPhoneNumberProvider
+                      .deleteNumber(widget.importantPhoneNumber!.title);
 
                   Navigator.of(context).pop({
                     'message': 'Important Phone Number deleted successfully',

@@ -10,7 +10,7 @@ class StaffType {
     } else if (staffType == StaffType.ta) {
       return 'ta';
     } else {
-      return 'Stuff';
+      return 'Staff';
     }
   }
 
@@ -20,7 +20,7 @@ class StaffType {
     } else if (staffType == 'ta') {
       return StaffType.ta;
     } else {
-      return 'Stuff';
+      return 'Staff';
     }
   }
 }

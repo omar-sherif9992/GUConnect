@@ -123,7 +123,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
 
           filterItems(_searchController.text);
         },
-        items: <String>['All', 'Stuff', 'Student']
+        items: <String>['All', 'Staff', 'Student']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -146,14 +146,14 @@ class _PendingsScreenState extends State<PendingsScreen> {
           key: const PageStorageKey('pending_posts_select_filter'),
           onPressed: (int index) {
             setState(() {
-              _selectFilter = ['All', 'Stuff', 'Student'][index];
+              _selectFilter = ['All', 'Staff', 'Student'][index];
             });
 
             filterItems(_searchController.text);
           },
           isSelected: [
             _selectFilter == 'All',
-            _selectFilter == 'Stuff',
+            _selectFilter == 'Staff',
             _selectFilter == 'Student',
           ],
           children: const [
@@ -167,7 +167,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Stuff',
+                'Staff',
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -286,8 +286,8 @@ class PostTile extends StatelessWidget {
     String title = '';
     if (user.userType == UserType.student) {
       title = '(Stud)';
-    } else if (user.userType == UserType.stuff) {
-      title = '(Stuff)';
+    } else if (user.userType == UserType.staff) {
+      title = '(Staff)';
     } else if (user.userType == UserType.admin) {
       title = '(Admin)';
     }

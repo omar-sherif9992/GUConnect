@@ -35,7 +35,7 @@ class BottomBar extends StatelessWidget {
     final adminRoutes = [
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.clubsAndEvents);
+          navigate(CustomRoutes.clubsAndEvents);
         },
         icon: Icon(
           Icons.home_outlined,
@@ -47,7 +47,7 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, CustomRoutes.admin);
+          navigate(CustomRoutes.admin);
         },
         icon: Icon(
           Icons.receipt,
