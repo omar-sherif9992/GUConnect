@@ -1,3 +1,5 @@
+
+import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 
 class Post {
@@ -7,6 +9,7 @@ class Post {
   late String id;
   late String image;
   late Set<String> likes;
+  late List<Comment> comments;
 
   Post({
     required this.content,
@@ -16,6 +19,7 @@ class Post {
   }) {
     id = sender.email + createdAt.toString();
     likes = {};
+    comments = [];
   }
 
   Post.fromJson(Map<String, dynamic> json) {
@@ -24,6 +28,8 @@ class Post {
     createdAt = DateTime.parse(json['createdAt']);
     image = json['image'];
     likes = Set<String>.from(json['likes']);
+    comments = ((json['comments'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +39,7 @@ class Post {
     data['createdAt'] = createdAt.toString();
     data['image'] = image;
     data['likes'] = likes;
+    data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
   }
 

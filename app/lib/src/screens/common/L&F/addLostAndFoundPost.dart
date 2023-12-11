@@ -5,7 +5,7 @@ import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/screens/lostAndFound.dart';
+import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
@@ -92,12 +92,12 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
       },
     );
 
-    final String? imageUrl = await uploadImageToStorage(
+    final String? imageUrl =  await uploadImageToStorage(
               img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
 
     final LostAndFound addedPost = LostAndFound(
         content: content,
-        image: imageUrl!,
+        image: imageUrl??'',
         createdAt: DateTime.now(),
         sender: userProvider.user!,
         contact: contact);
@@ -250,7 +250,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String contact = contactController.text;
-                      _addPost(lostProvider, content, contact, _selectedImage!);
+                      _addPost(lostProvider, content, contact, _selectedImage ?? File(''));
                     }
                   },
                   style: ButtonStyle(
