@@ -28,6 +28,8 @@ class LostAndFound extends Post {
         ) {
     id = json['id'];
     contact = json['contact'];
+    comments = ((json['comments'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
@@ -36,6 +38,7 @@ class LostAndFound extends Post {
     final Map<String, dynamic> data = super.toJson();
     data['id'] = id;
     data['contact'] = contact;
+    data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
   }
 

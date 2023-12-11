@@ -123,7 +123,7 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                     userImage: posts[index].sender.image ?? '',
                                     likes: posts[index].likes,
                                     createdAt: posts[index].createdAt,
-                                    comments: const [],
+                                    comments: posts[index].comments,
                                     postType: 1,
                                   ),
                                 ],

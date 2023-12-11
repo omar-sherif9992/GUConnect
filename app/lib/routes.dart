@@ -1,6 +1,10 @@
-import 'package:GUConnect/src/screens/addLostAndFoundPost.dart';
+
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
 import 'package:GUConnect/src/screens/admin/set_important_contacts_screen.dart';
+import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
+import 'package:GUConnect/src/screens/common/AcademicRelated/addAcademicQuestion.dart';
+import 'package:GUConnect/src/screens/common/L&F/addLostAndFoundPost.dart';
+import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/screens/common/confessions.dart';
 import 'package:GUConnect/src/screens/common/addPostClubs.dart';
@@ -8,7 +12,6 @@ import 'package:GUConnect/src/screens/admin/search_staff.dart';
 import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
-import 'package:GUConnect/src/screens/lostAndFound.dart';
 import 'package:GUConnect/src/screens/user/search.dart';
 import 'package:GUConnect/src/screens/common/splash.dart';
 import 'package:GUConnect/src/screens/common/important_contacts.dart';
@@ -48,6 +51,8 @@ class CustomRoutes {
   static const String clubsAndEvents = '/club-posts-and-events';
   static const String addClubPost = '/club-and-events-addPost';
   static const String addLostAndFound = '/lost-and-found-addPost';
+  static const String academicRelatedQuestions = '/academic-related-questions';
+  static const String addAcademicRelatedQuestions = '/add-academic-related-questions';
 
   // STAFF ROUTES
   static const String staff = '/staff/profile';
@@ -86,6 +91,8 @@ class CustomRoutes {
       adminStaff: (context) => const SearchStaffScreen(),
       lostAndFound: (context) => const LostAndFoundW(),
       addLostAndFound: (context) => const AddLostAndFoundPost(),
+      academicRelatedQuestions: (context) => const AcademicRelatedQuestions(),
+      addAcademicRelatedQuestions: (context) => const AddAcademicPost(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
       adminAddStaff: (context) => const SetStaffScreen(),
     };
