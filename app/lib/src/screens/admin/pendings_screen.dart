@@ -83,8 +83,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
       postsDisplay = [];
       postsDisplay.addAll(posts
           .where((element) =>
-              ((element.poster.fullName ?? '').toLowerCase().contains(value) &&
-                  (element.poster.userType == tempSelectFilter ||
+              ((element.sender.fullName ?? '').toLowerCase().contains(value) &&
+                  (element.sender.userType == tempSelectFilter ||
                       tempSelectFilter == 'all')))
           .toList());
     });
@@ -231,7 +231,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
                         child: const Icon(Icons.check),
                       ),
                       child: PostTile(
-                        user: postsDisplay[index].poster,
+                        user: postsDisplay[index].sender,
                         post: postsDisplay[index],
                         onTap: (NewsEventClub post, bool decision) async {
                           if (decision) {

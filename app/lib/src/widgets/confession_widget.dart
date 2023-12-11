@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
@@ -48,6 +49,7 @@ class _PostWState extends State<Confession_Widget> {
   final String userId = '1';
 
   late NewsEventClubProvider clubProvider;
+  late LikesProvider likesProvider;
 
   late Set<String> likes2;
 
@@ -56,6 +58,7 @@ class _PostWState extends State<Confession_Widget> {
     super.initState();
 
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+    likesProvider = Provider.of<LikesProvider>(context, listen: false);
     likes2 = widget.likes;
   }
 
@@ -64,13 +67,13 @@ class _PostWState extends State<Confession_Widget> {
       case 0:
         {
           if (like == 0) {
-            clubProvider.likePost(widget.postId, userId).then((val) {
+            likesProvider.likePost(widget.postId, userId, widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           } else {
-            clubProvider.dislike(widget.postId, userId).then((val) {
+            likesProvider.dislike(widget.postId, userId, widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });

@@ -3,6 +3,7 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
@@ -69,6 +70,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ConfessionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LikesProvider(),
         ),
       ],
       child: MaterialApp(
