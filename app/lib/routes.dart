@@ -1,4 +1,5 @@
 
+import 'package:GUConnect/src/screens/admin/pending_reports.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
 import 'package:GUConnect/src/screens/admin/set_important_contacts_screen.dart';
 import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
@@ -95,6 +96,7 @@ class CustomRoutes {
       addAcademicRelatedQuestions: (context) => const AddAcademicPost(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
       adminAddStaff: (context) => const SetStaffScreen(),
+      adminReports: (context) => const PendingReportsScreen(),
     };
   }
 }

@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CommentProvider(),
         ),
         ChangeNotifierProvider(create: (context) => ReportsProvider(),
-        )
+        ),
         ChangeNotifierProvider(
           create: (context) => CommentProvider(),
         ),
