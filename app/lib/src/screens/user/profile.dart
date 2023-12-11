@@ -1,9 +1,6 @@
-import 'package:GUConnect/src/models/post.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
-import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
-import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
@@ -11,7 +8,6 @@ import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
