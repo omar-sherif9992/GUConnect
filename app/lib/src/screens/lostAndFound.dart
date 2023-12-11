@@ -119,9 +119,9 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                     caption: posts[index].content,
                                     imgUrl: posts[index].image,
                                     username:
-                                        posts[index].user.userName ?? '',
-                                    userImage: posts[index].user.image ?? '',
-                                    likes: posts[index].likes,
+                                        posts[index].sender.userName ?? '',
+                                    userImage: posts[index].sender.image ?? '',
+                                    likers: posts[index].likes,
                                     createdAt: posts[index].createdAt,
                                     comments: const [],
                                     postType: 1,

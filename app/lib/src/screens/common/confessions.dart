@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
@@ -19,6 +19,7 @@ class _ConfessionsState extends State<Confessions>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Confession> confessions = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,7 @@ class _ConfessionsState extends State<Confessions>
           Expanded(
               child: TabBarView(
             controller: _tabController,
-            children: [_buildPosts(posts)],
+            children: [_buildPosts(confessions)],
           )),
         ],
       ),

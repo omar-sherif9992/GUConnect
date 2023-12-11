@@ -82,7 +82,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
         content: content,
         image: imgUrl,
         createdAt: DateTime.now(),
-        user: posterPerson,
+        sender: posterPerson,
         contact: contact);
 
     showDialog(

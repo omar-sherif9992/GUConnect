@@ -17,7 +17,7 @@ class PostW extends StatefulWidget {
 
   final String userImage;
 
-  Set<String> likes;
+  Set<String> likers;
 
   final List<Comment> comments;
 
@@ -34,7 +34,7 @@ class PostW extends StatefulWidget {
     required this.imgUrl,
     required this.userImage,
     required this.username,
-    required this.likes,
+    required this.likers,
     required this.comments,
     required this.createdAt,
     required this.postType,
@@ -56,7 +56,7 @@ class _PostWState extends State<PostW> {
     super.initState();
 
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
-    likes2 = widget.likes;
+    likes2 = widget.likers;
   }
 
   void likePost(int like) {
