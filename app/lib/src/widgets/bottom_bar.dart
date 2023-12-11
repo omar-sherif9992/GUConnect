@@ -84,7 +84,7 @@ class BottomBar extends StatelessWidget {
                     navigate(CustomRoutes.adminReports);
                   },
                   icon: Icon(
-                    Icons.search_outlined,
+                    Icons.report_outlined,
                     color: Theme.of(context).colorScheme.onSecondary,
                     size: 32,
                   ),
