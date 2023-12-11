@@ -124,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (user.userType == 'stuff')
+                                  if (user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
@@ -162,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  if (user.userType == 'stuff')
+                                  if (user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
