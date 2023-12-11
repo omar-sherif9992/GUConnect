@@ -7,7 +7,7 @@ class Report {
   late String reportedContentId;
   late CustomUser reportedUser;
   late String reportedContent;
-  late String reportType; // comment / report
+  late String reportType; // comment / post / confession
   late DateTime createdAt;
   late String? image;
 
