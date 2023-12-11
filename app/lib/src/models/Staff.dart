@@ -73,9 +73,11 @@ class Staff {
   // late List<OfficeHour> officeHours;
   late List<String> courses;
   late List<Rating> ratings;
-  
 
-  /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
+  late String description;
+  late String speciality;
+
+  /// Constructs a Staff object with the specified [fullName],[image], [email], [password], [description], and [speciality].
   Staff({
     required this.fullName,
     this.image,
@@ -83,6 +85,8 @@ class Staff {
     this.officeLocation,
     //required this.officeHours,
     required this.staffType,
+    required this.description,
+    required this.speciality,
   });
 
   /// Constructs a User object from a JSON map.
@@ -90,6 +94,8 @@ class Staff {
     fullName = json['fullName'];
     image = json['image'];
     email = json['email'];
+    description = json['description'];
+    speciality = json['speciality'];
     officeLocation = json['officeLocation'];
     //officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
     staffType = StaffType.getStaffTypeValue(json['staffType']);
@@ -103,6 +109,8 @@ class Staff {
     data['email'] = this.email;
     data['officeLocation'] = this.officeLocation;
     // data['officeHours'] = this.officeHours;
+    data['description'] = this.description;
+    data['speciality'] = this.speciality;
     data['staffType'] = StaffType.getStaffType(staffType);
 
     return data;
