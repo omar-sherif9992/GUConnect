@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
+import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +19,7 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+  late UserProvider userProvider;
   final TextEditingController contentController = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   File? _selectedImage;
@@ -29,6 +32,9 @@ class _AddPostState extends State<AddPost> {
 
     clubPostProvider =
         Provider.of<NewsEventClubProvider>(context, listen: false);
+
+    userProvider =
+        Provider.of<UserProvider>(context, listen: false);
   }
 
   Future<void> _getImage() async {
@@ -60,26 +66,9 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future _addPost(
-      NewsEventClubProvider provider, String content, String reason) async {
-    const String imgUrl =
-        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
-    final CustomUser posterPerson = CustomUser(
-        email: 'hussein.ebrahim@student.guc.edu.eg',
-        password: 'Don Ciristiane Ronaldo',
-        image:
-            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-        userName: 'Mr Milad Ghantous',
-        fullName: 'omar');
+      NewsEventClubProvider provider, String content, String reason, File img) async {
 
-    final NewsEventClub addedPost = NewsEventClub(
-        content: content,
-        image: imgUrl,
-        createdAt: DateTime.now(),
-        poster: posterPerson,
-        sender: posterPerson,
-        reason: reason);
-
-    showDialog(
+      showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -95,6 +84,28 @@ class _AddPostState extends State<AddPost> {
         );
       },
     );
+    
+        final String? imageUrl = await uploadImageToStorage(
+              img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
+
+    const String imgUrl =
+        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
+    final CustomUser posterPerson = CustomUser(
+        email: 'hussein.ebrahim@student.guc.edu.eg',
+        password: 'Don Ciristiane Ronaldo',
+        image:
+            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
+        userName: 'Mr Milad Ghantous',
+        fullName: 'omar');
+
+    final NewsEventClub addedPost = NewsEventClub(
+        content: content,
+        image: imageUrl??'',
+        createdAt: DateTime.now(),
+        sender: userProvider.user??posterPerson,
+        reason: reason);
+
+    
 
     provider.postContent(addedPost).then((value) => {
           Navigator.pop(context),
@@ -246,7 +257,7 @@ class _AddPostState extends State<AddPost> {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String reason = reasonController.text;
-                      _addPost(clubPostProvider, content, reason);
+                      _addPost(clubPostProvider, content, reason, _selectedImage??File(''));
                     }
                   },
                   style: ButtonStyle(

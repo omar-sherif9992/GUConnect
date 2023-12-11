@@ -12,7 +12,7 @@ NewsEventClub	- Content
 */
 
 class NewsEventClub extends Post {
-  late CustomUser poster;
+  //late CustomUser poster;
   late String approvalStatus = 'requested';
   late String reason;
   late Set<String> likes = {};
@@ -30,7 +30,7 @@ class NewsEventClub extends Post {
 
   NewsEventClub({
     String? id,
-    required this.poster,
+    //required this.poster,
     required this.reason,
     required super.content,
     required super.sender,
@@ -50,7 +50,6 @@ class NewsEventClub extends Post {
         ) {
     id = json['id'];
     approvalStatus = json['approvalStatus'];
-    poster = CustomUser.fromJson((json['poster'] as Map<String, dynamic>));
     reason = json['reason'];
     comments = ((json['comments'] as List<dynamic>)
         .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
@@ -61,7 +60,6 @@ class NewsEventClub extends Post {
     final Map<String, dynamic> data = super.toJson();
     data['id'] = id;
     data['approvalStatus'] = approvalStatus;
-    data['poster'] = poster.toJson();
     data['reason'] = reason;
     data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
@@ -69,6 +67,6 @@ class NewsEventClub extends Post {
 
   @override
   String toString() {
-    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, poster: ${poster.toString()}, reason: $reason, comments: ${comments.map((e) => (c) => c.toString())}';
+    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, reason: $reason, comments: ${comments.map((e) => (c) => c.toString())}';
   }
 }

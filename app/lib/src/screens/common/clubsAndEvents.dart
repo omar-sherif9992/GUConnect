@@ -101,12 +101,12 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                                   ),
                                   PostW(
                                     postId: posts[index].id,
-                                    caption: posts[index].content,
-                                    imgUrl: posts[index].image,
+                                    content: posts[index].content,
+                                    image: posts[index].image,
                                     username:
-                                        posts[index].poster.userName ?? '',
-                                    userImage: posts[index].poster.image ?? '',
-                                    likers: posts[index].likes,
+                                        posts[index].sender.userName ?? '',
+                                    userImage: posts[index].sender.image ?? '',
+                                    likes: posts[index].likes,
                                     createdAt: posts[index].createdAt,
                                     comments: posts[index].comments,
                                     postType: 0,

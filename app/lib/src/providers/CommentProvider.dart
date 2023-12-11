@@ -14,9 +14,9 @@ class CommentProvider extends ChangeNotifier {
     case 1:
       return 'lostAndFound';
     case 2:
-      return '';
+      return 'academicRelatedQuestions';
     case 3:
-      return '';
+      return 'confessions';
 
     default:
       return 'Unknown';

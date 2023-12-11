@@ -17,7 +17,7 @@ class LostAndFound extends Post {
     required super.sender,
   }) {
     this.id = FirebaseFirestore.instance.collection('lostAndFound').doc().id;
-    }
+    }  
 
   LostAndFound.fromJson(Map<String, dynamic> json)
       : super(

@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/lostAndFound.dart';
+import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +32,14 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
 
   late LostAndFoundProvider lostProvider;
 
+  late UserProvider userProvider;
+
   @override
   void initState()
   {
     super.initState();
     lostProvider = Provider.of<LostAndFoundProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
   double calculateAspectRatio() {
@@ -68,24 +73,9 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
 
 
   Future _addPost(
-      LostAndFoundProvider provider, String content, String contact) async {
-    const String imgUrl =
-        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
-    final CustomUser posterPerson = CustomUser(
-        email: 'hussein.ebrahim@student.guc.edu.eg',
-        password: 'Don Ciristiane Ronaldo',
-        image:
-            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-        userName: 'Mr Milad Ghantous', fullName: 'omar');
-
-    final LostAndFound addedPost = LostAndFound(
-        content: content,
-        image: imgUrl,
-        createdAt: DateTime.now(),
-        sender: posterPerson,
-        contact: contact);
-
-    showDialog(
+      LostAndFoundProvider provider, String content, String contact, File img) async {
+        
+        showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -101,6 +91,18 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
         );
       },
     );
+
+    final String? imageUrl = await uploadImageToStorage(
+              img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
+
+    final LostAndFound addedPost = LostAndFound(
+        content: content,
+        image: imageUrl!,
+        createdAt: DateTime.now(),
+        sender: userProvider.user!,
+        contact: contact);
+
+    
 
     provider.postItem(addedPost).then((value) {
           Navigator.pop(context);
@@ -248,7 +250,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String contact = contactController.text;
-                      _addPost(lostProvider, content, contact);
+                      _addPost(lostProvider, content, contact, _selectedImage!);
                     }
                   },
                   style: ButtonStyle(
