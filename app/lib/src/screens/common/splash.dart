@@ -50,7 +50,7 @@ class _SplashState extends State<SplashScreen> with SingleTickerProviderStateMix
         print(userWithDetails);
         userProvider.setUser(userWithDetails!);
         if(user.email!.trim().contains('@gucconnect.com')){
-            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+            Navigator.popAndPushNamed(context, CustomRoutes.profile);
           }else{
             Navigator.popAndPushNamed(context, CustomRoutes.profile);
           }

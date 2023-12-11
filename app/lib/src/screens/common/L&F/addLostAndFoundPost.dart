@@ -1,52 +1,45 @@
+
 import 'dart:io';
 
-import 'package:GUConnect/src/models/NewsEventClub.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
+import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
+import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+class AddLostAndFoundPost extends StatefulWidget
+{
+
+  const AddLostAndFoundPost({super.key});
 
   @override
-  State<AddPost> createState() => _AddPostState();
+  State<AddLostAndFoundPost> createState() => _AddLostAndFoundPostState();
 }
 
-class _AddPostState extends State<AddPost> {
-  late UserProvider userProvider;
+class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
   final TextEditingController contentController = TextEditingController();
-  final TextEditingController reasonController = TextEditingController();
+
+  final TextEditingController contactController = TextEditingController();
+
   File? _selectedImage;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late NewsEventClubProvider clubPostProvider;
+
+  late LostAndFoundProvider lostProvider;
+
+  late UserProvider userProvider;
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
-
-    clubPostProvider =
-        Provider.of<NewsEventClubProvider>(context, listen: false);
-
-    userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-  }
-
-  Future<void> _getImage() async {
-    final picker = ImagePicker();
-
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _selectedImage = File(pickedFile.path);
-      }
-    });
+    lostProvider = Provider.of<LostAndFoundProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
   double calculateAspectRatio() {
@@ -65,10 +58,24 @@ class _AddPostState extends State<AddPost> {
     });
   }
 
-  Future _addPost(
-      NewsEventClubProvider provider, String content, String reason, File img) async {
+  bool isCorrectNum(String val)
+  {
+    if(val.length != 12 || val[0] != '0')
+    {
+      return false;
+    }
+    return true;
+  }
 
-      showDialog(
+  Future<void> _getImage() async {
+    
+  }
+
+
+  Future _addPost(
+      LostAndFoundProvider provider, String content, String contact, File img) async {
+        
+        showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -84,39 +91,29 @@ class _AddPostState extends State<AddPost> {
         );
       },
     );
-    
-        final String? imageUrl = await uploadImageToStorage(
+
+    final String? imageUrl =  await uploadImageToStorage(
               img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
 
-    const String imgUrl =
-        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
-    final CustomUser posterPerson = CustomUser(
-        email: 'hussein.ebrahim@student.guc.edu.eg',
-        password: 'Don Ciristiane Ronaldo',
-        image:
-            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-        userName: 'Mr Milad Ghantous',
-        fullName: 'omar');
-
-    final NewsEventClub addedPost = NewsEventClub(
+    final LostAndFound addedPost = LostAndFound(
         content: content,
         image: imageUrl??'',
         createdAt: DateTime.now(),
-        sender: userProvider.user??posterPerson,
-        reason: reason);
+        sender: userProvider.user!,
+        contact: contact);
 
     
 
-    provider.postContent(addedPost).then((value) => {
-          Navigator.pop(context),
+    provider.postItem(addedPost).then((value) {
+          Navigator.pop(context);
           if (value)
             {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ClubsAndEvents(),
+                  builder: (context) => const LostAndFoundW(),
                 ),
-              )
+              );
             }
           else
             {
@@ -137,13 +134,14 @@ class _AddPostState extends State<AddPost> {
                     ],
                   );
                 },
-              )
+              );
             }
         });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context)
+  {
     final double containerHeight = calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +157,7 @@ class _AddPostState extends State<AddPost> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Post:',
+                  'Content:',
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -176,7 +174,7 @@ class _AddPostState extends State<AddPost> {
                   controller: contentController,
                   maxLines: 5,
                   decoration: const InputDecoration(
-                    hintText: 'What is on your mind .....',
+                    hintText: 'What have you found .....',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(18)),
                     ),
@@ -184,7 +182,6 @@ class _AddPostState extends State<AddPost> {
                 ),
                 const SizedBox(height: 16),
                 GestureDetector(
-                  onTap: _getImage,
                   child: Container(
                     height: containerHeight,
                     decoration: BoxDecoration(
@@ -195,15 +192,11 @@ class _AddPostState extends State<AddPost> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.cloud_upload,
-                                  size: 50,
-                                  color: Theme.of(context).colorScheme.primary),
-                              const SizedBox(height: 8),
-                              Text('Upload an Image',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)),
+                              UserImagePicker(onPickImage: (File pickedImage) { 
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+    });
+     },),
                             ],
                           )
                         : Stack(
@@ -227,7 +220,7 @@ class _AddPostState extends State<AddPost> {
                   height: 24,
                 ),
                 Text(
-                  'Reason for the post:',
+                  'Your Contact:',
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -236,15 +229,15 @@ class _AddPostState extends State<AddPost> {
                 const SizedBox(height: 8),
                 TextFormField(
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the request';
+                    if (value == null || value.isEmpty || isCorrectNum(value)) {
+                      return 'Please enter valid contact phone number';
                     }
                     return null;
                   },
-                  controller: reasonController,
+                  controller: contactController,
                   maxLines: 2,
                   decoration: const InputDecoration(
-                    hintText: 'Request to the amdin .....',
+                    hintText: 'Contact phone number ...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(18)),
                     ),
@@ -256,8 +249,8 @@ class _AddPostState extends State<AddPost> {
                     if (_formKey.currentState?.validate() ?? false) {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
-                      final String reason = reasonController.text;
-                      _addPost(clubPostProvider, content, reason, _selectedImage??File(''));
+                      final String contact = contactController.text;
+                      _addPost(lostProvider, content, contact, _selectedImage ?? File(''));
                     }
                   },
                   style: ButtonStyle(

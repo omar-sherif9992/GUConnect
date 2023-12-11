@@ -24,13 +24,16 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<void> approvePost(NewsEventClub newsEventClub) async {
     try {
-      final QuerySnapshot document =  await _firestore
+      final QuerySnapshot document = await _firestore
           .collection('newsEventClubs')
-          .where('id', isEqualTo: newsEventClub.id).get();
+          .where('id', isEqualTo: newsEventClub.id)
+          .get();
 
       if (document.docs.isNotEmpty) {
-        await _firestore.collection('newsEventClubs')
-          .doc(document.docs.first.id).update({'approvalStatus': 'approved'});
+        await _firestore
+            .collection('newsEventClubs')
+            .doc(document.docs.first.id)
+            .update({'approvalStatus': 'approved'});
       }
     } catch (e) {
       print(e);
@@ -39,17 +42,17 @@ class NewsEventClubProvider extends ChangeNotifier {
 
   Future<void> disapprovePost(NewsEventClub newsEventClub) async {
     try {
-      final QuerySnapshot document =  await _firestore
+      final QuerySnapshot document = await _firestore
           .collection('newsEventClubs')
-          .where('id', isEqualTo: newsEventClub.id).get();
+          .where('id', isEqualTo: newsEventClub.id)
+          .get();
 
       if (document.docs.isNotEmpty) {
-        await _firestore.collection('newsEventClubs')
-          .doc(document.docs.first.id).update({'approvalStatus': 'disapproved'});
+        await _firestore
+            .collection('newsEventClubs')
+            .doc(document.docs.first.id)
+            .update({'approvalStatus': 'disapproved'});
       }
-      
-
-      
     } catch (e) {
       print(e);
     }
@@ -93,52 +96,17 @@ class NewsEventClubProvider extends ChangeNotifier {
     return posts;
   }
 
-  Future<List<dynamic>> likePost(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await _firestore
+  
+
+  Future<List<NewsEventClub>> getMyPosts(String email) async {
+    final List<NewsEventClub> posts = [];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('newsEventClubs')
-        .where('id', isEqualTo: postId)
+        .where('poster.email', isEqualTo: email)
         .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-
-      final List<dynamic> likesOfPost = documentSnapshot['likes'] ?? [];
-      likesOfPost.add(userId);
-
-      await FirebaseFirestore.instance
-          .collection('newsEventClubs')
-          .doc(documentSnapshot.id)
-          .update({
-        'likes': FieldValue.arrayUnion([userId]),
-      });
-
-      return likesOfPost;
-    }
-    return [];
-  }
-
-  Future<List<dynamic>> dislike(String postId, String userId) async {
-    final QuerySnapshot querySnapshot = await _firestore
-        .collection('newsEventClubs')
-        .where('id', isEqualTo: postId)
-        .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-
-      final List<dynamic> likesOfPost = documentSnapshot['likes'] ?? [];
-
-      likesOfPost.remove(userId);
-
-      await FirebaseFirestore.instance
-          .collection('newsEventClubs')
-          .doc(documentSnapshot.id)
-          .update({
-        'likes': likesOfPost,
-      });
-
-      return likesOfPost;
-    }
-    return [];
+    querySnapshot.docs.forEach((doc) {
+      posts.add(NewsEventClub.fromJson(doc.data()));
+    });
+    return posts;
   }
 }

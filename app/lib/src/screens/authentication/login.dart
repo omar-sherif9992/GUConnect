@@ -2,11 +2,8 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
-import 'package:GUConnect/themes/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:GUConnect/routes.dart';
 
@@ -35,16 +32,17 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         final CustomUser? user =
             await userProvider.getUser(emailController.text);
-        if(user != null){
-          userProvider.setUser(user);}
-     
-        if (context.mounted) {
-          if(emailController.text.trim().contains('@gucconnect.com')){
-            Navigator.popAndPushNamed(context, CustomRoutes.admin);
-          }else{
-            Navigator.popAndPushNamed(context, CustomRoutes.profile);
-          }
+        if (user != null) {
+          userProvider.setUser(user);
+        }
 
+        if (context.mounted) {
+          if (emailController.text.trim().contains('@gucconnect.com')) {
+            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+          } else {
+            Navigator.popAndPushNamed(context, CustomRoutes.profile,
+                arguments: {'user': user});
+          }
         }
       }
     } else {
@@ -65,8 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<UserProvider>(context, listen: false);
     return Form(
       key: _formKey,
-      child: 
-      Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Center(
             child: Image.asset(
@@ -83,24 +80,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 .start, // Aligns children to the start of the Column
             children: [
               // login
-              
+
               const Padding(
                 padding:
-                    EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
+                    EdgeInsets.only(left: 18.0, top: 14, bottom: 14, right: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Stay Engaged, Stay Connected',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: 'poppins',
+                          letterSpacing: 1.1),
+                      textAlign: TextAlign.left,
                     ),
                     SizedBox(
                         height:
-                            8), // Add some space between main text and subtext
+                            16), // Add some space between main text and subtext
                     Text(
                       'The best way to get the most out of our app is to participate actively.',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -119,7 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    SingleChildScrollView(child: Padding(
+                    SingleChildScrollView(
+                        child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: <Widget>[
@@ -134,7 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value!.isEmpty) {
                                   return 'Enter your email address';
                                 } else if (!value.contains('@guc.edu.eg') &&
-                                    !value.contains('@student.guc.edu.eg')&& !value.contains('@gucconnect.com')) {
+                                    !value.contains('@student.guc.edu.eg') &&
+                                    !value.contains('@gucconnect.com')) {
                                   return 'Enter a valid GUC email address';
                                 } else {
                                   return null;
@@ -155,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: PasswordField(
                               passwordController: passwordController,
-                              hintText: '********',
+                              hintText: 'password',
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Enter your password';
@@ -183,9 +187,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   await _login(userProvider);
-                                  print('/////////////////////////////////////////////');
+                                  print(
+                                      '/////////////////////////////////////////////');
                                   print(userProvider.user);
-                                  print('/////////////////////////////////////////////');
+                                  print(
+                                      '/////////////////////////////////////////////');
                                 }
                               },
                               style: ElevatedButton.styleFrom(

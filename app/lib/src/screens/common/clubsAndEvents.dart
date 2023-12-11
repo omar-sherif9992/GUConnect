@@ -89,7 +89,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: RefreshIndicator(
+                      child: RefreshIndicator.adaptive(
                         onRefresh: _refresh,
                         child: ListView.builder(
                             itemCount: posts.length,
@@ -101,11 +101,11 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                                   ),
                                   PostW(
                                     postId: posts[index].id,
-                                    caption: posts[index].content,
-                                    imgUrl: posts[index].image,
+                                    content: posts[index].content,
+                                    image: posts[index].image,
                                     username:
-                                        posts[index].poster.userName ?? '',
-                                    userImage: posts[index].poster.image ?? '',
+                                        posts[index].sender.userName ?? '',
+                                    userImage: posts[index].sender.image ?? '',
                                     likes: posts[index].likes,
                                     createdAt: posts[index].createdAt,
                                     comments: posts[index].comments,

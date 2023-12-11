@@ -1,7 +1,10 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
@@ -149,7 +152,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   }
 
   Widget _buildPhoneNumbers() {
-    return RefreshIndicator(
+    return RefreshIndicator.adaptive(
       onRefresh: () async {
         await fetchPhoneNumbers();
         filterContacts(_searchController.text);
@@ -209,7 +212,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
   }
 
   Widget _buildEmails() {
-    return RefreshIndicator(
+    return RefreshIndicator.adaptive(
       onRefresh: () async {
         await fetchEmails();
 
@@ -296,11 +299,39 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: const CustomAppBar(
+      floatingActionButton: userProvider.user?.userType == UserType.admin
+          ? FloatingActionButton(
+              onPressed: () async {
+                
+                final type = await Navigator.pushNamed(
+                    context, CustomRoutes.addImportantContacts);
+                if (type == null) return;
+
+                if (type == 'email') {
+                  await fetchEmails();
+                } else {
+                  await fetchPhoneNumbers();
+                }
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
+      appBar: CustomAppBar(
         title: 'Important Contacts',
         isLogo: false,
+        actions: [
+          if (userProvider.user?.userType == UserType.admin)
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, CustomRoutes.addImportantContacts);
+                },
+                icon: const Icon(Icons.add))
+        ],
       ),
       body: Column(
         children: [

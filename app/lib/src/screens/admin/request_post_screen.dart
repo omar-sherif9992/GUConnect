@@ -13,13 +13,14 @@ class RequestPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${post.poster.userName ?? 'Anonymous'}\'s post'),
+        title: Text('${post.sender.userName ?? 'Anonymous'}\'s post'),
       ),
       body: SingleChildScrollView(
           child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
             child: Row(
               children: [
                 CircleAvatar(
@@ -27,7 +28,7 @@ class RequestPostScreen extends StatelessWidget {
                   radius: 20,
                   // Replace with your image URL
                   backgroundImage: CachedNetworkImageProvider(post
-                          .poster.image ??
+                          .sender.image ??
                       'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
                 ),
                 const SizedBox(width: 8),
@@ -36,7 +37,7 @@ class RequestPostScreen extends StatelessWidget {
                   children: [
                     Text(
                       // User name
-                      post.poster.userName ?? 'Anonymous',
+                      post.sender.userName ?? 'Anonymous',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontWeight: FontWeight.w600,
@@ -74,21 +75,22 @@ class RequestPostScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+          Center(
+            child: Text(
+              'Reason for posting:\n"${post.reason}"',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text(
-                    'Approve',
-                    style: TextStyle(color: Colors.white),
-                  )),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context, false);
@@ -102,6 +104,18 @@ class RequestPostScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.white),
+                  )),
             ],
           )
         ],
