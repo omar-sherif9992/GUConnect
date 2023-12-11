@@ -1,6 +1,7 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/screens/common/about.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
+          ListTile(
+            title: Text(
+              'About Us',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+            ),
+            subtitle: Text(
+              'Learn more about us',
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AboutScreen(),
+                    maintainState: false,
+                  ),
+                );
+              },
+            ),
+            contentPadding: const EdgeInsets.only(left: 34, right: 22),
+          ),
           SwitchListTile.adaptive(
             value: _isNotification,
             onChanged: (isChecked) async {
