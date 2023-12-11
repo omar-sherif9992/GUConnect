@@ -18,7 +18,6 @@ class PendingsScreen extends StatefulWidget {
 }
 
 class _PendingsScreenState extends State<PendingsScreen> {
-  
   List<NewsEventClub> posts = [];
   List<NewsEventClub> postsDisplay = [];
 
@@ -190,7 +189,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
         : posts.isEmpty
             ? Center(
                 child: Text(
-                'No requested posts found',
+                'No Pending Posts Found',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
@@ -256,8 +256,8 @@ class _PendingsScreenState extends State<PendingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomBar(),
-      drawer: const MainDrawer(),
+        bottomNavigationBar: const BottomBar(),
+        drawer: const MainDrawer(),
         appBar: const CustomAppBar(
           title: 'Pending Posts',
           isLogo: false,
