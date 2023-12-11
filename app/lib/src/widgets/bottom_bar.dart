@@ -39,7 +39,7 @@ class BottomBar extends StatelessWidget {
         },
         icon: Icon(
           Icons.home_outlined,
-          color: isActive(CustomRoutes.admin)
+          color: isActive(CustomRoutes.clubsAndEvents)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
           size: 28,
@@ -47,11 +47,11 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          navigate(CustomRoutes.admin);
+          navigate(CustomRoutes.adminPendings);
         },
         icon: Icon(
           Icons.receipt_outlined,
-          color: isActive(CustomRoutes.adminReports)
+          color: isActive(CustomRoutes.adminPendings)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
           size: 28,
@@ -79,10 +79,15 @@ class BottomBar extends StatelessWidget {
             ),
             child: Transform.rotate(
                 angle: -pi / 4,
-                child: Icon(
-                  Icons.confirmation_num_outlined,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  size: 32,
+                child: IconButton(
+                  onPressed: () {
+                    navigate(CustomRoutes.adminReports);
+                  },
+                  icon: Icon(
+                    Icons.search_outlined,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    size: 32,
+                  ),
                 )),
           ),
         ),
