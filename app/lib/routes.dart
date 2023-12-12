@@ -6,6 +6,7 @@ import 'package:GUConnect/src/screens/admin/search_staff.dart';
 import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/src/screens/staff/profile.dart';
 import 'package:GUConnect/src/screens/user/search.dart';
 import 'package:GUConnect/src/screens/common/splash.dart';
 import 'package:GUConnect/src/screens/common/important_contacts.dart';
@@ -83,6 +84,7 @@ class CustomRoutes {
       adminAddStaff: (context) => const SearchStaffScreen(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
       admin: (context) => const PendingsScreen(),
+      staff: (context) => const StuffProfile(),
     };
   }
 }

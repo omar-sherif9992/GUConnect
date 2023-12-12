@@ -41,7 +41,6 @@ class UserProvider with ChangeNotifier {
     _firebaseAuth.userChanges().listen((user) async {
       if (user != null) {
         _loggedIn = true;
-        //_user = CustomUser.fromJson(jsonDecode(user.toString()));
         final DocumentSnapshot<CustomUser> documentSnapshot =
             await usersRef.doc(user.uid).get();
         _user = documentSnapshot.data();
@@ -49,7 +48,7 @@ class UserProvider with ChangeNotifier {
         _loggedIn = false;
         _user = null;
       }
-      notifyListeners();
+      // notifyListeners();
     });
   }
 
@@ -59,11 +58,7 @@ class UserProvider with ChangeNotifier {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
-      //  print('/////////////////////////////////////////////');
-      // print(userCredential.user);
       newUser.user_id = userCredential.user?.uid;
-      // print(newUser);
-      //  print('/////////////////////////////////////////////');
       await usersRef.doc(userCredential.user?.uid).set(newUser);
 
       return true;

@@ -11,7 +11,7 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-   State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
@@ -26,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String enteredOtp, UserProvider userProvider, CustomUser newUser) async {
     final bool verified =
         userProvider.verifyOTP(emailController.text.trim(), enteredOtp);
-        print(verified);
+    print(verified);
     if (verified) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('otp verified.'),
@@ -38,11 +38,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text('Register Successful'),
           backgroundColor: Colors.green,
         ));
-        CustomUser? userWithId=await userProvider.getUser(emailController.text.trim());
+        CustomUser? userWithId =
+            await userProvider.getUser(emailController.text.trim());
         userProvider.setUser(userWithId!);
         Navigator.of(context).popAndPushNamed(CustomRoutes.profile);
         return true;
-      } 
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Wrong OTP entered, please try again.'),
@@ -233,8 +234,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        if(await userProvider.getUser(emailController.text.trim())!=null){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        if (await userProvider
+                                .getUser(emailController.text.trim()) !=
+                            null) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
                             content: Text('Email already Registered'),
                             backgroundColor: Colors.red,
                           ));
