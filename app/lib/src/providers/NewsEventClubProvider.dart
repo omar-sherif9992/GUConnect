@@ -1,3 +1,4 @@
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:flutter/foundation.dart';
@@ -34,6 +35,13 @@ class NewsEventClubProvider extends ChangeNotifier {
             .collection('newsEventClubs')
             .doc(document.docs.first.id)
             .update({'approvalStatus': 'approved'});
+
+       await  FirebaseNotification.sendPostApprovalNotification(
+            newsEventClub.sender.fullName ?? 'User',
+            newsEventClub.sender.token ?? '',
+            newsEventClub.id,
+            'News Event Club',
+            'Admin');
       }
     } catch (e) {
       print(e);

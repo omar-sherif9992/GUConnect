@@ -12,29 +12,27 @@ class Post_Widget extends StatelessWidget {
         children: [
           Text(
             post.content,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
-          SizedBox(height: 8),
-          post.image != null
-              ? Image.network(
+          const SizedBox(height: 8),
+          if (post.image != null) Image.network(
                   post.image!,
                   height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                )
-              : SizedBox(),
-          SizedBox(height: 8),
+                ) else const SizedBox(),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.thumb_up),
-                  SizedBox(width: 4),
+                  const Icon(Icons.thumb_up),
+                  const SizedBox(width: 4),
                   Text('${post.likes}'),
                 ],
               ),
-              Row(
+              const Row(
                 children: [
                   Icon(Icons.comment),
                   SizedBox(width: 4),
