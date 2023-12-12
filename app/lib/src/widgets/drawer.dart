@@ -66,8 +66,8 @@ class MainDrawer extends StatelessWidget {
               //     "postId",
               //     "postType",
               //     "approverName");
-              await FirebaseNotification.sendTagNotification("taggedUserName",
-                  FirebaseNotification.token!, "confessionId", "taggerName");
+              // await FirebaseNotification.sendTagNotification("taggedUserName",
+              //     FirebaseNotification.token!, "confessionId", "taggerName");
               // await FirebaseNotification.sendNotification(
               //     FirebaseNotification.token!, "Title", "Body");
             },

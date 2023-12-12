@@ -96,13 +96,11 @@ class NewsEventClubProvider extends ChangeNotifier {
     return posts;
   }
 
-  
-
   Future<List<NewsEventClub>> getMyPosts(String email) async {
     final List<NewsEventClub> posts = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('newsEventClubs')
-        .where('poster.email', isEqualTo: email)
+        .where('sender.email', isEqualTo: email)
         .get();
     querySnapshot.docs.forEach((doc) {
       posts.add(NewsEventClub.fromJson(doc.data()));

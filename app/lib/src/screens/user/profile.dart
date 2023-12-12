@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:GUConnect/src/models/AcademicQuestion.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
+import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/User.dart';
@@ -10,6 +15,7 @@ import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
+import 'package:GUConnect/src/widgets/post.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -25,7 +31,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
   late CustomUser user;
   late ConfessionProvider confessionProvider;
@@ -33,10 +39,10 @@ class _ProfileScreenState extends State<ProfileScreen>
   late LostAndFoundProvider lostAndFoundProvider;
   late AcademicQuestionProvider academicQuestionProvider;
   late UserProvider userProvider;
-  late List<Object> clubPosts = [];
-  late List<Object> lostPosts = [];
-  late List<Object> academicPosts = [];
-  late List<Object> confessions = [];
+  late List<Post> clubPosts = [];
+  late List<Post> lostPosts = [];
+  late List<Post> academicPosts = [];
+  late List<Post> confessions = [];
   late int postsCount = 0;
 
   late bool _isLoading = false;
@@ -216,8 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             tabs: const [
               Tab(
                 icon: Icon(Icons.book),
-                child: 
-                Text(
+                child: Text(
                   'Academic',
                   style: TextStyle(fontSize: 12),
                 ),
@@ -256,10 +261,10 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildPosts(academicPosts,'academic'),
-              _buildPosts(lostPosts,'lost'),
-              _buildPosts(clubPosts,'club'),
-              _buildPosts(confessions,'confession')
+              _buildPosts(academicPosts, 'academic'),
+              _buildPosts(lostPosts, 'lost'),
+              _buildPosts(clubPosts, 'club'),
+              _buildPosts(confessions, 'confession')
             ],
           )),
         ],
@@ -267,10 +272,10 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildPosts(posts , name) {
+  Widget _buildPosts(List<Post> posts, name) {
     return _isLoading
         ? const Loader()
-        : posts.length == 0
+        : posts.isEmpty
             ? const Center(
                 child: Text(
                   'No Posts',
@@ -284,17 +289,32 @@ class _ProfileScreenState extends State<ProfileScreen>
                 onRefresh: () async {
                   await fetchAll();
                 },
-              child: ListView.builder(
+                child: ListView.builder(
                   itemCount: posts.length,
                   scrollDirection: Axis.vertical,
-                  
                   key: PageStorageKey('profile_posts$name'),
-              
                   itemBuilder: (context, index) {
-                    return Post_Widget(posts[index]);
+                    String pendingStatus = "";
+                    if (posts[index] is NewsEventClub) {
+                      pendingStatus =
+                          (posts[index] as NewsEventClub).approvalStatus;
+                    }
+
+                    return PostW(
+                      postId: posts[index].id,
+                      content: posts[index].content,
+                      image: posts[index].image,
+                      likes: posts[index].likes,
+                      comments: posts[index].comments,
+                      createdAt: posts[index].createdAt,
+                      username: user.userName ?? '',
+                      userImage: user.image ?? '',
+                      postType: getPostType(posts[index]),
+                      pendingStatus: pendingStatus,
+                    );
                   },
                 ),
-            );
+              );
   }
 
   Future<void> fetchPosts(
@@ -307,7 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           (await lostAndFoundProvider.getMyItems(email)).cast<Post>();
       final List<Post> academicQuestions =
           (await academicQuestionProvider.getMyQuestions(email)).cast<Post>();
-
       newsEventClub.sort((a, b) =>
           (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
       lostAndFound.sort((a, b) =>
@@ -320,7 +339,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         academicPosts = academicQuestions;
         postsCount = clubPosts.length + lostPosts.length + academicPosts.length;
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> fetchConfessions(
@@ -352,17 +373,31 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     user = userProvider.user!;
     fetchAll();
+    log(user.email);
   }
 
   Future<void> fetchAll() async {
     setState(() {
       _isLoading = true;
     });
+
     await fetchPosts(user.email);
     await fetchConfessions(user.email);
     setState(() {
       _isLoading = false;
     });
+  }
+
+  getPostType(Post post) {
+    if (post is NewsEventClub) {
+      return 0;
+    } else if (post is LostAndFound) {
+      return 1;
+    } else if (post is AcademicQuestion) {
+      return 2;
+    } else if (post is Confession) {
+      return 3;
+    }
   }
 }
 
