@@ -45,17 +45,26 @@ class _SplashState extends State<SplashScreen>
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
       //  final bool loggedIn= userProvider.loggedIn;
-      final User? user = FirebaseAuth.instance.currentUser;
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // TODO: remove this added for development check if user is null
+      if (user == null) {
+        await FirebaseAuth.instance.signInWithCredential(
+          EmailAuthProvider.credential(
+              email: 'admin.admin@gucconnect.com', password: 'abcdef'),
+        );
+        user = FirebaseAuth.instance.currentUser;
+      }
+
       if (user != null) {
         final CustomUser? userWithDetails =
             await userProvider.getUser(user.email!);
-        print(userWithDetails);
         userProvider.setUser(userWithDetails!);
+        print(userProvider.user);
         if (user.email!.trim().contains('@gucconnect.com')) {
           Navigator.popAndPushNamed(context, CustomRoutes.admin);
         } else {
-          // TODO: Replace with profile screen
-          Navigator.popAndPushNamed(context, CustomRoutes.staff);
+          Navigator.popAndPushNamed(context, CustomRoutes.profile);
         }
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);

@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 void main() async {
   await initializeApp();
 
-  FirebaseNotification().initFirebaseMessaging();
+  FirebaseNotification().initNotification();
 
   runApp(DevicePreview(
     enabled: true,

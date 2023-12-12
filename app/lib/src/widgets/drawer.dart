@@ -1,6 +1,7 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,6 +63,33 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text(
+              'Test Notifications',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              await FirebaseNotification.sendLikeNotification(
+                  "Abdelrahman Fekri",
+                  FirebaseNotification.token!,
+                  "postId",
+                  "postType",
+                  "likerName");
+              await FirebaseNotification.sendPostApprovalNotification(
+                  "Abdelrahman Fekri",
+                  FirebaseNotification.token!,
+                  "postId",
+                  "postType",
+                  "approverName");
+              await FirebaseNotification.sendTagNotification("taggedUserName",
+                  FirebaseNotification.token!, "confessionId", "taggerName");
+              await FirebaseNotification.sendNotification(
+                  "title", "body", FirebaseNotification.token!);
+            },
+          ),
+          ListTile(
             leading: Icon(
               Icons.settings,
               size: 24,
@@ -76,18 +104,6 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(context, CustomRoutes.settings);
-            },
-          ),
-          ListTile(
-            title: Text(
-              'Staff',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-              onSelectScreen(context, CustomRoutes.staff);
             },
           ),
         ],

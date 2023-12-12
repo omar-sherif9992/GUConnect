@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// Represents the type of a user in the application.
 
 class UserType {
@@ -39,18 +41,18 @@ class CustomUser {
   late String? biography;
   late String userType;
   late String? user_id;
+  late String? token;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
-  CustomUser({
-    required this.fullName,
-    required this.userName,
-    this.image,
-    required this.email,
-    required this.password,
-    this.biography,
-    this.phoneNumber,
-    this.user_id
-  }) {
+  CustomUser(
+      {required this.fullName,
+      required this.userName,
+      this.image,
+      required this.email,
+      required this.password,
+      this.biography,
+      this.phoneNumber,
+      this.user_id}) {
     this.userType = getUserType();
   }
   CustomUser.edit({
@@ -83,6 +85,7 @@ class CustomUser {
             ? UserType.student
             : UserType.stuff;
     user_id = json['user_id'];
+    token = json['token'];
   }
 
   /// Converts the User object to a JSON map.
@@ -97,6 +100,7 @@ class CustomUser {
     data['biography'] = this.biography;
     data['userType'] = this.userType.toString();
     data['user_id'] = this.user_id;
+    data['token'] = this.token;
     return data;
   }
 
@@ -117,8 +121,16 @@ class CustomUser {
     }
   }
 
+  updateToken(String token) async {
+    this.token = token;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(this.user_id)
+        .update({'token': token});
+  }
+
   @override
   String toString() {
-    return 'fullName: $fullName, email: $email, password: $password';
+    return 'fullName: $fullName, email: $email, password: $password, token: $token';
   }
 }
