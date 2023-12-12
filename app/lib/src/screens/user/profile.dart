@@ -17,7 +17,6 @@ import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:flutter/material.dart';
-import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +24,7 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<ProfileScreen> createState() {
     return _ProfileScreenState();
   }
 }
@@ -276,13 +275,13 @@ class _ProfileScreenState extends State<ProfileScreen>
     return _isLoading
         ? const Loader()
         : posts.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text(
                   'No Posts',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
               )
             : RefreshIndicator.adaptive(

@@ -1,5 +1,6 @@
 import 'package:GUConnect/src/screens/admin/pending_reports.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
+import 'package:GUConnect/src/screens/admin/search_course.dart';
 import 'package:GUConnect/src/screens/admin/set_important_contacts_screen.dart';
 import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
 import 'package:GUConnect/src/screens/common/AcademicRelated/addAcademicQuestion.dart';
@@ -60,7 +61,6 @@ class CustomRoutes {
   static const String staff = '/staff/profile';
 
   // ADMIN ROUTES
-  static const String admin = '/admin';
   static const String adminNotifications = '/admin/notifications';
   static const String adminPendings = '/admin/pendings';
   static const String adminConfessionsDetail = '/admin/confessions-detail';
@@ -71,9 +71,13 @@ class CustomRoutes {
   static const String adminUsers = '/admin/users';
   static const String adminUsersDetail = '/admin/users-detail';
   static const String adminStaff = '/admin/staff';
+  static const String adminCourse = '/admin/courses';
   static const String adminReports = '/admin/reports';
   static const String adminAddStaff = '/admin/add-staff';
   static const String addImportantContacts = '/admin/add-important-contacts';
+
+  // Course Routes
+  static const String course = '/course/detail';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -96,10 +100,10 @@ class CustomRoutes {
       academicRelatedQuestions: (context) => const AcademicRelatedQuestions(),
       addAcademicRelatedQuestions: (context) => const AddAcademicPost(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
-      admin: (context) => const PendingsScreen(),
       staff: (context) => const StuffProfile(),
       adminAddStaff: (context) => const SetStaffScreen(),
       adminReports: (context) => const PendingReportsScreen(),
+      adminCourse: (context) => const SearchCourseScreen(),
     };
   }
 }

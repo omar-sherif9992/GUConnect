@@ -1,28 +1,25 @@
 import 'dart:io';
 
-import 'package:GUConnect/src/models/Staff.dart';
-import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/models/Course.dart';
+import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SetStaffScreen extends StatefulWidget {
-  final Staff? staff;
-  const SetStaffScreen({super.key, this.staff});
+class SetCourseScreen extends StatefulWidget {
+  final Course? course;
+  const SetCourseScreen({super.key, this.course});
 
   @override
-  State<SetStaffScreen> createState() => _SetStaffScreenState();
+  State<SetCourseScreen> createState() => _SetCourseScreenState();
 }
 
-class _SetStaffScreenState extends State<SetStaffScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _officeController = TextEditingController();
+class _SetCourseScreenState extends State<SetCourseScreen> {
+  final TextEditingController _courseNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _specialityController = TextEditingController();
+
   bool _isLoading = false;
 
   File? profileImageFile;
@@ -32,35 +29,25 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
     profileImageFile = pickedImage;
   }
 
-  late StaffProvider staffProvider;
-
-  String dropdownvalue = StaffType.professor;
+  late CourseProvider courseProvider;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    if (widget.staff != null) {
-      _nameController.text = widget.staff!.fullName;
-      _emailController.text = widget.staff!.email;
-      _officeController.text = widget.staff!.officeLocation ?? '';
-      dropdownvalue = widget.staff!.staffType;
-      profileImageUrl = widget.staff!.image;
-      _descriptionController.text = widget.staff!.description ?? '';
-      _specialityController.text = widget.staff!.speciality ?? '';
+    if (widget.course != null) {
+      _courseNameController.text = widget.course!.courseName;
+      _descriptionController.text = widget.course!.description;
     }
 
-    staffProvider = Provider.of<StaffProvider>(context, listen: false);
+    courseProvider = Provider.of<CourseProvider>(context, listen: false);
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _officeController.dispose();
+    _courseNameController.dispose();
     _descriptionController.dispose();
-    _specialityController.dispose();
     super.dispose();
   }
 
@@ -82,50 +69,18 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           onPickImage: onPickImage,
                           profileImageUrl: profileImageUrl),
                       InputField(
-                        controller: _nameController,
-                        label: 'Full Name',
-                        icon: Icons.person,
+                        controller: _courseNameController,
+                        label: 'Course Name',
+                        icon: Icons.book,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter full name';
+                            return 'Please enter course name';
                           }
                           return null;
                         },
                         keyboardType: TextInputType.name,
-                      ),
-                      EmailField(
-                        emailController: _emailController,
                       ),
                       InputField(
-                        controller: _officeController,
-                        label: 'Office Location',
-                        icon: Icons.location_on,
-                        keyboardType: TextInputType.streetAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a valid office location ex: C7.201';
-                          }
-                          if (!RegExp(r'^[A-Z][0-9]\.[0-9]{3}$')
-                              .hasMatch(value)) {
-                            return 'Please enter a valid office location ex: C7.201';
-                          }
-
-                          return null;
-                        },
-                      ), InputField(
-                        controller: _specialityController,
-                        label: 'Speciality',
-                        icon: Icons.work,
-                        keyboardType: TextInputType.name,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a valid speciality ex: Computer Science';
-                          }
-                        
-
-                          return null;
-                        },
-                      ), InputField(
                         controller: _descriptionController,
                         label: 'Description',
                         icon: Icons.description,
@@ -134,46 +89,15 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           return null;
                         },
                       ),
-                      DropdownButton(
-                        value: dropdownvalue,
-
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 24,
-                        borderRadius: BorderRadius.circular(10),
-                        alignment: Alignment.centerLeft,
-                        hint: const Text('Select Staff Type'),
-
-                        items: [StaffType.professor, StaffType.ta]
-                            .map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalue = newValue!;
-                          });
-                        },
-                      ),
-
-                      
-
                       if (_isLoading)
                         const CircularProgressIndicator()
                       else
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              final Staff staff = Staff(
-                                fullName: _nameController.text,
-                                email: _emailController.text,
-                                officeLocation: _officeController.text,
-                                staffType: dropdownvalue,
+                              final Course course = Course(
+                                courseName: _courseNameController.text,
                                 description: _descriptionController.text,
-                                speciality: _specialityController.text,
                               );
 
                               setState(() {
@@ -181,8 +105,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                               });
 
                               try {
-                                await staffProvider.setStaff(
-                                  staff,
+                                await courseProvider.setCourse(
+                                  course,
                                   profileImageFile,
                                 );
                                 Navigator.of(context).pop();
@@ -221,10 +145,10 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: widget.staff == null ? 'Add Staff' : 'Edit Staff',
+        title: widget.course == null ? 'Add Course' : 'Edit Course',
         isLogo: false,
         actions: [
-          if (widget.staff != null)
+          if (widget.course != null)
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
@@ -233,7 +157,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                   builder: (context) => AlertDialog(
                     title: const Text('Are you sure?'),
                     content: const Text(
-                        'Do you want to delete this staff member permanently?'),
+                        'Do you want to delete this course member permanently?'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -251,13 +175,13 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                   ),
                 );
 
-                if (widget.staff != null && confirm == true) {
-                  await staffProvider.deleteStaff(widget.staff!);
+                if (widget.course != null && confirm == true) {
+                  await courseProvider.deleteCourse(widget.course!);
 
                   Navigator.of(context).pop({
-                    'message': 'Staff deleted successfully',
+                    'message': 'Course deleted successfully',
                     'success': true,
-                    'staff': widget.staff,
+                    'course': widget.course!,
                   });
                 }
               },

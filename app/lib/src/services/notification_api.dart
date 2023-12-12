@@ -166,23 +166,23 @@ class FirebaseNotification {
   //   return results.data.success;
   // }
 
-  // static Future<Bool> sendPostApprovalNotification(
-  //     String postOwnerName,
-  //     String postOwnerToken,
-  //     String postId,
-  //     String postType,
-  //     String approverName) async {
-  //   final HttpsCallable callable = FirebaseFunctions.instance
-  //       .httpsCallable('sendPostApprovalNotification');
-  //   // post type could be [confession, event post, announcement, ...]
-  //   final results = await callable(<String, dynamic>{
-  //     'postOwner': {
-  //       'name': postOwnerName,
-  //       'token': postOwnerToken,
-  //     },
-  //     'postId': postId,
-  //   });
-  //   if (kDebugMode) print(results.data);
-  //   return results.data.success;
-  // }
+  static Future<bool> sendPostApprovalNotification(
+      String postOwnerName,
+      String postOwnerToken,
+      String postId,
+      String postType,
+      String approverName) async {
+    final HttpsCallable callable = FirebaseFunctions.instance
+        .httpsCallable('sendPostApprovalNotification');
+    //    post type could be [confession, event post, announcement, ...]
+    final results = await callable(<String, dynamic>{
+      'postOwner': {
+        'name': postOwnerName,
+        'token': postOwnerToken,
+      },
+      'postId': postId,
+    });
+    if (kDebugMode) print(results.data);
+    return results.data.success;
+  }
 }

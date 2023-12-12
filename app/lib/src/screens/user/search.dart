@@ -1,5 +1,7 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Course.dart';
 import 'package:GUConnect/src/models/Staff.dart';
+import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
@@ -22,6 +24,8 @@ class _SearchScreenState extends State<SearchScreen>
 
   List<Staff> proffs = [];
   List<Staff> proffsDisplay = [];
+  List<Course> courses = [];
+  List<Course> coursesDisplay = [];
 
   List<Staff> tas = [];
   List<Staff> tasDisplay = [];
@@ -29,24 +33,27 @@ class _SearchScreenState extends State<SearchScreen>
   bool _isLoading = false;
 
   late StaffProvider staffProvider;
+  late CourseProvider courseProvider;
 
   @override
   void initState() {
     super.initState();
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
+    courseProvider = Provider.of<CourseProvider>(context, listen: false);
 
-    fetchStaff(staffProvider).then((value) => {
+    fetchAll(staffProvider, courseProvider).then((value) => {
           setState(() {
             _isLoading = false;
           })
         });
 
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
-  Future fetchStaff(
+  Future fetchAll(
     StaffProvider staffProvider,
+    CourseProvider courseProvider,
   ) async {
     setState(() {
       _isLoading = true;
@@ -60,6 +67,10 @@ class _SearchScreenState extends State<SearchScreen>
     staffProvider.getStaffs().then((value) => setState(() {
           tas = value;
           tasDisplay = value;
+        }));
+    courseProvider.getCourses().then((value) => setState(() {
+          courses = value;
+          coursesDisplay = value;
         }));
   }
 
@@ -86,6 +97,18 @@ class _SearchScreenState extends State<SearchScreen>
     staffProvider.getTas().then((value) => setState(() {
           tas = value;
           tasDisplay = value;
+        }));
+  }
+  Future fetchCourses(
+    CourseProvider courseProvider,
+  ) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    courseProvider.getCourses().then((value) => setState(() {
+          courses = value;
+          coursesDisplay = value;
         }));
   }
 
@@ -151,7 +174,6 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Widget _buildTasTab() {
-
     return _isLoading
         ? const Loader()
         : tasDisplay.isEmpty
@@ -181,6 +203,37 @@ class _SearchScreenState extends State<SearchScreen>
                   },
                 ),
               );
+  } 
+  Widget _buildCoursesTab() {
+    return _isLoading
+        ? const Loader()
+        : tasDisplay.isEmpty
+            ? Center(
+                child: Text(
+                  'No Courses found',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.secondary),
+                ),
+              )
+            : RefreshIndicator.adaptive(
+                onRefresh: () async {
+                  await fetchCourses(courseProvider);
+                  filterItems(_searchController.text);
+                  setState(() {
+                    _isLoading = false;
+                  });
+                },
+                child: ListView.builder(
+                  key: const PageStorageKey('courses_user'),
+                  itemCount: tasDisplay.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return CourseTile(
+                        course: coursesDisplay[index]);
+                  },
+                ),
+              );
   }
 
   void filterItems(String value) {
@@ -196,6 +249,12 @@ class _SearchScreenState extends State<SearchScreen>
       tasDisplay.addAll(tas
           .where((element) => (element.fullName).toLowerCase().contains(value))
           .toList());
+
+      coursesDisplay = [];
+      coursesDisplay.addAll(courses
+          .where((element) =>
+              (element.courseName).toLowerCase().contains(value))
+          .toList());
     });
   }
 
@@ -203,7 +262,7 @@ class _SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Search Staff',
+        title: 'Search',
         isLogo: false,
       ),
       body: Column(
@@ -214,6 +273,7 @@ class _SearchScreenState extends State<SearchScreen>
             tabs: const [
               Tab(text: 'Profs'),
               Tab(text: 'TAs'),
+              Tab(text: 'Courses'),
             ],
           ),
           Expanded(
@@ -222,6 +282,7 @@ class _SearchScreenState extends State<SearchScreen>
               children: [
                 _buildProfessorsTab(),
                 _buildTasTab(),
+                _buildCoursesTab(),
               ],
             ),
           ),
@@ -262,7 +323,45 @@ class StaffTile extends StatelessWidget {
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(CustomRoutes.profile, arguments: staff);
+                .pushNamed(CustomRoutes.staff, arguments: staff);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class CourseTile extends StatelessWidget {
+  final Course course;
+
+  const CourseTile({required this.course, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
+      child: ListTile(
+        leading: Hero(
+          tag: course.courseName,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(course.image ?? ''),
+          ),
+        ),
+        title: Text(titleCase(course.courseName)),
+        subtitle: Text(course.description ),
+        trailing: IconButton(
+          icon: const Icon(Icons.arrow_forward_ios),
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(CustomRoutes.course, arguments: course);
           },
         ),
       ),
