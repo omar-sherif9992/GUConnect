@@ -361,7 +361,7 @@ class CourseTile extends StatelessWidget {
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(CustomRoutes.staff, arguments: course);
+                .pushNamed(CustomRoutes.course, arguments: course);
           },
         ),
       ),
