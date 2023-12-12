@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -132,59 +130,59 @@ class FirebaseNotification {
     if (kDebugMode) print(results.data);
   }
 
-  static Future<Bool> sendTagNotification(String taggedUserName,
-      String taggedUserToken, String confessionId, String taggerName) async {
-    final HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('sendTagNotification');
-    final results = await callable(<String, dynamic>{
-      'taggedUserName': taggedUserName,
-      'taggedUserToken': taggedUserToken,
-      'confessionId': confessionId,
-      'taggerName': taggerName,
-    });
-    if (kDebugMode) print(results.data);
-    return results.data.success;
-  }
+  // static Future<Bool> sendTagNotification(String taggedUserName,
+  //     String taggedUserToken, String confessionId, String taggerName) async {
+  //   final HttpsCallable callable =
+  //       FirebaseFunctions.instance.httpsCallable('sendTagNotification');
+  //   final results = await callable(<String, dynamic>{
+  //     'taggedUserName': taggedUserName,
+  //     'taggedUserToken': taggedUserToken,
+  //     'confessionId': confessionId,
+  //     'taggerName': taggerName,
+  //   });
+  //   if (kDebugMode) print(results.data);
+  //   return results.data.success;
+  // }
 
-  static Future<Bool> sendLikeNotification(
-      String postOwnerName,
-      String postOwnerToken,
-      String postId,
-      String postType,
-      String likerName) async {
-    final HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('sendLikeNotification');
-    // post type could be [confession, event post, announcement, ...]
-    final results = await callable(<String, dynamic>{
-      'postOwner': {
-        'name': postOwnerName,
-        'token': postOwnerToken,
-      },
-      'postId': postId,
-      'type': postType,
-      'likerName': likerName,
-    });
-    if (kDebugMode) print(results.data);
-    return results.data.success;
-  }
+  // static Future<Bool> sendLikeNotification(
+  //     String postOwnerName,
+  //     String postOwnerToken,
+  //     String postId,
+  //     String postType,
+  //     String likerName) async {
+  //   final HttpsCallable callable =
+  //       FirebaseFunctions.instance.httpsCallable('sendLikeNotification');
+  //   // post type could be [confession, event post, announcement, ...]
+  //   final results = await callable(<String, dynamic>{
+  //     'postOwner': {
+  //       'name': postOwnerName,
+  //       'token': postOwnerToken,
+  //     },
+  //     'postId': postId,
+  //     'type': postType,
+  //     'likerName': likerName,
+  //   });
+  //   if (kDebugMode) print(results.data);
+  //   return results.data.success;
+  // }
 
-  static Future<Bool> sendPostApprovalNotification(
-      String postOwnerName,
-      String postOwnerToken,
-      String postId,
-      String postType,
-      String approverName) async {
-    final HttpsCallable callable = FirebaseFunctions.instance
-        .httpsCallable('sendPostApprovalNotification');
-    // post type could be [confession, event post, announcement, ...]
-    final results = await callable(<String, dynamic>{
-      'postOwner': {
-        'name': postOwnerName,
-        'token': postOwnerToken,
-      },
-      'postId': postId,
-    });
-    if (kDebugMode) print(results.data);
-    return results.data.success;
-  }
+  // static Future<Bool> sendPostApprovalNotification(
+  //     String postOwnerName,
+  //     String postOwnerToken,
+  //     String postId,
+  //     String postType,
+  //     String approverName) async {
+  //   final HttpsCallable callable = FirebaseFunctions.instance
+  //       .httpsCallable('sendPostApprovalNotification');
+  //   // post type could be [confession, event post, announcement, ...]
+  //   final results = await callable(<String, dynamic>{
+  //     'postOwner': {
+  //       'name': postOwnerName,
+  //       'token': postOwnerToken,
+  //     },
+  //     'postId': postId,
+  //   });
+  //   if (kDebugMode) print(results.data);
+  //   return results.data.success;
+  // }
 }

@@ -6,12 +6,13 @@ class AcademicQuestionProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<bool> askQuestion(AcademicQuestion question) async {
-    try{
-      await _firestore.collection('academicRelatedQuestions').doc(question.id).set(question.toJson());
+    try {
+      await _firestore
+          .collection('academicRelatedQuestions')
+          .doc(question.id)
+          .set(question.toJson());
       return true;
-    }
-    catch(e)
-    {
+    } catch (e) {
       return false;
     }
   }
@@ -45,10 +46,11 @@ class AcademicQuestionProvider extends ChangeNotifier {
   }
 
   Future<List<AcademicQuestion>> getMyQuestions(String email) async {
+    print("email " + email);
     final List<AcademicQuestion> questions = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('academicRelatedQuestions')
-        .where('user.email', isEqualTo: email)
+        .where('sender.email', isEqualTo: email)
         .get();
     querySnapshot.docs.forEach((doc) {
       questions.add(AcademicQuestion.fromJson(doc.data()));

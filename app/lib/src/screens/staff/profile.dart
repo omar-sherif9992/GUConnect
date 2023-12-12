@@ -34,6 +34,8 @@ class _StuffProfileState extends State<StuffProfile>
       staffType: "TA",
       bio:
           "Met professor in the hallway and he said hi to me. I'm so happy! :) ",
+      description: "",
+      speciality: "",
       officeLocation: "C7.203",
     );
     staff!.courses = [
