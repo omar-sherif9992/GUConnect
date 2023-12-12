@@ -131,8 +131,6 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                         icon: Icons.description,
                         keyboardType: TextInputType.streetAddress,
                         validator: (value) {
-                        
-          
                           return null;
                         },
                       ),
@@ -160,6 +158,9 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           });
                         },
                       ),
+
+                      
+
                       if (_isLoading)
                         const CircularProgressIndicator()
                       else

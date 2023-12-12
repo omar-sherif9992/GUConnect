@@ -102,6 +102,7 @@ class Staff {
     //officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
     staffType = StaffType.getStaffTypeValue(json['staffType']);
     bio = json['bio'];
+    courses = List<String>.from(json['courses']);
   }
 
   /// Converts the User object to a JSON map.
@@ -116,6 +117,8 @@ class Staff {
     data['speciality'] = this.speciality;
     data['staffType'] = StaffType.getStaffType(staffType);
     data['bio'] = bio;
+    data['courses'] = courses;
+
 
     return data;
   }

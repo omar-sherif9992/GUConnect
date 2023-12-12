@@ -75,6 +75,9 @@ class CustomRoutes {
   static const String adminAddStaff = '/admin/add-staff';
   static const String addImportantContacts = '/admin/add-important-contacts';
 
+  // Course Routes
+  static const String course = '/course/detail';
+
   static Map<String, WidgetBuilder> get routes {
     return {
       home: (context) => const SplashScreen(),

@@ -40,7 +40,7 @@ class NewsEventClubProvider extends ChangeNotifier {
             newsEventClub.sender.fullName ?? 'User',
             newsEventClub.sender.token ?? '',
             newsEventClub.id,
-            'News Event Club',
+            'News Event Club Accepted',
             'Admin');
       }
     } catch (e) {
@@ -60,6 +60,8 @@ class NewsEventClubProvider extends ChangeNotifier {
             .collection('newsEventClubs')
             .doc(document.docs.first.id)
             .update({'approvalStatus': 'disapproved'});
+
+            
       }
     } catch (e) {
       print(e);

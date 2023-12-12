@@ -26,7 +26,7 @@ class NewsEventClub extends Post {
     required this.createdAt,
     required this.reason,
   }): id = FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
- */
+*/
 
   NewsEventClub({
     String? id,
@@ -56,6 +56,8 @@ class NewsEventClub extends Post {
     likes = Set<String>.from(json['likes']);
   }
 
+
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = super.toJson();
     data['id'] = id;
