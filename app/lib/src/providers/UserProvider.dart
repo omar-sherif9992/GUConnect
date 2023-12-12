@@ -199,9 +199,9 @@ class UserProvider with ChangeNotifier {
 
   Future deleteUser() async {
     try {
-      await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
-
+      await _firebaseAuth.signOut();
       await _firebaseAuth.currentUser!.delete();
+      await usersRef.doc(_firebaseAuth.currentUser!.uid).delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         print(

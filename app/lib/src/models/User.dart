@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserType {
   static String admin = 'admin';
   static String student = 'student';
-  static String stuff = 'stuff';
+  static String staff = 'staff';
 
   static String getUserType(String staffType) {
     if (staffType == UserType.student) {
@@ -13,19 +13,19 @@ class UserType {
     } else if (staffType == UserType.admin) {
       return 'admin';
     } else {
-      return 'stuff';
+      return 'staff';
     }
   }
 
   static String getUserTypeValue(String userType) {
     if (userType == 'student') {
       return UserType.student;
-    } else if (userType == 'stuff') {
-      return UserType.stuff;
+    } else if (userType == 'staff') {
+      return UserType.staff;
     } else if (userType == 'admin') {
       return UserType.admin;
     } else {
-      return 'stuff';
+      return 'staff';
     }
   }
 }
@@ -83,7 +83,7 @@ class CustomUser {
         ? UserType.admin
         : json['userType'] == 'student'
             ? UserType.student
-            : UserType.stuff;
+            : UserType.staff;
     user_id = json['user_id'];
     token = json['token'];
   }
@@ -114,10 +114,10 @@ class CustomUser {
       } else if (split == 'gucconnect') {
         return UserType.admin;
       } else {
-        return UserType.stuff;
+        return UserType.staff;
       }
     } catch (e) {
-      return UserType.stuff;
+      return UserType.staff;
     }
   }
 

@@ -83,21 +83,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const Padding(
                 padding:
-                    EdgeInsets.only(left: 18.0, top: 8, bottom: 8, right: 8),
+                    EdgeInsets.only(left: 18.0, top: 14, bottom: 14, right: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Stay Engaged, Stay Connected',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: 'poppins',
+                          letterSpacing: 1.1),
+                      textAlign: TextAlign.left,
                     ),
                     SizedBox(
                         height:
-                            8), // Add some space between main text and subtext
+                            16), // Add some space between main text and subtext
                     Text(
                       'The best way to get the most out of our app is to participate actively.',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -154,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: PasswordField(
                               passwordController: passwordController,
-                              hintText: '********',
+                              hintText: 'password',
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Enter your password';

@@ -1,5 +1,7 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
 import 'package:GUConnect/src/widgets/likable_image.dart';
@@ -9,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PostW extends StatefulWidget {
-  final String caption;
+  final String content;
 
-  final String imgUrl;
+  final String image;
 
   final String username;
 
@@ -29,15 +31,15 @@ class PostW extends StatefulWidget {
 
   PostW({
     super.key,
-    required this.postId,
-    required this.caption,
-    required this.imgUrl,
-    required this.userImage,
-    required this.username,
+    required this.postId,  
+    required this.content,
+    required this.image,  
+    required this.userImage, 
+    required this.username, 
     required this.likes,
     required this.comments,
     required this.createdAt,
-    required this.postType,
+    required this.postType,    // 0 -> NewsEvents and Clubs , 1 - L&F , 2 - Academic, 3 - Confessions
   });
 
   @override
@@ -45,9 +47,10 @@ class PostW extends StatefulWidget {
 }
 
 class _PostWState extends State<PostW> {
-  final String userId = '1';
 
   late NewsEventClubProvider clubProvider;
+  late LikesProvider likesProvider;
+  late UserProvider userProvider;
 
   late Set<String> likes2;
 
@@ -56,29 +59,26 @@ class _PostWState extends State<PostW> {
     super.initState();
 
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+    likesProvider = Provider.of<LikesProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     likes2 = widget.likes;
   }
 
   void likePost(int like) {
-    switch (widget.postType) {
-      case 0:
-        {
-          if (like == 0) {
-            clubProvider.likePost(widget.postId, userId).then((val) {
+    if (like == 0) {
+            likesProvider.likePost(widget.postId, userProvider.user!.user_id??'', widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           } else {
-            clubProvider.dislike(widget.postId, userId).then((val) {
+            likesProvider.dislike(widget.postId, userProvider.user!.user_id??'', widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           }
           return;
-        }
-    }
   }
 
   @override
@@ -86,7 +86,7 @@ class _PostWState extends State<PostW> {
     const Widget liked = Icon(Icons.favorite, color: Colors.red);
     const disliked = Icon(Icons.favorite_outline);
 
-    final Widget likeIcon = likes2.contains(userId) ? liked : disliked;
+    final Widget likeIcon = likes2.contains(userProvider.user!.user_id??'') ? liked : disliked;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,7 +141,7 @@ class _PostWState extends State<PostW> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             // Post caption
-            widget.caption,
+            widget.content,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
@@ -149,8 +149,8 @@ class _PostWState extends State<PostW> {
         ),
         // Image or Video
         //CachedNetworkImage(placeholder: (context, url) => const Loader(), imageUrl: widget.imgUrl,),
-        LikeableImage(
-          imageUrl: widget.imgUrl,
+        if (widget.image != '') LikeableImage(
+          imageUrl: widget.image,
           handleLike: likePost,
         ),
         /*Image.network(

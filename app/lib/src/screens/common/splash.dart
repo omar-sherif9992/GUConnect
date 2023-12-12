@@ -82,7 +82,7 @@ class _SplashState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_controller != null) _controller.dispose();
     super.dispose();
   }
 

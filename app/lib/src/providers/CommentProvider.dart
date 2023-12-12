@@ -1,4 +1,7 @@
+import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:flutter/foundation.dart';
@@ -14,9 +17,9 @@ class CommentProvider extends ChangeNotifier {
     case 1:
       return 'lostAndFound';
     case 2:
-      return '';
+      return 'academicRelatedQuestions';
     case 3:
-      return '';
+      return 'confessions';
 
     default:
       return 'Unknown';
@@ -45,6 +48,15 @@ class CommentProvider extends ChangeNotifier {
         //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
         return NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments;
         //To Be Continued;
+        case 1:
+        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+        return LostAndFound.fromJson(querySnapshot.docs.first.data()).comments;
+        case 2:
+        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+        return AcademicQuestion.fromJson(querySnapshot.docs.first.data()).comments;
+        case 3:
+        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+        return Confession.fromJson(querySnapshot.docs.first.data()).comments;
       }
       return [];
       
@@ -71,7 +83,7 @@ class CommentProvider extends ChangeNotifier {
 
       if(querySnapshot.docs.isNotEmpty)
       {
-        querySnapshot.docs.first.reference.update({'comments': FieldValue.arrayUnion([comment.toJson()])});
+        await querySnapshot.docs.first.reference.update({'comments': FieldValue.arrayUnion([comment.toJson()])});
 
       }
       

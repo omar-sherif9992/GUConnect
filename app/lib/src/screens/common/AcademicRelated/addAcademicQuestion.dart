@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:GUConnect/src/models/NewsEventClub.dart';
+import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
 import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -11,27 +12,27 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+class AddAcademicPost extends StatefulWidget {
+  const AddAcademicPost({super.key});
 
   @override
-  State<AddPost> createState() => _AddPostState();
+  State<AddAcademicPost> createState() => _AddAcademicPostState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _AddAcademicPostState extends State<AddAcademicPost> {
+
   late UserProvider userProvider;
   final TextEditingController contentController = TextEditingController();
-  final TextEditingController reasonController = TextEditingController();
   File? _selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late NewsEventClubProvider clubPostProvider;
+  late AcademicQuestionProvider academicProvider;
 
   @override
   void initState() {
     super.initState();
 
-    clubPostProvider =
-        Provider.of<NewsEventClubProvider>(context, listen: false);
+    academicProvider =
+        Provider.of<AcademicQuestionProvider>(context, listen: false);
 
     userProvider =
         Provider.of<UserProvider>(context, listen: false);
@@ -66,7 +67,7 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future _addPost(
-      NewsEventClubProvider provider, String content, String reason, File img) async {
+      AcademicQuestionProvider provider, String content, File img) async {
 
       showDialog(
       context: context,
@@ -88,8 +89,6 @@ class _AddPostState extends State<AddPost> {
         final String? imageUrl = await uploadImageToStorage(
               img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
 
-    const String imgUrl =
-        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
     final CustomUser posterPerson = CustomUser(
         email: 'hussein.ebrahim@student.guc.edu.eg',
         password: 'Don Ciristiane Ronaldo',
@@ -98,23 +97,22 @@ class _AddPostState extends State<AddPost> {
         userName: 'Mr Milad Ghantous',
         fullName: 'omar');
 
-    final NewsEventClub addedPost = NewsEventClub(
+    final AcademicQuestion addedPost = AcademicQuestion(
         content: content,
         image: imageUrl??'',
         createdAt: DateTime.now(),
-        sender: userProvider.user??posterPerson,
-        reason: reason);
+        sender: userProvider.user??posterPerson,);
 
     
 
-    provider.postContent(addedPost).then((value) => {
+    provider.askQuestion(addedPost).then((value) => {
           Navigator.pop(context),
           if (value)
             {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ClubsAndEvents(),
+                  builder: (context) => const AcademicRelatedQuestions(),
                 ),
               )
             }
@@ -147,7 +145,7 @@ class _AddPostState extends State<AddPost> {
     final double containerHeight = calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Post'),
+        title: const Text('Ask Question'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -226,38 +224,13 @@ class _AddPostState extends State<AddPost> {
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  'Reason for the post:',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the request';
-                    }
-                    return null;
-                  },
-                  controller: reasonController,
-                  maxLines: 2,
-                  decoration: const InputDecoration(
-                    hintText: 'Request to the amdin .....',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(18)),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
-                      final String reason = reasonController.text;
-                      _addPost(clubPostProvider, content, reason, _selectedImage??File(''));
+                      _addPost(academicProvider, content, _selectedImage??File(''));
                     }
                   },
                   style: ButtonStyle(

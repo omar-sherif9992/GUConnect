@@ -1,44 +1,40 @@
+import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Represents an academic question.
-class AcademicQuestion {
-  late String content;
-  late CustomUser user;
-  late String image;
-  late DateTime createdAt;
-
-  /// Constructs an [AcademicQuestion] object with the given [content], [user], and [image].
-  AcademicQuestion(
-      {required this.content,
-      required this.user,
-      required this.image,
-      required this.createdAt});
-
-  /// Constructs an [AcademicQuestion] object from a JSON map.
-  AcademicQuestion.fromJson(Map<String, dynamic> json) {
-    content = json['content'];
-    user = CustomUser.fromJson(json['user']);
-    image = json['image'];
-    createdAt = DateTime.parse(json['createdAt']);
+class AcademicQuestion extends Post {
+  AcademicQuestion({
+    String? id,
+    required super.content,
+    required super.sender,
+    required super.createdAt,
+    required super.image,
+  }){
+    this.id = FirebaseFirestore.instance.collection('academicRelatedQuestions').doc().id; 
   }
 
-  /// Converts the [AcademicQuestion] object to a JSON map.
+  void uploadImage() {}
+
+  AcademicQuestion.fromJson(Map<String, dynamic> json)
+      : super(
+          content: json['content'],
+          sender: CustomUser.fromJson(json['sender']),
+          createdAt: DateTime.parse(json['createdAt']),
+          image: json['image'],
+        ) {
+    id = json['id'];
+    comments = ((json['comments'] as List<dynamic>)
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
+  }
+
+   @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['content'] = content;
-    data['user'] = user.toJson();
-    data['image'] = image;
-    data['createdAt'] = createdAt.toString();
+    final Map<String, dynamic> data = super.toJson();
+    data['id'] = id;
+    data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
   }
 
-  /// Uploads the image associated with the question.
-  void uploadImage() {
-    // TODO: implement uploadImage
-  }
-
-  @override
-  String toString() {
-    return 'content: $content, user: $user, image: $image';
-  }
 }

@@ -3,6 +3,8 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/ReportsProvider.dart';
+import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
@@ -68,7 +70,16 @@ class MyApp extends StatelessWidget {
           create: (context) => CommentProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => ReportsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => ConfessionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LikesProvider(),
         ),
       ],
       child: MaterialApp(
@@ -99,6 +110,10 @@ Future initializeApp() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // tz.initializeTimeZones();
+  // FirebaseMessaging.instance.getInitialMessage();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
 }

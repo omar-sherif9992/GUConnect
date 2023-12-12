@@ -49,6 +49,9 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
               })
             })
         .catchError((error) {
+          print('error');
+          print('error');
+          print(error);
       setState(() {
         _isLoading = false;
       });
@@ -125,6 +128,7 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
   void dispose() {
     _tabController.dispose();
     _searchController.dispose();
+
     super.dispose();
   }
 
@@ -160,12 +164,12 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchProffs(staffProvider);
                 },
                 child: ListView.builder(
-                  key: const PageStorageKey('profs'),
+                  key: const PageStorageKey('profs_admin_search'),
                   itemCount: profsDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -189,12 +193,12 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ),
               )
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchTas(staffProvider);
                 },
                 child: ListView.builder(
-                  key: const PageStorageKey('tas'),
+                  key: const PageStorageKey('tas_admin_search'),
                   itemCount: tasDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
@@ -320,7 +324,7 @@ class StaffTile extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () async {
-            Staff deletedStaff = await Navigator.of(context).pushReplacement(
+            final Staff deletedStaff = await Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => SetStaffScreen(
                   staff: staff,
@@ -332,6 +336,7 @@ class StaffTile extends StatelessWidget {
             if (deletedStaff != null && deletedStaff.email == staff.email) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
+                  backgroundColor: Colors.green,
                   content: Text('Staff deleted'),
                 ),
               );

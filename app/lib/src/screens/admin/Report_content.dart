@@ -1,34 +1,33 @@
-import 'package:GUConnect/src/models/NewsEventClub.dart';
+import 'package:GUConnect/src/models/Reports.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class RequestPostScreen extends StatelessWidget {
-  final NewsEventClub post;
+class ReportContentScreen extends StatelessWidget {
+  final Report report;
 
-  const RequestPostScreen({super.key, required this.post});
+  const ReportContentScreen({super.key, required this.report});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${post.sender.userName ?? 'Anonymous'}\'s post'),
+        title: Text('${report.reportedUser.userName ?? 'Anonymous'}\'s Activity'),
       ),
       body: SingleChildScrollView(
           child: Column(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
                 CircleAvatar(
                   // User profile picture
                   radius: 20,
                   // Replace with your image URL
-                  backgroundImage: CachedNetworkImageProvider(post
-                          .sender.image ??
+                  backgroundImage: CachedNetworkImageProvider(report
+                          .reportedUser.image ??
                       'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
                 ),
                 const SizedBox(width: 8),
@@ -37,7 +36,7 @@ class RequestPostScreen extends StatelessWidget {
                   children: [
                     Text(
                       // User name
-                      post.sender.userName ?? 'Anonymous',
+                      report.reportedUser.userName ?? 'Anonymous',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontWeight: FontWeight.w600,
@@ -47,7 +46,7 @@ class RequestPostScreen extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      timeAgo(post.createdAt),
+                      timeAgo(report.createdAt),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -61,28 +60,11 @@ class RequestPostScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              post.content,
+              report.reportedContent,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-          ),
-          CachedNetworkImage(
-            placeholder: (context, url) => const Loader(),
-            imageUrl: post.image,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Text(
-              'Reason for posting:\n"${post.reason}"',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(
@@ -91,7 +73,7 @@ class RequestPostScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
@@ -116,6 +98,7 @@ class RequestPostScreen extends StatelessWidget {
                     'Approve',
                     style: TextStyle(color: Colors.white),
                   )),
+             
             ],
           )
         ],

@@ -1,16 +1,15 @@
-import 'package:GUConnect/src/dummy_data/posts.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
-import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/post_widget.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -34,11 +33,18 @@ class _ProfileScreenState extends State<ProfileScreen>
   late LostAndFoundProvider lostAndFoundProvider;
   late AcademicQuestionProvider academicQuestionProvider;
   late UserProvider userProvider;
-  late List<Object> posts = [];
+  late List<Object> clubPosts = [];
+  late List<Object> lostPosts = [];
+  late List<Object> academicPosts = [];
   late List<Object> confessions = [];
+  late int postsCount = 0;
+
+  late bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     // function that gets user posts
+
+    user = Provider.of<UserProvider>(context, listen: true).user!;
 
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
@@ -57,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -71,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           width: 110.0,
                           height: 110.0,
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -83,103 +89,123 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: ClipOval(
-                            child: Image.network(
-                              user?.image ?? 'https://picsum.photos/200/300',
-                              width: 100.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
+                            child: user.image != null && user.image!.isNotEmpty
+                                ? Image.network(
+                                    user.image ?? '',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/user.png',
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 200,
                                 child: Text(
-                                  user?.fullName ?? '',
+                                  titleCase(user.fullName ?? ''),
                                   overflow: TextOverflow.clip,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.5,
                                   ),
                                 ),
                               ),
-                              // Text(
-
-                              //   "EMS Prof",
-                              //   style: TextStyle(
-                              //     fontSize: 15.0,
-                              //     fontWeight: FontWeight.w100,
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: Color.fromARGB(255, 242, 200, 147),
-                                    ),
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'C7\n203',
-                                      style: TextStyle(
-                                        fontSize: 13,
+                                  if (user.userType == 'staff')
+                                    Container(
+                                      width: 60,
+                                      margin: const EdgeInsets.only(
+                                          right: 10, top: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color: const Color.fromARGB(
+                                            255, 242, 200, 147),
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: const Color.fromARGB(
-                                          255, 242, 200, 147),
-                                    ),
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      (posts.length.toString()) + '\nPosts',
-                                      style: TextStyle(
-                                        fontSize: 13,
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text(
+                                        'C7\n203',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
-                                  ),
                                   Container(
                                     width: 60,
-                                    margin: const EdgeInsets.only(right: 10),
+                                    margin: const EdgeInsets.only(
+                                        right: 10, top: 15, left: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       color: const Color.fromARGB(
                                           255, 242, 200, 147),
                                     ),
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Rating\n4.7',
-                                      style: TextStyle(
+                                      '$postsCount\nPosts',
+                                      style: const TextStyle(
                                         fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
+                                  if (user.userType == 'staff')
+                                    Container(
+                                      width: 60,
+                                      margin: const EdgeInsets.only(
+                                          right: 10, top: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color: const Color.fromARGB(
+                                            255, 242, 200, 147),
+                                      ),
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text(
+                                        'Rating\n4.7',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                 ],
                               ),
                             ])
                       ],
                     ),
-                    Text(user?.biography ?? ""),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Text(
+                        user.biography ?? '',
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -189,18 +215,38 @@ class _ProfileScreenState extends State<ProfileScreen>
             controller: _tabController,
             tabs: const [
               Tab(
-                text: 'Posts',
-                icon: Icon(Icons.grid_on),
+                icon: Icon(Icons.book),
+                child: 
+                Text(
+                  'Academic',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
               Tab(
-                text: 'Confessions',
-                icon: Icon(Icons.message),
+                icon: Icon(Icons.shopping_basket),
+                child: Text(
+                  'L&F',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
+              Tab(
+                icon: Icon(Icons.group),
+                child: Text(
+                  'Club Posts',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              Tab(
+                  icon: Icon(Icons.message),
+                  child: Text(
+                    'Confessions',
+                    style: TextStyle(fontSize: 10),
+                  )),
             ],
           ),
           Container(
-            margin: EdgeInsets.all(10),
-            child: Divider(
+            margin: const EdgeInsets.all(10),
+            child: const Divider(
               color: Colors.grey,
               thickness: 1.0,
               height: 2.0,
@@ -209,45 +255,72 @@ class _ProfileScreenState extends State<ProfileScreen>
           Expanded(
               child: TabBarView(
             controller: _tabController,
-            children: [_buildPosts(posts), _buildPosts(confessions)],
+            children: [
+              _buildPosts(academicPosts,'academic'),
+              _buildPosts(lostPosts,'lost'),
+              _buildPosts(clubPosts,'club'),
+              _buildPosts(confessions,'confession')
+            ],
           )),
         ],
       ),
     );
   }
 
-  Widget _buildPosts(posts) {
-    return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return Post_Widget(posts[index]);
-      },
-    );
+  Widget _buildPosts(posts , name) {
+    return _isLoading
+        ? const Loader()
+        : posts.length == 0
+            ? const Center(
+                child: Text(
+                  'No Posts',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            : RefreshIndicator.adaptive(
+                onRefresh: () async {
+                  await fetchAll();
+                },
+              child: ListView.builder(
+                  itemCount: posts.length,
+                  scrollDirection: Axis.vertical,
+                  
+                  key: PageStorageKey('profile_posts$name'),
+              
+                  itemBuilder: (context, index) {
+                    return Post_Widget(posts[index]);
+                  },
+                ),
+            );
   }
 
   Future<void> fetchPosts(
     String email,
   ) async {
     try {
-      final List<Object> p = [];
-      final List<Object> newsEventClub =
-          await newsEventClubProvider.getMyPosts(email);
-      final List<Object> lostAndFound =
-          await lostAndFoundProvider.getMyItems(email);
-      final List<Object> academicQuestions =
-          await academicQuestionProvider.getMyQuestions(email);
-      p.addAll(newsEventClub);
-      p.addAll(lostAndFound);
-      p.addAll(academicQuestions);
-      p.sort((a, b) =>
+      final List<Post> newsEventClub =
+          (await newsEventClubProvider.getMyPosts(email)).cast<Post>();
+      final List<Post> lostAndFound =
+          (await lostAndFoundProvider.getMyItems(email)).cast<Post>();
+      final List<Post> academicQuestions =
+          (await academicQuestionProvider.getMyQuestions(email)).cast<Post>();
+
+      newsEventClub.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      lostAndFound.sort((a, b) =>
+          (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
+      academicQuestions.sort((a, b) =>
           (a as dynamic).createdAt.compareTo((b as dynamic).createdAt));
       setState(() {
-        posts = p;
+        clubPosts = newsEventClub;
+        lostPosts = lostAndFound;
+        academicPosts = academicQuestions;
+        postsCount = clubPosts.length + lostPosts.length + academicPosts.length;
       });
-      print("NO ERROR");
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future<void> fetchConfessions(
@@ -259,16 +332,14 @@ class _ProfileScreenState extends State<ProfileScreen>
       setState(() {
         confessions = c;
       });
-      print("NO ERROR Confessionss");
-    } catch (e) {
-      print("ERROR CONFESSIONS");
-    }
+    } catch (e) {}
   }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     confessionProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
@@ -280,9 +351,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<AcademicQuestionProvider>(context, listen: false);
 
     user = userProvider.user!;
-    print("EMAIL" + user.email);
-    fetchPosts(user.email);
-    fetchConfessions(user.email);
+    fetchAll();
+  }
+
+  Future<void> fetchAll() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await fetchPosts(user.email);
+    await fetchConfessions(user.email);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
 
@@ -291,14 +371,14 @@ class ClickableIcon extends StatelessWidget {
   final String labelText;
   final VoidCallback onTap;
 
-  ClickableIcon(this.icon, this.labelText, this.onTap);
+  const ClickableIcon(this.icon, this.labelText, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Column(
           children: [
             Icon(
@@ -306,10 +386,10 @@ class ClickableIcon extends StatelessWidget {
               size: 20.0,
               color: Colors.black,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               labelText,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ],
         ),
