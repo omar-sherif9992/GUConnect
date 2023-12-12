@@ -24,7 +24,7 @@ import 'package:provider/provider.dart';
 void main() async {
   await initializeApp();
 
-  FirebaseNotification().initFirebaseMessaging();
+  FirebaseNotification().initNotification();
 
   runApp(DevicePreview(
     enabled: true,
@@ -66,9 +66,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => OfficeLocationProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => CommentProvider(),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => ReportsProvider(),
+        ChangeNotifierProvider(
+          create: (context) => ReportsProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => CommentProvider(),
@@ -87,9 +89,8 @@ class MyApp extends StatelessWidget {
         darkTheme: CustomTheme.darkTheme,
         themeMode: ThemeMode.system,
         locale: DevicePreview.locale(context),
-        useInheritedMediaQuery: true,
         builder: DevicePreview.appBuilder,
-        initialRoute: '/',
+        initialRoute: CustomRoutes.staff,
         routes: CustomRoutes.routes,
       ),
     );
@@ -99,7 +100,6 @@ class MyApp extends StatelessWidget {
 Future initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Allow only portrait mode
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
@@ -116,17 +116,4 @@ Future initializeApp() async {
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
-
-  // ex:
-/*       String apiKey = dotenv.env['API_KEY']!;
-    String baseUrl = dotenv.env['BASE_URL']!;
-     */
-
-// Plugin must be initialized before using
-/*   await FlutterDownloader.initialize(
-      debug:
-          true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-          true // option: set to false to disable working with http links (default: false)
-      ); */
 }

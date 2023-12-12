@@ -70,6 +70,7 @@ class Staff {
   late String email;
   late String staffType;
   late String? officeLocation;
+  late String? bio;
   // late List<OfficeHour> officeHours;
   late List<String> courses;
   late List<Rating> ratings;
@@ -85,6 +86,7 @@ class Staff {
     this.officeLocation,
     //required this.officeHours,
     required this.staffType,
+    this.bio,
     required this.description,
     required this.speciality,
   });
@@ -99,6 +101,7 @@ class Staff {
     officeLocation = json['officeLocation'];
     //officeHours = OfficeHour.fromJson(json['officeHours']) as List<OfficeHour>;
     staffType = StaffType.getStaffTypeValue(json['staffType']);
+    bio = json['bio'];
   }
 
   /// Converts the User object to a JSON map.
@@ -112,6 +115,7 @@ class Staff {
     data['description'] = this.description;
     data['speciality'] = this.speciality;
     data['staffType'] = StaffType.getStaffType(staffType);
+    data['bio'] = bio;
 
     return data;
   }

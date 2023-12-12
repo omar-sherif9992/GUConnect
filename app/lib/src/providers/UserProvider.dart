@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,6 @@ class UserProvider with ChangeNotifier {
     _firebaseAuth.userChanges().listen((user) async {
       if (user != null) {
         _loggedIn = true;
-        //_user = CustomUser.fromJson(jsonDecode(user.toString()));
         final DocumentSnapshot<CustomUser> documentSnapshot =
             await usersRef.doc(user.uid).get();
         _user = documentSnapshot.data();
@@ -49,7 +49,7 @@ class UserProvider with ChangeNotifier {
         _loggedIn = false;
         _user = null;
       }
-      notifyListeners();
+      // notifyListeners();
     });
   }
 
@@ -59,13 +59,8 @@ class UserProvider with ChangeNotifier {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
-      //  print('/////////////////////////////////////////////');
-      // print(userCredential.user);
       newUser.user_id = userCredential.user?.uid;
-      // print(newUser);
-      //  print('/////////////////////////////////////////////');
       await usersRef.doc(userCredential.user?.uid).set(newUser);
-
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -268,6 +263,8 @@ class UserProvider with ChangeNotifier {
 
   void setUser(CustomUser user) {
     _user = user;
+    print(" Token " + FirebaseNotification.token!);
+    user.updateToken(FirebaseNotification.token!);
   }
 
   Future getUsers() async {
