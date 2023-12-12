@@ -205,7 +205,7 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
-          Icons.search,
+          Icons.person_search,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
         ),
@@ -218,6 +218,23 @@ class MainDrawer extends StatelessWidget {
         ),
         onTap: () {
           onSelectScreen(context, CustomRoutes.adminStaff);
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          Icons.book,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Search Courses',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.adminCourse);
         },
       ),
       ListTile(

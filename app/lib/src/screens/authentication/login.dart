@@ -19,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   _login(UserProvider userProvider) async {
     final bool success =
         await userProvider.login(emailController.text, passwordController.text);
@@ -37,12 +44,14 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (context.mounted) {
-          if (emailController.text.trim().contains('@gucconnect.com')) {
-            Navigator.popAndPushNamed(context, CustomRoutes.admin);
+          /*   if (emailController.text.trim().contains('@gucconnect.com')) {
+            Navigator.pushReplacementNamed(context, CustomRoutes.profile , arguments: {'user': user});
           } else {
-            Navigator.popAndPushNamed(context, CustomRoutes.profile,
+            Navigator.pushReplacementNamed(context, CustomRoutes.profile,
                 arguments: {'user': user});
-          }
+          } */
+          Navigator.pushReplacementNamed(context, CustomRoutes.profile,
+              arguments: {'user': user});
         }
       }
     } else {
@@ -144,15 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 }
                               },
-                              // decoration: const InputDecoration(
-                              //   labelText: 'Email Address',
-                              //   hintText: 'Sample@guc.edu.eg',
-                              //   border: OutlineInputBorder(
-                              //     borderSide: BorderSide(
-                              //       width: 2.0, // change this to adjust the width
-                              //     ),
-                              //   ),
-                              // ),
                             ),
                           ),
                           Padding(
@@ -169,16 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 }
                               },
-                              // decoration: const InputDecoration(
-                              //   labelText: 'Password',
-                              //   hintText: '********',
-                              //   border: OutlineInputBorder(
-                              //     borderSide: BorderSide(
-                              //       width: 2.0, // change this to adjust the width
-                              //     ),
-                              //   ),
-                              // ),
-                              // obscureText: true,
                             ),
                           ),
                           Padding(

@@ -22,6 +22,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    otpController.dispose();
+    super.dispose();
+  }
+
   Future<bool> _verifyOtp(
       String enteredOtp, UserProvider userProvider, CustomUser newUser) async {
     final bool verified =

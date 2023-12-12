@@ -9,10 +9,10 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashState createState() => _SplashState();
+  State<SplashScreen> createState() => _SetSplashScreenState();
 }
 
-class _SplashState extends State<SplashScreen>
+class _SetSplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
@@ -60,12 +60,14 @@ class _SplashState extends State<SplashScreen>
         final CustomUser? userWithDetails =
             await userProvider.getUser(user.email!);
         userProvider.setUser(userWithDetails!);
-        print(userProvider.user);
-        if (user.email!.trim().contains('@gucconnect.com')) {
+        /*       if (user.email!.trim().contains('@gucconnect.com')) {
           Navigator.popAndPushNamed(context, CustomRoutes.admin);
         } else {
           Navigator.popAndPushNamed(context, CustomRoutes.profile);
         }
+ */
+        Navigator.pushReplacementNamed(context, CustomRoutes.profile,
+            arguments: {'user': user});
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);
       }
@@ -82,7 +84,10 @@ class _SplashState extends State<SplashScreen>
 
   @override
   void dispose() {
-    if (_controller != null) _controller.dispose();
+    // Dispose the controller when the widget is disposed
+    _controller.isAnimating ? _controller.stop() : null;
+    _controller.dispose();
+
     super.dispose();
   }
 

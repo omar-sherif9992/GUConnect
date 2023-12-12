@@ -61,7 +61,6 @@ class CustomRoutes {
   static const String staff = '/staff/profile';
 
   // ADMIN ROUTES
-  static const String admin = '/admin';
   static const String adminNotifications = '/admin/notifications';
   static const String adminPendings = '/admin/pendings';
   static const String adminConfessionsDetail = '/admin/confessions-detail';
@@ -101,7 +100,6 @@ class CustomRoutes {
       academicRelatedQuestions: (context) => const AcademicRelatedQuestions(),
       addAcademicRelatedQuestions: (context) => const AddAcademicPost(),
       addImportantContacts: (context) => const SetImportantContactsScreen(),
-      admin: (context) => const PendingsScreen(),
       staff: (context) => const StuffProfile(),
       adminAddStaff: (context) => const SetStaffScreen(),
       adminReports: (context) => const PendingReportsScreen(),
