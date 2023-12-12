@@ -12,12 +12,10 @@ exports.sendNotification = functions.https.onCall((data, context) => {
   const body = data.body;
   const title = data.title;
   const token = data.token;
-  const image = data.image;
   try {
     const message = {
       notification: {
         title: title,
-        image: image,
       },
       token: token,
       data: {

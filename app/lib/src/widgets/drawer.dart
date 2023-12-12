@@ -71,22 +71,22 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () async {
-              await FirebaseNotification.sendLikeNotification(
-                  "Abdelrahman Fekri",
-                  FirebaseNotification.token!,
-                  "postId",
-                  "postType",
-                  "likerName");
-              await FirebaseNotification.sendPostApprovalNotification(
-                  "Abdelrahman Fekri",
-                  FirebaseNotification.token!,
-                  "postId",
-                  "postType",
-                  "approverName");
+              // await FirebaseNotification.sendLikeNotification(
+              //     "Abdelrahman Fekri",
+              //     FirebaseNotification.token!,
+              //     "postId",
+              //     "postType",
+              //     "likerName");
+              // await FirebaseNotification.sendPostApprovalNotification(
+              //     "Abdelrahman Fekri",
+              //     FirebaseNotification.token!,
+              //     "postId",
+              //     "postType",
+              //     "approverName");
               await FirebaseNotification.sendTagNotification("taggedUserName",
                   FirebaseNotification.token!, "confessionId", "taggerName");
-              await FirebaseNotification.sendNotification(
-                  "title", "body", FirebaseNotification.token!);
+              // await FirebaseNotification.sendNotification(
+              //     FirebaseNotification.token!, "Title", "Body");
             },
           ),
           ListTile(

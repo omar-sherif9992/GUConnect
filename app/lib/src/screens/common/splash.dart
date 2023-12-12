@@ -48,13 +48,13 @@ class _SplashState extends State<SplashScreen>
       User? user = FirebaseAuth.instance.currentUser;
 
       // TODO: remove this added for development check if user is null
-      if (user == null) {
-        await FirebaseAuth.instance.signInWithCredential(
-          EmailAuthProvider.credential(
-              email: 'admin.admin@gucconnect.com', password: 'abcdef'),
-        );
-        user = FirebaseAuth.instance.currentUser;
-      }
+      // if (user == null) {
+      //   await FirebaseAuth.instance.signInWithCredential(
+      //     EmailAuthProvider.credential(
+      //         email: 'admin.admin@gucconnect.com', password: 'abcdef'),
+      //   );
+      //   user = FirebaseAuth.instance.currentUser;
+      // }
 
       if (user != null) {
         final CustomUser? userWithDetails =
