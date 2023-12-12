@@ -276,13 +276,13 @@ class _ProfileScreenState extends State<ProfileScreen>
     return _isLoading
         ? const Loader()
         : posts.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text(
                   'No Posts',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
               )
             : RefreshIndicator.adaptive(
