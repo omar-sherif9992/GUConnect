@@ -17,7 +17,6 @@ void main() {
       email: 'a@guc.edu.eg',
       password: 'abcdef1',
     );
-    user.token = 'x';
     // await newsEventClubProvider.approvePost();
     // expect(await confessionProvider.getConfessions(), isNotEmpty);
   });
