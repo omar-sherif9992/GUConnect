@@ -20,7 +20,7 @@ class Confession extends Post {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = super.toJson();
-    data['isAnonymous'] = bool.tryParse(isAnonymous.toString());
+    data['isAnonymous'] = bool.parse(isAnonymous.toString());
     return data;
   }
 

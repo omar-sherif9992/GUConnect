@@ -3,8 +3,8 @@ import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:flutter/foundation.dart';
 
 class NewsEventClubProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  final FirebaseFirestore _firestore;
+  NewsEventClubProvider(FirebaseFirestore firestore) : _firestore = firestore;
   Future<bool> postContent(NewsEventClub post) async {
     try {
       await _firestore.collection('newsEventClubs').add(post.toJson());

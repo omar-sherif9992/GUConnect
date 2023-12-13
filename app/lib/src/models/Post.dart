@@ -1,4 +1,3 @@
-
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 
@@ -38,7 +37,7 @@ class Post {
     data['sender'] = sender.toJson();
     data['createdAt'] = createdAt.toString();
     data['image'] = image;
-    data['likes'] = likes;
+    data['likes'] = likes.toList();
     data['comments'] = comments.map((c) => c.toJson()).toList();
     return data;
   }

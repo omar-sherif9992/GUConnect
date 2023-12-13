@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class ConfessionProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+  ConfessionProvider(FirebaseFirestore firestore) : _firestore = firestore;
 
   Future<void> addConfession(Confession confession) async {
     await _firestore.collection('confessions').add(confession.toJson());

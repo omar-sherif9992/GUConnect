@@ -20,8 +20,6 @@ class UserProvider with ChangeNotifier {
   CustomUser? get user => _user;
   late FirebaseAuth _firebaseAuth;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final usersRef = FirebaseFirestore.instance
       .collection('users')
       .withConverter<CustomUser>(
@@ -29,16 +27,14 @@ class UserProvider with ChangeNotifier {
         toFirestore: (user, _) => user.toJson(),
       );
 
-  UserProvider([FirebaseAuth? firebaseAuth]) {
+  UserProvider(FirebaseAuth firebaseAuth) {
+    _firebaseAuth = firebaseAuth;
     init();
-    _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
   }
 
   Future<void> init() async {
     /*     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform); */
-
-    _firebaseAuth = FirebaseAuth.instance;
     _firebaseAuth.userChanges().listen((user) async {
       if (user != null) {
         _loggedIn = true;

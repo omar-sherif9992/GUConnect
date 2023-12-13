@@ -3,7 +3,9 @@ import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:flutter/foundation.dart';
 
 class AcademicQuestionProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+  AcademicQuestionProvider(FirebaseFirestore firestore)
+      : _firestore = firestore;
 
   Future<bool> askQuestion(AcademicQuestion question) async {
     try {
