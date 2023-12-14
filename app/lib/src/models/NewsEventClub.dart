@@ -35,11 +35,8 @@ class NewsEventClub extends Post {
     required super.content,
     required super.sender,
     required super.createdAt,
-    required super.image,
-  }) {
-    this.id =
-        id ?? FirebaseFirestore.instance.collection('newsEventClubs').doc().id;
-  }
+    super.image,
+  });
 
   NewsEventClub.fromJson(Map<String, dynamic> json)
       : super(

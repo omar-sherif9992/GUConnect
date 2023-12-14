@@ -14,7 +14,9 @@ import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
 import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/themes/themes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,10 +45,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => UserProvider(),
+          create: (context) =>
+              UserProvider(FirebaseAuth.instance, FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => AcademicQuestionProvider(),
+          create: (context) =>
+              AcademicQuestionProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
@@ -58,28 +62,29 @@ class MyApp extends StatelessWidget {
           create: (context) => ImportantEmailProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => LostAndFoundProvider(),
+          create: (context) => LostAndFoundProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => NewsEventClubProvider(),
+          create: (context) =>
+              NewsEventClubProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
           create: (context) => OfficeLocationProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => CommentProvider(),
+          create: (context) => CommentProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => ReportsProvider(),
+          create: (context) => ReportsProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => CommentProvider(),
+          create: (context) => CommentProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => ConfessionProvider(),
+          create: (context) => ConfessionProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
-          create: (context) => LikesProvider(),
+          create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
       ],
       child: MaterialApp(

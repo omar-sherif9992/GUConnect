@@ -54,6 +54,7 @@ class CustomUser {
       this.phoneNumber,
       this.user_id}) {
     this.userType = getUserType();
+    token = '';
   }
   CustomUser.edit({
     this.fullName,

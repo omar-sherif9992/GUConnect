@@ -41,8 +41,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text('otp verified.'),
         backgroundColor: Colors.green,
       ));
-      final bool success = await userProvider.register(newUser);
-      if (success) {
+      final String success = await userProvider.register(newUser);
+      if (success == 'success') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Register Successful'),
           backgroundColor: Colors.green,

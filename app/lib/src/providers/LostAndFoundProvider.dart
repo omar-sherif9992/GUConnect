@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class LostAndFoundProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  final FirebaseFirestore _firestore;
+  LostAndFoundProvider(FirebaseFirestore firestore) : _firestore = firestore;
   Future<bool> postItem(LostAndFound item) async {
     try {
       await _firestore
@@ -37,6 +37,14 @@ class LostAndFoundProvider extends ChangeNotifier {
           .doc(querySnapshot.docs.first.id)
           .delete();
     }
+  }
+
+  Future<LostAndFound> getItemById(String id) async {
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('lostAndFound')
+        .where('id', isEqualTo: id)
+        .get();
+    return LostAndFound.fromJson(querySnapshot.docs.first.data());
   }
 
   Future<List<LostAndFound>> getItems() async {

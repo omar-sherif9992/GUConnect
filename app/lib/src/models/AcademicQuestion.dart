@@ -6,35 +6,39 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Represents an academic question.
 class AcademicQuestion extends Post {
   AcademicQuestion({
-    String? id,
     required super.content,
     required super.sender,
     required super.createdAt,
-    required super.image,
-  }){
-    this.id = FirebaseFirestore.instance.collection('academicRelatedQuestions').doc().id; 
-  }
+    super.image,
+  });
 
   void uploadImage() {}
 
-  AcademicQuestion.fromJson(Map<String, dynamic> json)
-      : super(
-          content: json['content'],
-          sender: CustomUser.fromJson(json['sender']),
-          createdAt: DateTime.parse(json['createdAt']),
-          image: json['image'],
-        ) {
-    id = json['id'];
-    comments = ((json['comments'] as List<dynamic>)
-        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
+  factory AcademicQuestion.fromJson(Map<String, dynamic> json) {
+    final academicQuestion = AcademicQuestion(
+      content: json['content'] ?? '',
+      sender: CustomUser.fromJson(json['sender'] ?? {}),
+      createdAt: DateTime.parse(json['createdAt'] ?? ''),
+      image: json['image'] ?? '',
+    );
+    academicQuestion.id = json['id'] ?? ''; // Include id with null check
+
+    academicQuestion.comments = (json['comments'] as List<dynamic>? ?? [])
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return academicQuestion;
   }
 
-   @override
+  // Override toJson method to include only necessary fields
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = super.toJson();
-    data['id'] = id;
-    data['comments'] = comments.map((c) => c.toJson()).toList();
-    return data;
+    final json = super.toJson();
+    // You can add additional fields specific to AcademicQuestion here
+    return json;
   }
 
+  @override
+  String toString() {
+    return super.toString();
+  }
 }
