@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -16,9 +17,7 @@ class PostW extends StatefulWidget {
 
   final String image;
 
-  final String username;
-
-  final String userImage;
+  final CustomUser user;
 
   Set<String> likes;
 
@@ -36,8 +35,7 @@ class PostW extends StatefulWidget {
     required this.postId,
     required this.content,
     required this.image,
-    required this.userImage,
-    required this.username,
+    required this.user,
     required this.likes,
     required this.comments,
     required this.createdAt,
@@ -113,7 +111,7 @@ class _PostWState extends State<PostW> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage:
-                        CachedNetworkImageProvider(widget.userImage),
+                        CachedNetworkImageProvider(widget.user.image??''),
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -121,7 +119,7 @@ class _PostWState extends State<PostW> {
                     children: [
                       Text(
                         // User name
-                        widget.username,
+                        widget.user.userName??'',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontWeight: FontWeight.w600,
@@ -145,7 +143,9 @@ class _PostWState extends State<PostW> {
                 StatusIndicator(pendingStatus: widget.pendingStatus)
               else
                 Container(),
-              const PopupMenu(),
+              PopupMenu(reportedId: widget.postId, reportedUser: widget.user, reportedContent: widget.content,
+               reportCollectionNameType: widget.postType, image: widget.image, createdAt: widget.createdAt,
+              ),
             ],
           ),
         ),

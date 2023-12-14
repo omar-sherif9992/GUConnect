@@ -306,8 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       likes: posts[index].likes,
                       comments: posts[index].comments,
                       createdAt: posts[index].createdAt,
-                      username: user.userName ?? '',
-                      userImage: user.image ?? '',
+                      user: user,
                       postType: getPostType(posts[index]),
                       pendingStatus: pendingStatus,
                     );

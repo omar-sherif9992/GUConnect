@@ -4,7 +4,6 @@ import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
 import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -112,7 +111,7 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AcademicRelatedQuestions(),
+                  builder: (context) => const ClubsAndEvents(),
                 ),
               )
             }

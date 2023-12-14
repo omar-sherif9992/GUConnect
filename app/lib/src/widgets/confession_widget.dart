@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
@@ -14,9 +15,7 @@ class Confession_Widget extends StatefulWidget {
 
   final String imgUrl;
 
-  final String username;
-
-  final String userImage;
+  final CustomUser user;
 
   Set<String> likes;
 
@@ -33,8 +32,7 @@ class Confession_Widget extends StatefulWidget {
     required this.postId,
     required this.caption,
     required this.imgUrl,
-    required this.userImage,
-    required this.username,
+    required this.user,
     required this.likes,
     required this.comments,
     required this.createdAt,
@@ -107,7 +105,7 @@ class _PostWState extends State<Confession_Widget> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage:
-                        CachedNetworkImageProvider(widget.userImage),
+                        CachedNetworkImageProvider(widget.user.image??''),
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -115,7 +113,7 @@ class _PostWState extends State<Confession_Widget> {
                     children: [
                       Text(
                         // User name
-                        widget.username,
+                        widget.user.userName??'',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontWeight: FontWeight.w600,
@@ -135,7 +133,9 @@ class _PostWState extends State<Confession_Widget> {
                   ),
                 ],
               ),
-              const PopupMenu(),
+              PopupMenu(reportedId: widget.postId, reportedUser: widget.user, reportedContent: widget.caption,
+               reportCollectionNameType: widget.postType, image: '', createdAt: widget.createdAt,
+              ),
             ],
           ),
         ),

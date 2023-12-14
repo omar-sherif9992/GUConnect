@@ -118,9 +118,8 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                     postId: posts[index].id,
                                     content: posts[index].content,
                                     image: posts[index].image,
-                                    username:
-                                        posts[index].sender.userName ?? '',
-                                    userImage: posts[index].sender.image ?? '',
+                                    user:
+                                        posts[index].sender,
                                     likes: posts[index].likes,
                                     createdAt: posts[index].createdAt,
                                     comments: posts[index].comments,
