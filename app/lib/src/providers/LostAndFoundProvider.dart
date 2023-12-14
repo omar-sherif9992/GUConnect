@@ -39,6 +39,14 @@ class LostAndFoundProvider extends ChangeNotifier {
     }
   }
 
+  Future<LostAndFound> getItemById(String id) async {
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('lostAndFound')
+        .where('id', isEqualTo: id)
+        .get();
+    return LostAndFound.fromJson(querySnapshot.docs.first.data());
+  }
+
   Future<List<LostAndFound>> getItems() async {
     final List<LostAndFound> items = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore

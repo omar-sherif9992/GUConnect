@@ -7,8 +7,6 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:test/test.dart';
 
 class MockFirebaseUser extends Mock implements User {}
 
@@ -17,13 +15,13 @@ void main() {
     // WidgetsFlutterBinding.ensureInitialized();
     late UserProvider userProvider;
     late MockFirebaseAuth mockFirebaseAuth;
-    late BehaviorSubject<MockFirebaseUser> _user;
+    // late BehaviorSubject<MockFirebaseUser> _user;
     final instance = FakeFirebaseFirestore();
     late CustomUser user;
     setUp(() {
       mockFirebaseAuth = MockFirebaseAuth();
       userProvider = UserProvider(mockFirebaseAuth, instance);
-      _user = BehaviorSubject<MockFirebaseUser>();
+      // _user = BehaviorSubject<MockFirebaseUser>();
       user = CustomUser(
         fullName: 'a b c',
         userName: 'abc',
