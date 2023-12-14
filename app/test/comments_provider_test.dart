@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final instance = FakeFirebaseFirestore();
+
   test("create a confession", () async {
     final ConfessionProvider confessionProvider = ConfessionProvider(instance);
     final CustomUser user = CustomUser(

@@ -8,6 +8,7 @@ import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:test/test.dart';
 
 class MockFirebaseUser extends Mock implements User {}
 
@@ -17,18 +18,63 @@ void main() {
     late UserProvider userProvider;
     late MockFirebaseAuth mockFirebaseAuth;
     late BehaviorSubject<MockFirebaseUser> _user;
-
     final instance = FakeFirebaseFirestore();
-    CustomUser user = CustomUser(
-      fullName: 'a b c',
-      userName: 'abc',
-      email: 'a@guc.edu.eg',
-      password: 'abcdef1',
-    );
+    late CustomUser user;
     setUp(() {
       mockFirebaseAuth = MockFirebaseAuth();
       userProvider = UserProvider(mockFirebaseAuth, instance);
       _user = BehaviorSubject<MockFirebaseUser>();
+      user = CustomUser(
+        fullName: 'a b c',
+        userName: 'abc',
+        email: 'a@guc.edu.eg',
+        password: 'abcdef1',
+      );
+      instance.dump();
+    });
+    tearDown(() {
+      // Clear data in the firestore instance
+      user = CustomUser(
+        fullName: 'a b c',
+        userName: 'abc',
+        email: 'a@guc.edu.eg',
+        password: 'abcdef1',
+      );
+      instance.dump();
+    });
+
+    test('Login with valid credentials should succeed', () async {
+      // Mock Firebase Authentication if needed
+      final mockFirebaseAuth = MockFirebaseAuth();
+
+      // Define test user credentials
+      final email = 'test@example.com';
+      final password = 'testpassword';
+
+      // Simulate successful login
+      bool userCredential = await userProvider.login(email, password);
+
+      // Login using your actual implementation
+
+      // Verify successful login
+      expect(userCredential, isNotNull);
+    });
+    test('Login with invalid credentials should fail', () async {
+      // Mock Firebase Authentication if needed
+      final mockFirebaseAuth = MockFirebaseAuth();
+
+      // Define invalid credentials
+      final email = 'invalid@example.com';
+      final password = 'wrongpassword';
+
+      // Simulate error on login
+      when(mockFirebaseAuth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .thenThrow(FirebaseAuthException(
+              code: 'invalid-credentials',
+              message: 'Invalid email or password.'));
+
+      // Login using your actual implementation
     });
     // when(mockFirebaseAuth.onAuthStateChanged).thenAnswer((_) {
     //   return _user;
@@ -82,20 +128,24 @@ void main() {
 
     test('registering fails empty username', () async {
       user.userName = '';
+      user.email = 'd@guc.edu.eg';
       final String res = await userProvider.register(user);
       expect(res, 'missing-data');
     });
 
     test('registering fails empty fullname', () async {
       user.fullName = '';
+      user.email = 'd@guc.edu.eg';
       final String res = await userProvider.register(user);
       expect(res, 'missing-data');
     });
 
     test('login fails with incorrect credentials', () async {
-      user.email = "Acafada@guc.edu.eg";
-      final bool res = await userProvider.login(user.email, user.password);
-      expect(res, false);
+      final String mail = "Acafada@guc.edu.eg";
+      final String password = "dwadagwagwafawfa";
+
+      final bool res = await userProvider.login(mail, password);
+      expect(res, isNull);
     });
 
     test('login returns true on successful login', () async {

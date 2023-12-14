@@ -15,13 +15,16 @@ void main() {
       email: 'a@guc.edu.eg',
       password: 'abcdef1',
     );
-    user.token = 'x';
-    await confessionProvider.addConfession(Confession(
-        isAnonymous: false,
-        content: 'confession',
-        sender: user,
-        createdAt: DateTime.now(),
-        image: 'x'));
-    expect(await confessionProvider.getConfessions(), isNotEmpty);
+    Confession c = Confession(
+      isAnonymous: false,
+      content: 'confession',
+      sender: user,
+      createdAt: DateTime.now(),
+    );
+
+    await confessionProvider.addConfession(c);
+    expect(await confessionProvider.getMyConfessions(user.email), isNotEmpty);
+    confessionProvider.deleteConfession(c.id);
+    expect(await confessionProvider.getMyConfessions(user.email), isEmpty);
   });
 }

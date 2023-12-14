@@ -1,4 +1,5 @@
 import 'package:GUConnect/src/models/Post.dart';
+import 'package:GUConnect/src/models/User.dart';
 
 /// Represents a confession made by a user.
 class Confession extends Post {
@@ -10,12 +11,19 @@ class Confession extends Post {
     required super.content,
     required super.sender,
     required super.createdAt,
-    required super.image,
+    super.image = '',
   });
 
-  Confession.fromJson(super.json)
-      : isAnonymous = json['isAnonymous'],
-        super.fromJson();
+  factory Confession.fromJson(Map<String, dynamic> json) {
+    return Confession(
+      content: json['content'] ?? '',
+      sender: CustomUser.fromJson(json['sender'] ?? {}),
+      createdAt: DateTime.parse(json['createdAt'] ?? ''),
+      isAnonymous:
+          json['isAnonymous'] ?? false, // Provide a default value if needed
+      image: json['image'] ?? '',
+    )..id = json['id'] ?? ''; // Include id with null check
+  }
 
   @override
   Map<String, dynamic> toJson() {

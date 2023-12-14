@@ -106,7 +106,6 @@ class UserProvider with ChangeNotifier {
     try {
       UserCredential uc = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-
       return true; // Return true only on successful login
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

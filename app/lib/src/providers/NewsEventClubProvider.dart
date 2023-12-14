@@ -7,7 +7,10 @@ class NewsEventClubProvider extends ChangeNotifier {
   NewsEventClubProvider(FirebaseFirestore firestore) : _firestore = firestore;
   Future<bool> postContent(NewsEventClub post) async {
     try {
-      await _firestore.collection('newsEventClubs').add(post.toJson());
+      await _firestore
+          .collection('newsEventClubs')
+          .doc(post.id)
+          .set(post.toJson());
       return true;
     } catch (e) {
       print(e);
