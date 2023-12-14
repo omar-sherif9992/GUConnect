@@ -7,148 +7,136 @@ import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:flutter/foundation.dart';
 
 class CommentProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+  CommentProvider(FirebaseFirestore firestore) : _firestore = firestore;
 
-  String getCollectionName(int value)
-  {
+  String getCollectionName(int value) {
     switch (value) {
-    case 0:
-      return 'newsEventClubs';
-    case 1:
-      return 'lostAndFound';
-    case 2:
-      return 'academicRelatedQuestions';
-    case 3:
-      return 'confessions';
+      case 0:
+        return 'newsEventClubs';
+      case 1:
+        return 'lostAndFound';
+      case 2:
+        return 'academicRelatedQuestions';
+      case 3:
+        return 'confessions';
 
-    default:
-      return 'Unknown';
-  }
+      default:
+        return 'Unknown';
+    }
   }
 
-  Future<List<Comment>> getPostComments(String postId, int postType) async
-  {
+  Future<List<Comment>> getPostComments(String postId, int postType) async {
     final String collectionName = getCollectionName(postType);
 
     try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection(collectionName)
+              .where('id', isEqualTo: postId)
+              .get();
 
-      final QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-      .collection(collectionName)
-      .where('id', isEqualTo: postId)
-      .get();
-
-      if(querySnapshot.docs.isEmpty)
-      {
+      if (querySnapshot.docs.isEmpty) {
         return [];
       }
 
-      switch(postType)
-      {
+      switch (postType) {
         case 0:
-        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
-        return NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments;
+          //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+          return NewsEventClub.fromJson(querySnapshot.docs.first.data())
+              .comments;
         //To Be Continued;
         case 1:
-        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
-        return LostAndFound.fromJson(querySnapshot.docs.first.data()).comments;
+          //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+          return LostAndFound.fromJson(querySnapshot.docs.first.data())
+              .comments;
         case 2:
-        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
-        return AcademicQuestion.fromJson(querySnapshot.docs.first.data()).comments;
+          //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+          return AcademicQuestion.fromJson(querySnapshot.docs.first.data())
+              .comments;
         case 3:
-        //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
-        return Confession.fromJson(querySnapshot.docs.first.data()).comments;
+          //print(NewsEventClub.fromJson(querySnapshot.docs.first.data()).comments);
+          return Confession.fromJson(querySnapshot.docs.first.data()).comments;
       }
       return [];
-      
-
-
-    } catch (e) { 
+    } catch (e) {
       return [];
     }
-
   }
 
   Future<List<Comment>> addComment(Comment comment, String postId) async {
-
     final String collectionName = getCollectionName(comment.postType);
 
     try {
       await _firestore.collection('comments').add(comment.toJson());
 
-       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      .collection(collectionName)
-      .where('id', isEqualTo: postId)
-      .get();
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(collectionName)
+          .where('id', isEqualTo: postId)
+          .get();
 
-
-      if(querySnapshot.docs.isNotEmpty)
-      {
-        await querySnapshot.docs.first.reference.update({'comments': FieldValue.arrayUnion([comment.toJson()])});
-
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.update({
+          'comments': FieldValue.arrayUnion([comment.toJson()])
+        });
       }
-      
-      return getPostComments(postId, comment.postType);
 
-    } catch (e) {  
+      return getPostComments(postId, comment.postType);
+    } catch (e) {
       return [];
     }
   }
 
   Future<bool> editComment(String commentId, String newContnent) async {
-
     try {
       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      .collection('comments')
-      .where('id', isEqualTo: commentId)
-      .get();
+          .collection('comments')
+          .where('id', isEqualTo: commentId)
+          .get();
 
-      if(querySnapshot.docs.isNotEmpty)
-      {
+      if (querySnapshot.docs.isNotEmpty) {
         querySnapshot.docs.first.reference.update({'content': newContnent});
       }
 
       return true;
-    } catch (e) {  
+    } catch (e) {
       return false;
     }
   }
 
-
-  Future<bool> removeComment(Comment comment, String postId) async{
+  Future<bool> removeComment(Comment comment, String postId) async {
     final String collectionName = getCollectionName(comment.postType);
 
-    try{
+    try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      .collection('comments')
-      .where('id', isEqualTo: comment.id)
-      .get();
+          .collection('comments')
+          .where('id', isEqualTo: comment.id)
+          .get();
 
-      if(querySnapshot.docs.isNotEmpty)
-      {
+      if (querySnapshot.docs.isNotEmpty) {
         querySnapshot.docs.first.reference.delete();
       }
       querySnapshot = await FirebaseFirestore.instance
-      .collection(collectionName)
-      .where('id', isEqualTo: postId)
-      .get();
+          .collection(collectionName)
+          .where('id', isEqualTo: postId)
+          .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-  
         final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
         final List<dynamic> commentsOfPost = documentSnapshot['comments'] ?? [];
         commentsOfPost.remove(comment);
 
-        await FirebaseFirestore.instance.collection(collectionName).doc(documentSnapshot.id).update({
+        await FirebaseFirestore.instance
+            .collection(collectionName)
+            .doc(documentSnapshot.id)
+            .update({
           'comments': FieldValue.arrayUnion(commentsOfPost),
         });
       }
       return true;
-    }
-    catch(e)
-    {
+    } catch (e) {
       return false;
     }
   }
-
 }

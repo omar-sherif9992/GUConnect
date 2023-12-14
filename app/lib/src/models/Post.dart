@@ -1,4 +1,3 @@
-
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 
@@ -15,36 +14,36 @@ class Post {
     required this.content,
     required this.sender,
     required this.createdAt,
-    required this.image,
+    this.image = '',
   }) {
     id = sender.email + createdAt.toString();
     likes = {};
     comments = [];
   }
 
-  Post.fromJson(Map<String, dynamic> json) {
-    content = json['content'];
-    sender = CustomUser.fromJson(json['sender']);
-    createdAt = DateTime.parse(json['createdAt']);
-    image = json['image'];
-    likes = Set<String>.from(json['likes']);
-    comments = ((json['comments'] as List<dynamic>)
-        .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      content: json['content'] ?? '',
+      sender: CustomUser.fromJson(json['sender'] ?? {}),
+      createdAt: DateTime.parse(json['createdAt'] ?? ''),
+      image: json['image'] ?? '',
+    )..id = json['id'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['content'] = content;
-    data['sender'] = sender.toJson();
-    data['createdAt'] = createdAt.toString();
-    data['image'] = image;
-    data['likes'] = likes;
-    data['comments'] = comments.map((c) => c.toJson()).toList();
-    return data;
+    return {
+      'content': content,
+      'sender': sender.toJson(),
+      'createdAt': createdAt.toIso8601String(),
+      'id': id,
+      'image': image,
+      'likes': likes.toList(),
+      'comments': comments.map((comment) => comment.toJson()).toList(),
+    };
   }
 
   @override
   String toString() {
-    return 'content: $content, sender: $sender, createdAt: $createdAt, image: $image likes: $likes';
+    return ' id: $id content: $content, sender: $sender, createdAt: $createdAt, image: $image likes: $likes';
   }
 }

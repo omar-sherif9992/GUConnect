@@ -9,15 +9,12 @@ class LostAndFound extends Post {
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
-    String? id,
     required this.contact,
     required super.content,
     required super.createdAt,
     required super.image,
     required super.sender,
-  }) {
-    this.id = FirebaseFirestore.instance.collection('lostAndFound').doc().id;
-    }  
+  });
 
   LostAndFound.fromJson(Map<String, dynamic> json)
       : super(

@@ -3,18 +3,17 @@ import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:flutter/foundation.dart';
 
 class AcademicQuestionProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+  AcademicQuestionProvider(FirebaseFirestore firestore)
+      : _firestore = firestore;
 
   Future<bool> askQuestion(AcademicQuestion question) async {
-    try {
-      await _firestore
-          .collection('academicRelatedQuestions')
-          .doc(question.id)
-          .set(question.toJson());
-      return true;
-    } catch (e) {
-      return false;
-    }
+    await _firestore
+        .collection('academicRelatedQuestions')
+        .doc(question.id)
+        .set(question.toJson());
+    ;
+    return true;
   }
 
   Future<void> uploadImage(String id, String imageUrl) async {
@@ -32,7 +31,12 @@ class AcademicQuestionProvider extends ChangeNotifier {
   }
 
   Future<void> deleteQuestion(String id) async {
-    await _firestore.collection('academicRelatedQuestions').doc(id).delete();
+    try {
+      await _firestore.collection('academicRelatedQuestions').doc(id).delete();
+    } catch (e) {
+      print("Error deleting question: $e");
+      // Handle the error as needed
+    }
   }
 
   Future<List<AcademicQuestion>> getQuestions() async {

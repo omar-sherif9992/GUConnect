@@ -1,7 +1,7 @@
 //  user provider
 import 'dart:io';
 import 'dart:math';
-
+import 'package:email_validator/email_validator.dart';
 import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,30 +15,26 @@ import 'package:mailer/smtp_server.dart';
 class UserProvider with ChangeNotifier {
   CustomUser? _user;
   bool _loggedIn = false;
-
+  late FirebaseFirestore _firestore;
   bool get loggedIn => _loggedIn;
   CustomUser? get user => _user;
   late FirebaseAuth _firebaseAuth;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late CollectionReference<CustomUser> usersRef;
 
-  final usersRef = FirebaseFirestore.instance
-      .collection('users')
-      .withConverter<CustomUser>(
-        fromFirestore: (snapshot, _) => CustomUser.fromJson(snapshot.data()!),
-        toFirestore: (user, _) => user.toJson(),
-      );
-
-  UserProvider([FirebaseAuth? firebaseAuth]) {
+  UserProvider(FirebaseAuth firebaseAuth, FirebaseFirestore firestore) {
+    _firebaseAuth = firebaseAuth;
+    _firestore = firestore;
+    usersRef = _firestore.collection('users').withConverter<CustomUser>(
+          fromFirestore: (snapshot, _) => CustomUser.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toJson(),
+        );
     init();
-    _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
   }
 
   Future<void> init() async {
     /*     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform); */
-
-    _firebaseAuth = FirebaseAuth.instance;
     _firebaseAuth.userChanges().listen((user) async {
       if (user != null) {
         _loggedIn = true;
@@ -53,34 +49,64 @@ class UserProvider with ChangeNotifier {
     });
   }
 
-  Future<bool> register(CustomUser newUser) async {
+  Future<bool> isEmailInUse(String email) async {
+    QuerySnapshot<CustomUser> querySnapshot =
+        await usersRef.where('email', isEqualTo: email).get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  bool isWeakPassword(String password) {
+    return password.length < 6;
+  }
+
+  bool isValidGUCEmail(String email) {
+    final List<String> parts = email.split('@');
+    if (parts.length == 2) {
+      String domain = parts[1];
+      return domain == 'guc.edu.eg' || domain == 'student.guc.edu.eg';
+    }
+    return false;
+  }
+
+  Future<String> register(CustomUser newUser) async {
+    bool emailInUse = await isEmailInUse(newUser.email);
+    if (emailInUse) {
+      return 'email-already-in-use';
+    }
+    if (isWeakPassword(newUser.password)) {
+      return 'weak-password';
+    }
+
+    if (!EmailValidator.validate(newUser.email) ||
+        !isValidGUCEmail(newUser.email)) {
+      return 'invalid-email';
+    }
+    if (newUser.fullName!.isEmpty || newUser.userName!.isEmpty) {
+      return 'missing-data';
+    }
+
     try {
-      UserCredential userCredential =
+      final UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
       newUser.user_id = userCredential.user?.uid;
       await usersRef.doc(userCredential.user?.uid).set(newUser);
-      return true;
+      return 'success';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        throw Exception('The account already exists for that email.');
-      }
+      return e.code;
     } catch (e) {
       print(e);
     }
-    return false;
+    return 'failure';
   }
 
   Future<bool> login(String email, String password) async {
+    if (email.isEmpty || password.isEmpty) return false;
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential uc = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      return true;
+      return true; // Return true only on successful login
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -89,8 +115,13 @@ class UserProvider with ChangeNotifier {
         print('Wrong password provided for that user.');
         throw Exception('Wrong password provided for that user.');
       }
+      // Handle other FirebaseAuthException types if needed
+      throw Exception('Login failed: ${e.message}');
+    } catch (e) {
+      // Handle general exceptions
+      print('Login failed: $e');
+      throw Exception('Login failed: $e');
     }
-    return false;
   }
 
   Future<bool> logout() async {

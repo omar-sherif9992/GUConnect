@@ -2,26 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LikesProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  String getCollectionName(int value)
-  {
+  final FirebaseFirestore _firestore;
+  LikesProvider(FirebaseFirestore firestore) : _firestore = firestore;
+  String getCollectionName(int value) {
     switch (value) {
-    case 0:
-      return 'newsEventClubs';
-    case 1:
-      return 'lostAndFound';
-    case 2:
-      return 'academicRelatedQuestions';
-    case 3:
-      return 'confessions';
+      case 0:
+        return 'newsEventClubs';
+      case 1:
+        return 'lostAndFound';
+      case 2:
+        return 'academicRelatedQuestions';
+      case 3:
+        return 'confessions';
 
-    default:
-      return 'Unknown';
-  }
+      default:
+        return 'Unknown';
+    }
   }
 
-  Future<List<dynamic>> likePost(String postId, String userId, int postType) async {
+  Future<List<dynamic>> likePost(
+      String postId, String userId, int postType) async {
     final String collection = getCollectionName(postType);
     final QuerySnapshot querySnapshot = await _firestore
         .collection(collection)
@@ -46,7 +46,8 @@ class LikesProvider extends ChangeNotifier {
     return [];
   }
 
-  Future<List<dynamic>> dislike(String postId, String userId, int postType) async {
+  Future<List<dynamic>> dislike(
+      String postId, String userId, int postType) async {
     final String collection = getCollectionName(postType);
     final QuerySnapshot querySnapshot = await _firestore
         .collection(collection)
