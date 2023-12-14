@@ -8,7 +8,10 @@ class ReportsProvider extends ChangeNotifier {
 
   Future<bool> reportContent(Report report) async {
     try {
-      await _firestore.collection('reports').add(report.toJson());
+      await _firestore
+          .collection('reports')
+          .doc(report.id)
+          .set(report.toJson());
       return true;
     } catch (e) {
       print(e);
