@@ -1,6 +1,6 @@
-import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,15 @@ class _ConfessionsState extends State<Confessions>
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
       drawer: const MainDrawer(),
-      appBar: AppBar(
-        title: Text('Confessions'),
+      appBar: CustomAppBar(
+        title: 'Confessions',
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add_box_outlined,
+                color: Theme.of(context).colorScheme.onBackground, size: 24),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Column(
         children: [
