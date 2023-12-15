@@ -90,7 +90,7 @@ class UserProvider with ChangeNotifier {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
       _firebaseAuth.currentUser!.sendEmailVerification();
-      newUser.user_id = userCredential.user?.uid;
+      newUser.user_id = userCredential.user!.uid;
       await usersRef.doc(userCredential.user?.uid).set(newUser);
       return 'success';
     } on FirebaseAuthException catch (e) {
