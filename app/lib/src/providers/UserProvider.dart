@@ -222,7 +222,7 @@ class UserProvider with ChangeNotifier {
     const String collectionName = 'users';
     final String? imageUrl =
         await uploadImageToStorage(image, collectionName, fileName);
-
+    notifyListeners();
     return usersRef
         .doc(_firebaseAuth.currentUser!.uid)
         .update({'image': imageUrl});
@@ -294,8 +294,11 @@ class UserProvider with ChangeNotifier {
 
   void setUser(CustomUser user) {
     _user = user;
-    print(" Token " + FirebaseNotification.token!);
-    user.updateToken(FirebaseNotification.token!);
+    if (FirebaseNotification != null && FirebaseNotification.token != null) {
+      print(" Token " + FirebaseNotification.token!);
+      user.updateToken(FirebaseNotification.token!);
+    }
+    notifyListeners();
   }
 
   Future getUsers() async {
