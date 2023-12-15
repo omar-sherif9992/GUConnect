@@ -199,7 +199,9 @@ class CourseTile extends StatelessWidget {
         leading: Hero(
           tag: course.courseName,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(course.image ?? ''),
+            backgroundImage: course.image != null
+                ? NetworkImage(course.image ?? '')
+                : const AssetImage('assets/images/course.png') as ImageProvider,
           ),
         ),
         title: Text(titleCase(course.courseName)),

@@ -62,7 +62,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
   }
 
   Future<void> _refresh() async {
-    fetchPosts(clubPostProvider);
+    await fetchPosts(clubPostProvider);
     await Future.delayed(const Duration(seconds: 2));
   }
 

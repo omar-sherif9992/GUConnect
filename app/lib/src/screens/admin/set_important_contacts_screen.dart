@@ -2,7 +2,6 @@
 
 import 'package:GUConnect/src/models/ImportantEmail.dart';
 import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
-import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';

@@ -156,7 +156,7 @@ class MainDrawer extends StatelessWidget {
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
-          'Search Staff',
+          'Search',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 24,

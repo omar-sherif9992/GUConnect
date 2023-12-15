@@ -58,4 +58,25 @@ class OfficeLocationProvider extends ChangeNotifier {
     }
     return locations;
   }
+
+  Future<void> setOfficeAndLocation(OfficeAndLocation officeAndLocation) async {
+    try {
+      await _firestore
+          .collection('officeAndLocation')
+          .doc(officeAndLocation.name)
+          .set(officeAndLocation.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+
+  Future<void> deleteOfficeAndLocation(String name) async {
+    try {
+      await _firestore.collection('officeAndLocation').doc(name).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
 }
