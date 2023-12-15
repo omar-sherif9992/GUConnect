@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
-
+  final bool _isLoading = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  _login(UserProvider userProvider) async {
+  Future<void> _login(UserProvider userProvider) async {
     final bool success =
         await userProvider.login(emailController.text, passwordController.text);
     if (success) {
