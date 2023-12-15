@@ -1,20 +1,4 @@
-class Rating {
-  late String userEmail;
-  late double rating;
-  Rating({required this.userEmail, required this.rating});
-
-  Rating.fromJson(Map<String, dynamic> json) {
-    userEmail = json['userEmail'];
-    rating = json['rating'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userEmail'] = this.userEmail;
-    data['rating'] = this.rating;
-    return data;
-  }
-}
+import 'package:GUConnect/src/models/Rating.dart';
 
 class Course {
   late String courseName;
@@ -27,7 +11,7 @@ class Course {
     required this.courseName,
     this.image,
     required this.description,
-  }){
+  }) {
     ratings = [];
   }
 

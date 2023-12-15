@@ -1,13 +1,16 @@
+import 'package:GUConnect/src/models/Rating.dart';
 import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
-import 'package:GUConnect/src/screens/common/RatingBar.dart';
+import 'package:GUConnect/src/providers/RatingProvider.dart';
+import 'package:GUConnect/src/widgets/RatingBar.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StuffProfile extends StatefulWidget {
   const StuffProfile({super.key});
@@ -25,26 +28,31 @@ class _StuffProfileState extends State<StuffProfile>
   late NewsEventClubProvider newsEventClubProvider;
   late LostAndFoundProvider lostAndFoundProvider;
   late AcademicQuestionProvider academicQuestionProvider;
+  late RatingProvider ratingProvider;
   @override
   Widget build(BuildContext context) {
     // get user from router
-    staff = Staff(
-      fullName: "Abdelrahman",
-      email: "abdelrahman.fekri@guc.edu.eg",
-      staffType: "TA",
-      bio:
-          "Met professor in the hallway and he said hi to me. I'm so happy! :) ",
-      description: "",
-      speciality: "",
-      officeLocation: "C7.203",
-      courses: [
-        'CSEN 201: Introduction to CS',
-        'CSEN 301: Object Oriented Programming',
-        'CSEN 401: Data Structures and Algorithms',
-        'CSEN 501: Operating Systems',
-        'CSEN 601: Computer Networks',
-      ],
+    // staff = ModalRoute.of(context)?.settings.arguments as Staff?;
+
+    ratingProvider = Provider.of<RatingProvider>(context);
+
+    Rating _staff_rating = Rating(
+      id: staff?.id ?? '',
+      ratingSum: 0,
+      ratingAverage: 0,
+      ratingCount: 0,
     );
+    Future<void> getRating() async {
+      ratingProvider.getRating(staff?.id ?? '').then((value) => setState(() {
+            _staff_rating = value;
+          }));
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      // getRating();
+    }
 
     return Scaffold(
         bottomNavigationBar: const BottomBar(),
@@ -145,24 +153,24 @@ class _StuffProfileState extends State<StuffProfile>
                                           ),
                                         ),
                                         Container(
-                                          width: 60,
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(16.0),
-                                            color: const Color.fromARGB(
-                                                255, 242, 200, 147),
-                                          ),
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: const Text(
-                                            'Rating\n4.7',
-                                            style: TextStyle(
-                                              fontSize: 13,
+                                            width: 60,
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(16.0),
+                                              color: const Color.fromARGB(
+                                                  255, 242, 200, 147),
                                             ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _staff_rating.ratingAverage
+                                                  .toStringAsFixed(1),
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            )),
                                       ],
                                     ),
                                   )

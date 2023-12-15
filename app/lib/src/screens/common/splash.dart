@@ -60,13 +60,7 @@ class _SetSplashScreenState extends State<SplashScreen>
         final CustomUser? userWithDetails =
             await userProvider.getUser(user.email!);
         userProvider.setUser(userWithDetails!);
-        /*       if (user.email!.trim().contains('@gucconnect.com')) {
-          Navigator.popAndPushNamed(context, CustomRoutes.admin);
-        } else {
-          Navigator.popAndPushNamed(context, CustomRoutes.profile);
-        }
- */
-        Navigator.pushReplacementNamed(context, CustomRoutes.profile,
+        Navigator.pushReplacementNamed(context, CustomRoutes.staff,
             arguments: {'user': user});
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);

@@ -4,6 +4,7 @@ import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/RatingProvider.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
+        ChangeNotifierProvider(create: (context) => RatingProvider())
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
@@ -99,7 +101,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        initialRoute: CustomRoutes.home,
+        initialRoute: CustomRoutes.staff,
         routes: CustomRoutes.routes,
       ),
     );

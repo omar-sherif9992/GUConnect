@@ -295,7 +295,6 @@ class UserProvider with ChangeNotifier {
   void setUser(CustomUser user) {
     _user = user;
     if (FirebaseNotification != null && FirebaseNotification.token != null) {
-      print(" Token " + FirebaseNotification.token!);
       user.updateToken(FirebaseNotification.token!);
     }
     notifyListeners();
