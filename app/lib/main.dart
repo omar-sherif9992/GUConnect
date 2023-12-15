@@ -2,6 +2,7 @@ import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
               AcademicQuestionProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
+          create: (context) => CourseProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
         ),
         ChangeNotifierProvider(
@@ -95,7 +99,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        initialRoute: CustomRoutes.staff,
+        initialRoute: CustomRoutes.home,
         routes: CustomRoutes.routes,
       ),
     );

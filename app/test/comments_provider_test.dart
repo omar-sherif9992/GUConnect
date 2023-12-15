@@ -7,7 +7,6 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
-import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
