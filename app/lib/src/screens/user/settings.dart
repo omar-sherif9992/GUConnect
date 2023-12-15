@@ -138,8 +138,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             message: 'Are you sure you want to logout?',
                             onApprove: () async {
                               await userProvider.logout();
+                              
                               Navigator.of(context)
                                   .popAndPushNamed(CustomRoutes.login);
+                             
                             },
                             onCancel: () {
                               Navigator.of(context).pop();
@@ -163,7 +165,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     contentPadding: const EdgeInsets.only(left: 34, right: 22),
                   ),
                 ),
-               /*  if (userProvider.user!.userType != UserType.admin)
+                /*  if (userProvider.user!.userType != UserType.admin)
                   InkWell(
                     onTap: () {
                       showAdaptiveDialog(
