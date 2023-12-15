@@ -94,11 +94,11 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          navigate(CustomRoutes.adminNotifications);
+          navigate(CustomRoutes.academicRelatedQuestions);
         },
         icon: Icon(
-          Icons.notifications_outlined,
-          color: isActive(CustomRoutes.adminNotifications)
+          Icons.menu_book_outlined,
+          color: isActive(CustomRoutes.academicRelatedQuestions)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
           size: 28,
@@ -180,11 +180,11 @@ class BottomBar extends StatelessWidget {
       ),
       IconButton(
         onPressed: () {
-          navigate(CustomRoutes.notifications);
+          navigate(CustomRoutes.academicRelatedQuestions);
         },
         icon: Icon(
-          Icons.notifications_outlined,
-          color: isActive(CustomRoutes.notifications)
+          Icons.menu_book_outlined,
+          color: isActive(CustomRoutes.academicRelatedQuestions)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
           size: 28,

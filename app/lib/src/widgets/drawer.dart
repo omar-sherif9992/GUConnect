@@ -45,7 +45,7 @@ class MainDrawer extends StatelessWidget {
               onSelectScreen(context, CustomRoutes.profileEdit);
             },
           ),
-          ListTile(
+          /*   ListTile(
             title: Text(
               'Test Notifications',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -71,7 +71,7 @@ class MainDrawer extends StatelessWidget {
               // await FirebaseNotification.sendNotification(
               //     FirebaseNotification.token!, "Title", "Body");
             },
-          ),
+          ), */
           ListTile(
             leading: Icon(
               Icons.settings,
@@ -112,23 +112,6 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
-          Icons.menu_book,
-          size: 24,
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        title: Text(
-          'Academic Related',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
-              ),
-        ),
-        onTap: () {
-          onSelectScreen(context, CustomRoutes.academicRelatedQuestions);
-        },
-      ),
-      ListTile(
-        leading: Icon(
           Icons.contact_emergency,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
@@ -146,7 +129,8 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
-          Icons.edit,
+          // office icon 
+          Icons.location_on_outlined,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
         ),
