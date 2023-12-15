@@ -20,7 +20,7 @@ void main() {
         content: 'academic question',
         sender: user,
         createdAt: DateTime.now(),
-        reason: 'IEEE club bla bla');
+        reason: 'IEEE club bla bla', comments: [], likes: {});
     await provider.postContent(q);
     expect(await provider.getPosts(), isNotEmpty);
     await provider.requestApproval(q.id);

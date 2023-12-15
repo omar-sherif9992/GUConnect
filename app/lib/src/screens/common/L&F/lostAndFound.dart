@@ -115,15 +115,9 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                     height: 20,
                                   ),
                                   PostW(
-                                    postId: posts[index].id,
-                                    content: posts[index].content,
-                                    image: posts[index].image,
-                                    user:
-                                        posts[index].sender,
-                                    likes: posts[index].likes,
-                                    createdAt: posts[index].createdAt,
-                                    comments: posts[index].comments,
+                                    post: posts[index],
                                     postType: 1,
+                                    refresh: _refresh,
                                   ),
                                 ],
                               );

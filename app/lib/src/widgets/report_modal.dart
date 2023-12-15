@@ -14,14 +14,16 @@ class ReportModal extends StatefulWidget {
   final String reportedContent;
   final int reportCollectionNameType;
   final DateTime createdAt;
-  final String image;
+  final String? image;
+  final String? postId;
+
 
   @override
   State<ReportModal> createState() => _ReportModalState();
 
 
   const ReportModal({super.key, required this.reportedId, required this.reportedUser, required this.reportedContent, required this.reportCollectionNameType,
-  required this.image, required this.createdAt});
+  this.image, required this.createdAt, this.postId});
 }
   class _ReportModalState extends State<ReportModal>
   {
@@ -49,6 +51,8 @@ class ReportModal extends StatefulWidget {
           return 'academicRelatedQuestions';
         case 3:
           return 'confessions';
+        case 4:
+          return 'comments';
 
         default:
           return 'Unknown';

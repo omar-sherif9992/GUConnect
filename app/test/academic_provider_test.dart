@@ -21,6 +21,8 @@ void main() {
       content: 'academic question',
       sender: user,
       createdAt: DateTime.now(),
+      comments: [],
+      likes: {}
     );
 
     await provider.askQuestion(q);

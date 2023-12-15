@@ -5,10 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Represents an academic question.
 class AcademicQuestion extends Post {
+
+  late Set<String> likes;
+  late List<Comment> comments;
+
   AcademicQuestion({
     required super.content,
     required super.sender,
     required super.createdAt,
+    required this.likes,
+    required this.comments,
     super.image,
   });
 
@@ -20,6 +26,10 @@ class AcademicQuestion extends Post {
       sender: CustomUser.fromJson(json['sender'] ?? {}),
       createdAt: DateTime.parse(json['createdAt'] ?? ''),
       image: json['image'] ?? '',
+      likes: Set<String>.from(json['likes']),
+      comments: (json['comments'] as List<dynamic>? ?? [])
+        .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+        .toList()
     );
     academicQuestion.id = json['id'] ?? ''; // Include id with null check
 
@@ -34,6 +44,8 @@ class AcademicQuestion extends Post {
   Map<String, dynamic> toJson() {
     final json = super.toJson();
     // You can add additional fields specific to AcademicQuestion here
+    json['likes'] = likes;
+    json['comments'] = comments.map((c) => c.toJson()).toList();
     return json;
   }
 
