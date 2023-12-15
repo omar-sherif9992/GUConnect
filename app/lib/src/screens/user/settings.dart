@@ -138,10 +138,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             message: 'Are you sure you want to logout?',
                             onApprove: () async {
                               await userProvider.logout();
-                              
-                              Navigator.of(context)
-                                  .popAndPushNamed(CustomRoutes.login);
-                             
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                CustomRoutes
+                                    .login, 
+                                (Route<dynamic> route) => false,
+                              );
                             },
                             onCancel: () {
                               Navigator.of(context).pop();
