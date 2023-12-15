@@ -15,8 +15,8 @@ class NewsEventClub extends Post {
   //late CustomUser poster;
   late String approvalStatus = 'requested';
   late String reason;
-  late Set<String> likes = {};
-  late List<Comment> comments = [];
+  late Set<String> likes;
+  late List<Comment> comments;
 
 /*   NewsEventClub(Future fetchItems, {
     String? id,
@@ -36,6 +36,8 @@ class NewsEventClub extends Post {
     required super.sender,
     required super.createdAt,
     super.image,
+    required this.comments,
+    required this.likes
   });
 
   NewsEventClub.fromJson(Map<String, dynamic> json)
@@ -60,6 +62,7 @@ class NewsEventClub extends Post {
     data['approvalStatus'] = approvalStatus;
     data['reason'] = reason;
     data['comments'] = comments.map((c) => c.toJson()).toList();
+    data['likes'] = likes;
     return data;
   }
 

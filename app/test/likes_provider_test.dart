@@ -38,15 +38,19 @@ void main() {
         reason: "reason",
         content: "content",
         sender: user,
-        createdAt: DateTime.now());
+        createdAt: DateTime.now(),
+        likes:{},
+        comments: []);
     AcademicQuestion aq = AcademicQuestion(
-        content: "content", sender: user, createdAt: DateTime.now());
+        content: "content", sender: user, createdAt: DateTime.now(), likes: {}, comments: []);
     LostAndFound lf = LostAndFound(
         contact: "contact",
         content: "content",
         createdAt: DateTime.now(),
         image: "some image",
-        sender: user);
+        sender: user,
+        likes: {},
+        comments: []);
     await confessionProvider.addConfession(c);
     await necProvider.postContent(n);
     await aqProvider.askQuestion(aq);

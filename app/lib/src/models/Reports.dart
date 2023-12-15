@@ -9,13 +9,17 @@ class Report {
   late String reportType; // comment / post / confession
   late DateTime createdAt;
   late String? image;
+  late String reason;
+  late String? clarification;
 
   Report(
       {required this.reportedContentId,
       required this.reportedUser,
       required this.reportedContent,
-      required this.reportType,
+      required this.reportType,  //name of the collection
       required this.createdAt,
+    required this.reason,
+    this.clarification,
       this.image}) {
     id = createdAt.toString() + reportedContentId;
   }
@@ -29,6 +33,8 @@ class Report {
     reportType = json['reportType'];
     createdAt = DateTime.parse(json['createdAt']);
     image = json['image'];
+    reason = json['reason'];
+    clarification = json['clarification'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,11 +46,13 @@ class Report {
     data['reportType'] = reportType;
     data['createdAt'] = createdAt.toString();
     data['image'] = image;
+    data['reason'] = reason;
+    data['clarification'] = clarification;
     return data;
   }
 
   @override
   String toString() {
-    return 'Report{id: $id, reportedContentId: $reportedContentId, reportType: $reportType, createdAt: $createdAt}';
+    return 'Report{id: $id, reportedContentId: $reportedContentId, reportType: $reportType, createdAt: $createdAt, reason: $reason, clarification: $clarification}';
   }
 }

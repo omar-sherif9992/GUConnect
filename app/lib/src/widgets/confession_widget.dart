@@ -1,4 +1,6 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Post.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
@@ -10,34 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Confession_Widget extends StatefulWidget {
-  final String caption;
-
-  final String imgUrl;
-
-  final String username;
-
-  final String userImage;
-
-  Set<String> likes;
-
-  final List<Comment> comments;
-
-  final DateTime createdAt;
+  final Post post;
 
   final int postType;
 
-  final String postId;
 
   Confession_Widget({
     super.key,
-    required this.postId,
-    required this.caption,
-    required this.imgUrl,
-    required this.userImage,
-    required this.username,
-    required this.likes,
-    required this.comments,
-    required this.createdAt,
+    required this.post,
     required this.postType,
   });
 
@@ -59,7 +41,7 @@ class _PostWState extends State<Confession_Widget> {
 
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
     likesProvider = Provider.of<LikesProvider>(context, listen: false);
-    likes2 = widget.likes;
+    likes2 = widget.post.likes;
   }
 
   void likePost(int like) {
@@ -67,13 +49,13 @@ class _PostWState extends State<Confession_Widget> {
       case 0:
         {
           if (like == 0) {
-            likesProvider.likePost(widget.postId, userId, widget.postType).then((val) {
+            likesProvider.likePost(widget.post.id, userId, widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
             });
           } else {
-            likesProvider.dislike(widget.postId, userId, widget.postType).then((val) {
+            likesProvider.dislike(widget.post.id, userId, widget.postType).then((val) {
               setState(() {
                 likes2 = Set<String>.from(val);
               });
@@ -107,7 +89,7 @@ class _PostWState extends State<Confession_Widget> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage:
-                        CachedNetworkImageProvider(widget.userImage),
+                        CachedNetworkImageProvider(widget.post.sender.image??''),
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -115,7 +97,7 @@ class _PostWState extends State<Confession_Widget> {
                     children: [
                       Text(
                         // User name
-                        widget.username,
+                        widget.post.sender.userName??'',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontWeight: FontWeight.w600,
@@ -125,7 +107,7 @@ class _PostWState extends State<Confession_Widget> {
                         height: 5,
                       ),
                       Text(
-                        timeAgo(widget.createdAt),
+                        timeAgo(widget.post.createdAt),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -135,7 +117,8 @@ class _PostWState extends State<Confession_Widget> {
                   ),
                 ],
               ),
-              const PopupMenu(),
+              PopupMenu(post: widget.post,
+               reportCollectionNameType: widget.postType,),
             ],
           ),
         ),
@@ -144,7 +127,7 @@ class _PostWState extends State<Confession_Widget> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             // Post caption
-            widget.caption,
+            widget.post.content,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
@@ -153,7 +136,7 @@ class _PostWState extends State<Confession_Widget> {
         // Image or Video
         //CachedNetworkImage(placeholder: (context, url) => const Loader(), imageUrl: widget.imgUrl,),
         LikeableImage(
-          imageUrl: widget.imgUrl,
+          imageUrl: widget.post.image,
           handleLike: likePost,
         ),
         /*Image.network(
@@ -185,7 +168,7 @@ class _PostWState extends State<Confession_Widget> {
                     context: context,
                     builder: (BuildContext context) {
                       return CommentModal(
-                          postType: widget.postType, postId: widget.postId);
+                          postType: widget.postType, postId: widget.post.id);
                     },
                     isScrollControlled: true, // Takes up the whole screen
                     isDismissible: true,

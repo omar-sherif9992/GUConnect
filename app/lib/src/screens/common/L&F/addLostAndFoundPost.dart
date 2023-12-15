@@ -100,7 +100,9 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
         image: imageUrl??'',
         createdAt: DateTime.now(),
         sender: userProvider.user!,
-        contact: contact);
+        contact: contact,
+        likes: {},
+        comments: []);
 
     
 

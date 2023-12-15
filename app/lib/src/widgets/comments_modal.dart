@@ -8,7 +8,6 @@ import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CommentModal extends StatefulWidget
@@ -49,6 +48,12 @@ class _CommentModalState extends State<CommentModal> {
 
     userProvider = Provider.of<UserProvider>(context, listen: false);
 
+    refresh();
+
+  }
+
+  void refresh()
+  {
     commentProvider.getPostComments(widget.postId, widget.postType).then((value){
       setState(() {
         comments = value;
@@ -56,7 +61,6 @@ class _CommentModalState extends State<CommentModal> {
         _isLoading = false;
       });
     });
-
   }
 
   Future addComment(String content) async
@@ -73,38 +77,6 @@ class _CommentModalState extends State<CommentModal> {
   }
 
   final TextEditingController _commentController = TextEditingController();
-
-  bool isEmojiPickerVisible = false;
-
-
-  final
-   Config emojiPicker = const Config(
-        columns: 7,
-        verticalSpacing: 0,
-        horizontalSpacing: 0,
-        gridPadding: EdgeInsets.zero,
-        initCategory: Category.RECENT,
-        bgColor: Color(0xFFF2F2F2),
-        indicatorColor: Colors.blue,
-        iconColor: Colors.grey,
-        iconColorSelected: Colors.blue,
-        backspaceColor: Colors.blue,
-        skinToneDialogBgColor: Colors.white,
-        skinToneIndicatorColor: Colors.grey,
-        enableSkinTones: true,
-        recentTabBehavior: RecentTabBehavior.RECENT,
-        recentsLimit: 28,
-        noRecents:  Text(
-          'No Recents',
-          style: TextStyle(fontSize: 20, color: Colors.black26),
-          textAlign: TextAlign.center,
-        ), // Needs to be const Widget
-        loadingIndicator: SizedBox.shrink(), // Needs to be const Widget
-        tabIndicatorAnimDuration: kTabScrollDuration,    
-        categoryIcons:  CategoryIcons(),
-        buttonMode: ButtonMode.MATERIAL,
-    );
-
 
   @override
   Widget build(context)
@@ -132,10 +104,9 @@ class _CommentModalState extends State<CommentModal> {
                   children: [
                     const SizedBox(height: 20,),
                     CommentW(
-                      comment: comments[index].content,
-                      userName: comments[index].commenter.fullName??'',
-                      userImgUrl: comments[index].commenter.image??'',
-                      createdAt: comments[index].createdAt,
+                      comment: comments[index],
+                      postId: widget.postId,
+                      callback: refresh,
                     )
                   ],
                 );
@@ -193,8 +164,6 @@ class _CommentModalState extends State<CommentModal> {
               final String commentText = _commentController.text;
               // Perform any necessary actions with the commentText
               addComment(commentText);
-              print(commentText + " Raye7 ahu");
-
               // Clear the comment input field
               _commentController.clear();
             },

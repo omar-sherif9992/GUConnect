@@ -17,8 +17,6 @@ class Post {
     this.image = '',
   }) {
     id = sender.email + createdAt.toString();
-    likes = {};
-    comments = [];
   }
 
   factory Post.fromJson(Map<String, dynamic> json) {

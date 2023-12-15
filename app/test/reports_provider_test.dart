@@ -29,7 +29,7 @@ void main() {
         reportedUser: c.sender,
         reportedContent: c.content,
         reportType: "confession",
-        createdAt: DateTime.now());
+        createdAt: DateTime.now(), reason: 'Other');
     Comment c2 = Comment(
         content: "comment",
         commenter: user,
@@ -45,7 +45,7 @@ void main() {
         reportedUser: c2.commenter,
         reportedContent: c2.content,
         reportType: "comment",
-        createdAt: DateTime.now());
+        createdAt: DateTime.now(), reason: 'Harrasment');
     await p.reportContent(r2);
     expect(await p.getCommentReports(), isNotEmpty);
 

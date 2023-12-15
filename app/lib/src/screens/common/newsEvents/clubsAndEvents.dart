@@ -1,8 +1,6 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -12,14 +10,14 @@ import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AcademicRelatedQuestions extends StatefulWidget {
-  const AcademicRelatedQuestions({super.key});
+class ClubsAndEvents extends StatefulWidget {
+  const ClubsAndEvents({super.key});
 
   @override
-  State<AcademicRelatedQuestions> createState() => _AcademicRelatedQuestionsState();
+  State<ClubsAndEvents> createState() => _ClubsAndEventsState();
 }
 
-class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
+class _ClubsAndEventsState extends State<ClubsAndEvents> {
   final CustomUser posterPerson = CustomUser(
       email: 'hussein.ebrahim@student.guc.edu.eg',
       password: 'Don Ciristiane Ronaldo',
@@ -28,9 +26,9 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
       userName: 'HusseinYasser',
       fullName: 'omar');
 
-  late AcademicQuestionProvider academicProvider;
+  late NewsEventClubProvider clubPostProvider;
 
-  List<AcademicQuestion> posts = [];
+  List<NewsEventClub> posts = [];
 
   bool _isLoading = true;
 
@@ -38,8 +36,8 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
   void initState() {
     super.initState();
 
-    academicProvider =
-        Provider.of<AcademicQuestionProvider>(context, listen: false);
+    clubPostProvider =
+        Provider.of<NewsEventClubProvider>(context, listen: false);
   }
 
   @override
@@ -47,15 +45,15 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
     super.didChangeDependencies();
     // When it comes back to view
     _isLoading = true;
-    fetchPosts(academicProvider).then((_) {
+    fetchPosts(clubPostProvider).then((_) {
       setState(() {
         _isLoading = false;
       });
     });
   }
 
-  Future fetchPosts(AcademicQuestionProvider provider) async {
-    provider.getQuestions().then((value) => {
+  Future fetchPosts(NewsEventClubProvider provider) async {
+    provider.getApprovedPosts().then((value) => {
           setState(() {
             posts = value;
             posts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -64,7 +62,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
   }
 
   Future<void> _refresh() async {
-    fetchPosts(academicProvider);
+    fetchPosts(clubPostProvider);
     await Future.delayed(const Duration(seconds: 2));
   }
 
@@ -72,7 +70,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
   Widget build(context) {
     final IconButton addPost = IconButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(CustomRoutes.addAcademicRelatedQuestions);
+        Navigator.of(context).pushNamed(CustomRoutes.addClubPost);
       },
       icon: Icon(Icons.add_box_outlined,
           color: Theme.of(context).colorScheme.onBackground, size: 24),
@@ -81,7 +79,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
     return Scaffold(
       drawer: const MainDrawer(),
       appBar: CustomAppBar(
-        title: 'Academic-Related Questions',
+        title: '',
         actions: [addPost],
       ),
       body: _isLoading
@@ -91,7 +89,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: RefreshIndicator(
+                      child: RefreshIndicator.adaptive(
                         onRefresh: _refresh,
                         child: ListView.builder(
                             itemCount: posts.length,
@@ -102,8 +100,8 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                                     height: 20,
                                   ),
                                   PostW(
-                                    post: posts[index],
-                                    postType: 2,
+                                    post:posts[index],
+                                    postType: 0,
                                     refresh: _refresh,
                                   ),
                                 ],
@@ -117,7 +115,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Center(
                     child: Text(
-                      'Looks like no exams these days.?',
+                      "Looks like it's a quiet day here. Why not break the silence with a new post?",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: Theme.of(context).colorScheme.primary,

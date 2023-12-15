@@ -1,40 +1,49 @@
 import 'dart:io';
 
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
+import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
+import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
+import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddAcademicPost extends StatefulWidget {
-  const AddAcademicPost({super.key});
+class EditLFPost extends StatefulWidget {
+  final LostAndFound initialPost;
+
+  const EditLFPost({Key? key, required this.initialPost}) : super(key: key);
 
   @override
-  State<AddAcademicPost> createState() => _AddAcademicPostState();
+  _EditPostState createState() => _EditPostState();
 }
 
-class _AddAcademicPostState extends State<AddAcademicPost> {
-
+class _EditPostState extends State<EditLFPost> {
   late UserProvider userProvider;
   final TextEditingController contentController = TextEditingController();
+  final TextEditingController contactController = TextEditingController();
   File? _selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late AcademicQuestionProvider academicProvider;
+  late LostAndFoundProvider lostProvider;
+  late CommentProvider commentProvider;
 
   @override
   void initState() {
     super.initState();
 
-    academicProvider =
-        Provider.of<AcademicQuestionProvider>(context, listen: false);
-
-    userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    lostProvider = Provider.of<LostAndFoundProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    commentProvider = Provider.of<CommentProvider>(context, listen: false);
+    // Initialize form fields with initial values for editing
+    contentController.text = widget.initialPost.content;
+    contactController.text = widget.initialPost.contact;
+    // You can set _selectedImage here if needed
+    _selectedImage = widget.initialPost.image==''? null:File(widget.initialPost.image);
   }
 
   Future<void> _getImage() async {
@@ -65,10 +74,9 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
     });
   }
 
-  Future _addPost(
-      AcademicQuestionProvider provider, String content, File img) async {
-
-      showDialog(
+  Future<void> _updatePost(
+      LostAndFoundProvider provider, String content, String contact, File img) async {
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -78,67 +86,56 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
             children: [
               Loader(),
               SizedBox(height: 16),
-              Text('Uploading post...'),
+              Text('Updating post...'),
             ],
           ),
         );
       },
     );
-    
-        final String? imageUrl = await uploadImageToStorage(
+
+    // Perform the update logic here
+    // Use widget.initialPost.id or any other identifier to update the correct post
+    final String? imageUrl = await uploadImageToStorage(
               img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
-
-    final CustomUser posterPerson = CustomUser(
-        email: 'hussein.ebrahim@student.guc.edu.eg',
-        password: 'Don Ciristiane Ronaldo',
-        image:
-            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-        userName: 'Mr Milad Ghantous',
-        fullName: 'omar');
-
-    final AcademicQuestion addedPost = AcademicQuestion(
-        content: content,
-        image: imageUrl??'',
-        createdAt: DateTime.now(),
-        sender: userProvider.user??posterPerson,
-        likes: {},
-        comments: []);
-
-    
-
-    provider.askQuestion(addedPost).then((value) => {
-          Navigator.pop(context),
-          if (value)
-            {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AcademicRelatedQuestions(),
-                ),
-              )
-            }
-          else
-            {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content:
-                        const Text('Failed to upload post. Please try again.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
+    final List<Comment> com = await commentProvider.getPostComments(widget.initialPost.id, 1);
+    final LostAndFound updatedPost = LostAndFound(contact: contact, content: content, createdAt: widget.initialPost.createdAt, image: imageUrl??'', sender: widget.initialPost.sender,
+    likes: widget.initialPost.likes, comments: com);
+    provider.updatePost(
+      updatedPost, widget.initialPost.id).then((success)
+    { 
+      if (success) {
+      Navigator.pop(context);
+    } else {
+      // Handle update failure
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Failed to update post. Please try again.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
-              )
-            }
-        });
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    });
+
+    }
+
+  bool isCorrectNum(String val)
+  {
+    if(val.length != 12 || val[0] != '0')
+    {
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -146,7 +143,7 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
     final double containerHeight = calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ask Question'),
+        title: const Text('Edit Post'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -225,13 +222,38 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
                 const SizedBox(
                   height: 24,
                 ),
+                Text(
+                  'Your Contact:',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty || isCorrectNum(value)) {
+                      return 'Please enter valid contact phone number';
+                    }
+                    return null;
+                  },
+                  controller: contactController,
+                  maxLines: 2,
+                  decoration: const InputDecoration(
+                    hintText: 'Contact phone number ...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
-                      _addPost(academicProvider, content, _selectedImage??File(''));
+                      final String contact = contactController.text;
+                      _updatePost(lostProvider, content, contact, _selectedImage ?? File(''));
                     }
                   },
                   style: ButtonStyle(
@@ -240,7 +262,7 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
                     foregroundColor: MaterialStateProperty.all(
                         Theme.of(context).colorScheme.onSecondary),
                   ),
-                  child: const Text('Add Post',
+                  child: const Text('Edit Post',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 ),
