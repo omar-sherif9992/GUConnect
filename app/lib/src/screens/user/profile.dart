@@ -260,10 +260,10 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: TabBarView(
             controller: _tabController,
             children: [
-              _buildPosts(academicPosts, 'academic'),
-              _buildPosts(lostPosts, 'lost'),
-              _buildPosts(clubPosts, 'club'),
-              _buildPosts(confessions, 'confession')
+              _buildPosts(academicPosts, 'Academic Questions'),
+              _buildPosts(lostPosts, 'Lost and Founds Items'),
+              _buildPosts(clubPosts, 'Club Posts'),
+              _buildPosts(confessions, 'Confession Posts')
             ],
           )),
         ],
@@ -271,13 +271,13 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildPosts(List<Post> posts, name) {
+  Widget _buildPosts(List<Post> posts,String name) {
     return _isLoading
         ? const Loader()
         : posts.isEmpty
             ? Center(
                 child: Text(
-                  'No Posts',
+                  'No $name Found',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
