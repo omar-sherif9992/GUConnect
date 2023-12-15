@@ -300,14 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     }
 
                     return PostW(
-                      postId: posts[index].id,
-                      content: posts[index].content,
-                      image: posts[index].image,
-                      likes: posts[index].likes,
-                      comments: posts[index].comments,
-                      createdAt: posts[index].createdAt,
-                      username: user.userName ?? '',
-                      userImage: user.image ?? '',
+                      post: posts[index],
                       postType: getPostType(posts[index]),
                       pendingStatus: pendingStatus,
                     );

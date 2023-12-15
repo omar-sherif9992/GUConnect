@@ -12,7 +12,6 @@ class AcademicQuestionProvider extends ChangeNotifier {
         .collection('academicRelatedQuestions')
         .doc(question.id)
         .set(question.toJson());
-    ;
     return true;
   }
 
@@ -31,11 +30,16 @@ class AcademicQuestionProvider extends ChangeNotifier {
   }
 
   Future<void> deleteQuestion(String id) async {
-    try {
-      await _firestore.collection('academicRelatedQuestions').doc(id).delete();
-    } catch (e) {
-      print("Error deleting question: $e");
-      // Handle the error as needed
+    final QuerySnapshot querySnapshot = await _firestore
+        .collection('academicRelatedQuestions')
+        .where('id', isEqualTo: id)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await _firestore
+          .collection('academicRelatedQuestions')
+          .doc(querySnapshot.docs.first.id)
+          .delete();
     }
   }
 
@@ -60,5 +64,26 @@ class AcademicQuestionProvider extends ChangeNotifier {
       questions.add(AcademicQuestion.fromJson(doc.data()));
     });
     return questions;
+  }
+
+  Future<bool> updatePost(AcademicQuestion updatedPost, String initialId) async {
+    try {
+      final QuerySnapshot document = await _firestore
+          .collection('academicRelatedQuestions')
+          .where('id', isEqualTo: initialId)
+          .get();
+
+      if (document.docs.isNotEmpty) {
+          await _firestore
+              .collection('academicRelatedQuestions')
+              .doc(document.docs.first.id)
+              .update(updatedPost.toJson());
+          return true;
+      }
+      return true;
+    } catch (e) {
+      print('Error updating post: $e');
+      return false;
+    }
   }
 }

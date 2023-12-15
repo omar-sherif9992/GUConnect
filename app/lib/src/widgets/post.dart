@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -12,37 +12,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PostW extends StatefulWidget {
-  final String content;
-
-  final String image;
-
-  final String username;
-
-  final String userImage;
-
-  Set<String> likes;
-
-  final List<Comment> comments;
-
-  final DateTime createdAt;
+  final Post post;
 
   final int postType;
 
-  final String postId;
   final String pendingStatus;
+
+  VoidCallback? refresh;
 
   PostW({
     super.key,
-    required this.postId,
-    required this.content,
-    required this.image,
-    required this.userImage,
-    required this.username,
-    required this.likes,
-    required this.comments,
-    required this.createdAt,
+    required this.post,
     required this.postType, // 0 -> NewsEvents and Clubs , 1 - L&F , 2 - Academic, 3 - Confessions
     this.pendingStatus = '',
+    this.refresh,
   });
 
   @override
@@ -63,14 +46,14 @@ class _PostWState extends State<PostW> {
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
     likesProvider = Provider.of<LikesProvider>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    likes2 = widget.likes;
+    likes2 = widget.post.likes;
   }
 
   void likePost(int like) {
     if (like == 0) {
       likesProvider
           .likePost(
-              widget.postId, userProvider.user!.user_id ?? '', widget.postType)
+              widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
         setState(() {
           likes2 = Set<String>.from(val);
@@ -79,7 +62,7 @@ class _PostWState extends State<PostW> {
     } else {
       likesProvider
           .dislike(
-              widget.postId, userProvider.user!.user_id ?? '', widget.postType)
+              widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
         setState(() {
           likes2 = Set<String>.from(val);
@@ -113,7 +96,7 @@ class _PostWState extends State<PostW> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage:
-                        CachedNetworkImageProvider(widget.userImage),
+                        CachedNetworkImageProvider(widget.post.sender.image??''),
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -121,7 +104,7 @@ class _PostWState extends State<PostW> {
                     children: [
                       Text(
                         // User name
-                        widget.username,
+                        widget.post.sender.userName??'',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontWeight: FontWeight.w600,
@@ -131,7 +114,7 @@ class _PostWState extends State<PostW> {
                         height: 5,
                       ),
                       Text(
-                        timeAgo(widget.createdAt),
+                        timeAgo(widget.post.createdAt),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -145,7 +128,9 @@ class _PostWState extends State<PostW> {
                 StatusIndicator(pendingStatus: widget.pendingStatus)
               else
                 Container(),
-              const PopupMenu(),
+              PopupMenu(post: widget.post,
+               reportCollectionNameType: widget.postType,
+              ),
             ],
           ),
         ),
@@ -154,7 +139,7 @@ class _PostWState extends State<PostW> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             // Post caption
-            widget.content,
+            widget.post.content,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
@@ -162,9 +147,9 @@ class _PostWState extends State<PostW> {
         ),
         // Image or Video
         //CachedNetworkImage(placeholder: (context, url) => const Loader(), imageUrl: widget.imgUrl,),
-        if (widget.image != '')
+        if (widget.post.image != '')
           LikeableImage(
-            imageUrl: widget.image,
+            imageUrl: widget.post.image,
             handleLike: likePost,
           ),
         /*Image.network(
@@ -196,7 +181,7 @@ class _PostWState extends State<PostW> {
                     context: context,
                     builder: (BuildContext context) {
                       return CommentModal(
-                          postType: widget.postType, postId: widget.postId);
+                          postType: widget.postType, postId: widget.post.id);
                     },
                     isScrollControlled: true, // Takes up the whole screen
                     isDismissible: true,

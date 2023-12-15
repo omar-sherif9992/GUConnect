@@ -23,7 +23,7 @@ void main() {
         content: "item lost",
         createdAt: DateTime.now(),
         image: "url",
-        sender: user);
+        sender: user, comments: [], likes: {});
     await provider.postItem(item);
     expect(await provider.getMyItems(user.email), isNotEmpty);
     expect(await provider.getItems(), isNotEmpty);

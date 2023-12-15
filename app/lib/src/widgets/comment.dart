@@ -1,15 +1,17 @@
+import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/utils/dates.dart';
+import 'package:GUConnect/src/widgets/comment_popup_menu.dart';
 import 'package:flutter/material.dart';
 
 class CommentW extends StatelessWidget
 {
-  final String comment;
-  final String userName;
-  final String userImgUrl;
-  final DateTime createdAt;
+  final Comment comment;
 
-  const CommentW({super.key, required this.comment,
-  required this.userName, required this.userImgUrl, required this.createdAt});
+  final String postId;
+
+  const CommentW({super.key, required this.comment, required this.postId, required this.callback});
+
+  final VoidCallback callback;
 
   @override
   Widget build(context)
@@ -20,7 +22,7 @@ class CommentW extends StatelessWidget
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(userImgUrl),
+            backgroundImage: NetworkImage(comment.commenter.image??''),
             backgroundColor: Colors.grey,
             radius: 20,
           ),
@@ -32,7 +34,7 @@ class CommentW extends StatelessWidget
                 Row(
                   children: [
                     Text(
-                      userName,
+                      comment.commenter.userName??'',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -40,7 +42,7 @@ class CommentW extends StatelessWidget
                     ),
                     const SizedBox(width: 12,),
                     Text(
-                      timeAgo(createdAt),
+                      timeAgo(comment.createdAt),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
@@ -51,12 +53,13 @@ class CommentW extends StatelessWidget
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  comment,
+                  comment.content,
                   style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),
           ),
+          CommentPopupMenu(comment: comment, reportCollectionNameType: comment.postType, postId: postId, callback: callback),
         ],
       ),
       ); 
