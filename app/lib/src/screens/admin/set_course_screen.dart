@@ -59,15 +59,17 @@ class _SetCourseScreenState extends State<SetCourseScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 700,
+              height: 500,
               child: Expanded(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       UserImagePicker(
-                          onPickImage: onPickImage,
-                          profileImageUrl: profileImageUrl),
+                        onPickImage: onPickImage,
+                        profileImageUrl: profileImageUrl,
+                        backgroundImageUrl: 'assets/images/course.png',
+                      ),
                       InputField(
                         controller: _courseNameController,
                         label: 'Course Name',
@@ -157,7 +159,7 @@ class _SetCourseScreenState extends State<SetCourseScreen> {
                   builder: (context) => AlertDialog(
                     title: const Text('Are you sure?'),
                     content: const Text(
-                        'Do you want to delete this course member permanently?'),
+                        'Do you want to delete this course permanently?'),
                     actions: [
                       TextButton(
                         onPressed: () {

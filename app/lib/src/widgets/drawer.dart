@@ -221,23 +221,7 @@ class MainDrawer extends StatelessWidget {
           onSelectScreen(context, CustomRoutes.adminCourse);
         },
       ),
-      ListTile(
-        leading: Icon(
-          Icons.add,
-          size: 24,
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        title: Text(
-          'Add Staff',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
-              ),
-        ),
-        onTap: () {
-          onSelectScreen(context, CustomRoutes.adminAddStaff);
-        },
-      ),
+
       endCommonRoutes
     ];
 
