@@ -2,19 +2,20 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
-  late String id = '';
+  late String id;
   late String content;
   late CustomUser commenter;
   late DateTime createdAt;
   late int postType;
 
   Comment({
-    String? id,
     required this.content,
     required this.commenter,
     required this.createdAt,
     required this.postType,
-  }) : id = id ?? FirebaseFirestore.instance.collection('comments').doc().id;
+  }) {
+    id = createdAt.toString() + commenter.email;
+  }
 
   Comment.fromJson(Map<String, dynamic> json) {
     id = json['id'];

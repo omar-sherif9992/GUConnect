@@ -53,7 +53,6 @@ class NewsEventClub extends Post {
     likes = Set<String>.from(json['likes']);
   }
 
-
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = super.toJson();
@@ -66,6 +65,6 @@ class NewsEventClub extends Post {
 
   @override
   String toString() {
-    return 'content: $content, image: $image, approvalStatus: $approvalStatus , createdAt: ${createdAt.toString()}, reason: $reason, comments: ${comments.map((e) => (c) => c.toString())}';
+    return '${super.toString()} approvalStatus: $approvalStatus reason: $reason';
   }
 }
