@@ -163,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     contentPadding: const EdgeInsets.only(left: 34, right: 22),
                   ),
                 ),
-                if (userProvider.user!.userType != UserType.admin)
+               /*  if (userProvider.user!.userType != UserType.admin)
                   InkWell(
                     onTap: () {
                       showAdaptiveDialog(
@@ -200,7 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       contentPadding:
                           const EdgeInsets.only(left: 34, right: 22),
                     ),
-                  ),
+                  ), */
               ],
             ),
           ),
