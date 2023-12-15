@@ -1,7 +1,6 @@
 import 'package:GUConnect/src/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class Report {
   late String id;
   late String reportedContentId;
@@ -13,22 +12,23 @@ class Report {
   late String reason;
   late String? clarification;
 
-  Report( {
-    String? id,
-    required this.reportedContentId,
-    required this.reportedUser,
-    required this.reportedContent,
-    required this.reportType,  //name of the collection
-    required this.createdAt,
+  Report(
+      {required this.reportedContentId,
+      required this.reportedUser,
+      required this.reportedContent,
+      required this.reportType,  //name of the collection
+      required this.createdAt,
     required this.reason,
     this.clarification,
-    this.image
-  }): id = FirebaseFirestore.instance.collection('reports').doc().id;
+      this.image}) {
+    id = createdAt.toString() + reportedContentId;
+  }
 
   Report.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     reportedContentId = json['reportedContentId'];
-    reportedUser = CustomUser.fromJson((json['reportedUser'] as Map<String, dynamic>));
+    reportedUser =
+        CustomUser.fromJson((json['reportedUser'] as Map<String, dynamic>));
     reportedContent = json['reportedContent'];
     reportType = json['reportType'];
     createdAt = DateTime.parse(json['createdAt']);

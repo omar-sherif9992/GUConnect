@@ -34,10 +34,7 @@ class LikesProvider extends ChangeNotifier {
       final List<dynamic> likesOfPost = documentSnapshot['likes'] ?? [];
       likesOfPost.add(userId);
 
-      await FirebaseFirestore.instance
-          .collection(collection)
-          .doc(documentSnapshot.id)
-          .update({
+      await _firestore.collection(collection).doc(documentSnapshot.id).update({
         'likes': FieldValue.arrayUnion([userId]),
       });
 
@@ -61,10 +58,7 @@ class LikesProvider extends ChangeNotifier {
 
       likesOfPost.remove(userId);
 
-      await FirebaseFirestore.instance
-          .collection(collection)
-          .doc(documentSnapshot.id)
-          .update({
+      await _firestore.collection(collection).doc(documentSnapshot.id).update({
         'likes': likesOfPost,
       });
 
