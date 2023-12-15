@@ -89,6 +89,7 @@ class Staff {
     this.bio,
     required this.description,
     required this.speciality,
+    required this.courses,
   });
 
   /// Constructs a User object from a JSON map.

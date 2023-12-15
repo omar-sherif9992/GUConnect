@@ -37,14 +37,14 @@ class _StuffProfileState extends State<StuffProfile>
       description: "",
       speciality: "",
       officeLocation: "C7.203",
+      courses: [
+        'CSEN 201: Introduction to CS',
+        'CSEN 301: Object Oriented Programming',
+        'CSEN 401: Data Structures and Algorithms',
+        'CSEN 501: Operating Systems',
+        'CSEN 601: Computer Networks',
+      ],
     );
-    staff!.courses = [
-      'CSEN 201: Introduction to CS',
-      'CSEN 301: Object Oriented Programming',
-      'CSEN 401: Data Structures and Algorithms',
-      'CSEN 501: Operating Systems',
-      'CSEN 601: Computer Networks',
-    ];
 
     return Scaffold(
         bottomNavigationBar: const BottomBar(),

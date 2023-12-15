@@ -27,7 +27,9 @@ class Course {
     required this.courseName,
     this.image,
     required this.description,
-  });
+  }){
+    ratings = [];
+  }
 
   /// Constructs a User object from a JSON map.
   Course.fromJson(Map<String, dynamic> json) {

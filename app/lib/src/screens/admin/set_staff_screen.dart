@@ -1,12 +1,18 @@
 import 'dart:io';
 
+import 'package:GUConnect/src/models/Course.dart';
 import 'package:GUConnect/src/models/Staff.dart';
+import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/email_field.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multiselect/flutter_multiselect.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:provider/provider.dart';
 
 class SetStaffScreen extends StatefulWidget {
@@ -33,10 +39,14 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
   }
 
   late StaffProvider staffProvider;
+  late CourseProvider courseProvider;
 
   String dropdownvalue = StaffType.professor;
 
   final _formKey = GlobalKey<FormState>();
+
+  final List<Course> _courses = [];
+  List<String> selectedCourses = []; // To store the selected courses
 
   @override
   void initState() {
@@ -49,9 +59,22 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
       profileImageUrl = widget.staff!.image;
       _descriptionController.text = widget.staff!.description ?? '';
       _specialityController.text = widget.staff!.speciality ?? '';
+      selectedCourses = widget.staff!.courses ?? [];
     }
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
+
+    courseProvider = Provider.of<CourseProvider>(context, listen: false);
+
+    fetchCourses();
+  }
+
+  Future<void> fetchCourses() async {
+    final tempCourses = await courseProvider.getCourses();
+
+    setState(() {
+      _courses.addAll(tempCourses);
+    });
   }
 
   @override
@@ -72,7 +95,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 700,
+              height: 900,
               child: Expanded(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -81,6 +104,30 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                       UserImagePicker(
                           onPickImage: onPickImage,
                           profileImageUrl: profileImageUrl),
+                      DropdownButton(
+                        value: dropdownvalue,
+
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconSize: 24,
+                        borderRadius: BorderRadius.circular(10),
+                        alignment: Alignment.centerLeft,
+                        hint: const Text('Select Staff Type'),
+
+                        items: [StaffType.professor, StaffType.ta]
+                            .map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
                       InputField(
                         controller: _nameController,
                         label: 'Full Name',
@@ -112,7 +159,8 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
 
                           return null;
                         },
-                      ), InputField(
+                      ),
+                      InputField(
                         controller: _specialityController,
                         label: 'Speciality',
                         icon: Icons.work,
@@ -121,11 +169,11 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a valid speciality ex: Computer Science';
                           }
-                        
 
                           return null;
                         },
-                      ), InputField(
+                      ),
+                      InputField(
                         controller: _descriptionController,
                         label: 'Description',
                         icon: Icons.description,
@@ -134,33 +182,76 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                           return null;
                         },
                       ),
-                      DropdownButton(
-                        value: dropdownvalue,
-
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 24,
-                        borderRadius: BorderRadius.circular(10),
-                        alignment: Alignment.centerLeft,
-                        hint: const Text('Select Staff Type'),
-
-                        items: [StaffType.professor, StaffType.ta]
-                            .map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        // After selecting the desired option,it will
-                        // change button value to selected value
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalue = newValue!;
-                          });
+                      MultiSelectDialogField(
+                        selectedItemsTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        initialValue: _courses
+                            .where((element) =>
+                                selectedCourses.contains(element.courseName))
+                            .toList(),
+                        buttonText: const Text('Select Courses'),
+                        checkColor: Theme.of(context).colorScheme.primary,
+                        title: const Text('Select Courses'),
+                        cancelText: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        confirmText: const Text(
+                          'Confirm',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        searchable: true,
+                        buttonIcon: const Icon(Icons.arrow_drop_down_circle),
+                        selectedColor: Theme.of(context).colorScheme.primary,
+                        items: _courses
+                            .map((e) => MultiSelectItem(e, e.courseName))
+                            .toList(),
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          selectedCourses =
+                              values.map((e) => e.courseName).toList();
                         },
                       ),
 
-                      
-
+/*                       // I want to add a multiselect field for selecting the courses that the staff member is teaching in flutter
+                      MultiSelect(
+                        buttonBarColor: Theme.of(context).colorScheme.secondary,
+                        checkBoxColor: Theme.of(context).colorScheme.primary,
+                        hintTextColor: Theme.of(context).colorScheme.primary,
+                    
+                        searchBoxFillColor: Theme.of(context).colorScheme.primary,
+                        titleText: 'Select Courses',
+                        validator: (value) {
+                          print(value);
+                          if (value == null || value.isEmpty) {
+                            return 'Please select at least one course';
+                          }
+                          return null;
+                        },
+                        dataSource: _courses
+                            .map((course) => {
+                                  'display': course.courseName +
+                                      ': ' +
+                                      course.description,
+                                  'value': course.courseName
+                                })
+                            .toList(),
+                        textField: 'display',
+                        valueField: 'value',
+                        filterable: true,
+                        required: true,
+                        value: selectedCourses,
+                        onSaved: (value) {
+                          setState(() {
+                            selectedCourses = value;
+                          });
+                        },
+                        selectIcon: Icons.arrow_drop_down_circle,
+                        saveButtonColor: Theme.of(context).colorScheme.primary,
+                        cancelButtonColor: Colors.grey,
+                      ), */
                       if (_isLoading)
                         const CircularProgressIndicator()
                       else
@@ -174,6 +265,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                                 staffType: dropdownvalue,
                                 description: _descriptionController.text,
                                 speciality: _specialityController.text,
+                                courses: selectedCourses,
                               );
 
                               setState(() {
