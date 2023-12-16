@@ -11,12 +11,6 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
   void onSelectScreen(BuildContext context, String routeName) {
-  UsabilityProvider usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
-      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-      if(usabilityProvider.currentScreenName !=null && usabilityProvider.screenEnterTime!=null){
-      usabilityProvider.logScreenTime(Usability(user_email: userProvider.user!.email), ScreenTime(startTime: usabilityProvider.screenEnterTime!, endTime: DateTime.now(), screenName: usabilityProvider.currentScreenName!));
-      usabilityProvider.exitScreen();
-      }
     Navigator.of(context).pushNamed(routeName);
   }
 
