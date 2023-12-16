@@ -1,5 +1,7 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -22,6 +24,17 @@ class BottomBar extends StatelessWidget {
     final bool isAdmin = user.userType == UserType.admin;
 
     void navigate(String routeName) {
+        Provider.of<UsabilityProvider>(context, listen: false);
+    if (usabilityProvider.currentScreenName != null &&
+        usabilityProvider.screenEnterTime != null) {
+      usabilityProvider.logScreenTime(
+          Usability(user_email: userProvider.user!.email),
+          ScreenTime(
+              startTime: usabilityProvider.screenEnterTime!,
+              endTime: DateTime.now(),
+              screenName: usabilityProvider.currentScreenName!));
+      usabilityProvider.exitScreen();
+    }
       if (ModalRoute.of(context)!.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
       }

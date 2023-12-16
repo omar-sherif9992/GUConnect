@@ -1,5 +1,7 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,12 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
   void onSelectScreen(BuildContext context, String routeName) {
+  UsabilityProvider usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+      if(usabilityProvider.currentScreenName !=null && usabilityProvider.screenEnterTime!=null){
+      usabilityProvider.logScreenTime(Usability(user_email: userProvider.user!.email), ScreenTime(startTime: usabilityProvider.screenEnterTime!, endTime: DateTime.now(), screenName: usabilityProvider.currentScreenName!));
+      usabilityProvider.exitScreen();
+      }
     Navigator.of(context).pushNamed(routeName);
   }
 
