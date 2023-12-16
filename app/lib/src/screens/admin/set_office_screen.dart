@@ -112,11 +112,11 @@ class _SetOfficeAndLocationScreenState
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a valid latitude';
+                            return 'Please enter a valid latitude ex: 23.456789';
                           }
                           if (!RegExp(r'^-?[0-9]{1,3}\.[0-9]{1,6}$')
                               .hasMatch(value)) {
-                            return 'Please enter a valid latitude';
+                            return 'Please enter a valid latitude ex: 23.456789';
                           }
 
                           return null;
@@ -129,11 +129,11 @@ class _SetOfficeAndLocationScreenState
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a valid longitude';
+                            return 'Please enter a valid longitude ex: 23.456789';
                           }
                           if (!RegExp(r'^-?[0-9]{1,3}\.[0-9]{1,6}$')
                               .hasMatch(value)) {
-                            return 'Please enter a valid longitude';
+                            return 'Please enter a valid longitude  ex: 23.456789';
                           }
 
                           return null;
