@@ -6,6 +6,7 @@ import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
+        ChangeNotifierProvider(create: (context) => UsabilityProvider(FirebaseFirestore.instance)),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
@@ -95,7 +97,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        initialRoute: CustomRoutes.staff,
+        initialRoute: CustomRoutes.home,
         routes: CustomRoutes.routes,
       ),
     );
