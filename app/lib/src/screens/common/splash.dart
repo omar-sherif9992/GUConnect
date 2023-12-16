@@ -1,4 +1,4 @@
-import 'package:GUConnect/src/models/Staff.dart';
+import 'package:GUConnect/src/models/Course.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -61,26 +61,14 @@ class _SetSplashScreenState extends State<SplashScreen>
         final CustomUser? userWithDetails =
             await userProvider.getUser(user.email!);
         userProvider.setUser(userWithDetails!);
-        Staff? staff = Staff(
-          id: "test stuff",
-          fullName: "Abdelrahman",
-          email: "abdelrahman.fekri@guc.edu.eg",
-          staffType: "TA",
-          bio:
-              "Met professor in the hallway and he said hi to me. I'm so happy! :) ",
-          description: "",
-          speciality: "",
-          officeLocation: "C7.203",
-          courses: [
-            'CSEN 201: Introduction to CS',
-            'CSEN 301: Object Oriented Programming',
-            'CSEN 401: Data Structures and Algorithms',
-            'CSEN 501: Operating Systems',
-            'CSEN 601: Computer Networks',
-          ],
+        final Course course = Course(
+          courseCode: 'CSEN 100',
+          courseName: 'Introduction to Computer Science',
+          description:
+              'This course introduces the fundamental concepts of computer science and computational thinking. It is designed to provide students with a broad understanding of the key principles and practices of computer science, including algorithmic problem solving, data representation, computer organization, and software design and development. The course will also introduce students to the social, ethical, and professional issues associated with a career in computer science.',
         );
-        Navigator.pushReplacementNamed(context, CustomRoutes.staff,
-            arguments: staff);
+        Navigator.pushReplacementNamed(context, CustomRoutes.course,
+            arguments: course);
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);
       }
