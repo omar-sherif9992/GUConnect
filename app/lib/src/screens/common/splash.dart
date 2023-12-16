@@ -1,3 +1,4 @@
+import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,26 @@ class _SetSplashScreenState extends State<SplashScreen>
         final CustomUser? userWithDetails =
             await userProvider.getUser(user.email!);
         userProvider.setUser(userWithDetails!);
+        Staff? staff = Staff(
+          id: "test stuff",
+          fullName: "Abdelrahman",
+          email: "abdelrahman.fekri@guc.edu.eg",
+          staffType: "TA",
+          bio:
+              "Met professor in the hallway and he said hi to me. I'm so happy! :) ",
+          description: "",
+          speciality: "",
+          officeLocation: "C7.203",
+          courses: [
+            'CSEN 201: Introduction to CS',
+            'CSEN 301: Object Oriented Programming',
+            'CSEN 401: Data Structures and Algorithms',
+            'CSEN 501: Operating Systems',
+            'CSEN 601: Computer Networks',
+          ],
+        );
         Navigator.pushReplacementNamed(context, CustomRoutes.staff,
-            arguments: {'user': user});
+            arguments: staff);
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);
       }

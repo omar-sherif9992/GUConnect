@@ -1,7 +1,7 @@
 import 'package:GUConnect/src/models/UserRating.dart';
 
 class Rating {
-  String id;
+  late String id;
   double ratingSum;
   double ratingAverage;
   int ratingCount;

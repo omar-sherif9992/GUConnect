@@ -49,7 +49,7 @@ class StaffType {
 } */
 
 class Staff {
-  late String id;
+  String? id;
   late String fullName;
   late String? image;
   late String email;
@@ -65,6 +65,7 @@ class Staff {
 
   /// Constructs a Staff object with the specified [fullName],[image], [email], [password], [description], and [speciality].
   Staff({
+    this.id,
     required this.fullName,
     this.image,
     required this.email,

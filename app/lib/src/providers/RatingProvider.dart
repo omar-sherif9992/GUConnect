@@ -9,14 +9,15 @@ class RatingProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  Future<void> addRating(UserRating userRating, String id) async {
+  Future<Rating> addRating(UserRating userRating, String id) async {
     _isLoading = true;
     notifyListeners();
     final ratingRef = firestore.collection('ratings').doc(id);
     final ratingDoc = await ratingRef.get();
+    Rating newRatingData;
     if (ratingDoc.exists) {
       final Rating ratingData = Rating.fromJson(ratingDoc.data()!);
-      final Rating newRatingData = Rating(
+      newRatingData = Rating(
         id: ratingData.id,
         ratingSum: ratingData.ratingSum + userRating.rating,
         ratingAverage: (ratingData.ratingSum + userRating.rating) /
@@ -25,7 +26,7 @@ class RatingProvider extends ChangeNotifier {
       );
       await ratingRef.update(newRatingData.toJson());
     } else {
-      final Rating newRatingData = Rating(
+      newRatingData = Rating(
         id: id,
         ratingSum: userRating.rating,
         ratingAverage: userRating.rating,
@@ -38,27 +39,37 @@ class RatingProvider extends ChangeNotifier {
         );
     _isLoading = false;
     notifyListeners();
+    return newRatingData;
   }
 
-  Future<void> deleteRating(String id, String userId) async {
+  Future<Rating?> deleteRating(String id, String userId) async {
     _isLoading = true;
     notifyListeners();
     final ratingRef = firestore.collection('ratings').doc(id);
     final ratingDoc = await ratingRef.get();
     if (ratingDoc.exists) {
       final Rating ratingData = Rating.fromJson(ratingDoc.data()!);
-      final Rating newRatingData = Rating(
-        id: ratingData.id,
-        ratingSum: ratingData.ratingSum - ratingData.ratingSum,
-        ratingAverage: (ratingData.ratingSum - ratingData.ratingSum) /
-            (ratingData.ratingCount - 1),
-        ratingCount: ratingData.ratingCount - 1,
-      );
-      await ratingRef.update(newRatingData.toJson());
-      await ratingRef.collection('userRatings').doc(userId).delete();
+      final userRatingDoc =
+          await ratingRef.collection('userRatings').doc(userId).get();
+      if (userRatingDoc.exists) {
+        final UserRating userRating =
+            UserRating.fromJson(userRatingDoc.data()!);
+        final Rating newRatingData = Rating(
+          id: ratingData.id,
+          ratingSum: ratingData.ratingSum - userRating.rating,
+          ratingAverage: (ratingData.ratingSum - userRating.rating) /
+              ((ratingData.ratingCount - 1) == 0
+                  ? 1
+                  : (ratingData.ratingCount - 1)),
+          ratingCount: ratingData.ratingCount - 1,
+        );
+        await ratingRef.update(newRatingData.toJson());
+        await ratingRef.collection('userRatings').doc(userId).delete();
+        _isLoading = false;
+        notifyListeners();
+        return newRatingData;
+      }
     }
-    _isLoading = false;
-    notifyListeners();
   }
 
   Future<UserRating> getUserRating(String id, String userId) async {
@@ -83,11 +94,13 @@ class RatingProvider extends ChangeNotifier {
     if (ratingDoc.exists) {
       return Rating.fromJson(ratingDoc.data()!);
     }
-    return Rating(
+    final Rating rating = Rating(
       id: id,
       ratingSum: 0,
       ratingAverage: 0,
       ratingCount: 0,
     );
+    ratingRef.set(rating.toJson());
+    return rating;
   }
 }
