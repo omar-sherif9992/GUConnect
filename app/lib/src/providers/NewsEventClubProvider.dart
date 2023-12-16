@@ -72,7 +72,17 @@ class NewsEventClubProvider extends ChangeNotifier {
   }
 
   Future<void> deletePost(String postId) async {
-    await _firestore.collection('newsEventClubs').doc(postId).delete();
+    final QuerySnapshot querySnapshot = await _firestore
+        .collection('newsEventClubs')
+        .where('id', isEqualTo: postId)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      await _firestore
+          .collection('newsEventClubs')
+          .doc(querySnapshot.docs.first.id)
+          .delete();
+    }
   }
 
   Future<List<NewsEventClub>> getPosts() async {
@@ -120,4 +130,26 @@ class NewsEventClubProvider extends ChangeNotifier {
     });
     return posts;
   }
+
+  Future<bool> updatePost(NewsEventClub updatedPost, String initialId) async {
+    try {
+      final QuerySnapshot document = await _firestore
+          .collection('newsEventClubs')
+          .where('id', isEqualTo: initialId)
+          .get();
+
+      if (document.docs.isNotEmpty) {
+          await _firestore
+              .collection('newsEventClubs')
+              .doc(document.docs.first.id)
+              .update(updatedPost.toJson());
+          return true;
+      }
+      return true;
+    } catch (e) {
+      print('Error updating post: $e');
+      return false;
+    }
+  }
+
 }

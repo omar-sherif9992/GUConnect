@@ -5,8 +5,13 @@ import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
   String? profileImageUrl;
+  String? backgroundImageUrl;
 
-  UserImagePicker({super.key, required this.onPickImage, this.profileImageUrl});
+  UserImagePicker(
+      {super.key,
+      required this.onPickImage,
+      this.profileImageUrl,
+      this.backgroundImageUrl});
 
   final void Function(File pickedImage) onPickImage;
 
@@ -48,7 +53,6 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   },
                   icon: const Icon(Icons.image),
                   label: const Text('Gallery'),
-                  
                 ),
               ],
             ),
@@ -108,9 +112,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: const AssetImage('assets/images/user.png'),
-                  onBackgroundImageError: (exception, stackTrace) =>
-                      const AssetImage('assets/images/user.png'),
+                  backgroundImage: AssetImage(widget.backgroundImageUrl != null
+                      ? widget.backgroundImageUrl!
+                      : 'assets/images/user.png'),
+                  onBackgroundImageError: (exception, stackTrace) => AssetImage(
+                      widget.backgroundImageUrl != null
+                          ? widget.backgroundImageUrl!
+                          : 'assets/images/user.png'),
                   foregroundImage: (pickedImageFile != null)
                       ? FileImage(pickedImageFile!)
                       : (widget.profileImageUrl != null &&

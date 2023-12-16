@@ -71,4 +71,25 @@ class LostAndFoundProvider extends ChangeNotifier {
     });
     return items;
   }
+
+  Future<bool> updatePost(LostAndFound updatedPost, String initialId) async {
+    try {
+      final QuerySnapshot document = await _firestore
+          .collection('lostAndFound')
+          .where('id', isEqualTo: initialId)
+          .get();
+
+      if (document.docs.isNotEmpty) {
+          await _firestore
+              .collection('lostAndFound')
+              .doc(document.docs.first.id)
+              .update(updatedPost.toJson());
+          return true;
+      }
+      return true;
+    } catch (e) {
+      print('Error updating post: $e');
+      return false;
+    }
+  }
 }

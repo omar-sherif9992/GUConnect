@@ -68,8 +68,6 @@ class CommentProvider extends ChangeNotifier {
     final String collectionName = getCollectionName(comment.postType);
 
     try {
-      await _firestore.collection('comments').add(comment.toJson());
-
       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection(collectionName)
           .where('id', isEqualTo: postId)
@@ -80,22 +78,39 @@ class CommentProvider extends ChangeNotifier {
           'comments': FieldValue.arrayUnion([comment.toJson()])
         });
       }
-
       return getPostComments(postId, comment.postType);
     } catch (e) {
       return [];
     }
   }
 
-  Future<bool> editComment(String commentId, String newContnent) async {
+  Future<bool> editComment(String commentId, String newContnent, String postId, int postType) async {
+    final String collectionName = getCollectionName(postType);
     try {
-      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('comments')
-          .where('id', isEqualTo: commentId)
+
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection(collectionName)
+          .where('id', isEqualTo: postId)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        querySnapshot.docs.first.reference.update({'content': newContnent});
+        final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+        final List<dynamic> commentsOfPost = documentSnapshot['comments'] ?? [];
+        final int indexToUpdate = commentsOfPost.indexWhere((comment) => comment['id'] == commentId);
+
+            // Check if the commentId was found in the list
+        if (indexToUpdate != -1) {
+          // Update the comment at the found index
+          commentsOfPost[indexToUpdate]['content'] = newContnent;
+        }
+
+        await FirebaseFirestore.instance
+            .collection(collectionName)
+            .doc(documentSnapshot.id)
+            .update({
+          'comments': commentsOfPost,
+        });
       }
 
       return true;
@@ -108,15 +123,7 @@ class CommentProvider extends ChangeNotifier {
     final String collectionName = getCollectionName(comment.postType);
 
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('comments')
-          .where('id', isEqualTo: comment.id)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        querySnapshot.docs.first.reference.delete();
-      }
-      querySnapshot = await FirebaseFirestore.instance
+      final querySnapshot = await FirebaseFirestore.instance
           .collection(collectionName)
           .where('id', isEqualTo: postId)
           .get();
@@ -125,13 +132,13 @@ class CommentProvider extends ChangeNotifier {
         final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
         final List<dynamic> commentsOfPost = documentSnapshot['comments'] ?? [];
-        commentsOfPost.remove(comment);
+        commentsOfPost.removeWhere((commentt) => commentt['id'] == comment.id);
 
         await FirebaseFirestore.instance
             .collection(collectionName)
             .doc(documentSnapshot.id)
             .update({
-          'comments': FieldValue.arrayUnion(commentsOfPost),
+          'comments': commentsOfPost,
         });
       }
       return true;

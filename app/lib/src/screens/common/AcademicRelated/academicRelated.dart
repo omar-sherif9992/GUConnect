@@ -102,16 +102,9 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                                     height: 20,
                                   ),
                                   PostW(
-                                    postId: posts[index].id,
-                                    content: posts[index].content,
-                                    image: posts[index].image,
-                                    username:
-                                        posts[index].sender.userName ?? '',
-                                    userImage: posts[index].sender.image ?? '',
-                                    likes: posts[index].likes,
-                                    createdAt: posts[index].createdAt,
-                                    comments: posts[index].comments,
+                                    post: posts[index],
                                     postType: 2,
+                                    refresh: _refresh,
                                   ),
                                 ],
                               );

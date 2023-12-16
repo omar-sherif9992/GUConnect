@@ -8,11 +8,12 @@ import 'package:GUConnect/src/screens/common/L&F/addLostAndFoundPost.dart';
 import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/screens/common/confessions.dart';
-import 'package:GUConnect/src/screens/common/addPostClubs.dart';
+import 'package:GUConnect/src/screens/common/newsEvents/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
-import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
+import 'package:GUConnect/src/screens/common/newsEvents/clubsAndEvents.dart';
 import 'package:GUConnect/src/screens/authentication/login.dart';
 import 'package:GUConnect/src/screens/authentication/register.dart';
+import 'package:GUConnect/src/screens/course/course_profile.dart';
 import 'package:GUConnect/src/screens/staff/profile.dart';
 import 'package:GUConnect/src/screens/user/search.dart';
 import 'package:GUConnect/src/screens/common/splash.dart';
@@ -104,6 +105,7 @@ class CustomRoutes {
       adminAddStaff: (context) => const SetStaffScreen(),
       adminReports: (context) => const PendingReportsScreen(),
       adminCourse: (context) => const SearchCourseScreen(),
+      course: (context) => const CourseProfile(),
     };
   }
 }

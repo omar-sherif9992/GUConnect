@@ -1,40 +1,48 @@
 import 'dart:io';
 
+import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
-import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+class EditPostClub extends StatefulWidget {
+  final NewsEventClub initialPost;
+
+  const EditPostClub({Key? key, required this.initialPost}) : super(key: key);
 
   @override
-  State<AddPost> createState() => _AddPostState();
+  _EditPostState createState() => _EditPostState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _EditPostState extends State<EditPostClub> {
   late UserProvider userProvider;
   final TextEditingController contentController = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   File? _selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late NewsEventClubProvider clubPostProvider;
+  late CommentProvider commentProvider;
 
   @override
   void initState() {
     super.initState();
 
-    clubPostProvider =
-        Provider.of<NewsEventClubProvider>(context, listen: false);
+    clubPostProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
-    userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    // Initialize form fields with initial values for editing
+    contentController.text = widget.initialPost.content;
+    reasonController.text = widget.initialPost.reason;
+    // You can set _selectedImage here if needed
+    _selectedImage = widget.initialPost.image==''? null:File(widget.initialPost.image);
   }
 
   Future<void> _getImage() async {
@@ -65,10 +73,9 @@ class _AddPostState extends State<AddPost> {
     });
   }
 
-  Future _addPost(
+  Future<void> _updatePost(
       NewsEventClubProvider provider, String content, String reason, File img) async {
-
-      showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -78,76 +85,57 @@ class _AddPostState extends State<AddPost> {
             children: [
               Loader(),
               SizedBox(height: 16),
-              Text('Uploading post...'),
+              Text('Updating post...'),
             ],
           ),
         );
       },
     );
-    
-        final String? imageUrl = await uploadImageToStorage(
+
+    // Perform the update logic here
+    // Use widget.initialPost.id or any other identifier to update the correct post
+    final String? imageUrl = await uploadImageToStorage(
               img, 'post_images', userProvider.user!.user_id! + DateTime.now().toString());
-
-    const String imgUrl =
-        'https://www.logodesignlove.com/wp-content/uploads/2012/08/microsoft-logo-02.jpeg';
-    final CustomUser posterPerson = CustomUser(
-        email: 'hussein.ebrahim@student.guc.edu.eg',
-        password: 'Don Ciristiane Ronaldo',
-        image:
-            'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg',
-        userName: 'Mr Milad Ghantous',
-        fullName: 'omar');
-
-    final NewsEventClub addedPost = NewsEventClub(
-        content: content,
-        image: imageUrl??'',
-        createdAt: DateTime.now(),
-        sender: userProvider.user??posterPerson,
-        reason: reason);
-
-    
-
-    provider.postContent(addedPost).then((value) => {
-          Navigator.pop(context),
-          if (value)
-            {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ClubsAndEvents(),
-                ),
-              )
-            }
-          else
-            {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content:
-                        const Text('Failed to upload post. Please try again.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
+    final List<Comment> com = await commentProvider.getPostComments(widget.initialPost.id, 0);
+    final NewsEventClub updatedPost = NewsEventClub(reason: reason, content: content, sender: widget.initialPost.sender, createdAt: widget.initialPost.createdAt, 
+    image: imageUrl??'', comments: com, likes: widget.initialPost.likes);
+    provider.updatePost(
+      updatedPost, widget.initialPost.id).then((success)
+    { 
+      if (success) {
+      // Handle successful update
+      // You may want to navigate back or show a success message
+      Navigator.pop(context);
+    } else {
+      // Handle update failure
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Failed to update post. Please try again.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
-              )
-            }
-        });
-  }
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    });
+
+    }
 
   @override
   Widget build(BuildContext context) {
     final double containerHeight = calculateAspectRatio();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Post'),
+        title: const Text('Edit Post'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -254,10 +242,9 @@ class _AddPostState extends State<AddPost> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String reason = reasonController.text;
-                      _addPost(clubPostProvider, content, reason, _selectedImage??File(''));
+                      _updatePost(clubPostProvider, content, reason, _selectedImage ?? File(''));
                     }
                   },
                   style: ButtonStyle(
@@ -266,9 +253,8 @@ class _AddPostState extends State<AddPost> {
                     foregroundColor: MaterialStateProperty.all(
                         Theme.of(context).colorScheme.onSecondary),
                   ),
-                  child: const Text('Add Post',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  child: const Text('Update Post',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 ),
               ],
             ),

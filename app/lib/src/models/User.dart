@@ -40,7 +40,7 @@ class CustomUser {
   late String password;
   late String? biography;
   late String userType;
-  late String? user_id;
+  late String user_id;
   late String? token;
 
   /// Constructs a User object with the specified [fullName],[image], [email], [password], [biograpghy], and [token].
@@ -52,9 +52,10 @@ class CustomUser {
       required this.password,
       this.biography,
       this.phoneNumber,
-      this.user_id}) {
-    this.userType = getUserType();
+      String userId = ''}) {
+    userType = getUserType();
     token = '';
+    user_id = (userId == '') ? userName ?? "${DateTime.now()}" : userId;
   }
   CustomUser.edit({
     this.fullName,

@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Represents a lost and found item.
 class LostAndFound extends Post {
   late String contact;
+  late Set<String> likes;
+  late List<Comment> comments;
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
@@ -14,6 +16,8 @@ class LostAndFound extends Post {
     required super.createdAt,
     required super.image,
     required super.sender,
+    required this.likes,
+    required this.comments
   });
 
   LostAndFound.fromJson(Map<String, dynamic> json)
@@ -27,6 +31,7 @@ class LostAndFound extends Post {
     contact = json['contact'];
     comments = ((json['comments'] as List<dynamic>)
         .map((e) => Comment.fromJson(e as Map<String, dynamic>))).toList();
+    likes = Set<String>.from(json['likes']);
   }
 
   /// Converts the [LostAndFound] object to a JSON [Map].
@@ -36,6 +41,7 @@ class LostAndFound extends Post {
     data['id'] = id;
     data['contact'] = contact;
     data['comments'] = comments.map((c) => c.toJson()).toList();
+    data['likes'] = likes;
     return data;
   }
 

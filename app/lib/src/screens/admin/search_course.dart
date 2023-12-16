@@ -2,9 +2,7 @@
 
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/Course.dart';
-import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/CourseProvider.dart';
-import 'package:GUConnect/src/providers/StaffProvider.dart';
 import 'package:GUConnect/src/screens/admin/set_course_screen.dart';
 import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
@@ -105,6 +103,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
             ? Center(
                 child: Text(
                 'No courses found',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
@@ -146,7 +145,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
         onPressed: () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => const SetStaffScreen(),
+              builder: (context) => const SetCourseScreen(),
               maintainState: false,
             ),
           );
@@ -162,7 +161,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                    builder: (context) => const SetStaffScreen(),
+                    builder: (context) => const SetCourseScreen(),
                     maintainState: false),
               );
             },
@@ -172,7 +171,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
       body: Column(
         children: [
           _buildSearchBar(),
-          _buildCourses(),
+          Expanded(child: _buildCourses()),
         ],
       ),
     );
@@ -200,7 +199,9 @@ class CourseTile extends StatelessWidget {
         leading: Hero(
           tag: course.courseName,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(course.image ?? ''),
+            backgroundImage: course.image != null
+                ? NetworkImage(course.image ?? '')
+                : const AssetImage('assets/images/course.png') as ImageProvider,
           ),
         ),
         title: Text(titleCase(course.courseName)),

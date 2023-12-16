@@ -5,7 +5,6 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
-import 'package:GUConnect/src/screens/common/clubsAndEvents.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +100,9 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
         content: content,
         image: imageUrl??'',
         createdAt: DateTime.now(),
-        sender: userProvider.user??posterPerson,);
+        sender: userProvider.user??posterPerson,
+        likes: {},
+        comments: []);
 
     
 

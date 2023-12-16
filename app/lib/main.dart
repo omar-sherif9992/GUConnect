@@ -2,7 +2,9 @@ import 'package:GUConnect/firebase_options.dart';
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
+import 'package:GUConnect/src/providers/RatingProvider.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
@@ -54,6 +56,9 @@ class MyApp extends StatelessWidget {
               AcademicQuestionProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(
+          create: (context) => CourseProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => ImportantPhoneNumberProvider(),
         ),
         ChangeNotifierProvider(
@@ -88,6 +93,7 @@ class MyApp extends StatelessWidget {
           create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
         ChangeNotifierProvider(create: (context) => UsabilityProvider(FirebaseFirestore.instance)),
+        ChangeNotifierProvider(create: (context) => RatingProvider())
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

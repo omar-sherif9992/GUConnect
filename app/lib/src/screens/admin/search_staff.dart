@@ -288,7 +288,6 @@ class StaffTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(staff.image);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
