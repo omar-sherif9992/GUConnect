@@ -8,6 +8,7 @@ import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
 
 class CommentModal extends StatefulWidget
@@ -114,13 +115,6 @@ class _CommentModalState extends State<CommentModal> {
             ),
           ),
           _buildCommentInput(),
-          /*if (isEmojiPickerVisible) SizedBox(
-            height: 200,
-            child: EmojiPicker(
-                textEditingController: _commentController,
-                config: emojiPicker,
-              ),
-          ) else Container()*/
             ],
           ),
             ),
@@ -129,47 +123,103 @@ class _CommentModalState extends State<CommentModal> {
 
   Widget _buildCommentInput() {
 
-    
+    final CustomUser trgt = (userProvider.user??posterPerson);
     return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Row(
-        children: [
-        CircleAvatar(
-                    // User profile picture
-                    radius: 18,
-                    // Replace with your image URL
-                    backgroundImage: NetworkImage(userProvider.user?.image??''),
-                  ),
-                  const SizedBox(width: 8),
-          Expanded(
-            child: TextField(
-              controller: _commentController,
-              decoration: const InputDecoration(
-                hintText: 'Add a comment...',
-              ),
-            ),
-          ),
-          /*IconButton(
-            icon: const Icon(Icons.emoji_emotions),
-            onPressed: () {
-              setState(() {
-                isEmojiPickerVisible = !isEmojiPickerVisible;
-              });
-            },
-          ),*/
-          IconButton(
-            icon: const Icon(Icons.send),
-            onPressed: () {
-              // Handle comment submission here
-              final String commentText = _commentController.text;
-              // Perform any necessary actions with the commentText
-              addComment(commentText);
-              // Clear the comment input field
-              _commentController.clear();
-            },
-          ),
-        ],
+  padding: const EdgeInsets.all(6.0),
+  child: Row(
+    children: [
+      CircleAvatar(
+        radius: 18,
+        backgroundImage: NetworkImage(userProvider.user?.image ?? ''),
       ),
-    );
+      const SizedBox(width: 8),
+      Expanded(
+        child: Portal(
+          child:
+              FlutterMentions(
+                suggestionPosition: SuggestionPosition.Top,
+                suggestionListDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromARGB(255, 239, 236, 236),
+                ),
+                mentions: [
+                  Mention(
+                    trigger:  '@',
+                    data: [
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                        {
+                          'id': trgt.user_id,
+                          'display': trgt.userName,
+                          'image': trgt.image
+                        },
+                    ],
+                    suggestionBuilder: (e) {
+                      return _buildSuggestionsList(e);
+                    },
+                    style: const TextStyle(color: Colors.blue),
+                    
+                  ),
+                ],
+              ),
+        ),
+      ),
+      IconButton(
+        icon: const Icon(Icons.send),
+        onPressed: () {
+          final String commentText = _commentController.text;
+          addComment(commentText);
+          _commentController.clear();
+        },
+      ),
+    ],
+  ),
+);
   }
+
+
+  Widget _buildSuggestionsList(Map<String, dynamic> data) {
+
+    return 
+        Container(
+          padding: const EdgeInsets.all(8),
+          height: 50,
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 10,
+                backgroundImage: NetworkImage(data['image']),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                data['display'],
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
+          ),
+        );
+}
 }

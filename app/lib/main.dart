@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
-        initialRoute: CustomRoutes.staff,
+        initialRoute: CustomRoutes.home,
         routes: CustomRoutes.routes,
       ),
     );
