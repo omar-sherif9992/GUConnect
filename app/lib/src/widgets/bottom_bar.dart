@@ -24,6 +24,7 @@ class BottomBar extends StatelessWidget {
     final bool isAdmin = user.userType == UserType.admin;
 
     void navigate(String routeName) {
+          UsabilityProvider usabilityProvider =
         Provider.of<UsabilityProvider>(context, listen: false);
     if (usabilityProvider.currentScreenName != null &&
         usabilityProvider.screenEnterTime != null) {
