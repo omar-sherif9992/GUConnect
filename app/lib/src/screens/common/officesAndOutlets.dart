@@ -20,9 +20,19 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<OfficeAndLocation> offices = [];
+  List<OfficeAndLocation> officesDisplay = [];
   List<OfficeAndLocation> outlets = [];
+  List<OfficeAndLocation> outletsDisplay = [];
   late OfficeLocationProvider officeLocationProvider;
   late final TextEditingController _searchController = TextEditingController();
+
+  bool _isLoading = false;
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +101,36 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
   void initState() {
     super.initState();
     officeLocationProvider = OfficeLocationProvider();
-    fetchOfficesAndOutlets(officeLocationProvider);
+    fetchOfficesAndOutlets(officeLocationProvider).then((value) => {
+          setState(() {
+            _isLoading = false;
+          })
+        });
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 
   Widget _buildOutlets() {
-    return ListView(children: outlets.map((e) => buildOfficeItem(e)).toList());
+    return RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await fetchOfficesAndOutlets(officeLocationProvider);
+          setState(() {
+            _isLoading = false;
+          });
+        },
+        child: ListView(
+            children: outlets.map((e) => buildOfficeItem(e)).toList()));
   }
 
   Widget _buildOffices() {
-    return ListView(children: offices.map((e) => buildOfficeItem(e)).toList());
+    return RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await fetchOfficesAndOutlets(officeLocationProvider);
+          setState(() {
+            _isLoading = false;
+          });
+        },
+        child: ListView(
+            children: offices.map((e) => buildOfficeItem(e)).toList()));
   }
 
   Widget buildOfficeItem(OfficeAndLocation office) {
@@ -124,13 +154,15 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           style: TextStyle(
               fontSize: 16, color: Theme.of(context).colorScheme.secondary),
         ),
-        trailing: const Text(
-          'Directions',
-          style: TextStyle(fontSize: 14),
+        trailing: TextButton(
+          child: const Text(
+            'Directions',
+            style: TextStyle(fontSize: 14),
+          ),
+          onPressed: () async {
+            openMap(office.latitude, office.longitude);
+          },
         ),
-        onTap: () async {
-          openMap(office.latitude, office.longitude);
-        },
       ),
     );
   }
@@ -169,12 +201,12 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
     setState(() {
       _searchController.text = value;
 
-      offices = [];
-      offices.addAll(offices
+      officesDisplay = [];
+      officesDisplay.addAll(offices
           .where((element) => (element.name).toLowerCase().contains(value))
           .toList());
-      outlets = [];
-      outlets.addAll(outlets
+      outletsDisplay = [];
+      outletsDisplay.addAll(outlets
           .where((element) => (element.name).toLowerCase().contains(value))
           .toList());
     });
@@ -182,16 +214,22 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
 
   Future<void> fetchOfficesAndOutlets(
       OfficeLocationProvider officeLocationProvider) async {
+    setState(() {
+      _isLoading = true;
+    });
     officeLocationProvider.getOffices().then((value) => {
           setState(() {
             offices = value;
+            officesDisplay = value;
           })
         });
     officeLocationProvider.getOutlets().then((value) => {
           setState(() {
             outlets = value;
+            outletsDisplay = value;
           })
         });
+    filterOfficesAndOutlets(_searchController.text);
   }
 }
 
@@ -234,13 +272,15 @@ class OfficeItem extends StatelessWidget {
           style: TextStyle(
               fontSize: 16, color: Theme.of(context).colorScheme.secondary),
         ),
-        trailing: const Text(
-          'Directions',
-          style: TextStyle(fontSize: 14),
+        trailing: TextButton(
+          child: const Text(
+            'Directions',
+            style: TextStyle(fontSize: 14),
+          ),
+          onPressed: () async {
+            openMap(latitude, longitude);
+          },
         ),
-        onTap: () async {
-          openMap(latitude, longitude);
-        },
       ),
     );
   }

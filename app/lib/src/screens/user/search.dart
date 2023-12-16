@@ -99,6 +99,7 @@ class _SearchScreenState extends State<SearchScreen>
           tasDisplay = value;
         }));
   }
+
   Future fetchCourses(
     CourseProvider courseProvider,
   ) async {
@@ -116,6 +117,7 @@ class _SearchScreenState extends State<SearchScreen>
   void dispose() {
     _tabController.dispose();
     _searchController.dispose();
+
     super.dispose();
   }
 
@@ -203,7 +205,8 @@ class _SearchScreenState extends State<SearchScreen>
                   },
                 ),
               );
-  } 
+  }
+
   Widget _buildCoursesTab() {
     return _isLoading
         ? const Loader()
@@ -226,11 +229,10 @@ class _SearchScreenState extends State<SearchScreen>
                 },
                 child: ListView.builder(
                   key: const PageStorageKey('courses_user'),
-                  itemCount: tasDisplay.length,
+                  itemCount: coursesDisplay.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return CourseTile(
-                        course: coursesDisplay[index]);
+                    return CourseTile(course: coursesDisplay[index]);
                   },
                 ),
               );
@@ -252,8 +254,8 @@ class _SearchScreenState extends State<SearchScreen>
 
       coursesDisplay = [];
       coursesDisplay.addAll(courses
-          .where((element) =>
-              (element.courseName).toLowerCase().contains(value))
+          .where(
+              (element) => (element.courseName).toLowerCase().contains(value))
           .toList());
     });
   }
@@ -314,7 +316,10 @@ class StaffTile extends StatelessWidget {
         leading: Hero(
           tag: staff.email,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(staff.image ?? ''),
+            backgroundImage: staff.image != null
+                ? NetworkImage(staff.image ?? '')
+                : const AssetImage('assets/images/user.png')
+                    as ImageProvider<Object>?,
           ),
         ),
         title: Text(titleCase(staff.fullName)),
@@ -352,11 +357,15 @@ class CourseTile extends StatelessWidget {
         leading: Hero(
           tag: course.courseName,
           child: CircleAvatar(
-            backgroundImage: course.image !=null?  NetworkImage(course.image ?? ''):  const AssetImage('assets/images/course.png') as ImageProvider<Object>?  ,
+            backgroundImage: course.image != null
+                ? NetworkImage(course.image ?? '')
+                : const AssetImage('assets/images/course.png')
+                    as ImageProvider<Object>?,
           ),
         ),
-        title: Text(titleCase(course.courseName)),
-        subtitle: Text(course.description ),
+        title: Text(
+            '${titleCase(course.courseCode)}:${titleCase(course.courseName)}'),
+        subtitle: Text(course.description),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {

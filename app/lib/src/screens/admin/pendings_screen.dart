@@ -241,9 +241,12 @@ class _PendingsScreenState extends State<PendingsScreen> {
                             await newsEventClubProvider
                                 .disapprovePost(postsDisplay[index]);
                           }
+
                           setState(() {
                             posts.removeWhere((element) =>
-                                element.id == postsDisplay[index].id);
+                                element.id == post.id);
+                            postsDisplay.removeWhere((element) =>
+                                element.id == post.id);
                           });
                         },
                       ),

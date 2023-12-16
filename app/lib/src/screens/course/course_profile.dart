@@ -3,6 +3,7 @@ import 'package:GUConnect/src/models/Rating.dart';
 import 'package:GUConnect/src/models/UserRating.dart';
 import 'package:GUConnect/src/providers/RatingProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/RatingBar.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
@@ -174,10 +175,10 @@ class _CourseProfileState extends State<CourseProfile>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           width: 200,
                                           child: Text(
-                                            ('${course.courseName}'),
+                                            ('(${titleCase(course.courseCode)}):${titleCase(course.courseName)}'),
                                             overflow: TextOverflow.clip,
                                             style: const TextStyle(
                                               fontSize: 16.0,
@@ -193,7 +194,7 @@ class _CourseProfileState extends State<CourseProfile>
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Container(
-                                                  width: 60,
+                                                  width: 80,
                                                   margin: const EdgeInsets.only(
                                                       right: 10),
                                                   decoration: BoxDecoration(
@@ -206,8 +207,7 @@ class _CourseProfileState extends State<CourseProfile>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    _courseRating.ratingAverage
-                                                        .toStringAsFixed(1),
+                                                    'Avg. Rating\n${_courseRating.ratingAverage.toStringAsFixed(1)}',
                                                     style: const TextStyle(
                                                       fontSize: 13,
                                                     ),
@@ -225,15 +225,19 @@ class _CourseProfileState extends State<CourseProfile>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Description : ',
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.w700,
+                                      if (course.description != null &&
+                                          course.description != '')
+                                        const Text(
+                                          'Description : ',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            letterSpacing: 1.5,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
+                                      if (course.description != null &&
+                                          course.description != '')
+                                        const SizedBox(height: 8),
                                       SizedBox(
                                         width: 300,
                                         child: Text(
@@ -246,7 +250,9 @@ class _CourseProfileState extends State<CourseProfile>
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 30),
+                                      if (course.description != null &&
+                                          course.description != '')
+                                        const SizedBox(height: 30),
                                       SizedBox(
                                           width: 300,
                                           child: Text(
@@ -257,7 +263,7 @@ class _CourseProfileState extends State<CourseProfile>
                                               fontWeight: FontWeight.w700,
                                             ),
                                           )),
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: 8),
                                       CRatingBar(
                                         rating: _userRating,
                                         onRatingSubmit: onRatingSubmitted,
