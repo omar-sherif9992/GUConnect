@@ -8,6 +8,7 @@ import 'package:GUConnect/src/providers/RatingProvider.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
@@ -91,9 +92,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
+        ChangeNotifierProvider(create: (context) => UsabilityProvider(FirebaseFirestore.instance, FirebaseAuth.instance)),
         ChangeNotifierProvider(create: (context) => RatingProvider())
       ],
       child: MaterialApp(
+        navigatorObservers: [UsabilityProvider(FirebaseFirestore.instance, FirebaseAuth.instance)],
         navigatorKey: navigatorKey,
         title: 'GUConnect',
         theme: CustomTheme.lightTheme,

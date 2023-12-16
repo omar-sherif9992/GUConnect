@@ -1,5 +1,7 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:flutter/material.dart';
