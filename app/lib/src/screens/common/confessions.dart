@@ -19,6 +19,30 @@ class _ConfessionsState extends State<Confessions>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Confession> confessions = [];
+  Widget _buildPosts(posts) {
+    return ListView.builder(
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        return Post_Widget(posts[index]);
+      },
+    );
+  }
+
+  Future fetchConfessions(ConfessionProvider provider) async {
+    provider.getConfessions().then((value) => {
+          setState(() {
+            confessions = value;
+            confessions.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+          })
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,31 +69,6 @@ class _ConfessionsState extends State<Confessions>
         ],
       ),
     );
-  }
-
-  Widget _buildPosts(posts) {
-    return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return Post_Widget(posts[index]);
-      },
-    );
-  }
-
-  Future fetchConfessions(ConfessionProvider provider) async {
-    provider.getConfessions().then((value) => {
-          setState(() {
-            confessions = value;
-            confessions.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-          })
-        });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 }
 

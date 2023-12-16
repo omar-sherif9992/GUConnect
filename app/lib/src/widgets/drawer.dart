@@ -129,7 +129,7 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
-          // office icon 
+          // office icon
           Icons.location_on_outlined,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
@@ -143,6 +143,24 @@ class MainDrawer extends StatelessWidget {
         ),
         onTap: () {
           onSelectScreen(context, CustomRoutes.officesAndOutlets);
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          // office icon
+          Icons.people_alt_outlined,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Confessions',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.confessions);
         },
       ),
     ];
@@ -221,7 +239,6 @@ class MainDrawer extends StatelessWidget {
           onSelectScreen(context, CustomRoutes.adminCourse);
         },
       ),
-
       endCommonRoutes
     ];
 
