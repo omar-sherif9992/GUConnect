@@ -111,6 +111,7 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
             : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchCourses(courseProvider);
+                  filterItems(_searchController.text);
                 },
                 child: ListView.builder(
                   key: const PageStorageKey('courses_admin_search'),
@@ -128,8 +129,6 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
   void filterItems(String value) {
     value = value.trim().toLowerCase();
     setState(() {
-      _searchController.text = value;
-
       coursesDisplay = [];
       coursesDisplay.addAll(courses
           .where(
@@ -204,13 +203,17 @@ class CourseTile extends StatelessWidget {
                 : const AssetImage('assets/images/course.png') as ImageProvider,
           ),
         ),
-        title: Text(titleCase(course.courseName)),
+        title: Text(
+            '${titleCase(course.courseCode)}:${titleCase(course.courseName)}'),
         subtitle: Text(course.description),
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SetCourseScreen(course: course)));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SetCourseScreen(course: course),
+              ),
+            );
           },
         ),
       ),
