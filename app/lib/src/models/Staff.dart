@@ -1,3 +1,5 @@
+import 'package:GUConnect/src/models/Rating.dart';
+
 /// Represents the type of a user in the application.
 
 class StaffType {
@@ -46,25 +48,8 @@ class StaffType {
   }
 } */
 
-class Rating {
-  late String userEmail;
-  late double rating;
-  Rating({required this.userEmail, required this.rating});
-
-  Rating.fromJson(Map<String, dynamic> json) {
-    userEmail = json['userEmail'];
-    rating = json['rating'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userEmail'] = this.userEmail;
-    data['rating'] = this.rating;
-    return data;
-  }
-}
-
 class Staff {
+  String? id;
   late String fullName;
   late String? image;
   late String email;
@@ -80,6 +65,7 @@ class Staff {
 
   /// Constructs a Staff object with the specified [fullName],[image], [email], [password], [description], and [speciality].
   Staff({
+    this.id,
     required this.fullName,
     this.image,
     required this.email,
@@ -119,7 +105,6 @@ class Staff {
     data['staffType'] = StaffType.getStaffType(staffType);
     data['bio'] = bio;
     data['courses'] = courses;
-
 
     return data;
   }
