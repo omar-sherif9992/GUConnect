@@ -271,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildPosts(List<Post> posts,String name) {
+  Widget _buildPosts(List<Post> posts, String name) {
     return _isLoading
         ? const Loader()
         : posts.isEmpty
@@ -284,27 +284,29 @@ class _ProfileScreenState extends State<ProfileScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ),
               )
-            : RefreshIndicator.adaptive(
-                onRefresh: () async {
-                  await fetchAll();
-                },
-                child: ListView.builder(
-                  itemCount: posts.length,
-                  scrollDirection: Axis.vertical,
-                  key: PageStorageKey('profile_posts$name'),
-                  itemBuilder: (context, index) {
-                    String pendingStatus = "";
-                    if (posts[index] is NewsEventClub) {
-                      pendingStatus =
-                          (posts[index] as NewsEventClub).approvalStatus;
-                    }
-
-                    return PostW(
-                      post: posts[index],
-                      postType: getPostType(posts[index]),
-                      pendingStatus: pendingStatus,
-                    );
+            : Expanded(
+                child: RefreshIndicator.adaptive(
+                  onRefresh: () async {
+                    await fetchAll();
                   },
+                  child: ListView.builder(
+                    itemCount: posts.length,
+                    scrollDirection: Axis.vertical,
+                    key: PageStorageKey('profile_posts$name'),
+                    itemBuilder: (context, index) {
+                      String pendingStatus = "";
+                      if (posts[index] is NewsEventClub) {
+                        pendingStatus =
+                            (posts[index] as NewsEventClub).approvalStatus;
+                      }
+
+                      return PostW(
+                        post: posts[index],
+                        postType: getPostType(posts[index]),
+                        pendingStatus: pendingStatus,
+                      );
+                    },
+                  ),
                 ),
               );
   }
