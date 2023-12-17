@@ -16,11 +16,11 @@ void main() {
       password: 'abcdef1',
     );
     Confession c = Confession(
-        isAnonymous: false,
-        content: 'confession',
-        sender: user,
-        createdAt: DateTime.now(),
-        image: 'x');
+      isAnonymous: false,
+      content: 'confession',
+      sender: user,
+      createdAt: DateTime.now(),
+    );
     await confessionProvider.addConfession(c);
     expect(await confessionProvider.getConfessions(), isNotEmpty);
 
