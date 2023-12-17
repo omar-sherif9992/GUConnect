@@ -75,7 +75,7 @@ String getTitleByReportType(String reportType) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              report.reportedContent,
+              ' ${getTitleByReportType(report.reportType)}: ${report.reportedContent}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
