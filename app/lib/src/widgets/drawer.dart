@@ -1,5 +1,7 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +131,7 @@ class MainDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: Icon(
-          // office icon 
+          // office icon
           Icons.location_on_outlined,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
@@ -143,6 +145,24 @@ class MainDrawer extends StatelessWidget {
         ),
         onTap: () {
           onSelectScreen(context, CustomRoutes.officesAndOutlets);
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          // office icon
+          Icons.people_alt_outlined,
+          size: 24,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          'Confessions',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 24,
+              ),
+        ),
+        onTap: () {
+          onSelectScreen(context, CustomRoutes.confessions);
         },
       ),
     ];
@@ -221,7 +241,6 @@ class MainDrawer extends StatelessWidget {
           onSelectScreen(context, CustomRoutes.adminCourse);
         },
       ),
-
       endCommonRoutes
     ];
 

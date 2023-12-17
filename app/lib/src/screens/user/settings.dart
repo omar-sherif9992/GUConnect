@@ -1,5 +1,4 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/about.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
@@ -72,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
           ),
-          SwitchListTile.adaptive(
+          /*         SwitchListTile.adaptive(
             value: _isNotification,
             onChanged: (isChecked) async {
               await updateIsNotificationinPref(!_isNotification);
@@ -94,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             activeColor: Theme.of(context).colorScheme.primary,
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
-          ),
+          ), */
           /*   SwitchListTile.adaptive(
             value: _isDarkMode,
             onChanged: (isChecked) {
@@ -142,8 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               // ignore: use_build_context_synchronously
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                CustomRoutes
-                                    .login, 
+                                CustomRoutes.login,
                                 (Route<dynamic> route) => false,
                               );
                             },

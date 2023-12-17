@@ -95,8 +95,8 @@ class _PostWState extends State<PostW> {
                     // User profile picture
                     radius: 20,
                     // Replace with your image URL
-                    backgroundImage:
-                        CachedNetworkImageProvider(widget.post.sender.image??''),
+                    backgroundImage: CachedNetworkImageProvider(
+                        widget.post.sender.image ?? ''),
                   ),
                   const SizedBox(width: 8),
                   Column(
@@ -104,7 +104,7 @@ class _PostWState extends State<PostW> {
                     children: [
                       Text(
                         // User name
-                        widget.post.sender.userName??'',
+                        widget.post.sender.userName ?? '',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontWeight: FontWeight.w600,
@@ -128,8 +128,9 @@ class _PostWState extends State<PostW> {
                 StatusIndicator(pendingStatus: widget.pendingStatus)
               else
                 Container(),
-              PopupMenu(post: widget.post,
-               reportCollectionNameType: widget.postType,
+              PopupMenu(
+                post: widget.post,
+                reportCollectionNameType: widget.postType,
               ),
             ],
           ),
