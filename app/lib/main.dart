@@ -92,11 +92,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LikesProvider(FirebaseFirestore.instance),
         ),
-        ChangeNotifierProvider(create: (context) => UsabilityProvider(FirebaseFirestore.instance, FirebaseAuth.instance)),
+        ChangeNotifierProvider(
+            create: (context) => UsabilityProvider(
+                FirebaseFirestore.instance, FirebaseAuth.instance)),
         ChangeNotifierProvider(create: (context) => RatingProvider())
       ],
       child: MaterialApp(
-        navigatorObservers: [UsabilityProvider(FirebaseFirestore.instance, FirebaseAuth.instance)],
+        navigatorObservers: [
+          UsabilityProvider(FirebaseFirestore.instance, FirebaseAuth.instance)
+        ],
         navigatorKey: navigatorKey,
         title: 'GUConnect',
         theme: CustomTheme.lightTheme,

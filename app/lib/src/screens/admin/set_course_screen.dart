@@ -43,6 +43,8 @@ class _SetCourseScreenState extends State<SetCourseScreen> {
       _courseCodeController.text = widget.course!.courseCode;
       _courseNameController.text = widget.course!.courseName;
       _descriptionController.text = widget.course!.description;
+      profileImageUrl = widget.course!.image;
+      
     }
 
     courseProvider = Provider.of<CourseProvider>(context, listen: false);
@@ -118,6 +120,7 @@ class _SetCourseScreenState extends State<SetCourseScreen> {
                                 courseCode: _courseCodeController.text,
                                 courseName: _courseNameController.text,
                                 description: _descriptionController.text,
+                                image: profileImageUrl,
                               );
 
                               setState(() {
