@@ -83,6 +83,27 @@ void didPush(Route route, Route? previousRoute) {
       print(e);
     }
     }
+    @override
+void didReplace({Route? newRoute, Route? oldRoute}) {
+  super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+
+  // Log screen time for the replaced route
+  try {
+    screenExitTime = DateTime.now();
+    logScreenTime(
+      Usability(user_email: _auth.currentUser!.email!),
+      ScreenTime(
+        screenName: currentScreenName!,
+        startTime: screenEnterTime!,
+        endTime: screenExitTime!,
+      ),
+    );
+    screenEnterTime = DateTime.now();
+    currentScreenName = newRoute?.settings.name;
+  } catch (e) {
+    print(e);
+  }
+}
   Future<void> logEvent(Usability usability, UserEvent event) async {
     try {
       // Check if the document exists

@@ -49,6 +49,33 @@ class ReportsProvider extends ChangeNotifier {
           } catch (e) {
             print(e); // confession already deleted from another report
           }
+        }else if(report.reportType=='lostAndFound'){
+          try {
+            await _firestore
+                .collection('lostAndFound')
+                .doc(report.reportedContentId)
+                .delete();
+          } catch (e) {
+            print(e); // confession already deleted from another report
+          }
+        }else if(report.reportType=='newsEventClubs'){
+          try {
+            await _firestore
+                .collection('newsEventClubs')
+                .doc(report.reportedContentId)
+                .delete();
+          } catch (e) {
+            print(e); // confession already deleted from another report
+          }
+        }else if(report.reportType=='academicRelatedQuestions'){
+          try {
+            await _firestore
+                .collection('academicRelatedQuestions')
+                .doc(report.reportedContentId)
+                .delete();
+          } catch (e) {
+            print(e); // confession already deleted from another report
+          }
         }
       }
     } catch (e) {
@@ -96,5 +123,17 @@ class ReportsProvider extends ChangeNotifier {
       confessionReports.add(Report.fromJson(doc.data()));
     });
     return confessionReports;
+  }
+  Future<List<Report>> getPostReports() async {
+    final List<Report> postReports = [];
+    // i want to get all the reports of type post wehre report type equals to lost and found or news event club or academic related questions
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
+        .collection('reports')
+        .where('reportType', whereIn: ['lostAndFound', 'newsEventClubs','academicRelatedQuestions'])
+        .get();
+    querySnapshot.docs.forEach((doc) {
+      postReports.add(Report.fromJson(doc.data()));
+    });
+    return postReports;
   }
 }

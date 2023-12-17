@@ -33,20 +33,36 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
     super.initState();
 
     reportsProvider = Provider.of<ReportsProvider>(context, listen: false);
+// for (int i = 0; i < 10; i++) {
+//   String reportType;
+//   if (i % 5 == 0) {
+//     reportType = 'lostAndFound';
+//   } else if (i % 5 == 1) {
+//     reportType = 'academicRelatedQuestions';
+//   } else if (i % 5 == 2) {
+//     reportType = 'newsEventClubs';
+//   } else {
+//     reportType = i % 2 == 0 ? 'confession' : 'comment';
+//   }
 
-    // for (int i = 0; i < 5; i++) {
-    //   reportsProvider.reportContent(Report(
-    //       reportedContent: 'I hate you $i',
-    //       reportedUser: CustomUser(
-    //         fullName: 'Ahmed$i',
-    //         email: 'omar$i@student.guc.edu.eg',
-    //         password: '',
-    //         userName: 'omar$i.kaa',
-    //       ),
-    //       reportedContentId: i.toString(),
-    //       reportType: i % 2 == 0 ? 'confession' : 'comment',
-    //       createdAt: DateTime.now()));
-    // }
+//   reportsProvider.reportContent(
+//     Report(
+//       reportedContent: 'I hate you $i',
+//       reportedUser: CustomUser(
+//         fullName: 'Ahmed$i',
+//         email: 'omar$i@student.guc.edu.eg',
+//         password: '',
+//         userName: 'omar$i.kaa',
+//       ),
+//       reportedContentId: i.toString(),
+//       reason: i % 2 == 0 ? 'Hate Speech' : 'Other',
+//       clarification: i%2==0?'not related to guc':null,
+//       reportType: reportType,
+//       createdAt: DateTime.now(),
+//     ),
+//   );
+// }
+
 
     fetchItems();
   }
@@ -99,14 +115,14 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
               else {
                 reports=[] ;
                 reportsDisplay = [];
-                // _isLoading = true;
-                // reportsProvider
-                //     .getPostReports()
-                //     .then((value) => setState(() {
-                //           reports = value;
-                //           reportsDisplay = value;
-                //           _isLoading = false;
-                //         }));
+                _isLoading = true;
+                reportsProvider
+                    .getPostReports()
+                    .then((value) => setState(() {
+                          reports = value;
+                          reportsDisplay = value;
+                          _isLoading = false;
+                        }));
               }
             },
             isSelected: [
