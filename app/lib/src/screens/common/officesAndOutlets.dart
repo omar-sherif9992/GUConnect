@@ -118,7 +118,7 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           });
         },
         child: ListView(
-            children: outlets.map((e) => buildOfficeItem(e)).toList()));
+            children: outletsDisplay.map((e) => buildOfficeItem(e)).toList()));
   }
 
   Widget _buildOffices() {
@@ -130,7 +130,7 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           });
         },
         child: ListView(
-            children: offices.map((e) => buildOfficeItem(e)).toList()));
+            children: officesDisplay.map((e) => buildOfficeItem(e)).toList()));
   }
 
   Widget buildOfficeItem(OfficeAndLocation office) {
