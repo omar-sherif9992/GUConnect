@@ -1,5 +1,5 @@
 import 'package:GUConnect/src/models/Reports.dart';
-import 'package:GUConnect/src/screens/admin/Report_content.dart';
+import 'package:GUConnect/src/screens/admin/report_content.dart';
 import 'package:flutter/material.dart';
 
 import 'package:GUConnect/src/models/User.dart';

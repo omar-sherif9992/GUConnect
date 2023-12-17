@@ -1,7 +1,12 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/OfficeAndLocation.dart';
+import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/screens/admin/set_office_screen.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OfficesAndOutlets extends StatefulWidget {
@@ -21,11 +26,41 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    if (user == null) {
+      Navigator.popAndPushNamed(context, CustomRoutes.home);
+      return const CircularProgressIndicator();
+    }
+
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'Offices and Outlets',
-        actions: [],
+        actions: [
+          if (user.userType == UserType.admin)
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SetOfficeAndLocationScreen(),
+                  ),
+                );
+              },
+            ),
+        ],
       ),
+      floatingActionButton: user.userType == UserType.admin
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SetOfficeAndLocationScreen(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: Column(
         children: [
           _buildSearchBar(),
@@ -89,8 +124,8 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           style: TextStyle(
               fontSize: 16, color: Theme.of(context).colorScheme.secondary),
         ),
-        trailing: Text(
-          "Directions",
+        trailing: const Text(
+          'Directions',
           style: TextStyle(fontSize: 14),
         ),
         onTap: () async {
@@ -101,9 +136,9 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl =
+    final String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    Uri googleUri = Uri.parse(googleUrl);
+    final Uri googleUri = Uri.parse(googleUrl);
     if (!await launchUrl(googleUri)) {
       throw Exception('Could not launch $googleUri');
     }
@@ -166,8 +201,9 @@ class OfficeItem extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  OfficeItem(
-      {required this.name,
+  const OfficeItem(
+      {super.key,
+      required this.name,
       required this.location,
       required this.latitude,
       required this.longitude});
@@ -198,8 +234,8 @@ class OfficeItem extends StatelessWidget {
           style: TextStyle(
               fontSize: 16, color: Theme.of(context).colorScheme.secondary),
         ),
-        trailing: Text(
-          "Directons",
+        trailing: const Text(
+          'Directions',
           style: TextStyle(fontSize: 14),
         ),
         onTap: () async {
@@ -210,9 +246,9 @@ class OfficeItem extends StatelessWidget {
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl =
+    final String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    Uri googleUri = Uri.parse(googleUrl);
+    final Uri googleUri = Uri.parse(googleUrl);
     if (!await launchUrl(googleUri)) {
       throw Exception('Could not launch $googleUri');
     }

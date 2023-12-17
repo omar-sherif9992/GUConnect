@@ -1,5 +1,5 @@
+import 'package:GUConnect/src/models/Course.dart';
 import 'package:GUConnect/src/models/Rating.dart';
-import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/models/UserRating.dart';
 import 'package:GUConnect/src/providers/RatingProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -11,38 +11,47 @@ import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StuffProfile extends StatefulWidget {
-  const StuffProfile({super.key});
+class CourseProfile extends StatefulWidget {
+  const CourseProfile({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _StuffProfileState();
+    return _CourseProfileState();
   }
 }
 
-class _StuffProfileState extends State<StuffProfile>
+class _CourseProfileState extends State<CourseProfile>
     with SingleTickerProviderStateMixin {
-  late Staff staff;
-  late bool _loading;
+  Course course = Course(
+    courseCode: '',
+    courseName: '',
+    description: '',
+  );
+  bool _loading = false;
 
-  late Rating _staffRating;
+  Rating _courseRating = Rating(
+    id: '',
+    ratingSum: 0,
+    ratingAverage: 0,
+    ratingCount: 0,
+  );
   late double _userRating = 0;
 
   RatingProvider? ratingProvider;
   UserProvider? userProvider;
 
   Future<void> getRating() async {
-    ratingProvider!.getRating(staff.email).then((value) => setState(() {
-          _staffRating = value;
+    ratingProvider!.getRating(course.courseCode).then((value) => setState(() {
+          _courseRating = value;
         }));
   }
 
   Future<void> onRatingDeleted() async {
     ratingProvider!
-        .deleteRating(staff.email, userProvider!.user!.user_id)
+        .deleteRating(course.courseCode, userProvider!.user!.user_id)
         .then((value) => setState(() {
               if (value != null) {
-                _staffRating = value;
+                _courseRating = value;
                 _userRating = 0;
               }
             }));
@@ -50,7 +59,7 @@ class _StuffProfileState extends State<StuffProfile>
 
   Future<void> getUserRating() async {
     ratingProvider!
-        .getUserRating(staff.email, userProvider!.user!.user_id)
+        .getUserRating(course.courseCode, userProvider!.user!.user_id)
         .then((value) => setState(() {
               _userRating = value.rating;
             }));
@@ -61,10 +70,10 @@ class _StuffProfileState extends State<StuffProfile>
       userId: userProvider!.user!.user_id,
       rating: rating,
     );
-    ratingProvider!.addRating(userRating, staff.email).then((value) {
+    ratingProvider!.addRating(userRating, course.courseCode).then((value) {
       setState(() {
         _userRating = rating;
-        _staffRating = value;
+        _courseRating = value;
       });
     });
   }
@@ -72,28 +81,17 @@ class _StuffProfileState extends State<StuffProfile>
   @override
   void initState() {
     super.initState();
-    staff = Staff(
-        fullName: '',
-        email: '',
-        staffType: '',
-        description: '',
-        speciality: '',
-        courses: []);
-    _staffRating = Rating(
-      id: staff.email,
-      ratingSum: 0,
-      ratingAverage: 0,
-      ratingCount: 0,
-    );
     setState(() {
       _loading = true;
     });
+    ratingProvider = Provider.of<RatingProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     Future.delayed(
       Duration.zero,
       () async {
         ratingProvider = Provider.of<RatingProvider>(context, listen: false);
         userProvider = Provider.of<UserProvider>(context, listen: false);
-        staff = ModalRoute.of(context)!.settings.arguments as Staff;
+        course = ModalRoute.of(context)!.settings.arguments as Course;
         await getRating();
         await getUserRating();
         setState(() {
@@ -109,7 +107,7 @@ class _StuffProfileState extends State<StuffProfile>
     return Scaffold(
         bottomNavigationBar: const BottomBar(),
         drawer: const MainDrawer(),
-        appBar: const CustomAppBar(title: 'Staff Profile'),
+        appBar: const CustomAppBar(title: 'Course Profile'),
         body: SingleChildScrollView(
           child: _loading
               ? Container(
@@ -164,8 +162,8 @@ class _StuffProfileState extends State<StuffProfile>
                                     ),
                                     child: ClipOval(
                                       child: Image.network(
-                                        staff.image ??
-                                            'https://picsum.photos/200/300',
+                                        course.image ??
+                                            'https://th.bing.com/th/id/R.fc7b660d1b6021d08f4a29c8b79e512f?rik=dsJBajttEnte3A&pid=ImgRaw&r=0',
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,
@@ -176,15 +174,15 @@ class _StuffProfileState extends State<StuffProfile>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
+                                        Container(
                                           width: 200,
                                           child: Text(
-                                            ('${staff.staffType} ${staff.fullName}'),
+                                            ('${course.courseName}'),
                                             overflow: TextOverflow.clip,
                                             style: const TextStyle(
-                                              fontSize: 20.0,
+                                              fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              letterSpacing: 1.5,
+                                              letterSpacing: 1,
                                             ),
                                           ),
                                         ),
@@ -194,27 +192,6 @@ class _StuffProfileState extends State<StuffProfile>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                width: 80,
-                                                margin: const EdgeInsets.only(
-                                                    right: 10),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          16.0),
-                                                  color: const Color.fromARGB(
-                                                      255, 242, 200, 147),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  staff.officeLocation ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 13,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
                                               Container(
                                                   width: 60,
                                                   margin: const EdgeInsets.only(
@@ -229,7 +206,7 @@ class _StuffProfileState extends State<StuffProfile>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    _staffRating.ratingAverage
+                                                    _courseRating.ratingAverage
                                                         .toStringAsFixed(1),
                                                     style: const TextStyle(
                                                       fontSize: 13,
@@ -248,21 +225,19 @@ class _StuffProfileState extends State<StuffProfile>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: Text(
-                                            staff.email,
-                                            style: const TextStyle(
-                                              fontSize: 15.0,
-                                              letterSpacing: 1.5,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          )),
+                                      const Text(
+                                        'Description : ',
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          letterSpacing: 1.5,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
                                       SizedBox(
                                         width: 300,
                                         child: Text(
-                                          staff.bio ?? '',
+                                          course.description,
                                           overflow: TextOverflow.clip,
                                           style: const TextStyle(
                                             fontSize: 15.0,
@@ -272,59 +247,16 @@ class _StuffProfileState extends State<StuffProfile>
                                         ),
                                       ),
                                       const SizedBox(height: 30),
-                                      const Text(
-                                        'Courses: ',
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Container(
-                                        width: 300,
-                                        child: Wrap(
-                                          spacing: 10.0,
-                                          runSpacing: 10.0,
-                                          children: staff?.courses
-                                                  ?.map((course) => Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                          color: const Color
-                                                              .fromARGB(255,
-                                                              242, 200, 147),
-                                                        ),
-                                                        child: Text(
-                                                          course,
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 13,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ))
-                                                  .toList() ??
-                                              [],
-                                        ),
-                                      ),
-                                      // Rating Staff
-                                      const SizedBox(height: 30),
-                                      Text(
-                                        'Rate ${staff.staffType} ${staff.fullName} : ',
-                                        style: const TextStyle(
-                                          fontSize: 15.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
+                                      SizedBox(
+                                          width: 300,
+                                          child: Text(
+                                            'Rate ${course.courseName} : ',
+                                            style: const TextStyle(
+                                              fontSize: 15.0,
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )),
                                       const SizedBox(height: 10),
                                       CRatingBar(
                                         rating: _userRating,

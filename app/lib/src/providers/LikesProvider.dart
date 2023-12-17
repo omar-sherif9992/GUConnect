@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class LikesProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore;
+  
   LikesProvider(FirebaseFirestore firestore) : _firestore = firestore;
   String getCollectionName(int value) {
     switch (value) {

@@ -29,6 +29,7 @@ class InputField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       keyboardType: keyboardType,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
+      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: controller,
       validator: validator,
       onSaved: (value) => controller.text = value!,

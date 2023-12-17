@@ -13,14 +13,14 @@ class CourseProvider extends ChangeNotifier {
           );
 
   Future<List<Course>> searchCourse(String name) async {
-    final List<Course> staffs = [];
+    final List<Course> courses = [];
     final QuerySnapshot<Course> querySnapshot =
         await coursesRef.where('courseName', isEqualTo: name).get();
 
     querySnapshot.docs.forEach((doc) {
-      staffs.add(doc.data());
+      courses.add(doc.data());
     });
-    return staffs;
+    return courses;
   }
 
   Future<List<Course>> getCourses() async {

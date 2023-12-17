@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
-
+  bool _isLoading = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  _login(UserProvider userProvider) async {
+  Future<void> _login(UserProvider userProvider) async {
     final bool success =
         await userProvider.login(emailController.text, passwordController.text);
     if (success) {
@@ -171,42 +171,47 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await _login(userProvider);
-                                  print(
-                                      '/////////////////////////////////////////////');
-                                  print(userProvider.user);
-                                  print(
-                                      '/////////////////////////////////////////////');
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                foregroundColor:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          const SizedBox(height: 10),
+                          if (_isLoading)
+                            const CircularProgressIndicator()
+                          else
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    await _login(userProvider);
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  foregroundColor:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  // size 30% of screen width
+                                  minimumSize: Size(
+                                      MediaQuery.of(context).size.width * 0.9,
+                                      50),
+                                  alignment: Alignment.center,
                                 ),
-                                // size 30% of screen width
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width * 0.9,
-                                    50),
-                                alignment: Alignment.center,
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontSize:
+                                          18), // Customize the text size if needed
+                                ),
                               ),
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                    fontSize:
-                                        18), // Customize the text size if needed
-                              ),
-                            ),
-                          )
+                            )
                         ],
                       ),
                     )),
