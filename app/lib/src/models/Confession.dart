@@ -11,18 +11,18 @@ class Confession extends Post {
     required super.content,
     required super.sender,
     required super.createdAt,
-    super.image = '',
-  });
+  }) {
+    super.likes = {};
+    super.comments = [];
+  }
 
   factory Confession.fromJson(Map<String, dynamic> json) {
     return Confession(
       content: json['content'] ?? '',
       sender: CustomUser.fromJson(json['sender'] ?? {}),
       createdAt: DateTime.parse(json['createdAt'] ?? ''),
-      isAnonymous:
-          json['isAnonymous'] ?? false, // Provide a default value if needed
-      image: json['image'] ?? '',
-    )..id = json['id'] ?? ''; // Include id with null check
+      isAnonymous: json['isAnonymous'] ?? false,
+    )..id = json['id'] ?? '';
   }
 
   @override
