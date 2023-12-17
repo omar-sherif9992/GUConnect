@@ -7,7 +7,8 @@ import 'package:GUConnect/src/screens/common/AcademicRelated/addAcademicQuestion
 import 'package:GUConnect/src/screens/common/L&F/addLostAndFoundPost.dart';
 import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/screens/admin/set_staff_screen.dart';
-import 'package:GUConnect/src/screens/common/confessions.dart';
+import 'package:GUConnect/src/screens/common/confessions/addConfessions.dart';
+import 'package:GUConnect/src/screens/common/confessions/confessions.dart';
 import 'package:GUConnect/src/screens/common/newsEvents/addPostClubs.dart';
 import 'package:GUConnect/src/screens/admin/search_staff.dart';
 import 'package:GUConnect/src/screens/common/newsEvents/clubsAndEvents.dart';
@@ -57,6 +58,7 @@ class CustomRoutes {
   static const String academicRelatedQuestions = '/academic-related-questions';
   static const String addAcademicRelatedQuestions =
       '/add-academic-related-questions';
+  static const String addConfessions = '/add-confessions';
 
   // STAFF ROUTES
   static const String staff = '/staff/profile';
@@ -106,6 +108,7 @@ class CustomRoutes {
       adminReports: (context) => const PendingReportsScreen(),
       adminCourse: (context) => const SearchCourseScreen(),
       course: (context) => const CourseProfile(),
+      addConfessions: (context) => const AddConfessionsPost(),
     };
   }
 }

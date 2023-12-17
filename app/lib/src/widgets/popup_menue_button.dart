@@ -4,6 +4,7 @@ import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
+import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -21,13 +22,12 @@ enum SampleItem { Report, Edit, Delete }
 class PopupMenu extends StatefulWidget {
   final Post post;
   final int reportCollectionNameType;
-  const PopupMenu({super.key, required this.post, required this.reportCollectionNameType});
+  const PopupMenu(
+      {super.key, required this.post, required this.reportCollectionNameType});
 
   @override
   State<PopupMenu> createState() => _PopupMenuState();
 }
-
-
 
 class _PopupMenuState extends State<PopupMenu> {
   SampleItem? selectedMenu;
@@ -35,15 +35,13 @@ class _PopupMenuState extends State<PopupMenu> {
   late UserProvider userProvider;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
-  void onDeleteConfirm() async
-  {
-      showDialog(
+  void onDeleteConfirm() async {
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -59,43 +57,57 @@ class _PopupMenuState extends State<PopupMenu> {
         );
       },
     );
-      switch(widget.reportCollectionNameType)
-      {
-        case 0:
-        Provider.of<NewsEventClubProvider>(context, listen: false).deletePost(widget.post.id).then((v){
-          Navigator.of(context).pop();   
+    switch (widget.reportCollectionNameType) {
+      case 0:
+        Provider.of<NewsEventClubProvider>(context, listen: false)
+            .deletePost(widget.post.id)
+            .then((v) {
+          Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed(CustomRoutes.clubsAndEvents);
-        });return;
-        case 1:
-        Provider.of<LostAndFoundProvider>(context, listen: false).deleteItem(widget.post.id).then((v){
-          Navigator.of(context).pop();   
+        });
+        return;
+      case 1:
+        Provider.of<LostAndFoundProvider>(context, listen: false)
+            .deleteItem(widget.post.id)
+            .then((v) {
+          Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed(CustomRoutes.lostAndFound);
-        });return;
-        case 2:
-        Provider.of<AcademicQuestionProvider>(context, listen: false).deleteQuestion(widget.post.id).then((v){
-          
-          Navigator.of(context).pop();   
+        });
+        return;
+      case 2:
+        Provider.of<AcademicQuestionProvider>(context, listen: false)
+            .deleteQuestion(widget.post.id)
+            .then((v) {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(CustomRoutes.academicRelatedQuestions);
-        });return;
-      }
-      
-        
+          Navigator.of(context).pop();
+          Navigator.of(context)
+              .pushNamed(CustomRoutes.academicRelatedQuestions);
+        });
+        return;
+      case 3:
+        Provider.of<ConfessionProvider>(context, listen: false)
+            .deleteConfession(widget.post.id)
+            .then((v) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(CustomRoutes.confessions);
+        });
+        return;
+    }
   }
 
-  void onDeleteCancel()
-  {
+  void onDeleteCancel() {
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     final Widget deleteConfirmation = AlertDialog(
       title: const Text('Delete Post'),
       content: const Text('Are you sure you want to delete this post?'),
@@ -125,65 +137,69 @@ class _PopupMenuState extends State<PopupMenu> {
           onSelected: (SampleItem item) {
             // Open different dialogs based on the selected item
             if (item == SampleItem.Report) {
-
-              showDialog(context: context, builder: 
-              (BuildContext context) {
-                return ReportModal(
-                  image: widget.post.image, reportedId: widget.post.id, reportedUser: widget.post.sender,
-                   reportedContent: widget.post.content, reportCollectionNameType: widget.reportCollectionNameType,
-                    createdAt: widget.post.createdAt
-                );
-              }
-              );
-             
-            } else if (item == SampleItem.Edit) 
-            {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ReportModal(
+                        image: widget.post.image,
+                        reportedId: widget.post.id,
+                        reportedUser: widget.post.sender,
+                        reportedContent: widget.post.content,
+                        reportCollectionNameType:
+                            widget.reportCollectionNameType,
+                        createdAt: widget.post.createdAt);
+                  });
+            } else if (item == SampleItem.Edit) {
               //What are you goind to do here???
-              switch(widget.reportCollectionNameType){
+              switch (widget.reportCollectionNameType) {
                 case 0:
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditPostClub(initialPost: widget.post as NewsEventClub),
+                      builder: (context) => EditPostClub(
+                          initialPost: widget.post as NewsEventClub),
                     ),
-                  ); return;
+                  );
+                  return;
 
-                case 1: 
-                Navigator.push(
+                case 1:
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditLFPost(initialPost: widget.post as LostAndFound),
+                      builder: (context) =>
+                          EditLFPost(initialPost: widget.post as LostAndFound),
                     ),
-                  ); return;
-                case 2: 
-                Navigator.push(
+                  );
+                  return;
+                case 2:
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditAcademicPost(initialPost: widget.post as AcademicQuestion),
+                      builder: (context) => EditAcademicPost(
+                          initialPost: widget.post as AcademicQuestion),
                     ),
-                  ); return;
+                  );
+                  return;
                 //go here for the confession as well
               }
-              
-
-              
-            }
-            else if (item == SampleItem.Delete)
-            {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return deleteConfirmation;
-                  },
-                );
+            } else if (item == SampleItem.Delete) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return deleteConfirmation;
+                },
+              );
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-            customPopupMenuItem(SampleItem.Report, Icons.report, Colors.orange, 'Report'),
-            if(userProvider.user!.user_id == widget.post.sender.user_id) 
-              customPopupMenuItem(SampleItem.Edit, Icons.edit_note_rounded, Colors.orange, 'Edit'),
-            if(userProvider.user!.user_id == widget.post.sender.user_id)
-              customPopupMenuItem(SampleItem.Delete, Icons.delete_forever, Colors.red, 'Delete')
+            customPopupMenuItem(
+                SampleItem.Report, Icons.report, Colors.orange, 'Report'),
+            if (userProvider.user!.user_id == widget.post.sender.user_id)
+              customPopupMenuItem(SampleItem.Edit, Icons.edit_note_rounded,
+                  Colors.orange, 'Edit'),
+            if (userProvider.user!.user_id == widget.post.sender.user_id)
+              customPopupMenuItem(
+                  SampleItem.Delete, Icons.delete_forever, Colors.red, 'Delete')
           ],
         ),
       ],
@@ -206,5 +222,4 @@ class _PopupMenuState extends State<PopupMenu> {
       ),
     );
   }
-  
 }
