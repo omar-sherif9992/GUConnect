@@ -8,12 +8,26 @@ class ReportContentScreen extends StatelessWidget {
   final Report report;
 
   const ReportContentScreen({super.key, required this.report});
+String getTitleByReportType(String reportType) {
+  switch (reportType) {
+    case 'comment':
+      return 'Comment';
+    case 'lostAndFound' || 'academicRelatedQuestions' || 'newsEventClubs':
+      return 'Post';
+    case 'confession':
+      return 'Confession';
+    default:
+      return 'Activity'; // Default value or handle other types as needed
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${report.reportedUser.userName ?? 'Anonymous'}\'s Activity'),
+        title: Text(
+  '${report.reportedUser.userName ?? 'Anonymous'}\'s ${getTitleByReportType(report.reportType)}'
+),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -57,10 +71,36 @@ class ReportContentScreen extends StatelessWidget {
               ],
             ),
           ),
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               report.reportedContent,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          if (report.image != null)
+  CachedNetworkImage(
+    placeholder: (context, url) => const Loader(),
+    imageUrl: report.image!,
+  ),
+   Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Report Reason: ${report.reason}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Clarification: ${report.clarification ?? 'No Clarification'}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
