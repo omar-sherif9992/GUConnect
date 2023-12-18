@@ -78,6 +78,7 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
         }));
   }
 
+
   Widget _buildSelectFilter() {
     reportsProvider = Provider.of<ReportsProvider>(context, listen: false);
 
@@ -170,7 +171,15 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
               ))
             : RefreshIndicator.adaptive(
                 onRefresh: () async {
-                  
+                  if(_selectFilter == 'Confessions'){
+                    reports = await reportsProvider.getConfessionReports();
+                  }
+                  else if(_selectFilter == 'Comments'){
+                    reports = await reportsProvider.getCommentReports();
+                  }
+                  else{
+                    reports = await reportsProvider.getPostReports();
+                  }
                   reportsDisplay = reports;
                   setState(() {
                     _isLoading = false;
