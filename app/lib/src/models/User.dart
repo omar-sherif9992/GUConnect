@@ -60,7 +60,6 @@ class CustomUser extends Mentionable{
   }
   CustomUser.edit({
     this.fullName,
-    this.userName,
     this.biography,
     this.phoneNumber,
   });
