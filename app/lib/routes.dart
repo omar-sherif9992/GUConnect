@@ -1,3 +1,5 @@
+import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/admin/pending_reports.dart';
 import 'package:GUConnect/src/screens/admin/pendings_screen.dart';
 import 'package:GUConnect/src/screens/admin/search_course.dart';
@@ -24,6 +26,7 @@ import 'package:GUConnect/src/screens/user/profile_edit.dart';
 import 'package:GUConnect/src/screens/user/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/screens/common/officesAndOutlets.dart';
+import 'package:provider/provider.dart';
 
 class CustomRoutes {
   // USER ROUTES
@@ -87,7 +90,18 @@ class CustomRoutes {
       home: (context) => const SplashScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
-      profile: (context) => const ProfileScreen(),
+      profile: (context) {
+        try{
+          final arguments = (ModalRoute.of(context)?.settings.arguments) as Map<String, CustomUser>;
+          final CustomUser user = (arguments['user']) as CustomUser ;
+
+          return ProfileScreen(user: user);
+        }
+        catch(e)
+        {
+          return ProfileScreen(user: Provider.of<UserProvider>(context, listen: false).user!);
+        }
+      },
       search: (context) => const SearchScreen(),
       profileEdit: (context) => const ProfileEditScreen(),
       settings: (context) => const SettingsScreen(),

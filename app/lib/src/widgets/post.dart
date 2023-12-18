@@ -1,3 +1,5 @@
+import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
@@ -102,13 +104,18 @@ class _PostWState extends State<PostW> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        // User name
-                        widget.post.sender.userName ?? '',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': widget.post.sender});
+                        },
+                        child: Text(
+                          // User name
+                          widget.post.sender.userName ?? '',
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                color: Theme.of(context).colorScheme.onBackground,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
@@ -138,12 +145,27 @@ class _PostWState extends State<PostW> {
         // Caption
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            // Post caption
-            widget.post.content,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                // Post caption
+                widget.post.content,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              if(widget.post is Confession)
+                Row(children: (widget.post as Confession).mentionedPeople!.map(
+                  (e)=> GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: e);
+                    },
+                    child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
+                  )
+                  ).toList(),),
+            ],
           ),
         ),
         // Image or Video

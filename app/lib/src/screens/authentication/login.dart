@@ -50,8 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushReplacementNamed(context, CustomRoutes.profile,
                 arguments: {'user': user});
           } */
-          Navigator.pushNamed(context, CustomRoutes.profile,
-              arguments: {'user': user});
+          Navigator.pushNamed(context, CustomRoutes.profile);
         }
       }
     } else {

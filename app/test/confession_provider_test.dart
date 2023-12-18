@@ -20,6 +20,8 @@ void main() {
       content: 'confession',
       sender: user,
       createdAt: DateTime.now(),
+      comments: [],
+      likes: {}
     );
     await confessionProvider.addConfession(c);
     expect(await confessionProvider.getConfessions(), isNotEmpty);

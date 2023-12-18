@@ -32,6 +32,8 @@ void main() {
       content: 'confession',
       sender: user,
       createdAt: DateTime.now(),
+      comments: [],
+      likes: {}
     );
     NewsEventClub n = NewsEventClub(
         reason: "reason",
