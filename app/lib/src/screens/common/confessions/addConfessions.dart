@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/confessions/confessions.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -29,6 +30,7 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
   List<CustomUser> users = [];
 
   
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
       }
       });
        }); 
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   Future _addPost(ConfessionProvider provider, String content, List<CustomUser> mentionedUsers) async {
@@ -210,7 +213,9 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
                         final String content = contentController.text;
                         final List<CustomUser> mentionedUsers = filterUsersByMentionedIds(users, extractIdsFromMentions(mentionsValue));
                         _addPost(confessionsProvider, content, mentionedUsers);
-                      }
+                        usabilityProvider.logEvent(
+                          userProvider.user!.email, 'Add_Confession');
+                    }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(

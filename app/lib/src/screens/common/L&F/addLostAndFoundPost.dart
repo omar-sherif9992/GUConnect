@@ -2,8 +2,10 @@
 import 'dart:io';
 
 import 'package:GUConnect/src/models/LostAndFound.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/L&F/lostAndFound.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
@@ -33,6 +35,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
   late LostAndFoundProvider lostProvider;
 
   late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState()
@@ -40,6 +43,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
     super.initState();
     lostProvider = Provider.of<LostAndFoundProvider>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   double calculateAspectRatio() {
@@ -53,6 +57,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
   }
 
   void _removeImage() {
+    usabilityProvider.logEvent(userProvider.user!.email ,'Remove_Image_Add_Lost_And_Found');
     setState(() {
       _selectedImage = null;
     });
@@ -254,6 +259,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                       final String contact = contactController.text;
                       _addPost(lostProvider, content, contact, _selectedImage ?? File(''));
                     }
+                    usabilityProvider.logEvent(userProvider.user!.email ,'Add_Lost_And_Found_Post');
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(

@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -31,6 +33,7 @@ class _EditPostState extends State<EditLFPost> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late LostAndFoundProvider lostProvider;
   late CommentProvider commentProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -39,6 +42,7 @@ class _EditPostState extends State<EditLFPost> {
     lostProvider = Provider.of<LostAndFoundProvider>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     // Initialize form fields with initial values for editing
     contentController.text = widget.initialPost.content;
     contactController.text = widget.initialPost.contact;
@@ -47,6 +51,7 @@ class _EditPostState extends State<EditLFPost> {
   }
 
   Future<void> _getImage() async {
+    usabilityProvider.logEvent(userProvider.user!.email ,'pick_Image_Edit_Lost_And_Found');
     final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -69,6 +74,7 @@ class _EditPostState extends State<EditLFPost> {
   }
 
   void _removeImage() {
+    usabilityProvider.logEvent(userProvider.user!.email ,'remove_Image_Edit_Lost_And_Found');
     setState(() {
       _selectedImage = null;
     });
@@ -255,6 +261,7 @@ class _EditPostState extends State<EditLFPost> {
                       final String contact = contactController.text;
                       _updatePost(lostProvider, content, contact, _selectedImage ?? File(''));
                     }
+                    usabilityProvider.logEvent(userProvider.user!.email ,'Edit_Lost_And_Found');
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(

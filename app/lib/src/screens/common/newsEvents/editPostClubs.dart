@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -30,6 +32,7 @@ class _EditPostState extends State<EditPostClub> {
   late NewsEventClubProvider clubPostProvider;
   late CommentProvider commentProvider;
 
+  late UsabilityProvider usabilityProvider;
   @override
   void initState() {
     super.initState();
@@ -38,6 +41,7 @@ class _EditPostState extends State<EditPostClub> {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     // Initialize form fields with initial values for editing
     contentController.text = widget.initialPost.content;
     reasonController.text = widget.initialPost.reason;
@@ -46,6 +50,7 @@ class _EditPostState extends State<EditPostClub> {
   }
 
   Future<void> _getImage() async {
+    usabilityProvider.logEvent(userProvider.user!.email ,'Add_Image_Edit_Post_Clubs');
     final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -68,6 +73,7 @@ class _EditPostState extends State<EditPostClub> {
   }
 
   void _removeImage() {
+    usabilityProvider.logEvent(userProvider.user!.email ,'Remove_Image_Edit_Post_Clubs');
     setState(() {
       _selectedImage = null;
     });
@@ -246,6 +252,7 @@ class _EditPostState extends State<EditPostClub> {
                       final String reason = reasonController.text;
                       _updatePost(clubPostProvider, content, reason, _selectedImage ?? File(''));
                     }
+                    usabilityProvider.logEvent(userProvider.user!.email ,'Update_Post_Button_Pressed');
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(

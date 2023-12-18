@@ -10,6 +10,7 @@ import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -33,6 +34,7 @@ class _EditPostState extends State<EditAcademicPost> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late AcademicQuestionProvider academicProvider;
   late CommentProvider commentProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _EditPostState extends State<EditAcademicPost> {
     academicProvider = Provider.of<AcademicQuestionProvider>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     // Initialize form fields with initial values for editing
     contentController.text = widget.initialPost.content;
     // You can set _selectedImage here if needed
@@ -49,6 +52,7 @@ class _EditPostState extends State<EditAcademicPost> {
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
+    usabilityProvider.logEvent(userProvider.user!.email ,'pick_Image_Edit_Academic_Related_Question');
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -70,6 +74,7 @@ class _EditPostState extends State<EditAcademicPost> {
   }
 
   void _removeImage() {
+    usabilityProvider.logEvent(userProvider.user!.email ,'remove_Image_Edit_Academic_Related_Question');
     setState(() {
       _selectedImage = null;
     });
@@ -230,6 +235,7 @@ class _EditPostState extends State<EditAcademicPost> {
                       final String content = contentController.text;
                       _updatePost(academicProvider, content, _selectedImage ?? File(''));
                     }
+                    usabilityProvider.logEvent(userProvider.user!.email ,'edit_Academic_Related_Question');
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(

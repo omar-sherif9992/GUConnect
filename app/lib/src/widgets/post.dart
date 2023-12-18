@@ -3,6 +3,7 @@ import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
@@ -38,6 +39,7 @@ class _PostWState extends State<PostW> {
   late NewsEventClubProvider clubProvider;
   late LikesProvider likesProvider;
   late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   late Set<String> likes2;
 
@@ -48,6 +50,7 @@ class _PostWState extends State<PostW> {
     clubProvider = Provider.of<NewsEventClubProvider>(context, listen: false);
     likesProvider = Provider.of<LikesProvider>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     likes2 = widget.post.likes;
   }
 
@@ -190,6 +193,11 @@ class _PostWState extends State<PostW> {
               IconButton(
                 onPressed: () {
                   likeIcon == disliked ? likePost(0) : likePost(1);
+                  usabilityProvider.logEvent(
+                      userProvider.user!.email,
+                      likeIcon == disliked
+                          ? 'Liking_Post'
+                          : 'Disliking_Post'); // Analytics
                 },
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(
