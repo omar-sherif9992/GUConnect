@@ -68,16 +68,21 @@ class _PostWState extends State<PostW> {
         });
       });
 
-
-      if( userProvider.user!.user_id != widget.post.sender.user_id){
-
-      
-      await FirebaseNotification.sendNotification(
+      if (userProvider.user!.user_id != widget.post.sender.user_id) {
+        await FirebaseNotification.sendLikeNotification(
+          widget.post.sender.fullName ?? '',
           widget.post.sender.token ?? '',
+          widget.post.id,
+          widget.postType == 0
+              ? 'NewsEventClub'
+              : widget.postType == 1
+                  ? 'LostAndFound'
+                  : widget.postType == 2
+                      ? 'Academic'
+                      : 'Confession',
           userProvider.user!.userName ?? '',
-          'liked your post');
+        );
       }
-
     } else {
       await likesProvider
           .dislike(
@@ -178,27 +183,46 @@ class _PostWState extends State<PostW> {
                     ),
               ),
               const SizedBox(height: 10),
-              if(widget.post is Confession)
-                Row(children: (widget.post as Confession).mentionedPeople!.map(
-                  (e)=> GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': e});
-                    },
-                    child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
-                  )
-                  ).toList(),),
-              if(widget.post is LostAndFound && (widget.post as LostAndFound).contact != '')
+              if (widget.post is Confession)
+                Row(
+                  children: (widget.post as Confession)
+                      .mentionedPeople!
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: {'user': e});
+                            },
+                            child: Text(
+                              '@${e.mentionLabel}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              if (widget.post is LostAndFound &&
+                  (widget.post as LostAndFound).contact != '')
                 Row(
                   children: [
-                    Text('Contact   ', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),),
-                    Text((widget.post as LostAndFound).contact??''),
-                    const SizedBox(width: 20,),
-                    GestureDetector( child: Icon(Icons.phone, color: Theme.of(context).colorScheme.primary),
-                    onTap: () async{
-                      await FlutterPhoneDirectCaller.callNumber(
-                                (widget.post as LostAndFound).contact??'' );
-                    }
+                    Text(
+                      'Contact   ',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600),
                     ),
+                    Text((widget.post as LostAndFound).contact ?? ''),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    GestureDetector(
+                        child: Icon(Icons.phone,
+                            color: Theme.of(context).colorScheme.primary),
+                        onTap: () async {
+                          await FlutterPhoneDirectCaller.callNumber(
+                              (widget.post as LostAndFound).contact ?? '');
+                        }),
                   ],
                 ),
             ],
