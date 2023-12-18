@@ -291,6 +291,14 @@ class UserProvider with ChangeNotifier {
     }
     return querySnapshot.docs.first.data();
   }
+    Future<CustomUser?> getUserByUserName(String userName) async {
+    final QuerySnapshot<CustomUser> querySnapshot =
+        await usersRef.where('userName', isEqualTo: userName).get();
+    if (querySnapshot.docs.isEmpty) {
+      return null;
+    }
+    return querySnapshot.docs.first.data();
+  }
 
   void setUser(CustomUser user) {
     _user = user;
