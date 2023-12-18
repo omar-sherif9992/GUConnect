@@ -203,25 +203,48 @@ exports.sendPostApprovalNotification = functions.https.onCall(
             type: "approval",
           },
         };
-        const usersTokens = [];
-        const userSnapshot = admin.firestore().collection("users").get();
-        userSnapshot.forEach((user) => {
-          if (user.data().token) {
-            usersTokens.push(user.data().token);
-          }
-        });
-        const payload = {
+
+        return fcm
+            .send(message)
+            .then((response) => {
+              return {
+                success: true,
+                response: "Notification sent successfully",
+              };
+            })
+            .catch((error) => {
+              return {success: false, response: error};
+            });
+      } catch (error) {
+        return {success: false, response: error};
+      }
+    });
+
+exports.sendBroadcastNotificationNewAnnouncement = functions.https.onCall(
+    (data, context) => {
+    /*
+                data = {
+                    postId: string,
+                    postOwnerName: string,
+                }
+    */
+
+      const title = "New announcement from " + data.postOwnerName;
+      const body = "Click to view the announcement";
+      const postId = data.postId;
+
+      try {
+        const message = {
           notification: {
-            title: "new announcement added to GUC Connect",
-            body: "click to view",
+            title: title,
+            body: body,
           },
-          tokens: usersTokens,
+          topic: "broadcast",
           data: {
-            type: "announcement",
             announcementId: postId,
+            type: "broadcast",
           },
         };
-        fcm.sendMulticast(payload);
 
         return fcm
             .send(message)

@@ -185,4 +185,17 @@ class FirebaseNotification {
     if (kDebugMode) print(results.data);
     return results.data.success;
   }
+
+  static Future<bool> sendBroadcastNotificationNewAnnouncement(
+      String postId, String postOwnerName) async {
+    final HttpsCallable callable = FirebaseFunctions.instance
+        .httpsCallable('sendBroadcastNotificationNewAnnouncement');
+
+    final results = await callable(<String, dynamic>{
+      'postOwnerName': postOwnerName,
+      'postId': postId,
+    });
+    if (kDebugMode) print(results.data);
+    return results.data.success;
+  }
 }
