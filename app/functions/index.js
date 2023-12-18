@@ -232,32 +232,41 @@ exports.sendBroadcastNotificationNewAnnouncement = functions.https.onCall(
       const title = "New announcement from " + data.postOwnerName;
       const body = "Click to view the announcement";
       const postId = data.postId;
+      const userSnapshot = admin.firestore().collection("users");
+      const users = userSnapshot.get().then((querySnapshot) => {
+        const tokens = [];
+        querySnapshot.forEach((doc) => {
+          if (doc.data().token) tokens.push(doc.data().token);
+        });
+        try {
+          const message = {
+            notification: {
+              title: title,
+              body: body,
+            },
+            tokens: tokens,
+            data: {
+              announcementId: postId,
+              type: "broadcast",
+            },
+          };
 
-      try {
-        const message = {
-          notification: {
-            title: title,
-            body: body,
-          },
-          topic: "broadcast",
-          data: {
-            announcementId: postId,
-            type: "broadcast",
-          },
-        };
+          return fcm
+              .sendMulticast(message)
+              .then((response) => {
+                return {
+                  success: true,
+                  response: "Notification sent successfully",
+                };
+              })
+              .catch((error) => {
+                return {success: false, response: error};
+              });
+        } catch (error) {
+          return {success: false, response: error};
+        }
+      });
 
-        return fcm
-            .send(message)
-            .then((response) => {
-              return {
-                success: true,
-                response: "Notification sent successfully",
-              };
-            })
-            .catch((error) => {
-              return {success: false, response: error};
-            });
-      } catch (error) {
-        return {success: false, response: error};
-      }
-    });
+      return users;
+    }
+);
