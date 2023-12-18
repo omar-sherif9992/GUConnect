@@ -70,7 +70,7 @@ class _PostWState extends State<PostW> {
       if( userProvider.user!.user_id != widget.post.sender.user_id){
 
       
-      await FirebaseNotification(
+      await FirebaseNotification.sendNotification(
           widget.post.sender.token ?? '',
           userProvider.user!.userName ?? '',
           'liked your post');
@@ -176,25 +176,15 @@ class _PostWState extends State<PostW> {
                     ),
               ),
               const SizedBox(height: 10),
-              if (widget.post is Confession)
-                Row(
-                  children: (widget.post as Confession)
-                      .mentionedPeople!
-                      .map((e) => GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                  CustomRoutes.profile,
-                                  arguments: e);
-                            },
-                            child: Text(
-                              '@${e.mentionLabel}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary),
-                            ),
-                          ))
-                      .toList(),
-                ),
+              if(widget.post is Confession)
+                Row(children: (widget.post as Confession).mentionedPeople!.map(
+                  (e)=> GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': e});
+                    },
+                    child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
+                  )
+                  ).toList(),),
             ],
           ),
         ),
