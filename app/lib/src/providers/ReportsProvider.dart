@@ -105,7 +105,7 @@ class ReportsProvider extends ChangeNotifier {
     final List<Report> commentReports = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('reports')
-        .where('reportType', isEqualTo: 'comment')
+        .where('reportType', isEqualTo: 'comments')
         .get();
     querySnapshot.docs.forEach((doc) {
       commentReports.add(Report.fromJson(doc.data()));
@@ -117,7 +117,7 @@ class ReportsProvider extends ChangeNotifier {
     final List<Report> confessionReports = [];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot = await _firestore
         .collection('reports')
-        .where('reportType', isEqualTo: 'confession')
+        .where('reportType', isEqualTo: 'confessions')
         .get();
     querySnapshot.docs.forEach((doc) {
       confessionReports.add(Report.fromJson(doc.data()));

@@ -41,7 +41,7 @@ class CourseProvider extends ChangeNotifier {
             profileImageFile, 'course_images', course.courseName);
         if (imageUrl != null) course.image = imageUrl;
       }
-      await coursesRef.doc(course.courseName).set(course);
+      await coursesRef.doc(course.courseCode).set(course);
       notifyListeners();
     } catch (e) {
       print("Error setting course");

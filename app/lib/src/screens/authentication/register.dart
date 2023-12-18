@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         final CustomUser? userWithId =
             await userProvider.getUser(emailController.text.trim());
         userProvider.setUser(userWithId!);
-        Navigator.of(context).popAndPushNamed(CustomRoutes.profile);
+        Navigator.of(context).pushNamed(CustomRoutes.profile);
         return true;
       }
     } else {

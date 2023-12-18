@@ -228,17 +228,6 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const SetStaffScreen(),
-              maintainState: false,
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
       appBar: CustomAppBar(
         title: 'Search Staff',
         isLogo: false,

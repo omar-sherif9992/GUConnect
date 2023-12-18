@@ -77,18 +77,21 @@ class _SetCourseScreenState extends State<SetCourseScreen> {
                         profileImageUrl: profileImageUrl,
                         backgroundImageUrl: 'assets/images/course.png',
                       ),
-                      InputField(
-                        controller: _courseCodeController,
-                        label: 'Course Code',
-                        icon: Icons.book,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter course code';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.name,
-                      ),
+                      if (widget.course == null) InputField(
+                          controller: _courseCodeController,
+                          label: 'Course Code',
+                          icon: Icons.book,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter course code';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.name,
+                        ) else Text(
+                          'Course code: ${widget.course!.courseCode}'
+                        )
+                      ,
                       InputField(
                         controller: _courseNameController,
                         label: 'Course Name',
