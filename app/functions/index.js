@@ -20,6 +20,7 @@ exports.sendNotification = functions.https.onCall((data, context) => {
       token: token,
       data: {
         body: body,
+        type: "general",
       },
     };
     return fcm
@@ -62,6 +63,7 @@ exports.sendTagNotification = functions.https.onCall((data, context) => {
       token: token,
       data: {
         confessionId: confessionId,
+        type: "tag",
       },
     };
     return fcm
@@ -108,6 +110,7 @@ exports.sendCommentNotification = functions.https.onCall((data, context) => {
       token: token,
       data: {
         confessionId: postId,
+        type: "comment",
       },
     };
     return fcm
@@ -196,9 +199,30 @@ exports.sendPostApprovalNotification = functions.https.onCall(
           },
           token: token,
           data: {
-            confessionId: postId,
+            announcementId: postId,
+            type: "approval",
           },
         };
+        const usersTokens = [];
+        const userSnapshot = admin.firestore().collection("users").get();
+        userSnapshot.forEach((user) => {
+          if (user.data().token) {
+            usersTokens.push(user.data().token);
+          }
+        });
+        const payload = {
+          notification: {
+            title: "new announcement added to GUC Connect",
+            body: "click to view",
+          },
+          tokens: usersTokens,
+          data: {
+            type: "announcement",
+            announcementId: postId,
+          },
+        };
+        fcm.sendMulticast(payload);
+
         return fcm
             .send(message)
             .then((response) => {
