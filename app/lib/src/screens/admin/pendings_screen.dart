@@ -195,7 +195,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchItems();
                   filterItems(_searchController.text);
