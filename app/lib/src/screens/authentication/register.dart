@@ -203,7 +203,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                   ),
-                ),Padding(
+                ),
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InputField(
                     controller: userNameController,
@@ -215,12 +216,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return 'Enter your Username';
                       } else if (value.length < 6) {
                         return 'Username must be at least 6 characters long';
-                      }else if(value.contains(' ')){
+                      } else if (value.contains(' ')) {
                         return 'Username must not contain spaces';
-                      }
-                      else {
+                      } else if (value.contains('@')) {
+                        return 'User name cannot contain @';
+                      } else {
                         return null;
-                      } 
+                      }
                     },
                   ),
                 ),
@@ -291,8 +293,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ));
                               return;
                             }
-                            if (await userProvider
-                                    .getUserByUserName(userNameController.text.trim()) !=
+                            if (await userProvider.getUserByUserName(
+                                    userNameController.text.trim()) !=
                                 null) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(

@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () async {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AboutScreen(),
+                    builder: (context) => const AboutScreen(),
                     maintainState: false,
                   ),
                 );

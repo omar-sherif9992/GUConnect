@@ -243,10 +243,10 @@ class _PendingsScreenState extends State<PendingsScreen> {
                           }
 
                           setState(() {
-                            posts.removeWhere((element) =>
-                                element.id == post.id);
-                            postsDisplay.removeWhere((element) =>
-                                element.id == post.id);
+                            posts.removeWhere(
+                                (element) => element.id == post.id);
+                            postsDisplay.removeWhere(
+                                (element) => element.id == post.id);
                           });
                         },
                       ),
@@ -304,6 +304,11 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (post == null) {
+      return const SizedBox(
+        height: 0,
+      );
+    }
     return Container(
       decoration: BoxDecoration(
         border: Border.all(

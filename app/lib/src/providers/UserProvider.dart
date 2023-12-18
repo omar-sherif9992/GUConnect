@@ -180,8 +180,6 @@ class UserProvider with ChangeNotifier {
 
   Future<bool> updateProfile(CustomUser editUser, File? pickedImageFile) async {
     try {
-      print('pickedImageFile ==================');
-      print(pickedImageFile);
       if (_user != null) {
         if (pickedImageFile != null) {
           final String? imageUrl = await uploadImageToStorage(
@@ -193,7 +191,6 @@ class UserProvider with ChangeNotifier {
         _user!.biography = editUser.biography;
         _user!.fullName = editUser.fullName;
         _user!.phoneNumber = editUser.phoneNumber;
-        _user!.userName = editUser.userName;
 
         await usersRef.doc(_user!.user_id).set(_user!);
       }
@@ -291,7 +288,8 @@ class UserProvider with ChangeNotifier {
     }
     return querySnapshot.docs.first.data();
   }
-    Future<CustomUser?> getUserByUserName(String userName) async {
+
+  Future<CustomUser?> getUserByUserName(String userName) async {
     final QuerySnapshot<CustomUser> querySnapshot =
         await usersRef.where('userName', isEqualTo: userName).get();
     if (querySnapshot.docs.isEmpty) {

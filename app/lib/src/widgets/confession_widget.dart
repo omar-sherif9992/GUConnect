@@ -95,7 +95,7 @@ class _PostWState extends State<Confession_Widget> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage:
-                        CachedNetworkImageProvider(widget.post.sender.image??''),
+                        CachedNetworkImageProvider(widget.post.sender.image?? ''),
                   ),
                   const SizedBox(width: 8),
                   Column(
