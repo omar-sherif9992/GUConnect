@@ -336,23 +336,6 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      floatingActionButton: userProvider.user?.userType == UserType.admin
-          ? FloatingActionButton(
-              onPressed: () async {
-                
-                final type = await Navigator.pushNamed(
-                    context, CustomRoutes.addImportantContacts);
-                if (type == null) return;
-
-                if (type == 'email') {
-                  await fetchEmails();
-                } else {
-                  await fetchPhoneNumbers();
-                }
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
       appBar: CustomAppBar(
         title: 'Important Contacts',
         isLogo: false,

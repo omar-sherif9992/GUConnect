@@ -64,18 +64,6 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
             ),
         ],
       ),
-      floatingActionButton: user.userType == UserType.admin
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const SetOfficeAndLocationScreen(),
-                  ),
-                );
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
       body: Column(
         children: [
           _buildSearchBar(),
@@ -134,7 +122,7 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           return false; // Return false to allow the notification to continue to be dispatched.
         },
         child: ListView(
-            children: outlets.map((e) => buildOfficeItem(e)).toList())));
+            children: outletsDisplay.map((e) => buildOfficeItem(e)).toList())));
   }
 
   Widget _buildOffices() {
@@ -154,8 +142,8 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
           }
           return false; // Return false to allow the notification to continue to be dispatched.
         },
-        child:ListView(
-            children: offices.map((e) => buildOfficeItem(e)).toList())));
+        child: ListView(
+            children: officesDisplay.map((e) => buildOfficeItem(e)).toList())));
   }
 
   Widget buildOfficeItem(OfficeAndLocation office) {

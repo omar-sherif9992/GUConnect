@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mentionable_text_field/mentionable_text_field.dart';
 
 /// Represents the type of a user in the application.
 
@@ -31,7 +32,7 @@ class UserType {
 }
 
 /// Represents a user in the application.
-class CustomUser {
+class CustomUser extends Mentionable{
   late String? fullName;
   late String? userName;
   late String? phoneNumber;
@@ -135,4 +136,11 @@ class CustomUser {
   String toString() {
     return 'fullName: $fullName, email: $email, password: $password, token: $token';
   }
+  
+  String removeSpaces(String txt) {
+    return txt.replaceAll(' ', '');
+  }
+
+  @override
+  String get mentionLabel => removeSpaces(userName??'');
 }

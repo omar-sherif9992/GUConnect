@@ -140,17 +140,6 @@ class _SearchCourseScreenState extends State<SearchCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const SetCourseScreen(),
-              maintainState: false,
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
       appBar: CustomAppBar(
         title: 'Search Courses',
         isLogo: false,

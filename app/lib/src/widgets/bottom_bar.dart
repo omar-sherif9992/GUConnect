@@ -66,10 +66,10 @@ class BottomBar extends StatelessWidget {
         offset: const Offset(
             0, -17), // Adjust the Y offset to shift the diamond icon up
         child: Transform.rotate(
-          angle: pi / 4,
+          angle: pi,
           child: Container(
-            height: 55,
-            width: 67,
+            height: 65,
+            width: 65,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: Theme.of(context).colorScheme.primary,

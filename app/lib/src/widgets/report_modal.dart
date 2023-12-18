@@ -86,7 +86,7 @@ class ReportModal extends StatefulWidget {
     );
 
         final Report submittedReport = Report(reportedContentId: widget.reportedId, reportedUser: widget.reportedUser, reportedContent: widget.reportedContent, 
-        reportType: getCollectionName(widget.reportCollectionNameType), createdAt: widget.createdAt, reason: reason, clarification: clarification);
+        reportType: getCollectionName(widget.reportCollectionNameType), createdAt: DateTime.now(), reason: reason, clarification: clarification);
 
         reportProvider.reportContent(submittedReport).then((value) {
           Navigator.pop(context);
