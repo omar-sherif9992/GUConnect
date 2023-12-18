@@ -28,11 +28,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late UserProvider userProvider;
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
-    userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
   @override
@@ -61,7 +59,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ));
         final CustomUser? userWithId =
             await userProvider.getUser(emailController.text.trim());
-        userProvider.setUser(userWithId!);
+        if (userWithId == null) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Something went wrong, please try again.'),
+            backgroundColor: Colors.red,
+          ));
+          return false;
+        }
+        userProvider.setUser(userWithId);
         Navigator.of(context).pushNamed(CustomRoutes.profile);
         return true;
       }
@@ -176,7 +181,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -194,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator: (value) {
                       final RegExp emailRegExp = RegExp(
                           r'^[a-zA-Z]+\.[a-zA-Z]+@((guc\.edu\.eg)|(student\.guc\.edu\.eg))$');
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Enter your email address';
                       } else if (!emailRegExp.hasMatch(value)) {
                         return 'Enter a valid GUC email address';
@@ -212,7 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icons.person,
                     keyboardType: TextInputType.name,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Enter your Username';
                       } else if (value.length < 6) {
                         return 'Username must be at least 6 characters long';
@@ -232,7 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     passwordController: passwordController,
                     hintText: 'Password',
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Enter your password';
                       } else if (value.length < 6) {
                         return 'Password must be at least 6 characters long';
@@ -259,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passwordController: confirmPasswordController,
                       hintText: 'Confirm Password',
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value == null || value.isEmpty) {
                           return 'Confirm your password';
                         } else if (value != passwordController.text.trim()) {
                           return 'Passwords do not match';
