@@ -22,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController otpController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -156,8 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text.trim(),
         fullName:
             '${emailController.text.trim().split('@')[0].split('.')[0]} ${emailController.text.trim().split('@')[0].split('.')[1]}',
-        userName:
-            '${emailController.text.trim().split('@')[0].split('.')[0]}${emailController.text.trim().split('@')[0].split('.')[1]}');
+        userName: userNameController.text.trim());
 
     userProvider.sendOtpToEmail(emailController.text.trim());
     _showOtpInputDialog(userProvider, newUser);
@@ -192,16 +192,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       }
                     },
-                    // decoration: const InputDecoration(
-                    //   labelText: 'Email Address',
-                    //   hintText: 'Sample@guc.edu.eg',
-                    //   border: OutlineInputBorder(
-                    //     borderSide: BorderSide(
-                    //       width: 2.0, // change this to adjust the width
-                    //     ),
-                    //   ),
-                    // ),
-                    // inputFormatters: [NoSpaceInputFormatter()]
+                  ),
+                ),Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InputField(
+                    controller: userNameController,
+                    label: 'UserName',
+                    icon: Icons.person,
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your Username';
+                      } else if (value.length < 6) {
+                        return 'Username must be at least 6 characters long';
+                      }else if(value.contains(' ')){
+                        return 'Username must not contain spaces';
+                      }
+                      else {
+                        return null;
+                      } 
+                    },
                   ),
                 ),
                 Padding(
@@ -266,7 +276,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 null) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
-                                content: Text('Email already Registered'),
+                                content: Text('Email is already Registered'),
+                                backgroundColor: Colors.red,
+                              ));
+                              return;
+                            }
+                            if (await userProvider
+                                    .getUserByUserName(userNameController.text.trim()) !=
+                                null) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('UserName is already used'),
                                 backgroundColor: Colors.red,
                               ));
                               return;
