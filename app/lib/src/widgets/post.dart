@@ -190,7 +190,7 @@ class _PostWState extends State<PostW> {
               ),
               const SizedBox(height: 10),
               if (widget.post is Confession)
-                Row(
+                Wrap(
                   children: (widget.post as Confession)
                       .mentionedPeople!
                       .map((e) => GestureDetector(
@@ -200,7 +200,7 @@ class _PostWState extends State<PostW> {
                                   arguments: {'user': e});
                             },
                             child: Text(
-                              '@${e.mentionLabel}',
+                              '@${e.mentionLabel} ',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary),

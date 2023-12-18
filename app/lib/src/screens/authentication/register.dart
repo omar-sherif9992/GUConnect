@@ -25,6 +25,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController userNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  late UserProvider userProvider;
+
+  @override
+  void initState()
+  {
+    super.initState();
+    userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+  }
 
   @override
   void dispose() {
@@ -67,7 +76,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _showOtpInputDialog(UserProvider userProvider, CustomUser newUser) {
+    //print("El OTP zahar");
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -165,8 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    
     return Form(
         key: _formKey,
         child: SingleChildScrollView(
