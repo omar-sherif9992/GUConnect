@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:GUConnect/src/models/Usability.dart';
@@ -102,6 +104,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                     return 'Enter your user name';
                   } else if (value.contains(' ')) {
                     return 'User name cannot contain spaces';
+                  } else if (value.contains('@')) {
+                    return 'User name cannot contain @';
                   } else {
                     return null;
                   }
@@ -157,7 +161,17 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                             setState(() {
                               _isLoading = true;
                             });
-
+                            if (await userProvider.getUserByUserName(
+                                    userNameController.text.trim()) !=
+                                null) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text('User name already exists')),
+                              );
+                              return;
+                            }
                             await userProvider.updateProfile(
                                 CustomUser.edit(
                                     fullName: fullNameController.text,
