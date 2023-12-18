@@ -355,7 +355,7 @@ class StaffTile extends StatelessWidget {
           tag: staff.email,
           child: CircleAvatar(
             backgroundImage: staff.image != null
-                ? NetworkImage(staff.image ?? '')
+                ? NetworkImage(staff.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png')
                 : const AssetImage('assets/images/user.png')
                     as ImageProvider<Object>?,
           ),
@@ -400,7 +400,7 @@ class CourseTile extends StatelessWidget {
           tag: course.courseName,
           child: CircleAvatar(
             backgroundImage: course.image != null
-                ? NetworkImage(course.image ?? '')
+                ? NetworkImage(course.image ?? 'assets/images/course.png')
                 : const AssetImage('assets/images/course.png')
                     as ImageProvider<Object>?,
           ),

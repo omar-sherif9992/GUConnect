@@ -16,7 +16,7 @@ class BottomBar extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     if (userProvider.user == null) {
-      Navigator.of(context).popAndPushNamed('/login');
+      return Container();
     }
 
     final CustomUser user = userProvider.user as CustomUser;

@@ -142,7 +142,7 @@ class _CommentModalState extends State<CommentModal> {
           radius: 15,
           // Replace with your image URL
           backgroundImage:
-              CachedNetworkImageProvider(userProvider.user?.image ?? ''),
+              CachedNetworkImageProvider(userProvider.user?.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
         ),
         const SizedBox(
           width: 10,
