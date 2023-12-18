@@ -49,9 +49,9 @@ class _SearchStaffScreenState extends State<SearchStaffScreen>
               })
             })
         .catchError((error) {
-          print('error');
-          print('error');
-          print(error);
+      print('error');
+      print('error');
+      print(error);
       setState(() {
         _isLoading = false;
       });
@@ -277,6 +277,11 @@ class StaffTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (staff == null) {
+      return const SizedBox(
+        height: 0,
+      );
+    }
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -312,7 +317,8 @@ class StaffTile extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () async {
-            final Staff deletedStaff = await Navigator.of(context).pushReplacement(
+            final Staff deletedStaff =
+                await Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => SetStaffScreen(
                   staff: staff,
