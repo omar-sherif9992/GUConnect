@@ -26,10 +26,21 @@ class CRatingBar extends StatefulWidget {
 
 class _RatingBarState extends State<CRatingBar> {
 
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
+
+  @override 
+  void initState()
+  {
+    super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
+  }
+
+
   @override
   Widget build(BuildContext context) {
-      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-      UsabilityProvider usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
+      
     return Row(
       children: [
         RatingBar.builder(
