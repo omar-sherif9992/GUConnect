@@ -168,8 +168,9 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
+                  
                   reportsDisplay = reports;
                   setState(() {
                     _isLoading = false;
