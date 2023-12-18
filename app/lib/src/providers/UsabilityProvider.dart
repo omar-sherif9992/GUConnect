@@ -104,9 +104,10 @@ void didReplace({Route? newRoute, Route? oldRoute}) {
     print(e);
   }
 }
-  Future<void> logEvent(Usability usability, UserEvent event) async {
+  Future<void> logEvent(String userEmail, String Event) async {
     try {
-      // Check if the document exists
+      Usability usability = Usability(user_email: userEmail);
+      UserEvent event = UserEvent(eventName: Event);
       var querySnapshot = await _firestore
           .collection('usability')
           .where('user_email', isEqualTo: usability.user_email)

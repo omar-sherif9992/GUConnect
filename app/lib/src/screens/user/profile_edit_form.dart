@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/input_field.dart';
 import 'package:GUConnect/src/widgets/password_field.dart';
@@ -55,6 +57,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
+    final UsabilityProvider usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
 
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');
@@ -142,6 +146,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                   else
                     ElevatedButton(
                         onPressed: () async {
+                          usabilityProvider.logEvent(userProvider.user!.email,'Edit Profile');
                           if (_formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(

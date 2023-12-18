@@ -4,10 +4,12 @@
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class CommentModal extends StatefulWidget
@@ -31,6 +33,7 @@ class _CommentModalState extends State<CommentModal> {
   late CommentProvider commentProvider;
 
   late UserProvider userProvider; 
+  late UsabilityProvider usabilityProvider;
 
   late List<Comment> comments;
 
@@ -47,6 +50,7 @@ class _CommentModalState extends State<CommentModal> {
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
     refresh();
 
@@ -97,7 +101,16 @@ class _CommentModalState extends State<CommentModal> {
                 color: Theme.of(context).colorScheme.primary),
               ),
               Expanded(
-            child: ListView.builder(
+            child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Comments');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Comments');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
               itemCount: comments.length,
               itemBuilder: (context, index) {
                 return Column(
@@ -112,7 +125,7 @@ class _CommentModalState extends State<CommentModal> {
                 );
                 }
             ),
-          ),
+          )),
           _buildCommentInput(),
           /*if (isEmojiPickerVisible) SizedBox(
             height: 200,
@@ -163,9 +176,11 @@ class _CommentModalState extends State<CommentModal> {
               // Handle comment submission here
               final String commentText = _commentController.text;
               // Perform any necessary actions with the commentText
+
               addComment(commentText);
               // Clear the comment input field
               _commentController.clear();
+              usabilityProvider.logEvent(userProvider.user!.email, 'Add_Comment');
             },
           ),
         ],

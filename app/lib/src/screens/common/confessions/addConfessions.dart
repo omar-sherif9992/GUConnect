@@ -1,6 +1,7 @@
 import 'package:GUConnect/src/models/Confession.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/confessions/confessions.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -21,6 +22,7 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late ConfessionProvider confessionsProvider;
   bool _isAnonymous = true;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
         Provider.of<ConfessionProvider>(context, listen: false);
 
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   Future _addPost(ConfessionProvider provider, String content) async {
@@ -167,6 +170,8 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       _addPost(confessionsProvider, content);
+                      usabilityProvider.logEvent(
+                          userProvider.user!.email, 'Add_Confession');
                     }
                   },
                   style: ButtonStyle(

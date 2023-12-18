@@ -4,12 +4,15 @@ import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class AcademicRelatedQuestions extends StatefulWidget {
@@ -29,6 +32,8 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
       fullName: 'omar');
 
   late AcademicQuestionProvider academicProvider;
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   List<AcademicQuestion> posts = [];
 
@@ -40,6 +45,8 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
 
     academicProvider =
         Provider.of<AcademicQuestionProvider>(context, listen: false);
+      usabilityProvider=Provider.of<UsabilityProvider>(context,listen: false);
+      userProvider=Provider.of<UserProvider>(context,listen: false);
   }
 
   @override
@@ -72,6 +79,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
   Widget build(context) {
     final IconButton addPost = IconButton(
       onPressed: () {
+        usabilityProvider.logEvent(userProvider.user!.email,'Open_Add_Academic_Related_Question_Screen');
         Navigator.of(context).pushNamed(CustomRoutes.addAcademicRelatedQuestions);
       },
       icon: Icon(Icons.add_box_outlined,
@@ -93,7 +101,16 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                     Expanded(
                       child: RefreshIndicator(
                         onRefresh: _refresh,
-                        child: ListView.builder(
+                        child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email , 'Scroll_Up_Academic_Related_Question');
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email , 'Scroll_Down_Academic_Related_Question');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
                               return Column(
@@ -110,7 +127,7 @@ class _AcademicRelatedQuestionsState extends State<AcademicRelatedQuestions> {
                               );
                             }),
                       ),
-                    )
+                    ))
                   ],
                 )
               : Padding(

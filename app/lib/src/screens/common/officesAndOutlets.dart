@@ -2,10 +2,12 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/OfficeAndLocation.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/OfficeLocationProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/admin/set_office_screen.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,6 +27,9 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
   List<OfficeAndLocation> outletsDisplay = [];
   late OfficeLocationProvider officeLocationProvider;
   late final TextEditingController _searchController = TextEditingController();
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
+  
 
   bool _isLoading = false;
   @override
@@ -101,6 +106,8 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
   void initState() {
     super.initState();
     officeLocationProvider = OfficeLocationProvider();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     fetchOfficesAndOutlets(officeLocationProvider).then((value) => {
           setState(() {
             _isLoading = false;
@@ -117,8 +124,17 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
             _isLoading = false;
           });
         },
+        child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Outlets');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Outlets');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
         child: ListView(
-            children: outlets.map((e) => buildOfficeItem(e)).toList()));
+            children: outlets.map((e) => buildOfficeItem(e)).toList())));
   }
 
   Widget _buildOffices() {
@@ -129,8 +145,17 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
             _isLoading = false;
           });
         },
-        child: ListView(
-            children: offices.map((e) => buildOfficeItem(e)).toList()));
+        child:  NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Offices');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Offices');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child:ListView(
+            children: offices.map((e) => buildOfficeItem(e)).toList())));
   }
 
   Widget buildOfficeItem(OfficeAndLocation office) {

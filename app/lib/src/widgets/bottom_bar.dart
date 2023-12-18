@@ -24,6 +24,9 @@ class BottomBar extends StatelessWidget {
     final bool isAdmin = user.userType == UserType.admin;
 
     void navigate(String routeName) {
+      UsabilityProvider usabilityProvider =
+          Provider.of<UsabilityProvider>(context, listen: false);
+      usabilityProvider.logEvent(user.email, 'Navigate_To_$routeName');
       if (ModalRoute.of(context)!.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
       }

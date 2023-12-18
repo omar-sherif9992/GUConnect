@@ -1,5 +1,9 @@
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 class CRatingBar extends StatefulWidget {
   double rating;
@@ -21,8 +25,11 @@ class CRatingBar extends StatefulWidget {
 }
 
 class _RatingBarState extends State<CRatingBar> {
+
   @override
   Widget build(BuildContext context) {
+      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+      UsabilityProvider usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     return Row(
       children: [
         RatingBar.builder(
@@ -47,6 +54,7 @@ class _RatingBarState extends State<CRatingBar> {
         if (widget.isRatingEnabled)
           ElevatedButton(
             onPressed: () {
+              usabilityProvider.logEvent(userProvider.user!.email, 'Rating_Submitted');
               widget.onRatingSubmit(widget.rating);
               setState(() {
                 widget.isRatingEnabled = false;
@@ -58,6 +66,7 @@ class _RatingBarState extends State<CRatingBar> {
         if (widget.isRatingSubmitted)
           ElevatedButton(
             onPressed: () {
+              usabilityProvider.logEvent(userProvider.user!.email, 'Rating_Deleted');
               widget.onRatingDelete();
               setState(() {
                 widget.isRatingEnabled = true;

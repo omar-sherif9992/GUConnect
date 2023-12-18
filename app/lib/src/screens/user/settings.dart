@@ -1,4 +1,5 @@
 import 'package:GUConnect/routes.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/about.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
@@ -38,7 +39,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-
+    final UsabilityProvider usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Settings'),
@@ -136,6 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: 'Logout',
                             message: 'Are you sure you want to logout?',
                             onApprove: () async {
+                              usabilityProvider.logEvent(userProvider.user!.email,'Logout');
                               await userProvider.logout();
 
                               // ignore: use_build_context_synchronously

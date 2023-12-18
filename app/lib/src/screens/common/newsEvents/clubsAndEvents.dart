@@ -2,12 +2,16 @@ import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class ClubsAndEvents extends StatefulWidget {
@@ -27,6 +31,8 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
       fullName: 'omar');
 
   late NewsEventClubProvider clubPostProvider;
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   List<NewsEventClub> posts = [];
 
@@ -38,6 +44,8 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
 
     clubPostProvider =
         Provider.of<NewsEventClubProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   @override
@@ -71,6 +79,8 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
     final IconButton addPost = IconButton(
       onPressed: () {
         Navigator.of(context).pushNamed(CustomRoutes.addClubPost);
+        usabilityProvider.logEvent(userProvider.user!.email,
+            'Add_Club_Post_Button_Pressed');
       },
       icon: Icon(Icons.add_box_outlined,
           color: Theme.of(context).colorScheme.onBackground, size: 24),
@@ -91,7 +101,19 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                     Expanded(
                       child: RefreshIndicator.adaptive(
                         onRefresh: _refresh,
-                        child: ListView.builder(
+                        child:NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Up_In_Clubs_And_Events_Screen');
+           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Down_In_Clubs_And_Events_Screen');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child:  ListView.builder(
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
                               return Column(
@@ -108,7 +130,7 @@ class _ClubsAndEventsState extends State<ClubsAndEvents> {
                               );
                             }),
                       ),
-                    )
+                    ))
                   ],
                 )
               : Padding(

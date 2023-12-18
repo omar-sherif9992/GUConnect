@@ -4,11 +4,13 @@ import 'package:GUConnect/src/models/ImportantPhoneNumber.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/ImportantEmailProvider.dart';
 import 'package:GUConnect/src/providers/ImportantPhoneNumberProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,6 +39,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
 
   late ImportantEmailProvider importantEmailProvider;
   late ImportantPhoneNumberProvider importantPhoneNumberProvider;
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -46,6 +50,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
         Provider.of<ImportantEmailProvider>(context, listen: false);
     importantPhoneNumberProvider =
         Provider.of<ImportantPhoneNumberProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
     fetchContact(importantEmailProvider, importantPhoneNumberProvider)
         .then((value) => setState(() {
@@ -170,7 +176,19 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                       fontSize: 20,
                       color: Theme.of(context).colorScheme.secondary),
                 ))
-              : ListView.builder(
+              :NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Up_In_Important_Contacts_Screen');
+
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Down_In_Important_Contacts_Screen');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child:  ListView.builder(
                   key: const PageStorageKey('phoneNumbers'),
                   scrollDirection: Axis.vertical,
                   itemCount: impPhoneNumbersDisplay.length,
@@ -200,6 +218,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                         trailing: IconButton(
                           icon: const Icon(Icons.call),
                           onPressed: () async {
+                            usabilityProvider.logEvent(userProvider.user!.email,
+                                'Calling_Important_Contact');
                             await FlutterPhoneDirectCaller.callNumber(
                                 impPhoneNumbersDisplay[index].phoneNumber);
                           },
@@ -208,7 +228,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                     );
                   },
                 ),
-    );
+    ));
   }
 
   Widget _buildEmails() {
@@ -232,7 +252,18 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                         color: Theme.of(context).colorScheme.secondary),
                   ),
                 )
-              : ListView.builder(
+              : NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Up_In_Important_Emails');
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scrolling_Down_In_Important_Emails');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                   key: const PageStorageKey('emails'),
                   scrollDirection: Axis.vertical,
                   itemCount: impEmailsDisplay.length,
@@ -263,6 +294,8 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                         trailing: IconButton(
                           icon: const Icon(Icons.email),
                           onPressed: () async {
+                            usabilityProvider.logEvent(userProvider.user!.email,
+                                'Emailing_Important_Contact');
                             final String email = Uri.encodeComponent(
                                 impEmailsDisplay[index].email);
                             final String subject =
@@ -294,7 +327,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                     );
                   },
                 ),
-    );
+    ));
   }
 
   @override

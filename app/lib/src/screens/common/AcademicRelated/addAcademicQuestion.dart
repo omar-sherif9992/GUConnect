@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/AcademicRelated/academicRelated.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
@@ -25,6 +26,7 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
   File? _selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late AcademicQuestionProvider academicProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -35,11 +37,14 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
 
     userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
 
+          usabilityProvider.logEvent(userProvider.user!.email ,'pick_Image_Academic_Related_Question');
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
@@ -60,6 +65,7 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
   }
 
   void _removeImage() {
+    usabilityProvider.logEvent(userProvider.user!.email ,'remove_Image_Academic_Related_Question');
     setState(() {
       _selectedImage = null;
     });
@@ -233,6 +239,8 @@ class _AddAcademicPostState extends State<AddAcademicPost> {
                       final String content = contentController.text;
                       _addPost(academicProvider, content, _selectedImage??File(''));
                     }
+                      usabilityProvider.logEvent(userProvider.user!.email ,'Add_Academic_Related_Question');
+
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
