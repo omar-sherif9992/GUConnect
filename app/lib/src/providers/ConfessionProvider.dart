@@ -7,11 +7,14 @@ class ConfessionProvider extends ChangeNotifier {
   ConfessionProvider(FirebaseFirestore firestore) : _firestore = firestore;
 
   Future<bool> addConfession(Confession confession) async {
-    await _firestore
-        .collection('confessions')
-        .doc(confession.id)
-        .set(confession.toJson());
-    return true;
+   
+      await _firestore
+          .collection('confessions')
+          .doc(confession.id)
+          .set(confession.toJson());
+      return true;
+
+    
   }
 
   Future<void> deleteConfession(String id) async {

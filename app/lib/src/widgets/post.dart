@@ -1,10 +1,12 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
 import 'package:GUConnect/src/widgets/likable_image.dart';
@@ -12,6 +14,7 @@ import 'package:GUConnect/src/widgets/popup_menue_button.dart';
 import 'package:GUConnect/src/widgets/status_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 
 class PostW extends StatefulWidget {
@@ -54,9 +57,9 @@ class _PostWState extends State<PostW> {
     likes2 = widget.post.likes;
   }
 
-  void likePost(int like) {
+  Future<void> likePost(int like) async {
     if (like == 0) {
-      likesProvider
+      await likesProvider
           .likePost(
               widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
@@ -64,8 +67,24 @@ class _PostWState extends State<PostW> {
           likes2 = Set<String>.from(val);
         });
       });
+
+      if (userProvider.user!.user_id != widget.post.sender.user_id) {
+        await FirebaseNotification.sendLikeNotification(
+          widget.post.sender.fullName ?? '',
+          widget.post.sender.token ?? '',
+          widget.post.id,
+          widget.postType == 0
+              ? 'NewsEventClub'
+              : widget.postType == 1
+                  ? 'LostAndFound'
+                  : widget.postType == 2
+                      ? 'Academic'
+                      : 'Confession',
+          userProvider.user!.userName ?? '',
+        );
+      }
     } else {
-      likesProvider
+      await likesProvider
           .dislike(
               widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
@@ -108,14 +127,19 @@ class _PostWState extends State<PostW> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': widget.post.sender});
+                        onTap: () {
+                          Navigator.of(context).pushNamed(CustomRoutes.profile,
+                              arguments: {'user': widget.post.sender});
                         },
                         child: Text(
                           // User name
                           widget.post.sender.userName ?? '',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                color: Theme.of(context).colorScheme.onBackground,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
@@ -159,15 +183,48 @@ class _PostWState extends State<PostW> {
                     ),
               ),
               const SizedBox(height: 10),
-              if(widget.post is Confession)
-                Row(children: (widget.post as Confession).mentionedPeople!.map(
-                  (e)=> GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': e});
-                    },
-                    child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
-                  )
-                  ).toList(),),
+              if (widget.post is Confession)
+                Row(
+                  children: (widget.post as Confession)
+                      .mentionedPeople!
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: {'user': e});
+                            },
+                            child: Text(
+                              '@${e.mentionLabel}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              if (widget.post is LostAndFound &&
+                  (widget.post as LostAndFound).contact != '')
+                Row(
+                  children: [
+                    Text(
+                      'Contact   ',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    Text((widget.post as LostAndFound).contact ?? ''),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    GestureDetector(
+                        child: Icon(Icons.phone,
+                            color: Theme.of(context).colorScheme.primary),
+                        onTap: () async {
+                          await FlutterPhoneDirectCaller.callNumber(
+                              (widget.post as LostAndFound).contact ?? '');
+                        }),
+                  ],
+                ),
             ],
           ),
         ),

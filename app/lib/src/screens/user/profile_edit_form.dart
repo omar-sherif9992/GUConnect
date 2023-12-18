@@ -68,7 +68,6 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
     fullNameController.text = user.fullName ?? '';
     userNameController.text = user.userName ?? '';
-    userNameController.text = user.userName ?? '';
     bioController.text = user.biography ?? '';
     phoneController.text = user.phoneNumber ?? '';
     passwordController.text = user.password;
@@ -101,6 +100,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Enter your user name';
+                  } else if (value.contains(' ')) {
+                    return 'User name cannot contain spaces';
                   } else {
                     return null;
                   }
@@ -146,7 +147,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                   else
                     ElevatedButton(
                         onPressed: () async {
-                          usabilityProvider.logEvent(userProvider.user!.email,'Edit Profile');
+                          usabilityProvider.logEvent(
+                              userProvider.user!.email, 'Edit Profile');
                           if (_formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(

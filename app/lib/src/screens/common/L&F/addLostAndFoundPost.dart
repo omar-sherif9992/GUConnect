@@ -63,9 +63,22 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
     });
   }
 
+  bool isNumeric(String val) {
+    // Use a regular expression to check if all characters are numeric
+    if(val == '') {
+      return true;
+    }
+    return RegExp(r'^[0-9]+$').hasMatch(val);
+  }
+
   bool isCorrectNum(String val)
   {
-    if(val.length != 12 || val[0] != '0')
+    if(val == '')
+    {
+      return true;
+    }
+    
+    if(val.length != 11 || val[0] != '0')
     {
       return false;
     }
@@ -199,7 +212,8 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              UserImagePicker(onPickImage: (File pickedImage) { 
+                              UserImagePicker(backgroundImageUrl: 'data:image/png;base64,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',
+                              onPickImage: (File pickedImage) { 
       setState(() {
         _selectedImage = File(pickedImage.path);
     });
@@ -236,7 +250,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                 const SizedBox(height: 8),
                 TextFormField(
                   validator: (value) {
-                    if (value == null || value.isEmpty || isCorrectNum(value)) {
+                    if (!isCorrectNum(value??'') || !isNumeric(value??'')) {
                       return 'Please enter valid contact phone number';
                     }
                     return null;
@@ -253,7 +267,7 @@ class _AddLostAndFoundPostState extends State<AddLostAndFoundPost> {
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {
+                    if (_formKey.currentState?.validate() ?? true) {
                       // Perform action when the user clicks the button
                       final String content = contentController.text;
                       final String contact = contactController.text;
