@@ -31,10 +31,12 @@ void main() async {
 
   FirebaseNotification().initNotification();
 
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (BuildContext context) => const MyApp(),
-  ));
+  // runApp(DevicePreview(
+  //   enabled: true,
+  //   builder: (BuildContext context) => const MyApp(),
+    
+  // ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

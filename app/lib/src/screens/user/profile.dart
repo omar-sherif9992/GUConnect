@@ -136,26 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (widget.user.userType == 'staff')
-                                    Container(
-                                      width: 60,
-                                      margin: const EdgeInsets.only(
-                                          right: 10, top: 15),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        color: const Color.fromARGB(
-                                            255, 242, 200, 147),
-                                      ),
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: const Text(
-                                        'C7\n203',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
+                                  
                                   Container(
                                     width: 60,
                                     margin: const EdgeInsets.only(
@@ -176,28 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  if (widget.user.userType == 'staff')
-                                    Container(
-                                      width: 60,
-                                      margin: const EdgeInsets.only(
-                                          right: 10, top: 15),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        color: const Color.fromARGB(
-                                            255, 242, 200, 147),
-                                      ),
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: const Text(
-                                        'Rating\n4.7',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
+
                                 ],
                               ),
                             ])
