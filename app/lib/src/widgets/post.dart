@@ -5,6 +5,7 @@ import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comments_modal.dart';
 import 'package:GUConnect/src/widgets/likable_image.dart';
@@ -54,9 +55,9 @@ class _PostWState extends State<PostW> {
     likes2 = widget.post.likes;
   }
 
-  void likePost(int like) {
+  Future<void> likePost(int like) async {
     if (like == 0) {
-      likesProvider
+      await likesProvider
           .likePost(
               widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
@@ -64,8 +65,19 @@ class _PostWState extends State<PostW> {
           likes2 = Set<String>.from(val);
         });
       });
+
+
+      if( userProvider.user!.user_id != widget.post.sender.user_id){
+
+      
+      await FirebaseNotification(
+          widget.post.sender.token ?? '',
+          userProvider.user!.userName ?? '',
+          'liked your post');
+      }
+
     } else {
-      likesProvider
+      await likesProvider
           .dislike(
               widget.post.id, userProvider.user!.user_id ?? '', widget.postType)
           .then((val) {
@@ -108,14 +120,19 @@ class _PostWState extends State<PostW> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': widget.post.sender});
+                        onTap: () {
+                          Navigator.of(context).pushNamed(CustomRoutes.profile,
+                              arguments: {'user': widget.post.sender});
                         },
                         child: Text(
                           // User name
                           widget.post.sender.userName ?? '',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                color: Theme.of(context).colorScheme.onBackground,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
@@ -159,15 +176,25 @@ class _PostWState extends State<PostW> {
                     ),
               ),
               const SizedBox(height: 10),
-              if(widget.post is Confession)
-                Row(children: (widget.post as Confession).mentionedPeople!.map(
-                  (e)=> GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: e);
-                    },
-                    child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
-                  )
-                  ).toList(),),
+              if (widget.post is Confession)
+                Row(
+                  children: (widget.post as Confession)
+                      .mentionedPeople!
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: e);
+                            },
+                            child: Text(
+                              '@${e.mentionLabel}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ))
+                      .toList(),
+                ),
             ],
           ),
         ),
