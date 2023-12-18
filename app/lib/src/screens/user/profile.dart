@@ -21,7 +21,9 @@ import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key, required this.user});
+
+  CustomUser user;
 
   @override
   State<ProfileScreen> createState() {
@@ -32,7 +34,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  late CustomUser user;
+  //late CustomUser user;
   late ConfessionProvider confessionProvider;
   late NewsEventClubProvider newsEventClubProvider;
   late LostAndFoundProvider lostAndFoundProvider;
@@ -45,12 +47,12 @@ class _ProfileScreenState extends State<ProfileScreen>
   late int postsCount = 0;
 
   late bool _isLoading = false;
+
+
+
   @override
   Widget build(BuildContext context) {
-    // function that gets user posts
-
-    user = Provider.of<UserProvider>(context, listen: true).user!;
-
+    
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
       drawer: const MainDrawer(),
@@ -99,9 +101,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                           child: ClipOval(
-                            child: user.image != null && user.image!.isNotEmpty
+                            child: widget.user.image != null && widget.user.image!.isNotEmpty
                                 ? Image.network(
-                                    user.image ?? '',
+                                    widget.user.image ?? '',
                                     width: 100.0,
                                     height: 100.0,
                                     fit: BoxFit.cover,
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               SizedBox(
                                 width: 200,
                                 child: Text(
-                                  titleCase(user.fullName ?? ''),
+                                  titleCase(widget.user.fullName ?? ''),
                                   overflow: TextOverflow.clip,
                                   style: const TextStyle(
                                     fontSize: 20.0,
@@ -133,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (user.userType == 'staff')
+                                  if (widget.user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
@@ -173,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  if (user.userType == 'staff')
+                                  if (widget.user.userType == 'staff')
                                     Container(
                                       width: 60,
                                       margin: const EdgeInsets.only(
@@ -204,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 8),
                       child: Text(
-                        user.biography ?? '',
+                        widget.user.biography ?? '',
                         style: const TextStyle(
                           fontSize: 15,
                         ),
@@ -365,9 +367,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     academicQuestionProvider =
         Provider.of<AcademicQuestionProvider>(context, listen: false);
 
-    user = userProvider.user!;
-    fetchAll();
-    log(user.email);
+    //user = userProvider.user!;
+    
+    log(widget.user.email);
   }
 
   Future<void> fetchAll() async {
@@ -375,8 +377,8 @@ class _ProfileScreenState extends State<ProfileScreen>
       _isLoading = true;
     });
 
-    await fetchPosts(user.email);
-    await fetchConfessions(user.email);
+    await fetchPosts(widget.user.email);
+    await fetchConfessions(widget.user.email);
     setState(() {
       _isLoading = false;
     });
