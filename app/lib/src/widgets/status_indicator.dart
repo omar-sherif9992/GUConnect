@@ -21,7 +21,7 @@ class StatusIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(6.0),
       decoration: BoxDecoration(
         color: getStatusColor(),
         borderRadius: BorderRadius.circular(8.0),
@@ -31,6 +31,7 @@ class StatusIndicator extends StatelessWidget {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
+          fontSize: 12.0,
         ),
       ),
     );
