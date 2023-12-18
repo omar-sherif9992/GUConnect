@@ -13,8 +13,10 @@ class MainDrawer extends StatelessWidget {
   void onSelectScreen(BuildContext context, String routeName) {
     UsabilityProvider usabilityProvider =
         Provider.of<UsabilityProvider>(context, listen: false);
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-    usabilityProvider.logEvent(userProvider.user!.email, 'Navigate_To_$routeName');
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider.logEvent(
+        userProvider.user!.email, 'Navigate_To_$routeName');
     Navigator.of(context).pushNamed(routeName);
   }
 
@@ -151,24 +153,6 @@ class MainDrawer extends StatelessWidget {
           onSelectScreen(context, CustomRoutes.officesAndOutlets);
         },
       ),
-      ListTile(
-        leading: Icon(
-          // office icon
-          Icons.people_alt_outlined,
-          size: 24,
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        title: Text(
-          'Confessions',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
-              ),
-        ),
-        onTap: () {
-          onSelectScreen(context, CustomRoutes.confessions);
-        },
-      ),
     ];
 
     final userRoutes = [
@@ -196,19 +180,20 @@ class MainDrawer extends StatelessWidget {
       ...commonRoutes,
       ListTile(
         leading: Icon(
-          Icons.search,
+          // office icon
+          Icons.people_alt_outlined,
           size: 24,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
-          'Pending Posts',
+          'Confessions',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 24,
               ),
         ),
         onTap: () {
-          onSelectScreen(context, CustomRoutes.adminPendings);
+          onSelectScreen(context, CustomRoutes.confessions);
         },
       ),
       ListTile(

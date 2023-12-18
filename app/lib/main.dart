@@ -34,6 +34,7 @@ void main() async {
   runApp(DevicePreview(
     enabled: true,
     builder: (BuildContext context) => const MyApp(),
+    
   ));
 }
 
