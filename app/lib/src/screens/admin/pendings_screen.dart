@@ -197,7 +197,7 @@ class _PendingsScreenState extends State<PendingsScreen> {
               ))
             : RefreshIndicator(
                 onRefresh: () async {
-                  fetchItems();
+                  await fetchItems();
                   filterItems(_searchController.text);
                   setState(() {
                     _isLoading = false;
