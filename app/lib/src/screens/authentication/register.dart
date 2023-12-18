@@ -67,7 +67,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return false;
         }
         userProvider.setUser(userWithId);
-        Navigator.of(context).pushNamed(CustomRoutes.profile);
         return true;
       }
     } else {
@@ -113,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           actions: <Widget>[
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Close the dialog
+                Navigator.of(context).pop(context); // Close the dialog
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
@@ -144,7 +143,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
                   // Close the dialog
                   if (flag) {
-                    Navigator.pop(context);
+                    Navigator.of(context).pop();
+
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        CustomRoutes.profile, (Route<dynamic> route) => false);
                   }
                 },
                 style: ElevatedButton.styleFrom(
