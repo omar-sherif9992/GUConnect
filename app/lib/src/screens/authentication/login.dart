@@ -19,6 +19,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
+  late UserProvider userProvider;
+
+  @override
+  void initState()
+  {
+    super.initState();
+    userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+  }
+
   @override
   void dispose() {
     emailController.dispose();
@@ -65,8 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    
     return Form(
       key: _formKey,
       child: Scaffold(
