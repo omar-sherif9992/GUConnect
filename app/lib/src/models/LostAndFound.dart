@@ -5,13 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Represents a lost and found item.
 class LostAndFound extends Post {
-  late String contact;
+  late String? contact;
   late Set<String> likes;
   late List<Comment> comments;
 
   /// Constructs a [LostAndFound] object with the given [content], [image], [location], and [contact].
   LostAndFound({
-    required this.contact,
+    this.contact,
     required super.content,
     required super.createdAt,
     required super.image,

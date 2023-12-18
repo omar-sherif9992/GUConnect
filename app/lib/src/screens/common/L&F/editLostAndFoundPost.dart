@@ -45,7 +45,7 @@ class _EditPostState extends State<EditLFPost> {
     usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     // Initialize form fields with initial values for editing
     contentController.text = widget.initialPost.content;
-    contactController.text = widget.initialPost.contact;
+    contactController.text = widget.initialPost.contact??'';
     // You can set _selectedImage here if needed
     _selectedImage = widget.initialPost.image==''? null:File(widget.initialPost.image);
   }
