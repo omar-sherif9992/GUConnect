@@ -69,6 +69,9 @@ void didPush(Route route, Route? previousRoute) {
     // When a screen is popped
     try{
     screenExitTime = DateTime.now();
+    if(screenExitTime!.difference(screenEnterTime!).inSeconds ==0){
+      return;
+    }
     logScreenTime(
       Usability(user_email: _auth.currentUser!.email!),
       ScreenTime(
@@ -90,6 +93,9 @@ void didReplace({Route? newRoute, Route? oldRoute}) {
   // Log screen time for the replaced route
   try {
     screenExitTime = DateTime.now();
+    if(screenExitTime!.difference(screenEnterTime!).inSeconds ==0){
+      return;
+    }
     logScreenTime(
       Usability(user_email: _auth.currentUser!.email!),
       ScreenTime(
