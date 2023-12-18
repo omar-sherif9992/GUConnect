@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
@@ -29,7 +28,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
   final TextEditingController fullNameController = TextEditingController();
 
-  final TextEditingController userNameController = TextEditingController();
+  // final TextEditingController userNameController = TextEditingController();
 
   final TextEditingController bioController = TextEditingController();
 
@@ -47,9 +46,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   @override
   void dispose() {
     super.dispose();
-    usernameController.dispose();
+    //usernameController.dispose();
     fullNameController.dispose();
-    userNameController.dispose();
     bioController.dispose();
     phoneController.dispose();
     passwordController.dispose();
@@ -69,7 +67,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     final CustomUser user = userProvider.user as CustomUser;
 
     fullNameController.text = user.fullName ?? '';
-    userNameController.text = user.userName ?? '';
+    // userNameController.text = user.userName ?? '';
     bioController.text = user.biography ?? '';
     phoneController.text = user.phoneNumber ?? '';
     passwordController.text = user.password;
@@ -87,15 +85,21 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                 label: 'Full Name',
                 icon: Icons.person,
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  // name should contain only letters and spaces and should not contain @ symbol validate it
+
+                  if (value == null || value.isEmpty) {
                     return 'Enter your full name';
+                  } else if (value.contains('@')) {
+                    return 'Full name cannot contain @';
+                  } else if (value!.contains(RegExp(r'[0-9]'))) {
+                    return 'Full name cannot contain numbers';
                   } else {
                     return null;
                   }
                 },
                 keyboardType: TextInputType.name,
               ),
-              InputField(
+              /*      InputField(
                 controller: userNameController,
                 label: 'User Name',
                 icon: Icons.person,
@@ -111,7 +115,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                   }
                 },
                 keyboardType: TextInputType.name,
-              ),
+              ), */
               PhoneInputField(
                 controller: phoneController,
               ),
@@ -151,7 +155,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                   else
                     ElevatedButton(
                         onPressed: () async {
-                          usabilityProvider.logEvent(
+                          await usabilityProvider.logEvent(
                               userProvider.user!.email, 'Edit Profile');
                           if (_formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).clearSnackBars();
@@ -161,28 +165,20 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                             setState(() {
                               _isLoading = true;
                             });
-                            if (await userProvider.getUserByUserName(
-                                    userNameController.text.trim()) !=
-                                null) {
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content: Text('User name already exists')),
-                              );
-                              return;
-                            }
+
                             await userProvider.updateProfile(
                                 CustomUser.edit(
                                     fullName: fullNameController.text,
-                                    userName: userNameController.text,
                                     phoneNumber: phoneController.text,
                                     biography: bioController.text),
                                 widget.profileImageFile);
 
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Profile Updated')),
+                              const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text('Profile Updated'),
+                              ),
                             );
                             setState(() {
                               _isLoading = false;
