@@ -68,6 +68,7 @@ class RequestPostScreen extends StatelessWidget {
               ),
             ),
           ),
+          if (post.image != null && post.image!.isNotEmpty && post.image.trim() != '')
           CachedNetworkImage(
             placeholder: (context, url) => const Loader(),
             imageUrl: post.image,
