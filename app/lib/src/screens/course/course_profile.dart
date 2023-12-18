@@ -164,7 +164,7 @@ class _CourseProfileState extends State<CourseProfile>
                                     child: ClipOval(
                                       child: Image.network(
                                         course.image ??
-                                            'https://th.bing.com/th/id/R.fc7b660d1b6021d08f4a29c8b79e512f?rik=dsJBajttEnte3A&pid=ImgRaw&r=0',
+                                            'assets/images/course.png',
                                         width: 100.0,
                                         height: 100.0,
                                         fit: BoxFit.cover,

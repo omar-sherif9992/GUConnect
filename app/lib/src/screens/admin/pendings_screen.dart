@@ -332,7 +332,7 @@ class PostTile extends StatelessWidget {
             ),
             child: CircleAvatar(
               foregroundImage: user.image == null || user.image == ''
-                  ? NetworkImage(user.image ?? '')
+                  ? NetworkImage(user.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png')
                   : null,
               backgroundImage: const AssetImage('assets/images/user.png'),
               backgroundColor: Theme.of(context).colorScheme.secondary,

@@ -188,7 +188,7 @@ class CourseTile extends StatelessWidget {
           tag: course.courseName,
           child: CircleAvatar(
             backgroundImage: course.image != null
-                ? NetworkImage(course.image ?? '')
+                ? NetworkImage(course.image ?? 'assets/images/course.png')
                 : const AssetImage('assets/images/course.png') as ImageProvider,
           ),
         ),

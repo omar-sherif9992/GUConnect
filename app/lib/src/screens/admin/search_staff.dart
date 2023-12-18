@@ -305,7 +305,7 @@ class StaffTile extends StatelessWidget {
             ),
             child: CircleAvatar(
               foregroundImage: staff.image == null || staff.image == ''
-                  ? NetworkImage(staff.image ?? '')
+                  ? NetworkImage(staff.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png')
                   : null,
               backgroundImage: const AssetImage('assets/images/user.png'),
               backgroundColor: Theme.of(context).colorScheme.secondary,

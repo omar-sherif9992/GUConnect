@@ -117,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             child: widget.user.image != null &&
                                     widget.user.image!.isNotEmpty
                                 ? Image.network(
-                                    widget.user.image ?? '',
+                                    widget.user.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
                                     width: 100.0,
                                     height: 100.0,
                                     fit: BoxFit.cover,
