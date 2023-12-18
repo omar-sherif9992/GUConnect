@@ -94,7 +94,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 900,
+              height: 950,
               child: Expanded(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -213,44 +213,7 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                               values.map((e) => e.courseName).toList();
                         },
                       ),
-
-/*                       // I want to add a multiselect field for selecting the courses that the staff member is teaching in flutter
-                      MultiSelect(
-                        buttonBarColor: Theme.of(context).colorScheme.secondary,
-                        checkBoxColor: Theme.of(context).colorScheme.primary,
-                        hintTextColor: Theme.of(context).colorScheme.primary,
-                    
-                        searchBoxFillColor: Theme.of(context).colorScheme.primary,
-                        titleText: 'Select Courses',
-                        validator: (value) {
-                          print(value);
-                          if (value == null || value.isEmpty) {
-                            return 'Please select at least one course';
-                          }
-                          return null;
-                        },
-                        dataSource: _courses
-                            .map((course) => {
-                                  'display': course.courseName +
-                                      ': ' +
-                                      course.description,
-                                  'value': course.courseName
-                                })
-                            .toList(),
-                        textField: 'display',
-                        valueField: 'value',
-                        filterable: true,
-                        required: true,
-                        value: selectedCourses,
-                        onSaved: (value) {
-                          setState(() {
-                            selectedCourses = value;
-                          });
-                        },
-                        selectIcon: Icons.arrow_drop_down_circle,
-                        saveButtonColor: Theme.of(context).colorScheme.primary,
-                        cancelButtonColor: Colors.grey,
-                      ), */
+              
                       if (_isLoading)
                         const CircularProgressIndicator()
                       else
@@ -294,7 +257,6 @@ class _SetStaffScreenState extends State<SetStaffScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            // size 30% of screen width
                             minimumSize: Size(
                                 MediaQuery.of(context).size.width * 0.3, 50),
                             alignment: Alignment.center,

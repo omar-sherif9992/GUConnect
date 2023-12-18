@@ -42,9 +42,6 @@ class _CommentModalState extends State<CommentModal> {
 
   bool _isLoading = true;
 
-  final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', 
-    image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', fullName: 'Mr Milad Ghantous',userName: "Milad Ghantous");
-
   @override
   void initState()
   {
@@ -146,6 +143,7 @@ Widget _inputFiled()
 {
   return 
      Row(
+
                 children: [
                   CircleAvatar(
                       // User profile picture
@@ -155,8 +153,7 @@ Widget _inputFiled()
                           userProvider.user?.image??''),
                     ),
                     const SizedBox(width: 10,),
-                  SizedBox(
-                    width: 290,
+                  Expanded(
                     child: TextField(
                       controller: _commentController,
                     ),
