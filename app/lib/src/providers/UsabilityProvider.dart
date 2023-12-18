@@ -51,7 +51,8 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   if (previousRoute != null) {
     
 
-    // Check if the current route is the profile route and has user information
+    try {
+          // Check if the current route is the profile route and has user information
     if (route.settings.name == CustomRoutes.profile &&
         route.settings.arguments != null) {
       final arguments = route.settings.arguments as Map<String, dynamic>;
@@ -60,8 +61,6 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
         visitedUserEmail = visitedUser.email;
       }
     }
-
-    try {
       screenExitTime = DateTime.now();
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
@@ -87,7 +86,14 @@ void didPop(Route route, Route? previousRoute) {
   String visitedUserEmail = '';
 
   // Check if the previous route is the profile route and has user information
-  if (route != null &&
+
+
+  screenExitTime = DateTime.now();
+  if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
+    return;
+  }
+  try {
+      if (route != null &&
       route.settings.name == CustomRoutes.profile &&
       route.settings.arguments != null) {
     final arguments = route.settings.arguments as Map<String, dynamic>;
@@ -96,12 +102,6 @@ void didPop(Route route, Route? previousRoute) {
       visitedUserEmail = visitedUser.email;
     }
   }
-
-  screenExitTime = DateTime.now();
-  if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
-    return;
-  }
-  try {
     logScreenTime(
       Usability(user_email: _auth.currentUser!.email!),
       ScreenTime(
@@ -123,7 +123,13 @@ void didPop(Route route, Route? previousRoute) {
 
     // Log screen time for the replaced route
 
-    String visitedUserEmail = '';
+    
+    screenExitTime = DateTime.now();
+    if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
+      return;
+    }
+    try {
+      String visitedUserEmail = '';
     if (newRoute != null) {
       if (newRoute.settings.name == CustomRoutes.profile &&
           newRoute.settings.arguments != null) {
@@ -134,11 +140,6 @@ void didPop(Route route, Route? previousRoute) {
         }
       }
     }
-    screenExitTime = DateTime.now();
-    if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
-      return;
-    }
-    try {
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
         ScreenTime(
