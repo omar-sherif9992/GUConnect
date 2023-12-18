@@ -134,7 +134,7 @@ class FirebaseNotification {
     if (kDebugMode) print(results.data);
   }
 
-    static Future<bool> sendTagNotification(String taggedUserName,
+    static Future<void> sendTagNotification(String taggedUserName,
         String taggedUserToken, String confessionId, String taggerName) async {
       final HttpsCallable callable =
           FirebaseFunctions.instance.httpsCallable('sendTagNotification');
@@ -145,10 +145,10 @@ class FirebaseNotification {
         'taggerName': taggerName,
       });
       if (kDebugMode) print(results.data);
-      return results.data.success;
+      //return results.data.success;
     }
 
-  static Future<Bool> sendLikeNotification(
+  static Future<void> sendLikeNotification(
       String postOwnerName,
       String postOwnerToken,
       String postId,
@@ -167,10 +167,10 @@ class FirebaseNotification {
       'likerName': likerName,
     });
     if (kDebugMode) print(results.data);
-    return results.data.success;
+    //return results.data.success;
   }
 
-  static Future<bool> sendPostApprovalNotification(
+  static Future<void> sendPostApprovalNotification(
       String postOwnerName,
       String postOwnerToken,
       String postId,
@@ -187,6 +187,6 @@ class FirebaseNotification {
       'postId': postId,
     });
     if (kDebugMode) print(results.data);
-    return results.data.success;
+    //return results.data.success;
   }
 }

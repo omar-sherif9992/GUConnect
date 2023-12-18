@@ -332,7 +332,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    //final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,

@@ -17,11 +17,14 @@ class _SetSplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   double _opacity = 0;
+  late UserProvider userProvider;
 
   @override
   void initState() {
     super.initState();
 
+    userProvider =
+          Provider.of<UserProvider>(context, listen: false);
     // Initialize AnimationController
     _controller = AnimationController(
       vsync: this,
@@ -42,8 +45,7 @@ class _SetSplashScreenState extends State<SplashScreen>
     // Add a delay to simulate a splash screen
 
     Future.delayed(const Duration(seconds: 3), () async {
-      final UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
+      
       //  final bool loggedIn= userProvider.loggedIn;
       User? user = FirebaseAuth.instance.currentUser;
 

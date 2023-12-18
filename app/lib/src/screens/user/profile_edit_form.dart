@@ -41,6 +41,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
   final _formKey = GlobalKey<FormState>();
 
+  late UsabilityProvider usabilityProvider;
+
   bool _isLoading = false;
 
   @override
@@ -55,10 +57,17 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   }
 
   @override
+  void initState()
+  {
+    super.initState();
+    usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    final UsabilityProvider usabilityProvider =
-        Provider.of<UsabilityProvider>(context, listen: false);
+    
 
     if (userProvider.user == null) {
       Navigator.of(context).popAndPushNamed('/login');

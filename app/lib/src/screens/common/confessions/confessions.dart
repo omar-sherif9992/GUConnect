@@ -39,6 +39,8 @@ class _ConfessionsState extends State<Confessions> {
     confessionsProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
       
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+      
     usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     posts = [];
   }
