@@ -6,11 +6,9 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
-import 'package:GUConnect/src/widgets/mention_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/widgets/comment.dart';
-import 'package:mentionable_text_field/mentionable_text_field.dart';
 import 'package:provider/provider.dart';
 
 class CommentModal extends StatefulWidget

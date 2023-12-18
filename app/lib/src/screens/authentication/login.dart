@@ -44,13 +44,11 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (context.mounted) {
-          /*   if (emailController.text.trim().contains('@gucconnect.com')) {
-            Navigator.pushReplacementNamed(context, CustomRoutes.profile , arguments: {'user': user});
-          } else {
-            Navigator.pushReplacementNamed(context, CustomRoutes.profile,
-                arguments: {'user': user});
-          } */
-          Navigator.pushNamed(context, CustomRoutes.profile);
+          Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                CustomRoutes.profile,
+                                (Route<dynamic> route) => false,
+                              );
         }
       }
     } else {
