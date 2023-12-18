@@ -120,7 +120,7 @@ class _PostWState extends State<PostW> {
                     radius: 20,
                     // Replace with your image URL
                     backgroundImage: CachedNetworkImageProvider(
-                        widget.post.sender.image ?? ''),
+                        widget.post.sender.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
                   ),
                   const SizedBox(width: 8),
                   Column(
