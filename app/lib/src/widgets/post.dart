@@ -1,5 +1,6 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/Confession.dart';
+import 'package:GUConnect/src/models/LostAndFound.dart';
 import 'package:GUConnect/src/models/Post.dart';
 import 'package:GUConnect/src/providers/LikesProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
@@ -13,6 +14,7 @@ import 'package:GUConnect/src/widgets/popup_menue_button.dart';
 import 'package:GUConnect/src/widgets/status_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 
 class PostW extends StatefulWidget {
@@ -185,6 +187,20 @@ class _PostWState extends State<PostW> {
                     child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
                   )
                   ).toList(),),
+              if(widget.post is LostAndFound && (widget.post as LostAndFound).contact != '')
+                Row(
+                  children: [
+                    Text('Contact   ', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),),
+                    Text((widget.post as LostAndFound).contact??''),
+                    const SizedBox(width: 20,),
+                    GestureDetector( child: Icon(Icons.phone, color: Theme.of(context).colorScheme.primary),
+                    onTap: () async{
+                      await FlutterPhoneDirectCaller.callNumber(
+                                (widget.post as LostAndFound).contact??'' );
+                    }
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

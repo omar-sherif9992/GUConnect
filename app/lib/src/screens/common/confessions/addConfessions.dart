@@ -4,6 +4,7 @@ import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/confessions/confessions.dart';
+import 'package:GUConnect/src/services/notification_api.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/mention_field.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,10 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
                 MaterialPageRoute(
                   builder: (context) => const Confessions(),
                 ),
-              )
+              ),
+              for(CustomUser taggedUser in mentionedUsers){
+                FirebaseNotification.sendTagNotification(taggedUser.fullName??'', taggedUser.token??'', addedPost.id, userProvider.user!.fullName??'')
+              }
             }
           else
             {
@@ -120,6 +124,7 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
               )
             }
         });
+        
   }
 
   void mentionCallback(String val)
