@@ -84,7 +84,7 @@ class _LikeableImageState extends State<LikeableImage>
       child: Stack(
         alignment: Alignment.center,
         children: [
-          CachedNetworkImage(placeholder: (context, url) => const Loader(), imageUrl: widget.imageUrl,),
+          CachedNetworkImage(placeholder: (context, url) => const Loader(), imageUrl: widget.imageUrl, height: 350, fit: BoxFit.contain, width: double.infinity),
           if (_controller.isAnimating)
             Positioned.fill(
               child: Opacity(

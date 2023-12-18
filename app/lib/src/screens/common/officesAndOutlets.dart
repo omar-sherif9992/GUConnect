@@ -59,18 +59,6 @@ class _OfficesAndOutletsState extends State<OfficesAndOutlets>
             ),
         ],
       ),
-      floatingActionButton: user.userType == UserType.admin
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const SetOfficeAndLocationScreen(),
-                  ),
-                );
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
       body: Column(
         children: [
           _buildSearchBar(),
