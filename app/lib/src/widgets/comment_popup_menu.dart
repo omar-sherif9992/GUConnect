@@ -1,5 +1,7 @@
 import 'package:GUConnect/src/models/Comment.dart';
+import 'package:GUConnect/src/models/Usability.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/edit_comment.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
@@ -28,16 +30,19 @@ class _PopupMenuState extends State<CommentPopupMenu> {
   SampleItem? selectedMenu;
 
   late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState()
   {
     super.initState();
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   void onDeleteConfirm() async
   {
+    usabilityProvider.logEvent(userProvider.user!.email, 'Delete_Comment_Confirmed');
       showDialog(
       context: context,
       barrierDismissible: false,
@@ -64,6 +69,7 @@ class _PopupMenuState extends State<CommentPopupMenu> {
 
   void onDeleteCancel()
   {
+    usabilityProvider.logEvent(userProvider.user!.email, 'Delete_Comment_Cancelled');
     Navigator.of(context).pop();
   }
 

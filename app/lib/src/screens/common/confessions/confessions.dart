@@ -6,12 +6,15 @@ import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class Confessions extends StatefulWidget {
@@ -27,6 +30,8 @@ class _ConfessionsState extends State<Confessions> {
   late List<Confession> posts;
 
   bool _isLoading = false;
+  late UsabilityProvider usabilityProvider;
+  late UserProvider userProvider;
 
   @override
   void initState() {
@@ -72,6 +77,8 @@ class _ConfessionsState extends State<Confessions> {
     final IconButton addPost = IconButton(
       onPressed: () {
         Navigator.of(context).pushNamed(CustomRoutes.addConfessions);
+        usabilityProvider.logEvent(userProvider.user!.email,
+            'Open_Add_Confessions_Screen');
       },
       icon: Icon(Icons.add_box_outlined,
           color: Theme.of(context).colorScheme.onBackground, size: 24),
@@ -91,7 +98,18 @@ class _ConfessionsState extends State<Confessions> {
                     Expanded(
                       child: RefreshIndicator(
                         onRefresh: _refresh,
-                        child: ListView.builder(
+                        child:NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+           usabilityProvider.logEvent(userProvider.user!.email,
+            'Scroll_Up_Confessions_Screen');
+          } else if (notification.direction == ScrollDirection.reverse) {
+           usabilityProvider.logEvent(userProvider.user!.email,
+            'Scroll_Down_Confessions_Screen');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
                               return Column(
@@ -108,7 +126,7 @@ class _ConfessionsState extends State<Confessions> {
                               );
                             }),
                       ),
-                    )
+                    ))
                   ],
                 )
               : Padding(

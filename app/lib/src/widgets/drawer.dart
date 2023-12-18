@@ -11,6 +11,10 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
   void onSelectScreen(BuildContext context, String routeName) {
+    UsabilityProvider usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider.logEvent(userProvider.user!.email, 'Navigate_To_$routeName');
     Navigator.of(context).pushNamed(routeName);
   }
 

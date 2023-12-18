@@ -1,6 +1,8 @@
 import 'package:GUConnect/src/models/Reports.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/ReportsProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,12 +30,16 @@ class ReportModal extends StatefulWidget {
   class _ReportModalState extends State<ReportModal>
   {
       late ReportsProvider reportProvider; 
+      late UserProvider userProvider;
+      late UsabilityProvider usabilityProvider;
 
       @override
       void initState()
       {
         super.initState();
         reportProvider = Provider.of<ReportsProvider>(context, listen :false);
+        userProvider = Provider.of<UserProvider>(context, listen: false);
+        usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
       }
       String selectedReason = ReportReason.InappropriateContent.toString().split('.').last;
       final TextEditingController clarificationController =
@@ -181,6 +187,7 @@ class ReportModal extends StatefulWidget {
                       onPressed: () {
                         // Handle the report submission here
                         //_submitReport();
+                        usabilityProvider.logEvent(userProvider.user!.email, 'Submit_Report');
                         submitReprot(selectedReason, clarificationController.text);
                       },
                       child: const Text('Submit'),

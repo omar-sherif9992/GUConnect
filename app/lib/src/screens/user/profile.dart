@@ -10,6 +10,7 @@ import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/drawer.dart';
@@ -18,6 +19,7 @@ import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -48,8 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   late bool _isLoading = false;
 
-
-
+  late UsabilityProvider usabilityProvider;
   @override
   Widget build(BuildContext context) {
     
@@ -291,7 +292,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                   onRefresh: () async {
                     await fetchAll();
                   },
-                  child: ListView.builder(
+                  child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Profile_Posts');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Profile_Posts');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                     itemCount: posts.length,
                     scrollDirection: Axis.vertical,
                     key: PageStorageKey('profile_posts$name'),
@@ -310,7 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     },
                   ),
                 ),
-              );
+              ));
   }
 
   Future<void> fetchPosts(
@@ -366,6 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         Provider.of<LostAndFoundProvider>(context, listen: false);
     academicQuestionProvider =
         Provider.of<AcademicQuestionProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
     //user = userProvider.user!;
     

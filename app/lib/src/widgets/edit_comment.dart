@@ -4,6 +4,7 @@
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/CommentProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _CommentModalState extends State<EditCommentModal> {
   late CommentProvider commentProvider;
 
   late UserProvider userProvider; 
+  late UsabilityProvider usabilityProvider;
 
   final CustomUser posterPerson = CustomUser(email: 'hussein.ebrahim@student.guc.edu.eg', password: 'Don Ciristiane Ronaldo', 
     image: 'https://images.mubicdn.net/images/cast_member/25100/cache-2388-1688754259/image-w856.jpg', fullName: 'Mr Milad Ghantous',userName: "Milad Ghantous");
@@ -41,6 +43,7 @@ class _CommentModalState extends State<EditCommentModal> {
     commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
   }
 
@@ -120,6 +123,7 @@ class _CommentModalState extends State<EditCommentModal> {
               final String commentText = _commentController.text;
               // Perform any necessary actions with the commentText
               updateComment(commentText);
+              usabilityProvider.logEvent(userProvider.user!.email, 'Comment_Edited');
               print(commentText + " Rage3 Raye7 ahu");
 
               // Clear the comment input field

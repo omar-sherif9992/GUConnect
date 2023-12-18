@@ -2,12 +2,16 @@
 
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/providers/LostAndFoundProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
 import 'package:GUConnect/src/widgets/post.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:GUConnect/src/models/LostAndFound.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class LostAndFoundW extends StatefulWidget
@@ -24,6 +28,8 @@ class _LostAndFoundState extends State<LostAndFoundW> {
   bool _isLoading = true;
 
   late LostAndFoundProvider lostFoundProvider;
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   List<LostAndFound> posts = [];
 
@@ -33,6 +39,8 @@ class _LostAndFoundState extends State<LostAndFoundW> {
 
     lostFoundProvider =
         Provider.of<LostAndFoundProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   @override
@@ -69,6 +77,8 @@ class _LostAndFoundState extends State<LostAndFoundW> {
     final IconButton addPost = IconButton(
       onPressed: () {
         Navigator.of(context).pushNamed(CustomRoutes.addLostAndFound);
+        usabilityProvider.logEvent(userProvider.user!.email,
+            'Open_Add_Lost_And_Found_Screen');
       },
       icon: Icon(Icons.add_box_outlined,
           color: Theme.of(context).colorScheme.onBackground, size: 24),
@@ -106,7 +116,18 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: ListView.builder(
+                      child:NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scroll_Up_Lost_And_Found_Screen'); 
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email,
+                'Scroll_Down_Lost_And_Found_Screen');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child:  ListView.builder(
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
                               return Column(
@@ -122,7 +143,7 @@ class _LostAndFoundState extends State<LostAndFoundW> {
                                 ],
                               );
                             }),
-                    )
+                    ))
 
                 ],)
 

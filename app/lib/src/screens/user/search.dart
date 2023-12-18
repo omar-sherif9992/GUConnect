@@ -3,10 +3,14 @@ import 'package:GUConnect/src/models/Course.dart';
 import 'package:GUConnect/src/models/Staff.dart';
 import 'package:GUConnect/src/providers/CourseProvider.dart';
 import 'package:GUConnect/src/providers/StaffProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
+import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/utils/titleCase.dart';
 import 'package:GUConnect/src/widgets/app_bar.dart';
 import 'package:GUConnect/src/widgets/loader.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -34,6 +38,8 @@ class _SearchScreenState extends State<SearchScreen>
 
   late StaffProvider staffProvider;
   late CourseProvider courseProvider;
+  late UserProvider userProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -41,6 +47,8 @@ class _SearchScreenState extends State<SearchScreen>
 
     staffProvider = Provider.of<StaffProvider>(context, listen: false);
     courseProvider = Provider.of<CourseProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
     fetchAll(staffProvider, courseProvider).then((value) => {
           setState(() {
@@ -162,7 +170,16 @@ class _SearchScreenState extends State<SearchScreen>
                     _isLoading = false;
                   });
                 },
-                child: ListView.builder(
+                child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Search_Professors');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Search_Professors');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                   key: const PageStorageKey('profs_user'),
                   itemCount: proffsDisplay.length,
                   scrollDirection: Axis.vertical,
@@ -172,7 +189,7 @@ class _SearchScreenState extends State<SearchScreen>
                         staffType: StaffType.professor);
                   },
                 ),
-              );
+              ));
   }
 
   Widget _buildTasTab() {
@@ -195,7 +212,16 @@ class _SearchScreenState extends State<SearchScreen>
                     _isLoading = false;
                   });
                 },
-                child: ListView.builder(
+                child: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Search_TAs');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Search_TAs');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child: ListView.builder(
                   key: const PageStorageKey('tas_user'),
                   itemCount: tasDisplay.length,
                   scrollDirection: Axis.vertical,
@@ -204,7 +230,7 @@ class _SearchScreenState extends State<SearchScreen>
                         staff: tasDisplay[index], staffType: StaffType.ta);
                   },
                 ),
-              );
+              ));
   }
 
   Widget _buildCoursesTab() {
@@ -227,7 +253,16 @@ class _SearchScreenState extends State<SearchScreen>
                     _isLoading = false;
                   });
                 },
-                child: ListView.builder(
+                child:  NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.forward) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Search_Courses');           
+          } else if (notification.direction == ScrollDirection.reverse) {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Search_Courses');
+          }
+          return false; // Return false to allow the notification to continue to be dispatched.
+        },
+        child:ListView.builder(
                   key: const PageStorageKey('courses_user'),
                   itemCount: coursesDisplay.length,
                   scrollDirection: Axis.vertical,
@@ -235,7 +270,7 @@ class _SearchScreenState extends State<SearchScreen>
                     return CourseTile(course: coursesDisplay[index]);
                   },
                 ),
-              );
+              ));
   }
 
   void filterItems(String value) {
@@ -302,6 +337,9 @@ class StaffTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UsabilityProvider usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
+    UserProvider userProvider =Provider.of<UserProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -327,6 +365,7 @@ class StaffTile extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Clicked_On_${staffType}_In_Search');
             Navigator.of(context)
                 .pushNamed(CustomRoutes.staff, arguments: staff);
           },
@@ -343,6 +382,9 @@ class CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UsabilityProvider usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
+    UserProvider userProvider =Provider.of<UserProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -369,6 +411,7 @@ class CourseTile extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () {
+            usabilityProvider.logEvent(userProvider.user!.email, 'Clicked_On_Course_In_Search');
             Navigator.of(context)
                 .pushNamed(CustomRoutes.course, arguments: course);
           },

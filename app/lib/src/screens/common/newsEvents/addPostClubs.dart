@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:GUConnect/src/models/NewsEventClub.dart';
 import 'package:GUConnect/src/models/User.dart';
 import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
+import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/screens/common/newsEvents/clubsAndEvents.dart';
 import 'package:GUConnect/src/utils/uploadImageToStorage.dart';
@@ -25,6 +26,7 @@ class _AddPostState extends State<AddPost> {
   File? _selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late NewsEventClubProvider clubPostProvider;
+  late UsabilityProvider usabilityProvider;
 
   @override
   void initState() {
@@ -35,9 +37,11 @@ class _AddPostState extends State<AddPost> {
 
     userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    usabilityProvider =Provider.of<UsabilityProvider>(context, listen: false);
   }
 
   Future<void> _getImage() async {
+    usabilityProvider.logEvent(userProvider.user!.email ,'Add_Image_Add_Post_Clubs');
     final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -60,6 +64,7 @@ class _AddPostState extends State<AddPost> {
   }
 
   void _removeImage() {
+       usabilityProvider.logEvent(userProvider.user!.email ,'Remove_Image_Add_Post_Clubs');
     setState(() {
       _selectedImage = null;
     });
@@ -261,6 +266,7 @@ class _AddPostState extends State<AddPost> {
                       final String reason = reasonController.text;
                       _addPost(clubPostProvider, content, reason, _selectedImage??File(''));
                     }
+                    usabilityProvider.logEvent(userProvider.user!.email ,'Add_Post_Clubs');
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
