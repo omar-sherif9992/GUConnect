@@ -169,7 +169,7 @@ class _PendingReportsScreenState extends State<PendingReportsScreen> {
                     fontSize: 20,
                     color: Theme.of(context).colorScheme.secondary),
               ))
-            : RefreshIndicator(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   if(_selectFilter == 'Confessions'){
                     reports = await reportsProvider.getConfessionReports();

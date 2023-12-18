@@ -165,7 +165,7 @@ class _PostWState extends State<PostW> {
                 Row(children: (widget.post as Confession).mentionedPeople!.map(
                   (e)=> GestureDetector(
                     onTap: (){
-                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: e);
+                      Navigator.of(context).pushNamed(CustomRoutes.profile, arguments: {'user': e});
                     },
                     child: Text('@${e.mentionLabel}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
                   )

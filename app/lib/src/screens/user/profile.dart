@@ -51,9 +51,21 @@ class _ProfileScreenState extends State<ProfileScreen>
   late bool _isLoading = false;
 
   late UsabilityProvider usabilityProvider;
+
+  String userTitle(CustomUser user) {
+    String title = '';
+    if (user.userType == UserType.student) {
+      title = '(Student)';
+    } else if (user.userType == UserType.staff) {
+      title = '(Staff)';
+    } else if (user.userType == UserType.admin) {
+      title = '(Admin)';
+    }
+    return title;
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       bottomNavigationBar: const BottomBar(),
       drawer: const MainDrawer(),
@@ -85,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           width: 110.0,
                           height: 110.0,
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -102,7 +114,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                           child: ClipOval(
-                            child: widget.user.image != null && widget.user.image!.isNotEmpty
+                            child: widget.user.image != null &&
+                                    widget.user.image!.isNotEmpty
                                 ? Image.network(
                                     widget.user.image ?? '',
                                     width: 100.0,
@@ -132,11 +145,32 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  userTitle(widget.user),
+                                  overflow: TextOverflow.clip,
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  "@${titleCase(widget.user.userName ?? '')} ",
+                                  overflow: TextOverflow.clip,
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  
                                   Container(
                                     width: 60,
                                     margin: const EdgeInsets.only(
@@ -157,7 +191,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-
                                 ],
                               ),
                             ])
@@ -249,19 +282,22 @@ class _ProfileScreenState extends State<ProfileScreen>
               )
             : Expanded(
                 child: RefreshIndicator.adaptive(
-                  onRefresh: () async {
-                    await fetchAll();
+                onRefresh: () async {
+                  await fetchAll();
+                },
+                child: NotificationListener<UserScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification.direction == ScrollDirection.forward) {
+                      usabilityProvider.logEvent(userProvider.user!.email,
+                          'Scrolling_Up_In_Profile_Posts');
+                    } else if (notification.direction ==
+                        ScrollDirection.reverse) {
+                      usabilityProvider.logEvent(userProvider.user!.email,
+                          'Scrolling_Down_In_Profile_Posts');
+                    }
+                    return false; // Return false to allow the notification to continue to be dispatched.
                   },
-                  child: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.direction == ScrollDirection.forward) {
-            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Up_In_Profile_Posts');           
-          } else if (notification.direction == ScrollDirection.reverse) {
-            usabilityProvider.logEvent(userProvider.user!.email, 'Scrolling_Down_In_Profile_Posts');
-          }
-          return false; // Return false to allow the notification to continue to be dispatched.
-        },
-        child: ListView.builder(
+                  child: ListView.builder(
                     itemCount: posts.length,
                     scrollDirection: Axis.vertical,
                     key: PageStorageKey('profile_posts$name'),
@@ -340,6 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     //user = userProvider.user!;
     fetchAll();
+
     log(widget.user.email);
   }
 
