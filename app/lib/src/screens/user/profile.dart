@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     ),
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      '$postsCount\nPosts',
+                                      '${postsCount + confessions.length}\nPosts',
                                       style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
@@ -190,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                  ),
+                                  ),                
                                 ],
                               ),
                             ])
@@ -280,8 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       color: Theme.of(context).colorScheme.secondary),
                 ),
               )
-            : Expanded(
-                child: RefreshIndicator.adaptive(
+            : RefreshIndicator.adaptive(
                 onRefresh: () async {
                   await fetchAll();
                 },
@@ -308,14 +307,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                             (posts[index] as NewsEventClub).approvalStatus;
                       }
 
-                      return PostW(
-                        post: posts[index],
-                        postType: getPostType(posts[index]),
-                        pendingStatus: pendingStatus,
+                      return Column(
+                        children: [
+                          PostW(
+                            post: posts[index],
+                            postType: getPostType(posts[index]),
+                            pendingStatus: pendingStatus,
+                          ),
+                          const SizedBox(height: 40,),
+                        ],
                       );
                     },
                   ),
-                ),
               ));
   }
 

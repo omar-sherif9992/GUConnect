@@ -44,7 +44,7 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   }
 
   @override
-  void didPush(Route route, Route? previousRoute) {
+  /*void didPush(Route route, Route? previousRoute) {
   super.didPush(route, previousRoute);
   String visitedUserEmail = '';
   // Log screen time for the previous screen if it exists
@@ -153,7 +153,7 @@ void didPop(Route route, Route? previousRoute) {
     } catch (e) {
       print(e);
     }
-  }
+  }*/
 
   Future<void> logEvent(String userEmail, String Event) async {
     try {

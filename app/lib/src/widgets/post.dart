@@ -126,23 +126,32 @@ class _PostWState extends State<PostW> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(CustomRoutes.profile,
-                              arguments: {'user': widget.post.sender});
-                        },
-                        child: Text(
-                          // User name
-                          widget.post.sender.userName ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(CustomRoutes.profile,
+                                  arguments: {'user': widget.post.sender});
+                            },
+                            child: Text(
+                              // User name
+                              widget.post.sender.userName ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onBackground,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ),
+                          const SizedBox(width: 8,),
+                          if (widget.pendingStatus != '')
+                            StatusIndicator(pendingStatus: widget.pendingStatus)
+                          else
+                            Container(),
+                        ],
                       ),
                       const SizedBox(
                         height: 5,
@@ -158,10 +167,7 @@ class _PostWState extends State<PostW> {
                   ),
                 ],
               ),
-              if (widget.pendingStatus != '')
-                StatusIndicator(pendingStatus: widget.pendingStatus)
-              else
-                Container(),
+              
               PopupMenu(
                 post: widget.post,
                 reportCollectionNameType: widget.postType,

@@ -38,6 +38,8 @@ class _ConfessionsState extends State<Confessions> {
     super.initState();
     confessionsProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
+      
+    usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     posts = [];
   }
 
