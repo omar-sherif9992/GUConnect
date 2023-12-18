@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final bool success = await userProvider.login(
           emailController.text, passwordController.text);
 
-      if (context.mounted) {
+      if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Login Successful.'),
