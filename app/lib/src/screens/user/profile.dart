@@ -379,7 +379,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
 
     //user = userProvider.user!;
-    
+    fetchAll();
     log(widget.user.email);
   }
 

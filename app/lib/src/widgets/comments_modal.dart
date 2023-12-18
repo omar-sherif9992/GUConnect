@@ -164,6 +164,7 @@ Widget _inputFiled()
                   onTap: (){
                       final String finalContent = _commentController.text;
                       addComment(finalContent);
+                      usabilityProvider.logEvent(userProvider.user!.email, 'Add_Comment');
                       _commentController.clear();
 
                   },),
