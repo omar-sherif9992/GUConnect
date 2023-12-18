@@ -109,6 +109,7 @@ class ReportsProvider extends ChangeNotifier {
         .get();
     querySnapshot.docs.forEach((doc) {
       commentReports.add(Report.fromJson(doc.data()));
+      commentReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     });
     return commentReports;
   }
@@ -121,6 +122,7 @@ class ReportsProvider extends ChangeNotifier {
         .get();
     querySnapshot.docs.forEach((doc) {
       confessionReports.add(Report.fromJson(doc.data()));
+      confessionReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     });
     return confessionReports;
   }
@@ -133,6 +135,7 @@ class ReportsProvider extends ChangeNotifier {
         .get();
     querySnapshot.docs.forEach((doc) {
       postReports.add(Report.fromJson(doc.data()));
+      postReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     });
     return postReports;
   }
