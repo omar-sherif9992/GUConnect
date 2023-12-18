@@ -21,17 +21,20 @@ class StatusIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(6.0),
+      width: 80,
+      height: 27,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(6.0),
       decoration: BoxDecoration(
         color: getStatusColor(),
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       child: Text(
         pendingStatus,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontSize: 12.0,
+          fontSize: 10.0,
         ),
       ),
     );
