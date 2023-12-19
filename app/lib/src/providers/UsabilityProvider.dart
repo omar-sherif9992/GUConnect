@@ -1,11 +1,9 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:GUConnect/src/models/Usability.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   final FirebaseFirestore _firestore;
@@ -44,78 +42,88 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   }
 
   @override
-  /*void didPush(Route route, Route? previousRoute) {
-  super.didPush(route, previousRoute);
-  String visitedUserEmail = '';
-  // Log screen time for the previous screen if it exists
-  if (previousRoute != null) {
-    
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    String visitedUserEmail = '';
+    // Log screen time for the previous screen if it exists
 
-    try {
-          // Check if the current route is the profile route and has user information
-    if (route.settings.name == CustomRoutes.profile &&
-        route.settings.arguments != null) {
-      final arguments = route.settings.arguments as Map<String, dynamic>;
-      if (arguments.containsKey('user')) {
-        final CustomUser visitedUser = arguments['user'];
-        visitedUserEmail = visitedUser.email;
+
+    if (previousRoute != null) {
+      try {
+        // Check if the current route is the profile route and has user information
+        if (route.settings.name == CustomRoutes.profile &&
+            route.settings.arguments != null) {
+          final arguments = route.settings.arguments as Map<String, dynamic>;
+          if (arguments.containsKey('user')) {
+            final CustomUser visitedUser = arguments['user'];
+            visitedUserEmail = visitedUser.email;
+          }
+        }
+        screenExitTime = DateTime.now();
+        if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
+          return;
+        }
+        logScreenTime(
+          Usability(user_email: _auth.currentUser!.email!),
+          ScreenTime(
+            screenName: currentScreenName!,
+            startTime: screenEnterTime!,
+            endTime: screenExitTime!,
+          ),
+        );
+      } catch (e) {
+        print(e);
       }
     }
-      screenExitTime = DateTime.now();
+    screenEnterTime = DateTime.now();
+    currentScreenName = route.settings.name! + visitedUserEmail != null &&
+            visitedUserEmail.isNotEmpty &&
+            visitedUserEmail.trim() != ''
+        ? ('?email=$visitedUserEmail')
+        : '';
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    super.didPop(route, previousRoute);
+
+    // When a screen is popped
+    String visitedUserEmail = '';
+
+    // Check if the previous route is the profile route and has user information
+
+    screenExitTime = DateTime.now();
+    if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
+      return;
+    }
+    try {
+      if (route != null &&
+          route.settings.name == CustomRoutes.profile &&
+          route.settings.arguments != null) {
+        final arguments = route.settings.arguments as Map<String, dynamic>;
+        if (arguments.containsKey('user')) {
+          final CustomUser visitedUser = arguments['user'];
+          visitedUserEmail = visitedUser.email;
+        }
+      }
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
         ScreenTime(
-          screenName: currentScreenName! ,
+          screenName: currentScreenName! + visitedUserEmail != null &&
+                  visitedUserEmail.isNotEmpty &&
+                  visitedUserEmail.trim() != ''
+              ? ('?email=$visitedUserEmail')
+              : '',
           startTime: screenEnterTime!,
           endTime: screenExitTime!,
         ),
       );
+      screenEnterTime = DateTime.now();
+      currentScreenName = previousRoute?.settings.name;
     } catch (e) {
       print(e);
     }
   }
-  screenEnterTime = DateTime.now();
-  currentScreenName = route.settings.name! + visitedUserEmail;
-}
-
-@override
-void didPop(Route route, Route? previousRoute) {
-  super.didPop(route, previousRoute);
-  
-  // When a screen is popped
-  String visitedUserEmail = '';
-
-  // Check if the previous route is the profile route and has user information
-
-
-  screenExitTime = DateTime.now();
-  if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
-    return;
-  }
-  try {
-      if (route != null &&
-      route.settings.name == CustomRoutes.profile &&
-      route.settings.arguments != null) {
-    final arguments = route.settings.arguments as Map<String, dynamic>;
-    if (arguments.containsKey('user')) {
-      final CustomUser visitedUser = arguments['user'];
-      visitedUserEmail = visitedUser.email;
-    }
-  }
-    logScreenTime(
-      Usability(user_email: _auth.currentUser!.email!),
-      ScreenTime(
-        screenName: currentScreenName! + visitedUserEmail,
-        startTime: screenEnterTime!,
-        endTime: screenExitTime!,
-      ),
-    );
-    screenEnterTime = DateTime.now();
-    currentScreenName = previousRoute?.settings.name;
-  } catch (e) {
-    print(e);
-  }
-}
 
   @override
   void didReplace({Route? newRoute, Route? oldRoute}) {
@@ -123,27 +131,30 @@ void didPop(Route route, Route? previousRoute) {
 
     // Log screen time for the replaced route
 
-    
     screenExitTime = DateTime.now();
     if (screenExitTime!.difference(screenEnterTime!).inSeconds == 0) {
       return;
     }
     try {
       String visitedUserEmail = '';
-    if (newRoute != null) {
-      if (newRoute.settings.name == CustomRoutes.profile &&
-          newRoute.settings.arguments != null) {
-        final arguments = newRoute.settings.arguments as Map<String, dynamic>;
-        if (arguments.containsKey('user')) {
-          final CustomUser visitedUser = arguments['user'];
-          visitedUserEmail = visitedUser.email;
+      if (newRoute != null) {
+        if (newRoute.settings.name == CustomRoutes.profile &&
+            newRoute.settings.arguments != null) {
+          final arguments = newRoute.settings.arguments as Map<String, dynamic>;
+          if (arguments.containsKey('user')) {
+            final CustomUser visitedUser = arguments['user'];
+            visitedUserEmail = visitedUser.email;
+          }
         }
       }
-    }
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
         ScreenTime(
-          screenName: currentScreenName! + visitedUserEmail,
+          screenName: currentScreenName! + visitedUserEmail != null &&
+                  visitedUserEmail.isNotEmpty &&
+                  visitedUserEmail.trim() != ''
+              ? ('?email=$visitedUserEmail')
+              : '',
           startTime: screenEnterTime!,
           endTime: screenExitTime!,
         ),
@@ -153,7 +164,7 @@ void didPop(Route route, Route? previousRoute) {
     } catch (e) {
       print(e);
     }
-  }*/
+  }
 
   Future<void> logEvent(String userEmail, String Event) async {
     try {
