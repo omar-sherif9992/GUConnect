@@ -137,6 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 width: 200,
                                 child: Text(
                                   titleCase(widget.user.fullName ?? ''),
+                                  softWrap: true,
                                   overflow: TextOverflow.clip,
                                   style: const TextStyle(
                                     fontSize: 20.0,

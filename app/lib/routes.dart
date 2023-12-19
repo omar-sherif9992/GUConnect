@@ -99,6 +99,9 @@ class CustomRoutes {
         }
         catch(e)
         {
+          if(Provider.of<UserProvider>(context, listen: false).user == null) {
+            return Container();
+          }
           return ProfileScreen(user: Provider.of<UserProvider>(context, listen: false).user!);
         }
       },
