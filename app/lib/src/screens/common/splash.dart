@@ -66,8 +66,7 @@ class _SetSplashScreenState extends State<SplashScreen>
           Navigator.popAndPushNamed(context, CustomRoutes.profile);
         }
  */
-        Navigator.pushReplacementNamed(context, CustomRoutes.profile,
-            arguments: {'user': user});
+        Navigator.pushReplacementNamed(context, CustomRoutes.profile);
       } else {
         Navigator.popAndPushNamed(context, CustomRoutes.login);
       }
