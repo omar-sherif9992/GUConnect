@@ -18,6 +18,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //bool _isDarkMode = false;
   bool _isNotification = true;
   var prefs;
+  late UsabilityProvider usabilityProvider;
+  late UserProvider userProvider;
 
   Future<void> getSwitchStates() async {
     prefs = await SharedPreferences.getInstance();
@@ -34,13 +36,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     getSwitchStates();
+    usabilityProvider =
+        Provider.of<UsabilityProvider>(context, listen: false);
+
+    userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
-    final UsabilityProvider usabilityProvider =
-        Provider.of<UsabilityProvider>(context, listen: false);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Settings'),
@@ -138,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: 'Logout',
                             message: 'Are you sure you want to logout?',
                             onApprove: () async {
-                              usabilityProvider.logEvent(userProvider.user!.email,'Logout');
+                              await usabilityProvider.logEvent(userProvider.user!.email,'Logout');
                               await userProvider.logout();
 
                               // ignore: use_build_context_synchronously

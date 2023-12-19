@@ -44,6 +44,7 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   @override
   void didPush(Route route, Route? previousRoute) {
     super.didPush(route, previousRoute);
+
     String visitedUserEmail = '';
     // Log screen time for the previous screen if it exists
 
@@ -56,7 +57,7 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
           final arguments = route.settings.arguments as Map<String, dynamic>;
           if (arguments.containsKey('user')) {
             final CustomUser visitedUser = arguments['user'];
-            visitedUserEmail = visitedUser.email;
+            visitedUserEmail = '?email ${visitedUser.email}';
           }
         }
         screenExitTime = DateTime.now();
@@ -75,12 +76,14 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
         print(e);
       }
     }
+    try{
     screenEnterTime = DateTime.now();
-    currentScreenName = route.settings.name! + visitedUserEmail != null &&
-            visitedUserEmail.isNotEmpty &&
-            visitedUserEmail.trim() != ''
-        ? ('?email=$visitedUserEmail')
-        : '';
+    currentScreenName = route.settings.name! + visitedUserEmail;
+    }
+    catch(e)
+    {
+      print(e);
+    }
   }
 
   @override
@@ -103,17 +106,13 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
         final arguments = route.settings.arguments as Map<String, dynamic>;
         if (arguments.containsKey('user')) {
           final CustomUser visitedUser = arguments['user'];
-          visitedUserEmail = visitedUser.email;
+          visitedUserEmail = '?email ${visitedUser.email}';
         }
       }
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
         ScreenTime(
-          screenName: currentScreenName! + visitedUserEmail != null &&
-                  visitedUserEmail.isNotEmpty &&
-                  visitedUserEmail.trim() != ''
-              ? ('?email=$visitedUserEmail')
-              : '',
+          screenName: currentScreenName! + visitedUserEmail,
           startTime: screenEnterTime!,
           endTime: screenExitTime!,
         ),
@@ -143,18 +142,14 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
           final arguments = newRoute.settings.arguments as Map<String, dynamic>;
           if (arguments.containsKey('user')) {
             final CustomUser visitedUser = arguments['user'];
-            visitedUserEmail = visitedUser.email;
+            visitedUserEmail = '?email ${visitedUser.email}';
           }
         }
       }
       logScreenTime(
         Usability(user_email: _auth.currentUser!.email!),
         ScreenTime(
-          screenName: currentScreenName! + visitedUserEmail != null &&
-                  visitedUserEmail.isNotEmpty &&
-                  visitedUserEmail.trim() != ''
-              ? ('?email=$visitedUserEmail')
-              : '',
+          screenName: currentScreenName! + visitedUserEmail,
           startTime: screenEnterTime!,
           endTime: screenExitTime!,
         ),
