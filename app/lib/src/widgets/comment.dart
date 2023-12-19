@@ -1,3 +1,4 @@
+import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/Comment.dart';
 import 'package:GUConnect/src/utils/dates.dart';
 import 'package:GUConnect/src/widgets/comment_popup_menu.dart';
@@ -21,10 +22,17 @@ class CommentW extends StatelessWidget
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(comment.commenter.image??''),
-            backgroundColor: Colors.grey,
-            radius: 20,
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: {'user': comment.commenter});
+            },
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(comment.commenter.image??'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
+              backgroundColor: Colors.grey,
+              radius: 20,
+            ),
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -33,11 +41,18 @@ class CommentW extends StatelessWidget
               children: [
                 Row(
                   children: [
-                    Text(
-                      comment.commenter.userName??'',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: {'user': comment.commenter});
+                      },
+                      child: Text(
+                        comment.commenter.userName??'',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12,),

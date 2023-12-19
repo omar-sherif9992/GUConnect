@@ -115,12 +115,19 @@ class _PostWState extends State<PostW> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    // User profile picture
-                    radius: 20,
-                    // Replace with your image URL
-                    backgroundImage: CachedNetworkImageProvider(
-                        widget.post.sender.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(
+                                  CustomRoutes.profile,
+                                  arguments: {'user': widget.post.sender});
+                    },
+                    child: CircleAvatar(
+                      // User profile picture
+                      radius: 20,
+                      // Replace with your image URL
+                      backgroundImage: CachedNetworkImageProvider(
+                          widget.post.sender.image ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Column(
