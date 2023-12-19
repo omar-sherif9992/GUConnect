@@ -178,6 +178,8 @@ class UserProvider with ChangeNotifier {
     return false;
   }
 
+
+
   Future<bool> updateProfile(CustomUser editUser, File? pickedImageFile) async {
     try {
       if (_user != null) {
@@ -193,6 +195,23 @@ class UserProvider with ChangeNotifier {
         _user!.phoneNumber = editUser.phoneNumber;
 
         await usersRef.doc(_user!.user_id).set(_user!);
+
+        ///////////////
+        for(String collectionName in ['academicRelatedQuestions', 'confessions', 'lostAndFound', 'newsEventClubs']){
+            FirebaseFirestore.instance.collection(collectionName)
+              .where('sender.user_id', isEqualTo: _user!.user_id)
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            querySnapshot.docs.forEach((DocumentSnapshot document) {
+              FirebaseFirestore.instance.collection(collectionName).doc(document.id)
+                  .update({'sender': _user!.toJson()});
+        }
+        );
+              } 
+        );
+      }
+        
+        
       }
       notifyListeners();
       return true;
