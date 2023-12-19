@@ -91,18 +91,18 @@ class CustomRoutes {
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(),
       profile: (context) {
-        try{
-          final arguments = (ModalRoute.of(context)?.settings.arguments) as Map<String, CustomUser>;
-          final CustomUser user = (arguments['user']) as CustomUser ;
+        try {
+          final arguments = (ModalRoute.of(context)?.settings.arguments)
+              as Map<String, CustomUser>;
+          final CustomUser user = (arguments['user']) as CustomUser;
 
           return ProfileScreen(user: user);
-        }
-        catch(e)
-        {
-          if(Provider.of<UserProvider>(context, listen: false).user == null) {
+        } catch (e) {
+          if (Provider.of<UserProvider>(context, listen: false).user == null) {
             return Container();
           }
-          return ProfileScreen(user: Provider.of<UserProvider>(context, listen: false).user!);
+          return ProfileScreen(
+              user: Provider.of<UserProvider>(context, listen: false).user!);
         }
       },
       search: (context) => const SearchScreen(),
@@ -110,7 +110,7 @@ class CustomRoutes {
       settings: (context) => const SettingsScreen(),
       impPhoneNumber: (context) => const ImportantContactsScreen(),
       officesAndOutlets: (context) => const OfficesAndOutlets(),
-      confessions: (context) => const Confessions(),
+      confessions: (context) => Confessions(),
       adminPendings: (context) => const PendingsScreen(),
       clubsAndEvents: (context) => const ClubsAndEvents(),
       addClubPost: (context) => const AddPost(),

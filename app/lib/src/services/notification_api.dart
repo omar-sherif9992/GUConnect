@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:GUConnect/main.dart';
+import 'package:GUConnect/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +17,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Message data: ${message.data}');
     print('Message notification: ${message.notification?.title}');
     print('Message notification: ${message.notification?.body}');
+  }
+
+  if (message.data.containsKey('confessionId')) {
+    print('confessionId: ${message.data['confessionId']}');
+    navigatorKey.currentState!.pushNamed(
+      CustomRoutes.confessions,
+      arguments: message.data['confessionId'],
+    );
   }
 }
 
@@ -134,19 +144,19 @@ class FirebaseNotification {
     if (kDebugMode) print(results.data);
   }
 
-    static Future<void> sendTagNotification(String taggedUserName,
-        String taggedUserToken, String confessionId, String taggerName) async {
-      final HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('sendTagNotification');
-      final results = await callable(<String, dynamic>{
-        'taggedUserName': taggedUserName,
-        'taggedUserToken': taggedUserToken,
-        'confessionId': confessionId,
-        'taggerName': taggerName,
-      });
-      if (kDebugMode) print(results.data);
-      //return results.data.success;
-    }
+  static Future<void> sendTagNotification(String taggedUserName,
+      String taggedUserToken, String confessionId, String taggerName) async {
+    final HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('sendTagNotification');
+    final results = await callable(<String, dynamic>{
+      'taggedUserName': taggedUserName,
+      'taggedUserToken': taggedUserToken,
+      'confessionId': confessionId,
+      'taggerName': taggerName,
+    });
+    if (kDebugMode) print(results.data);
+    //return results.data.success;
+  }
 
   static Future<void> sendLikeNotification(
       String postOwnerName,

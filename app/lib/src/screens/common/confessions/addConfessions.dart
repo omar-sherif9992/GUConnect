@@ -30,7 +30,6 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
 
   List<CustomUser> users = [];
 
-  
   late UsabilityProvider usabilityProvider;
 
   @override
@@ -41,18 +40,18 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
         Provider.of<ConfessionProvider>(context, listen: false);
 
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.getUsers().then((val){
+    userProvider.getUsers().then((val) {
       setState(() {
-        for(int i = 0; i < val.length; ++i)
-      {
-        users.add(val[i].data() as CustomUser);
-      }
+        for (int i = 0; i < val.length; ++i) {
+          users.add(val[i].data() as CustomUser);
+        }
       });
-       }); 
+    });
     usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
   }
 
-  Future _addPost(ConfessionProvider provider, String content, List<CustomUser> mentionedUsers) async {
+  Future _addPost(ConfessionProvider provider, String content,
+      List<CustomUser> mentionedUsers) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -79,14 +78,13 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
         fullName: 'Anonymous');
 
     final Confession addedPost = Confession(
-      isAnonymous: _isAnonymous,
-      content: content,
-      createdAt: DateTime.now(),
-      sender: _isAnonymous ? anonymous : userProvider.user ?? anonymous,
-      mentionedPeople: mentionedUsers,
-      comments: [],
-      likes: {}
-    );
+        isAnonymous: _isAnonymous,
+        content: content,
+        createdAt: DateTime.now(),
+        sender: _isAnonymous ? anonymous : userProvider.user ?? anonymous,
+        mentionedPeople: mentionedUsers,
+        comments: [],
+        likes: {});
 
     provider.addConfession(addedPost).then((value) => {
           Navigator.pop(context),
@@ -95,12 +93,17 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Confessions(),
+                  builder: (context) => Confessions(),
                 ),
               ),
-              for(CustomUser taggedUser in mentionedUsers){
-                FirebaseNotification.sendTagNotification(taggedUser.fullName??'', taggedUser.token??'', addedPost.id, userProvider.user!.fullName??'')
-              }
+              for (CustomUser taggedUser in mentionedUsers)
+                {
+                  FirebaseNotification.sendTagNotification(
+                      taggedUser.fullName ?? '',
+                      taggedUser.token ?? '',
+                      addedPost.id,
+                      userProvider.user!.fullName ?? '')
+                }
             }
           else
             {
@@ -124,12 +127,10 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
               )
             }
         });
-        
   }
 
-  void mentionCallback(String val)
-  {
-      mentionsValue = val;
+  void mentionCallback(String val) {
+    mentionsValue = val;
   }
 
   List<String> extractIdsFromMentions(String input) {
@@ -139,14 +140,12 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
     return matches.map((match) => match.group(1)!).toList();
   }
 
-  List<CustomUser> filterUsersByMentionedIds(List<CustomUser> users, List<String> mentionedIds) {
+  List<CustomUser> filterUsersByMentionedIds(
+      List<CustomUser> users, List<String> mentionedIds) {
     return users.where((user) => mentionedIds.contains(user.user_id)).toList();
   }
 
-  void processMentions()
-  {
-
-  }
+  void processMentions() {}
 
   @override
   Widget build(BuildContext context) {
@@ -216,11 +215,13 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
                       if (_formKey.currentState?.validate() ?? false) {
                         // Perform action when the user clicks the button
                         final String content = contentController.text;
-                        final List<CustomUser> mentionedUsers = filterUsersByMentionedIds(users, extractIdsFromMentions(mentionsValue));
+                        final List<CustomUser> mentionedUsers =
+                            filterUsersByMentionedIds(
+                                users, extractIdsFromMentions(mentionsValue));
                         _addPost(confessionsProvider, content, mentionedUsers);
                         usabilityProvider.logEvent(
-                          userProvider.user!.email, 'Add_Confession');
-                    }
+                            userProvider.user!.email, 'Add_Confession');
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
@@ -229,8 +230,8 @@ class _AddConfessionsPostState extends State<AddConfessionsPost> {
                           Theme.of(context).colorScheme.onSecondary),
                     ),
                     child: const Text('Add Confession',
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500)),
                   ),
                 ],
               ),
