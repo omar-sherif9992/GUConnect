@@ -1,11 +1,6 @@
 import 'package:GUConnect/routes.dart';
-import 'package:GUConnect/src/models/AcademicQuestion.dart';
 import 'package:GUConnect/src/models/Confession.dart';
-import 'package:GUConnect/src/models/NewsEventClub.dart';
-import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/AcademicQuestionProvider.dart';
 import 'package:GUConnect/src/providers/ConfessionProvider.dart';
-import 'package:GUConnect/src/providers/NewsEventClubProvider.dart';
 import 'package:GUConnect/src/providers/UsabilityProvider.dart';
 import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:GUConnect/src/widgets/bottom_bar.dart';
@@ -18,7 +13,8 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class Confessions extends StatefulWidget {
-  const Confessions({super.key});
+  Confessions({super.key});
+  bool _isLoading = false;
 
   @override
   State<Confessions> createState() => _ConfessionsState();
@@ -29,7 +25,6 @@ class _ConfessionsState extends State<Confessions> {
 
   late List<Confession> posts;
 
-  bool _isLoading = false;
   late UsabilityProvider usabilityProvider;
   late UserProvider userProvider;
 
@@ -38,9 +33,9 @@ class _ConfessionsState extends State<Confessions> {
     super.initState();
     confessionsProvider =
         Provider.of<ConfessionProvider>(context, listen: false);
-      
+
     userProvider = Provider.of<UserProvider>(context, listen: false);
-      
+
     usabilityProvider = Provider.of<UsabilityProvider>(context, listen: false);
     posts = [];
   }
@@ -54,10 +49,12 @@ class _ConfessionsState extends State<Confessions> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // When it comes back to view
-    _isLoading = true;
+    setState(() {
+      widget._isLoading = true;
+    });
     fetchPosts(confessionsProvider).then((_) {
       setState(() {
-        _isLoading = false;
+        widget._isLoading = false;
       });
     });
   }
@@ -81,8 +78,8 @@ class _ConfessionsState extends State<Confessions> {
     final IconButton addPost = IconButton(
       onPressed: () {
         Navigator.of(context).pushNamed(CustomRoutes.addConfessions);
-        usabilityProvider.logEvent(userProvider.user!.email,
-            'Open_Add_Confessions_Screen');
+        usabilityProvider.logEvent(
+            userProvider.user!.email, 'Open_Add_Confessions_Screen');
       },
       icon: Icon(Icons.add_box_outlined,
           color: Theme.of(context).colorScheme.onBackground, size: 24),
@@ -93,27 +90,29 @@ class _ConfessionsState extends State<Confessions> {
         title: 'Confessions',
         actions: [addPost],
       ),
-      body: _isLoading
+      body: widget._isLoading
           ? const Loader()
           : posts.isNotEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: _refresh,
-                        child:NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.direction == ScrollDirection.forward) {
-           usabilityProvider.logEvent(userProvider.user!.email,
-            'Scroll_Up_Confessions_Screen');
-          } else if (notification.direction == ScrollDirection.reverse) {
-           usabilityProvider.logEvent(userProvider.user!.email,
-            'Scroll_Down_Confessions_Screen');
-          }
-          return false; // Return false to allow the notification to continue to be dispatched.
-        },
-        child: ListView.builder(
+                        child: RefreshIndicator(
+                      onRefresh: _refresh,
+                      child: NotificationListener<UserScrollNotification>(
+                        onNotification: (notification) {
+                          if (notification.direction ==
+                              ScrollDirection.forward) {
+                            usabilityProvider.logEvent(userProvider.user!.email,
+                                'Scroll_Up_Confessions_Screen');
+                          } else if (notification.direction ==
+                              ScrollDirection.reverse) {
+                            usabilityProvider.logEvent(userProvider.user!.email,
+                                'Scroll_Down_Confessions_Screen');
+                          }
+                          return false; // Return false to allow the notification to continue to be dispatched.
+                        },
+                        child: ListView.builder(
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
                               return Column(

@@ -221,7 +221,7 @@ exports.sendPostApprovalNotification = functions.https.onCall(
     });
 
 exports.sendBroadcastNotificationNewAnnouncement = functions.https.onCall(
-    (data, context) => {
+    function(data, context) {
     /*
                 data = {
                     postId: string,
@@ -232,20 +232,25 @@ exports.sendBroadcastNotificationNewAnnouncement = functions.https.onCall(
       const title = "New announcement from " + data.postOwnerName;
       const body = "Click to view the announcement";
       const postId = data.postId;
-
-      try {
+      const tokens = [];
+      admin.firestore().collection("users").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const token = doc.data().token;
+          if (token) {
+            tokens.push(token);
+          }
+        });
         const message = {
           notification: {
             title: title,
             body: body,
           },
-          topic: "broadcast",
+          subscriptions_ids: tokens,
           data: {
             announcementId: postId,
             type: "broadcast",
           },
         };
-
         return fcm
             .send(message)
             .then((response) => {
@@ -257,7 +262,6 @@ exports.sendBroadcastNotificationNewAnnouncement = functions.https.onCall(
             .catch((error) => {
               return {success: false, response: error};
             });
-      } catch (error) {
-        return {success: false, response: error};
       }
+      );
     });
