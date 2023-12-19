@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: 200,
+                                width: MediaQuery.of(context).size.width*0.5,
                                 child: Text(
                                   titleCase(widget.user.fullName ?? ''),
                                   softWrap: true,
@@ -147,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ),
                               ),
                               SizedBox(
-                                width: 200,
+                                width: MediaQuery.of(context).size.width*0.5,
                                 child: Text(
                                   userTitle(widget.user),
                                   overflow: TextOverflow.clip,
@@ -158,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ),
                               ),
                               SizedBox(
-                                width: 200,
+                                width: MediaQuery.of(context).size.width*0.5,
                                 child: Text(
                                   "@${titleCase(widget.user.userName ?? '')} ",
                                   overflow: TextOverflow.clip,

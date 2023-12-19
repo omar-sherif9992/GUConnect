@@ -65,10 +65,10 @@ class BottomBar extends StatelessWidget {
         offset: const Offset(
             0, -17), // Adjust the Y offset to shift the diamond icon up
         child: Transform.rotate(
-          angle: pi,
+          angle: pi / 4,
           child: Container(
-            height: 65,
-            width: 65,
+            height: 55,
+            width: 55,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: Theme.of(context).colorScheme.primary,
@@ -88,7 +88,7 @@ class BottomBar extends StatelessWidget {
                     navigate(CustomRoutes.adminReports);
                   },
                   icon: Icon(
-                    Icons.report_outlined,
+                    Icons.report,
                     color: Theme.of(context).colorScheme.onSecondary,
                     size: 32,
                   ),
@@ -129,7 +129,7 @@ class BottomBar extends StatelessWidget {
         },
         icon: Icon(
           Icons.home_outlined,
-          color: isActive(CustomRoutes.home)
+          color: isActive(CustomRoutes.clubsAndEvents)
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onBackground,
           size: 28,
@@ -154,7 +154,7 @@ class BottomBar extends StatelessWidget {
           angle: pi / 4,
           child: Container(
             height: 55,
-            width: 67,
+            width: 55,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: Theme.of(context).colorScheme.primary,

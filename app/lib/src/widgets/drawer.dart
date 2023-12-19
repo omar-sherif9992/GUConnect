@@ -39,14 +39,14 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.edit,
-              size: 24,
+              size: 20,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
               'Edit Profile',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
+                    fontSize: 20,
                   ),
             ),
             onTap: () {
@@ -83,14 +83,14 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.settings,
-              size: 24,
+              size: 20,
               color: Theme.of(context).colorScheme.onBackground,
             ),
             title: Text(
               'Settings',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
+                    fontSize: 20,
                   ),
             ),
             onTap: () {
@@ -104,14 +104,14 @@ class MainDrawer extends StatelessWidget {
       ListTile(
         leading: Icon(
           Icons.remove_red_eye_outlined,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Lost & Found',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {
@@ -121,14 +121,14 @@ class MainDrawer extends StatelessWidget {
       ListTile(
         leading: Icon(
           Icons.contact_emergency,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'IMP Contacts',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {
@@ -139,14 +139,15 @@ class MainDrawer extends StatelessWidget {
         leading: Icon(
           // office icon
           Icons.location_on_outlined,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Offices and Outlets',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
+                
               ),
         ),
         onTap: () {
@@ -160,14 +161,14 @@ class MainDrawer extends StatelessWidget {
       ListTile(
         leading: Icon(
           Icons.search,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Search',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {
@@ -182,14 +183,14 @@ class MainDrawer extends StatelessWidget {
         leading: Icon(
           // office icon
           Icons.people_alt_outlined,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Confessions',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {
@@ -199,14 +200,14 @@ class MainDrawer extends StatelessWidget {
       ListTile(
         leading: Icon(
           Icons.person_search,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Search Staff',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {
@@ -216,14 +217,14 @@ class MainDrawer extends StatelessWidget {
       ListTile(
         leading: Icon(
           Icons.book,
-          size: 24,
+          size: 20,
           color: Theme.of(context).colorScheme.onBackground,
         ),
         title: Text(
           'Search Courses',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
+                fontSize: 20,
               ),
         ),
         onTap: () {

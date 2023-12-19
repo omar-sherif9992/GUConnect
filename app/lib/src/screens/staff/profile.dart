@@ -177,7 +177,7 @@ class _StuffProfileState extends State<StuffProfile>
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: 200,
+                                          width: MediaQuery.of(context).size.width * 0.5,
                                           child: Text(
                                             ('${staff.staffType} ${staff.fullName}'),
                                             overflow: TextOverflow.clip,
@@ -260,7 +260,7 @@ class _StuffProfileState extends State<StuffProfile>
                                             ),
                                           )),
                                       SizedBox(
-                                        width: 300,
+                                        width: MediaQuery.of(context).size.width * 0.5,
                                         child: Text(
                                           staff.bio ?? '',
                                           overflow: TextOverflow.clip,
