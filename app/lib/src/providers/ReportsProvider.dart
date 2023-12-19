@@ -31,7 +31,7 @@ class ReportsProvider extends ChangeNotifier {
             .collection('reports')
             .doc(document.docs.first.id)
             .delete();
-        if (report.reportType == 'comment') {
+        if (report.reportType == 'comments') {
           try {
             await _firestore
                 .collection('comments')
@@ -40,7 +40,7 @@ class ReportsProvider extends ChangeNotifier {
           } catch (e) {
             print(e); // comment already deleted from another report
           }
-        } else if (report.reportType == 'confession') {
+        } else if (report.reportType == 'confessions') {
           try {
             await _firestore
                 .collection('confessions')

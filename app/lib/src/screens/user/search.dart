@@ -80,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen>
             }
         });
 
-    staffProvider.getStaffs().then((value) => {
+    staffProvider.getTas().then((value) => {
           if (mounted)
             {
               setState(() {
@@ -275,7 +275,7 @@ class _SearchScreenState extends State<SearchScreen>
   Widget _buildCoursesTab() {
     return _isLoading
         ? const Loader()
-        : tasDisplay.isEmpty
+        : coursesDisplay.isEmpty
             ? Center(
                 child: Text(
                   'No Courses found',

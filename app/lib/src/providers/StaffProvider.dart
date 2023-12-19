@@ -28,7 +28,7 @@ class StaffProvider extends ChangeNotifier {
     final QuerySnapshot<Staff> querySnapshot = await staffsRef
         .where(
           'staffType',
-          isEqualTo: StaffType.professor,
+          isEqualTo: 'professor',
         )
         .get();
 
@@ -43,7 +43,7 @@ class StaffProvider extends ChangeNotifier {
     final QuerySnapshot<Staff> querySnapshot = await staffsRef
         .where(
           'staffType',
-          isEqualTo: StaffType.ta,
+          isEqualTo: 'ta',
         )
         .get();
 
