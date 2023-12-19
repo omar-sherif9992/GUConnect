@@ -1,11 +1,9 @@
 import 'package:GUConnect/routes.dart';
 import 'package:GUConnect/src/models/User.dart';
-import 'package:GUConnect/src/providers/UserProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:GUConnect/src/models/Usability.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   final FirebaseFirestore _firestore;
@@ -44,7 +42,7 @@ class UsabilityProvider extends NavigatorObserver with ChangeNotifier {
   }
 
   @override
-  /*void didPush(Route route, Route? previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
   super.didPush(route, previousRoute);
   String visitedUserEmail = '';
   // Log screen time for the previous screen if it exists
@@ -153,7 +151,7 @@ void didPop(Route route, Route? previousRoute) {
     } catch (e) {
       print(e);
     }
-  }*/
+  }
 
   Future<void> logEvent(String userEmail, String Event) async {
     try {
