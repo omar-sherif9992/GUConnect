@@ -32,7 +32,7 @@ class MessageDialog extends StatelessWidget {
             child: const Text('Cancel'),
             onPressed: () {
               onCancel!();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
             },
           ),
         if (onApprove != null)
@@ -40,7 +40,7 @@ class MessageDialog extends StatelessWidget {
             child: const Text('Approve'),
             onPressed: () {
               onApprove!();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
             },
           ),
       ],

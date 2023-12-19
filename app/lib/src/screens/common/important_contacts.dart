@@ -317,7 +317,7 @@ class _ImportantContactsScreenState extends State<ImportantContactsScreen>
                                       title:
                                           'Something went wrong , with your email app',
                                       message: 'Please try again later',
-                                      onCancel: () {},
+                                      onCancel: () {Navigator.of(context).pop();},
                                     );
                                   });
                             }
