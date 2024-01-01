@@ -10,8 +10,8 @@
   <h3 align="center"></h3>
 
   <p align="center">
-short description
-    <br />
+ Student and Staff App is a multifunctional platform catering to the German University in Cairo community, integrating essential features like anonymous confessions, academic queries, lost and found, location services, and user-controlled news/events, while tracking usability data for continual improvement.
+	  <br />
     <br />
 	  📄<a href="" download target="_blank"><strong>View  App»</strong></a>
     <br />
