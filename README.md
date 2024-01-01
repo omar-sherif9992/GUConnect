@@ -12,13 +12,11 @@
   <p align="center">
  Student and Staff App is a multifunctional platform catering to the German University in Cairo community, integrating essential features like anonymous confessions, academic queries, lost and found, location services, and user-controlled news/events, while tracking usability data for continual improvement.
 	  <br />
-    <br />
-	  📄<a href="" download target="_blank"><strong>View  App»</strong></a>
-    <br />
+
 	·  
    <a href="">Demo Video</a>
    ·	  
-   <a href="https://www.figma.com/file/fjW8vTZtumP8PWdHbwwErI/GUConnect?type=design&node-id=0%3A1&mode=design&t=zlPSxTtHri8pzAZ6-1">Figma </a>  
+   <a href="https://www.figma.com/file/fjW8vTZtumP8PWdHbwwErI/GUConnect?type=design&node-id=0%3A1&mode=design&t=NdpYR8ra6wORu8Fs-1">Figma </a>  
  ·	  
    <a href="https://lucid.app/lucidchart/e678ad3f-d21e-473a-aeb1-ace8cea06b62/edit?viewport_loc=-2028%2C-46%2C3091%2C1487%2CHWEp-vi-RSFO&invitationId=inv_842808d6-f19f-4b1e-a7b9-9cd768dd9e86">UML </a>  
    ·	  
