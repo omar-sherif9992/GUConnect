@@ -416,9 +416,6 @@ The database will store user profiles, posts (confessions, academic queries, los
     └── themes.dart
 
 ```
-Certainly! Based on the provided usability data scheme for your Flutter app, here's a description:
-
----
 
 **Usability Dataset Description:**
 
@@ -439,8 +436,6 @@ The usability dataset captures essential user interactions and screen time data 
    - **Duration:** Measures the time spent on a given screen, providing insights into user engagement and preferences.
 
 *User Events* encompass actions like button clicks and scrolls, offering valuable data on user interactions and preferences. This information is vital for assessing user engagement patterns and optimizing the user interface for enhanced usability.
-
----
 
 ### Logging User Events (Clicks and Scrolls):
 
