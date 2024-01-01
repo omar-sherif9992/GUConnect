@@ -71,153 +71,8 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Database Structures:
-The database will store user profiles, posts (confessions, academic queries, lost and found items, news, events), admin approvals, user behavior logs, and other necessary data to support the functionalities mentioned above.
-
-
-### Flutter Folder Structure
-
-```
-├── firebase_options.dart
-├── main.dart
-├── routes.dart
-├── src
-│   ├── dummy_data
-│   │   ├── importantEmails.dart
-│   │   ├── importantNumbers.dart
-│   │   ├── OfficeItems.dart
-│   │   ├── posts.dart
-│   │   └── user.dart
-│   ├── models
-│   │   ├── AcademicQuestion.dart
-│   │   ├── Comment.dart
-│   │   ├── Confession.dart
-│   │   ├── Course.dart
-│   │   ├── ImportantEmail.dart
-│   │   ├── ImportantPhoneNumber.dart
-│   │   ├── LostAndFound.dart
-│   │   ├── NewsEventClub.dart
-│   │   ├── OfficeAndLocation.dart
-│   │   ├── Post.dart
-│   │   ├── Rating.dart
-│   │   ├── Reports.dart
-│   │   ├── Staff.dart
-│   │   ├── Usability.dart
-│   │   ├── User.dart
-│   │   └── UserRating.dart
-│   ├── providers
-│   │   ├── AcademicQuestionProvider.dart
-│   │   ├── CommentProvider.dart
-│   │   ├── ConfessionProvider.dart
-│   │   ├── CourseProvider.dart
-│   │   ├── ImportantEmailProvider.dart
-│   │   ├── ImportantPhoneNumberProvider.dart
-│   │   ├── LikesProvider.dart
-│   │   ├── LostAndFoundProvider.dart
-│   │   ├── NewsEventClubProvider.dart
-│   │   ├── OfficeLocationProvider.dart
-│   │   ├── PostProvider.dart
-│   │   ├── RatingProvider.dart
-│   │   ├── ReportsProvider.dart
-│   │   ├── StaffProvider.dart
-│   │   ├── UsabilityProvider.dart
-│   │   └── UserProvider.dart
-│   ├── screens
-│   │   ├── admin
-│   │   │   ├── pending_reports.dart
-│   │   │   ├── pendings_screen.dart
-│   │   │   ├── report_content.dart
-│   │   │   ├── request_post_screen.dart
-│   │   │   ├── search_course.dart
-│   │   │   ├── search_staff.dart
-│   │   │   ├── set_course_screen.dart
-│   │   │   ├── set_important_contacts_screen.dart
-│   │   │   ├── set_office_screen.dart
-│   │   │   └── set_staff_screen.dart
-│   │   ├── authentication
-│   │   │   ├── login.dart
-│   │   │   └── register.dart
-│   │   ├── common
-│   │   │   ├── about.dart
-│   │   │   ├── AcademicRelated
-│   │   │   │   ├── academicRelated.dart
-│   │   │   │   ├── addAcademicQuestion.dart
-│   │   │   │   └── editAcademicPost.dart
-│   │   │   ├── confessions
-│   │   │   │   ├── addConfessions.dart
-│   │   │   │   └── confessions.dart
-│   │   │   ├── important_contacts.dart
-│   │   │   ├── L&F
-│   │   │   │   ├── addLostAndFoundPost.dart
-│   │   │   │   ├── editLostAndFoundPost.dart
-│   │   │   │   └── lostAndFound.dart
-│   │   │   ├── newsEvents
-│   │   │   │   ├── addPostClubs.dart
-│   │   │   │   ├── clubsAndEvents.dart
-│   │   │   │   └── editPostClubs.dart
-│   │   │   ├── officesAndOutlets.dart
-│   │   │   └── splash.dart
-│   │   ├── course
-│   │   │   └── course_profile.dart
-│   │   ├── staff
-│   │   │   └── profile.dart
-│   │   └── user
-│   │       ├── profile.dart
-│   │       ├── profile_edit.dart
-│   │       ├── profile_edit_form.dart
-│   │       ├── search.dart
-│   │       └── settings.dart
-│   ├── services
-│   │   └── notification_api.dart
-│   ├── utils
-│   │   ├── dates.dart
-│   │   ├── titleCase.dart
-│   │   └── uploadImageToStorage.dart
-│   └── widgets
-│       ├── app_bar.dart
-│       ├── bottom_bar.dart
-│       ├── cached_image.dart
-│       ├── comment.dart
-│       ├── comment_popup_menu.dart
-│       ├── comments_modal.dart
-│       ├── confession_widget.dart
-│       ├── drawer.dart
-│       ├── edit_comment.dart
-│       ├── email_field.dart
-│       ├── error_essage.dart
-│       ├── input_field.dart
-│       ├── likable_image.dart
-│       ├── loader.dart
-│       ├── mention_field.dart
-│       ├── message_dialog.dart
-│       ├── password_field.dart
-│       ├── phone_field.dart
-│       ├── popup_menue_button.dart
-│       ├── post.dart
-│       ├── post_widget.dart
-│       ├── RatingBar.dart
-│       ├── report_modal.dart
-│       ├── status_indicator.dart
-│       └── user_image_picker.dart
-└── themes
-    ├── colors.dart
-    ├── sizes.dart
-    └── themes.dart
-
-```
-
-### ⚠️ Disclaimer
-
-Users who will Use this Data should only use it for Practice and <strong>not for Commercial Purposes !</strong>
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-### 📷 Screenshots
-
-
 ### Database Structures and Firebase Schema
-
+The database will store user profiles, posts (confessions, academic queries, lost and found items, news, events), admin approvals, user behavior logs, and other necessary data to support the functionalities mentioned above.
 ### CustomUser Class
 - Description: Represents a user in the application.
 - Schema:
@@ -431,3 +286,139 @@ Users who will Use this Data should only use it for Practice and <strong>not for
   - Document fields: user_email, user_type, events, screenTimes
   - Restriction: Only authorized users can read and write to this collection.
 
+### Flutter Folder Structure
+
+```
+├── firebase_options.dart
+├── main.dart
+├── routes.dart
+├── src
+│   ├── dummy_data
+│   │   ├── importantEmails.dart
+│   │   ├── importantNumbers.dart
+│   │   ├── OfficeItems.dart
+│   │   ├── posts.dart
+│   │   └── user.dart
+│   ├── models
+│   │   ├── AcademicQuestion.dart
+│   │   ├── Comment.dart
+│   │   ├── Confession.dart
+│   │   ├── Course.dart
+│   │   ├── ImportantEmail.dart
+│   │   ├── ImportantPhoneNumber.dart
+│   │   ├── LostAndFound.dart
+│   │   ├── NewsEventClub.dart
+│   │   ├── OfficeAndLocation.dart
+│   │   ├── Post.dart
+│   │   ├── Rating.dart
+│   │   ├── Reports.dart
+│   │   ├── Staff.dart
+│   │   ├── Usability.dart
+│   │   ├── User.dart
+│   │   └── UserRating.dart
+│   ├── providers
+│   │   ├── AcademicQuestionProvider.dart
+│   │   ├── CommentProvider.dart
+│   │   ├── ConfessionProvider.dart
+│   │   ├── CourseProvider.dart
+│   │   ├── ImportantEmailProvider.dart
+│   │   ├── ImportantPhoneNumberProvider.dart
+│   │   ├── LikesProvider.dart
+│   │   ├── LostAndFoundProvider.dart
+│   │   ├── NewsEventClubProvider.dart
+│   │   ├── OfficeLocationProvider.dart
+│   │   ├── PostProvider.dart
+│   │   ├── RatingProvider.dart
+│   │   ├── ReportsProvider.dart
+│   │   ├── StaffProvider.dart
+│   │   ├── UsabilityProvider.dart
+│   │   └── UserProvider.dart
+│   ├── screens
+│   │   ├── admin
+│   │   │   ├── pending_reports.dart
+│   │   │   ├── pendings_screen.dart
+│   │   │   ├── report_content.dart
+│   │   │   ├── request_post_screen.dart
+│   │   │   ├── search_course.dart
+│   │   │   ├── search_staff.dart
+│   │   │   ├── set_course_screen.dart
+│   │   │   ├── set_important_contacts_screen.dart
+│   │   │   ├── set_office_screen.dart
+│   │   │   └── set_staff_screen.dart
+│   │   ├── authentication
+│   │   │   ├── login.dart
+│   │   │   └── register.dart
+│   │   ├── common
+│   │   │   ├── about.dart
+│   │   │   ├── AcademicRelated
+│   │   │   │   ├── academicRelated.dart
+│   │   │   │   ├── addAcademicQuestion.dart
+│   │   │   │   └── editAcademicPost.dart
+│   │   │   ├── confessions
+│   │   │   │   ├── addConfessions.dart
+│   │   │   │   └── confessions.dart
+│   │   │   ├── important_contacts.dart
+│   │   │   ├── L&F
+│   │   │   │   ├── addLostAndFoundPost.dart
+│   │   │   │   ├── editLostAndFoundPost.dart
+│   │   │   │   └── lostAndFound.dart
+│   │   │   ├── newsEvents
+│   │   │   │   ├── addPostClubs.dart
+│   │   │   │   ├── clubsAndEvents.dart
+│   │   │   │   └── editPostClubs.dart
+│   │   │   ├── officesAndOutlets.dart
+│   │   │   └── splash.dart
+│   │   ├── course
+│   │   │   └── course_profile.dart
+│   │   ├── staff
+│   │   │   └── profile.dart
+│   │   └── user
+│   │       ├── profile.dart
+│   │       ├── profile_edit.dart
+│   │       ├── profile_edit_form.dart
+│   │       ├── search.dart
+│   │       └── settings.dart
+│   ├── services
+│   │   └── notification_api.dart
+│   ├── utils
+│   │   ├── dates.dart
+│   │   ├── titleCase.dart
+│   │   └── uploadImageToStorage.dart
+│   └── widgets
+│       ├── app_bar.dart
+│       ├── bottom_bar.dart
+│       ├── cached_image.dart
+│       ├── comment.dart
+│       ├── comment_popup_menu.dart
+│       ├── comments_modal.dart
+│       ├── confession_widget.dart
+│       ├── drawer.dart
+│       ├── edit_comment.dart
+│       ├── email_field.dart
+│       ├── error_essage.dart
+│       ├── input_field.dart
+│       ├── likable_image.dart
+│       ├── loader.dart
+│       ├── mention_field.dart
+│       ├── message_dialog.dart
+│       ├── password_field.dart
+│       ├── phone_field.dart
+│       ├── popup_menue_button.dart
+│       ├── post.dart
+│       ├── post_widget.dart
+│       ├── RatingBar.dart
+│       ├── report_modal.dart
+│       ├── status_indicator.dart
+│       └── user_image_picker.dart
+└── themes
+    ├── colors.dart
+    ├── sizes.dart
+    └── themes.dart
+
+```
+
+### ⚠️ Disclaimer
+
+Users who will Use this Data should only use it for Practice and <strong>not for Commercial Purposes !</strong>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
