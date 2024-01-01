@@ -30,7 +30,13 @@ short description
   </p>
 </div>
 
-## Open the App
+
+
+## 💡 Description
+The GUConnect is a Student and Staff App that is a dynamic platform tailored for the German University in Cairo community. Emphasizing user engagement and utility, the app requires GUC email verification for signup and includes an admin account. Its versatile features encompass Confessions for anonymous posts, academic inquiries with image uploads and ratings, Lost and Found, location services for university offices and outlets, essential phone number databases, and an editable News/Events section managed by approved users. The app's intuitive design strategically organizes functions while ensuring push notifications for updates. Admin control can be managed within the app. Crucially, the app collects usability data, tracking user interactions and behaviors to enhance functionality and user experience continually.
+
+
+### Open the App
 - clone the repo ```git clone```
 
 - ```cd app```
@@ -40,17 +46,14 @@ short description
 - run the project ```flutter run```
 
 
-## 💡 Description
-The GUConnect is a Student and Staff App that is a dynamic platform tailored for the German University in Cairo community. Emphasizing user engagement and utility, the app requires GUC email verification for signup and includes an admin account. Its versatile features encompass Confessions for anonymous posts, academic inquiries with image uploads and ratings, Lost and Found, location services for university offices and outlets, essential phone number databases, and an editable News/Events section managed by approved users. The app's intuitive design strategically organizes functions while ensuring push notifications for updates. Admin control can be managed within the app. Crucially, the app collects usability data, tracking user interactions and behaviors to enhance functionality and user experience continually.
-
-
+### 📷 Screenshots
 
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
 - Functionality and Utility: Providing diverse functionalities catering to academic, social, and emergency needs within the GUC community.
 - Administrative Control: Efficient admin tools to add, edit, delete university staff and course information,  manage, moderate, and approve user-generated content.
 - Usability Enhancement: Gathering and analyzing user behavior data to enhance app usability and user experience over time.
-- 
+
 ### Motivation:
 - Enhancing Campus Life: Empowering students and staff by providing a central platform for various needs.
 - Encouraging Participation: Fostering a sense of community and collaboration within the GUC.
@@ -213,4 +216,3 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### 📷 Screenshots
