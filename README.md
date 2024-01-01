@@ -452,7 +452,7 @@ The usability dataset captures essential user interactions and screen time data 
    - If the direction is reverse (downward), an event with the name 'Scroll_Down_Sreen_Name' is logged.
 
 #### 4. **Non-blocking Logging funtions :**
-   - Both `logEvent` function is designed to be non-blocking to prevent slowing down the application's main thread.
+   - `logEvent` function is designed to be non-blocking to prevent slowing down the application's main thread.
    - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.  
 
 ### Screen Time Logging:
@@ -491,7 +491,7 @@ The usability dataset captures essential user interactions and screen time data 
    - The `UsabilityProvider` is integrated into the Flutter application as a `NavigatorObserver`, ensuring that the defined methodologies for screen time logging are seamlessly executed throughout the app's navigation flow.
 
 #### 8. **Non-blocking Logging funtions :**
-   - Both `logScreenTime` function is designed to be non-blocking to prevent slowing down the application's main thread.
+   - `logScreenTime` function is designed to be non-blocking to prevent slowing down the application's main thread.
    - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.   
 
 This methodology ensures accurate and detailed tracking of user interactions and screen times, providing valuable data for usability analysis within the application.
