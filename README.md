@@ -234,6 +234,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Firestore Database:
   - Collection: users
   - Document fields: fullName, userName, phoneNumber, image, email, password, biography, userType, user_id, token
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Comment Class
 - Description: Represents a comment made by a user on a post.
@@ -246,6 +247,8 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: comments
   - Document fields: id, content, commenter, createdAt, postType
+  - only authorized users.
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Confession Class
 - Description: Represents a confession made by a user.
@@ -257,6 +260,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: confessions
   - Document fields: isAnonymous, mentionedPeople, comments, likes
+  - Restriction: Only authorized users can read and write to this collection.
     
 ### Rating Class
 - Description: Represents the ratings for a course or staff.
@@ -268,6 +272,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: ratings
   - Document fields: id, ratingSum, ratingAverage, ratingCount
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Course Class
 - Description: Represents a course in the application.
@@ -280,6 +285,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: courses
   - Document fields: courseCode, courseName, image, ratings, description
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### ImportantEmail Class
 - Description: Represents an important email contact for staff.
@@ -289,6 +295,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: importantEmails
   - Document fields: title, email
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### ImportantPhoneNumber Class
 - Description: Represents an important phone number contact.
@@ -298,6 +305,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: importantPhoneNumbers
   - Document fields: title, phoneNumber
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### LostAndFound Class
 - Description: Represents a lost and found item.
@@ -306,8 +314,9 @@ Users who will Use this Data should only use it for Practice and <strong>not for
   - likes: Set<String>
   - comments: List<Comment>
 - Roles in Firestore Database:
-  - Collection: lostAndFoundItems
+  - Collection: lostAndFound
   - Document fields: contact, likes, comments
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### OfficeAndLocation Class
 - Description: Represents an office location.
@@ -318,8 +327,9 @@ Users who will Use this Data should only use it for Practice and <strong>not for
   - location: String
   - isOffice: bool
 - Roles in Firestore Database:
-  - Collection: officeLocations
+  - Collection: officeAndLocations
   - Document fields: name, latitude, longitude, location, isOffice
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Post Class
 - Description: Represents a post made by a user.
@@ -334,6 +344,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: posts
   - Document fields: content, sender, createdAt, id, image, likes, comments
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Report Class
 - Description: Represents a report made by a user.
@@ -350,6 +361,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: reports
   - Document fields: id, reportedContentId, reportedUser, reportedContent, reportType, createdAt, image, reason, clarification
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### Staff Class
 - Description: Represents a staff member in the application.
@@ -365,8 +377,9 @@ Users who will Use this Data should only use it for Practice and <strong>not for
   - courses: List<String>
   - ratings: List<Rating>
 - Roles in Firestore Database:
-  - Collection: staffMembers
+  - Collection: staffs
   - Document fields: fullName, image, email, officeLocation, staffType, bio, description, speciality, courses, ratings
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### UserRating Class
 - Description: Represents a user rating for a course or staff member.
@@ -380,6 +393,7 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Roles in Firestore Database:
   - Collection: userRatings
   - Document fields: id, userId, rating, comment, createdAt, updatedAt
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### AcademicQuestion Class
 - Description: Represents an academic question posted by a user.
@@ -387,8 +401,9 @@ Users who will Use this Data should only use it for Practice and <strong>not for
   - likes: Set<String>
   - comments: List<Comment>
 - Roles in Firestore Database:
-  - Collection: academicQuestions
+  - Collection: academicRelatedQuestions
   - Document fields: likes, comments
+  - Restriction: Only authorized users can read and write to this collection.
 
 ### ScreenTime Class
 - Description: Represents the screen time for usability tracking.
@@ -414,5 +429,5 @@ Users who will Use this Data should only use it for Practice and <strong>not for
 - Firestore Database:
   - Collection: usabilityData
   - Document fields: user_email, user_type, events, screenTimes
-  - 
+  - Restriction: Only authorized users can read and write to this collection.
 
