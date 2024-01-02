@@ -125,6 +125,10 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
   - Logout 
   <img src="./screenshots/Logout.jpg" style="width: 300px; ">
 
+- Admin can add course
+<img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
+
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
 - Functionality and Utility: Providing diverse functionalities catering to academic, social, and emergency needs within the GUC community.
