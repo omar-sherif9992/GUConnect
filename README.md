@@ -127,17 +127,17 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
   <img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
 
 - Admin can add important contacts
-  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
-  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
 
 - Admin can add office/outlet
-  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
-  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
 
 - Admin can add staff
-  <img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
-  <img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
-  <img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
 
 - Admin can view pending reports
 <img src="./screenshots/Admin View Pending Confession Reports.png" style="width: 300px; ">  
@@ -145,13 +145,13 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 <img src="./screenshots/Admin View Pending Comment Reports.png" style="width: 300px; ">
 
 - Admin can approve/disapprove pending reports
-  <img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
-  <img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
-  <img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
+<img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
 
 - Admin can view/aprrove&reject pending post requests in club/news and events section
-  <img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
-  <img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
 
 ### Objectives:
 
