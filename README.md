@@ -40,91 +40,88 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 ### 📷 Screenshots
 
 - Splash screen(Loading Screen)
-  <img src="./screenshots/SplashScreen.jpg" style="width: 375px; ">
+<img src="./screenshots/SplashScreen.jpg" style="width: 375px; "> 
 - User can signup to the app with his university email (student or stuff), and chooses the username he likes.
-  <img src="./screenshots/signup.jpg" style="width: 375px; ">
+<img src="./screenshots/signup.jpg" style="width: 375px; ">
 
 - User can login to the app with his university mail and password.
-  <img src="./screenshots/login.jpg" style="width: 375px; ">
+<img src="./screenshots/login.jpg" style="width: 375px; ">
 
 - User can preview his own profile with all posts he has shared in all the sections.
-  <img src="./screenshots/profile.jpg" style="width: 375px; ">
+<img src="./screenshots/profile.jpg" style="width: 375px; ">
 
 - Drawer menu
-  <img src="./screenshots/drawer.jpg" style="width: 375px; ">
+<img src="./screenshots/drawer.jpg" style="width: 375px; ">
 - News Events and Clubs Sections
-  <img src="./screenshots/NewsEventsandClubs.jpg" style="width: 375px; ">
+<img src="./screenshots/NewsEventsandClubs.jpg" style="width: 375px; ">
 
 - Lost and Found Section
-  <img src="./screenshots/LF.jpg" style="width: 375px; ">
+<img src="./screenshots/LF.jpg" style="width: 375px; ">
 
 - User can call the person posting Lost and Found post (if the persons shared his number)
-  <img src ="./screenshots/LF2.jpg" style="width: 375px; ">
+<img src ="./screenshots/LF2.jpg" style="width: 375px; ">
 
 - User can report any post in any section or comment.
-  <img src="./screenshots/report1.jpg" style="width: 375px; ">
-  <img src="./screenshots/report2.jpg" style="width: 375px; ">
+<img src="./screenshots/report1.jpg" style="width: 375px; ">
+<img src="./screenshots/report2.jpg" style="width: 375px; ">
 
 - Academic related questions section
-  <image src="./screenshots/academic.jpg" style="width: 375px; ">
+<image src="./screenshots/academic.jpg" style="width: 375px; ">
 
 - User can add a comment on any post in all the sections.
-  <img src = "./screenshots/comment.jpg" style="width: 375px; ">
+<img src = "./screenshots/comment.jpg" style="width: 375px; ">
 
 - Confessions section (Confessions can be posted anonymously or public) and users can mention each others.
-  <image src ="./screenshots/confessions.jpg" style="width: 375px; ">
+<image src ="./screenshots/confessions.jpg" style="width: 375px; ">
 
 - User can search for all the offices in the university and knows their location through the app.
-  <image src = "./screenshots/offices.jpg" style="width: 375px; ">
+<image src = "./screenshots/offices.jpg" style="width: 375px; ">
 
 - User can search for all the food outlets in the university and knows their location through the app.
-  <image src ="./screenshots/outlets.jpg" style="width: 375px; ">
+<image src ="./screenshots/outlets.jpg" style="width: 375px; ">
 
 - Using the direction button, the user can have the exact location of the office or his destination.
-  <img src = "./screenshots/Directions.jpg" style="width: 375px; ">
+<img src = "./screenshots/Directions.jpg" style="width: 375px; ">
 
 - User can search for Important phone numbers and call them directly through the app.
-  <img src = "./screenshots/IMPPhone.jpg" style="width: 375px; ">
+<img src = "./screenshots/IMPPhone.jpg" style="width: 375px; ">
 
 - Users can search for Important emails in the university.
-  <img src = "./screenshots/IMPEmails.jpg" style="width: 375px; ">
-  <img src = "./screenshots/IMPEmailsSearch.jpg" style="width: 375px; ">
+<img src = "./screenshots/IMPEmails.jpg" style="width: 375px; ">
+<img src = "./screenshots/IMPEmailsSearch.jpg" style="width: 375px; ">
 
 - User can search for professors and Tas through the app.
-  <img src="./screenshots/SearchStaff.jpg" style="width: 375px; ">
-  <img src="./screenshots/SearchStaff2.jpg" style="width: 375px; ">
+<img src="./screenshots/SearchStaff.jpg" style="width: 375px; ">
+<img src="./screenshots/SearchStaff2.jpg" style="width: 375px; ">
 
 - User can view professor mail, office and avg. rating and he can rate a professor as well.
-
   - Adding a new rating.
-    <img src = "./screenshots/profRate2.jpg" style="width: 300px; ">
+  <img src = "./screenshots/profRate2.jpg" style="width: 300px; ">
   - Remove or see his old rating.
-    <img src = "./screenshots/profRate.jpg" style="width: 300px; ">
+  <img src = "./screenshots/profRate.jpg" style="width: 300px; ">
 
 - User can search for courses taught in the university.
-  <img src= "./screenshots/SearchCourses.jpg" style="width: 300px; ">
-  <img src= "./screenshots/SearchCourses2.jpg" style="width: 300px; ">
+<img src= "./screenshots/SearchCourses.jpg" style="width: 300px; ">
+<img src= "./screenshots/SearchCourses2.jpg" style="width: 300px; ">
 
 - User can preview course page and rate a specific course.
-  <img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
+<img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-  <img sc="./screenshots/notification.jpg" style="width: 300px; ">
-  <img src="./screenshots/Notifications.jpg" style="width: 300px; ">
-  <img src="./screenshots/Notifications (2).jpg" style="width: 300px; ">
+<img src="./screenshots/notification.jpg" style="width: 300px; ">
+<img src="./screenshots/Notifications.jpg" style="width: 300px; "> 
+<img src="./screenshots/Notifications (2).jpg" style="width: 300px; "> 
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
-  <img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
-  <img src="./screenshots/EditProfile2.jpg" style="width: 300px; ">
+<img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
+<img src="./screenshots/EditProfile2.jpg" style="width: 300px; ">
 
 - Settings screen
-  <img src="./screenshots/Settings.jpg" style="width: 300px; ">
-
+<img src="./screenshots/Settings.jpg" style="width: 300px; ">
   - About us page
-    <img src="./screenshots/AboutUs.jpg" style="width: 300px; ">
-  - Logout
-    <img src="./screenshots/Logout.jpg" style="width: 300px; ">
-
+  <img src="./screenshots/AboutUs.jpg" style="width: 300px; ">
+  - Logout 
+  <img src="./screenshots/Logout.jpg" style="width: 300px; ">
 - Admin can add course
   <img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">  
   <img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
