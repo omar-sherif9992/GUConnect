@@ -44,86 +44,86 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 
 ### 📷 Screenshots
 - Splash screen(Loading Screen)
-<img src="./screenshots/SplashScreen.jpg" style="width: 375px; height: auto;"> 
+<img src="./screenshots/SplashScreen.jpg" style="width: 375px; height: 600px;"> 
 - User can signup to the app with his university email (student or stuff), and chooses the username he likes.
-<img src="./screenshots/signup.jpg" style="width: 375px; height: auto;">
+<img src="./screenshots/signup.jpg" style="width: 375px; height: 600px;">
 
 - User can login to the app with his university mail and password.
-<img src="./screenshots/login.jpg" style="width: 375px; height: auto;">
+<img src="./screenshots/login.jpg" style="width: 375px; height: 600px;">
 
 - User can preview his own profile with all posts he has shared in all the sections.
-<img src="./screenshots/profile.jpg" style="width: 375px; height: auto;">
+<img src="./screenshots/profile.jpg" style="width: 375px; height: 600px;">
 
 - Drawer menu
-<img src="./screenshots/drawer.jpg">
+<img src="./screenshots/drawer.jpg" style="width: 375px; height: 600px;">
 - News Events and Clubs Sections
-<img src="./screenshots/NewsEventsandClubs.jpg">
+<img src="./screenshots/NewsEventsandClubs.jpg" style="width: 375px; height: 600px;">
 
 - Lost and Found Section
-<img src="./screenshots/LF.jpg">
+<img src="./screenshots/LF.jpg" style="width: 375px; height: 600px;">
 
 - User can call the person posting Lost and Found post (if the persons shared his number)
-<img src ="./screenshots/LF2.jpg">
+<img src ="./screenshots/LF2.jpg" style="width: 375px; height: 600px;">
 
 - User can report any post in any section or comment.
-<img src="./screenshots/report1.jpg">
-<img src="./screenshots/report2.jpg">
+<img src="./screenshots/report1.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/report2.jpg" style="width: 375px; height: 600px;">
 
 - Academic related questions section
-<image src="./screenshots/academic.jpg">
+<image src="./screenshots/academic.jpg" style="width: 375px; height: 600px;">
 
 - User can add a comment on any post in all the sections.
-<img src = "./screenshots/comment.jpg">
+<img src = "./screenshots/comment.jpg" style="width: 375px; height: 600px;">
 
 - Confessions section (Confessions can be posted anonymously or public) and users can mention each others.
-<image src ="./screenshots/confessions.jpg">
+<image src ="./screenshots/confessions.jpg" style="width: 375px; height: 600px;">
 
 - User can search for all the offices in the university and knows their location through the app.
-<image src = "./screenshots/offices.jpg">
+<image src = "./screenshots/offices.jpg" style="width: 375px; height: 600px;">
 
 - User can search for all the food outlets in the university and knows their location through the app.
-<image src ="./screenshots/outlets.jpg">
+<image src ="./screenshots/outlets.jpg" style="width: 375px; height: 600px;">
 
 - Using the direction button, the user can have the exact location of the office or his destination.
-<img src = "./screenshots/Directions.jpg">
+<img src = "./screenshots/Directions.jpg" style="width: 375px; height: 600px;">
 
 - User can search for Important phone numbers and call them directly through the app.
-<img src = "./screenshots/IMPPhone.jpg">
+<img src = "./screenshots/IMPPhone.jpg" style="width: 375px; height: 600px;">
 
 - Users can search for Important emails in the university.
-<img src = "./screenshots/IMPEmails.jpg">
-<img src = "./screenshots/IMPEmailsSearch.jpg">
+<img src = "./screenshots/IMPEmails.jpg" style="width: 375px; height: 600px;">
+<img src = "./screenshots/IMPEmailsSearch.jpg" style="width: 375px; height: 600px;">
 
 - User can search for professors and Tas through the app.
-<img src="./screenshots/SaerchStaff.jpg">
-<img src="./screenshots/SearchStaff2.jpg">
+<img src="./screenshots/SearchStaff.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/SearchStaff2.jpg" style="width: 375px; height: 600px;">
 
 - User can view professor mail, office and avg. rating and he can rate a professor as well.
   - Adding a new rating.
-  <img src = "./screenshots/profRate2.jpg">
+  <img src = "./screenshots/profRate2.jpg" style="width: 375px; height: 600px;">
   - Remove or see his old rating.
-  <img src = "./screenshots/profRate.jpg">
+  <img src = "./screenshots/profRate.jpg" style="width: 375px; height: 600px;">
 
 - User can search for courses taught in the university.
-<img src= "./screenshots/SearchCourses.jpg">
-<img src= "./screenshots/SearchCourses2.jpg">
+<img src= "./screenshots/SearchCourses.jpg" style="width: 375px; height: 600px;">
+<img src= "./screenshots/SearchCourses2.jpg" style="width: 375px; height: 600px;">
 
 - User can preview course page and rate a specific course.
-<img src="./screenshots/CoursePage.jpg">
+<img src="./screenshots/CoursePage.jpg" style="width: 375px; height: 600px;">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-<img src="./screenshots/notification.jpg"> 
+<img src="./screenshots/notification.jpg" style="width: 375px; height: 600px;"> 
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
-<img src="./screenshots/EditProfile.jpg">
-<img src="./screenshots/EditProfile2.jpg">
+<img src="./screenshots/EditProfile.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/EditProfile2.jpg" style="width: 375px; height: 600px;">
 
 - Settings screen
-<img src="./screenshots/Settings.jpg">
+<img src="./screenshots/Settings.jpg" style="width: 375px; height: 600px;">
   - About us page
-  <img src="./screenshots/AboutUs.jpg">
+  <img src="./screenshots/AboutUs.jpg" style="width: 375px; height: 600px;">
   - Logout 
-  <img src="./screenshots/Logout.jpg">
+  <img src="./screenshots/Logout.jpg" style="width: 375px; height: 600px;">
 
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
