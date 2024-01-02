@@ -112,7 +112,9 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 <img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-<img src="./screenshots/notification.jpg" style="width: 300px; "> 
+<img src="./screenshots/notification.jpg" style="width: 300px; ">
+<img src="./screenshots/Notifications.jpg" style="width: 300px; "> 
+<img src="./screenshots/Notifications (2).jpg" style="width: 300px; "> 
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
 <img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
@@ -126,7 +128,35 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
   <img src="./screenshots/Logout.jpg" style="width: 300px; ">
 
 - Admin can add course
-  <img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; "> <img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
+
+- Admin can add important contacts
+  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+
+- Admin can add office/outlet
+  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+
+- Admin can add staff
+  <img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
+
+- Admin can view pending reports
+  <img src="./screenshots/Admin View Pending Confession Reports.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin View Pending Posts Reports.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Admin View Pending Comments Reports.jpg" style="width: 300px; ">
+
+- Admin can approve/disapprove pending reports
+  <img src="./screenshots/Admin Approve_Reject Confession Report.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Approve_Reject Post Report.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Approve_Reject Comment Report.jpg" style="width: 300px; ">
+
+- Admin can view/aprrove&reject pending post requests in club/news and events section
+  <img src="./screenshots/Admin View Post Requests.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
 
 
 ### Objectives: 
