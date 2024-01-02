@@ -9,7 +9,7 @@
  Student and Staff App is a multifunctional platform catering to the German University in Cairo community, integrating essential features like anonymous confessions, academic queries, lost and found, location services, and user-controlled news/events, while tracking usability data for continual improvement.
 	  <br />
 	·  
-   <a href="">Demo Video</a>
+   <a href="https://youtu.be/azpS1biX7oM">Demo user journey video</a>
    ·	  
    <a href="https://www.figma.com/file/fjW8vTZtumP8PWdHbwwErI/GUConnect?type=design&node-id=0%3A1&mode=design&t=NdpYR8ra6wORu8Fs-1">Figma </a>  
  ·	  
@@ -22,6 +22,13 @@
     <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20Bachelor Thesis&body=Dear%20Omar%20Sherif">Be a Contributer</a>
   </p>
 </div>
+
+## Team Members
+- Omar Sherif Ali Hassan omar.sharif@student.guc.edu.eg 49-3324
+- Abdullah Ahmad Fouad abdullah.ahmed@student.guc.edu.eg 49-2554
+- David Samy david.ywakeem@student.guc.edu.eg 49-15918
+- Hussein Yasser hussein.ebrahim@student.guc.edu.eg 49-18120
+- Abdelrahman Fekri abdelrahman.sebak@student.guc.edu.eg 49-17814
 
 ## 💡 Description
 
