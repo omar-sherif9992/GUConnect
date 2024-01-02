@@ -150,12 +150,12 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 <img src="./screenshots/Admin Admin View Pending Comments Reports.jpg" style="width: 300px; ">
 
 - Admin can approve/disapprove pending reports
-<img src="./screenshots/Admin Approve_Reject Confession Report.jpg" style="width: 300px; ">  
-<img src="./screenshots/Admin Approve_Reject Post Report.jpg" style="width: 300px; ">
-<img src="./screenshots/Admin Approve_Reject Comment Report.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
+<img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
 
 - Admin can view/aprrove&reject pending post requests in club/news and events section
-<img src="./screenshots/Admin View Post Requests.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
 <img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
 
 
@@ -612,14 +612,14 @@ The usability dataset captures essential user interactions and screen time data 
 This methodology ensures accurate and detailed tracking of user interactions and screen times, providing valuable data for usability analysis within the application.
 It's a common practice to avoid blocking the main thread by not awaiting certain asynchronous functions, especially if they are not critical to the immediate user experience.
 
-### ScrenShots:
-<img src="./screenshots/Usability.jpg" style="width: 300px; ">
-<img src="./screenshots/Usability 2.jpg" style="width: 300px; "> 
-<img src="./screenshots/Usability 3.jpg" style="width: 300px; "> 
-<img src="./screenshots/Usability 4.jpg" style="width: 300px; "> 
-<img src="./screenshots/Usability 5.jpg" style="width: 300px; "> 
-<img src="./screenshots/Usability 6.jpg" style="width: 300px; "> 
-<img src="./screenshots/Usability 7.jpg" style="width: 300px; "> 
+### Screnshots:
+<img src="./screenshots/Usability.JPG" style="width: 300px; ">
+<img src="./screenshots/Usability 2.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 3.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 4.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 5.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 6.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 7.JPG" style="width: 300px; "> 
 ---
 
 ### ⚠️ Disclaimer
