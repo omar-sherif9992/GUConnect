@@ -143,9 +143,9 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
   <img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
 
 - Admin can view pending reports
-  <img src="./screenshots/Admin View Pending Confession Reports.jpg" style="width: 300px; ">  
-  <img src="./screenshots/Admin View Pending Posts Reports.jpg" style="width: 300px; ">
-  <img src="./screenshots/Admin Admin View Pending Comments Reports.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin View Pending Confession Reports.png" style="width: 300px; ">  
+<img src="./screenshots/Admin View Pending Posts Reports.png" style="width: 300px; ">
+<img src="./screenshots/Admin View Pending Comment Reports.png" style="width: 300px; ">
 
 - Admin can approve/disapprove pending reports
   <img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
