@@ -100,30 +100,30 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 
 - User can view professor mail, office and avg. rating and he can rate a professor as well.
   - Adding a new rating.
-  <img src = "./screenshots/profRate2.jpg" style="width: 375px; height: 600px;">
+  <img src = "./screenshots/profRate2.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
   - Remove or see his old rating.
-  <img src = "./screenshots/profRate.jpg" style="width: 375px; height: 600px;">
+  <img src = "./screenshots/profRate.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
 
 - User can search for courses taught in the university.
-<img src= "./screenshots/SearchCourses.jpg" style="width: 375px; height: 600px;">
-<img src= "./screenshots/SearchCourses2.jpg" style="width: 375px; height: 600px;">
+<img src= "./screenshots/SearchCourses.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
+<img src= "./screenshots/SearchCourses2.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
 
 - User can preview course page and rate a specific course.
-<img src="./screenshots/CoursePage.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/CoursePage.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-<img src="./screenshots/notification.jpg" style="width: 375px; height: 600px;"> 
+<img src="./screenshots/notification.jpg"  style="width: 100%; aspect-ratio: 3 / 4;"> 
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
-<img src="./screenshots/EditProfile.jpg" style="width: 375px; height: 600px;">
-<img src="./screenshots/EditProfile2.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/EditProfile.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
+<img src="./screenshots/EditProfile2.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
 
 - Settings screen
-<img src="./screenshots/Settings.jpg" style="width: 375px; height: 600px;">
+<img src="./screenshots/Settings.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
   - About us page
-  <img src="./screenshots/AboutUs.jpg" style="width: 375px; height: 600px;">
+  <img src="./screenshots/AboutUs.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
   - Logout 
-  <img src="./screenshots/Logout.jpg" style="width: 375px; height: 600px;">
+  <img src="./screenshots/Logout.jpg"  style="width: 100%; aspect-ratio: 3 / 4;">
 
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
