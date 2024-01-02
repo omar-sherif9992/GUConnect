@@ -44,15 +44,15 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 
 ### 📷 Screenshots
 - Splash screen(Loading Screen)
-<img src="./screenshots/SplashScreen.jpg"> 
+<img src="./screenshots/SplashScreen.jpg" style="width: 375px; height: auto;"> 
 - User can signup to the app with his university email (student or stuff), and chooses the username he likes.
-<img src="./screenshots/signup.jpg">
+<img src="./screenshots/signup.jpg" style="width: 375px; height: auto;">
 
 - User can login to the app with his university mail and password.
-<img src="./screenshots/login.jpg">
+<img src="./screenshots/login.jpg" style="width: 375px; height: auto;">
 
 - User can preview his own profile with all posts he has shared in all the sections.
-<img src="./screenshots/profile.jpg">
+<img src="./screenshots/profile.jpg" style="width: 375px; height: auto;">
 
 - Drawer menu
 <img src="./screenshots/drawer.jpg">
