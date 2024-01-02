@@ -317,13 +317,18 @@ class _StuffProfileState extends State<StuffProfile>
                                       ),
                                       // Rating Staff
                                       const SizedBox(height: 30),
-                                      Text(
-                                        'Rate ${staff.staffType} ${staff.fullName} : ',
-                                        style: const TextStyle(
-                                          fontSize: 15.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.w700,
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*0.8,
+                                        child: 
+                                          Text(
+                                          'Rate ${staff.staffType} ${staff.fullName} : ',
+                                          style: const TextStyle(
+                                            fontSize: 15.0,
+                                            letterSpacing: 1.5,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
+                                
                                       ),
                                       const SizedBox(height: 10),
                                       CRatingBar(

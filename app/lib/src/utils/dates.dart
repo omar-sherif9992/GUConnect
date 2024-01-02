@@ -16,6 +16,6 @@ String timeAgo(DateTime dateTime) {
       return '${difference.inDays} days ago';
     }
     else {
-      return '${difference.inDays / 7} weeks ago';
+      return '${difference.inDays ~/ 7} weeks ago';
     }    
   }
