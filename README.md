@@ -112,7 +112,9 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 <img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-<img src="./screenshots/notification.jpg" style="width: 300px; "> 
+<img sc="./screenshots/notification.jpg" style="width: 300px; ">
+<img src="./screenshots/Notifications.jpg" style="width: 300px; "> 
+<img src="./screenshots/Notifications (2).jpg" style="width: 300px; "> 
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
 <img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
@@ -124,6 +126,38 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
   <img src="./screenshots/AboutUs.jpg" style="width: 300px; ">
   - Logout 
   <img src="./screenshots/Logout.jpg" style="width: 300px; ">
+
+- Admin can add course
+<img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
+
+- Admin can add important contacts
+<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+
+- Admin can add office/outlet
+<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+
+- Admin can add staff
+<img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
+
+- Admin can view pending reports
+<img src="./screenshots/Admin View Pending Confession Reports.jpg" style="width: 300px; ">  
+<img src="./screenshots/Admin View Pending Posts Reports.jpg" style="width: 300px; ">
+<img src="./screenshots/Admin Admin View Pending Comments Reports.jpg" style="width: 300px; ">
+
+- Admin can approve/disapprove pending reports
+<img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
+<img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
+
+- Admin can view/aprrove&reject pending post requests in club/news and events section
+<img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
+<img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
+
 
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
@@ -497,6 +531,96 @@ The database will store user profiles, posts (confessions, academic queries, los
     └── themes.dart
 
 ```
+
+**Usability Dataset Description:**
+
+The usability dataset captures essential user interactions and screen time data within our application, enabling a comprehensive analysis of user behavior and engagement. The dataset includes three main components:
+
+1. **User Information:**
+   - **User Email:** This field serves as a unique identifier for users.
+   - **User Type:** Specifies the type of user, providing insights into different user categories or roles.
+
+2. **User Events:**
+   - **Event Name:** Describes various user interactions, such as button clicks and scrolls.
+   - **Timestamp:** Records the exact date and time when the event occurred. This information is crucial for understanding the temporal aspects of user engagement.
+
+3. **Screen Time:**
+   - **Screen Name:** Identifies the specific screen or page within the Flutter app.
+   - **Start Time:** Marks the beginning of the user's interaction with a particular screen.
+   - **End Time:** Indicates when the user navigates away from the screen.
+   - **Duration:** Measures the time spent on a given screen, providing insights into user engagement and preferences.
+
+*User Events* encompass actions like button clicks and scrolls, offering valuable data on user interactions and preferences. This information is vital for assessing user engagement patterns and optimizing the user interface for enhanced usability.
+
+### Logging User Events (Clicks and Scrolls):
+
+#### 1. **Click/Scroll Event Logging:**
+   - For user clicks and scrolls, a dedicated `logEvent` method is employed, capturing the user's email and the specific event type (e.g., button click/scroll) along with timestamp when the event happened.
+   - This logging is strategically implemented on significant buttons throughout the app to capture user interactions.
+
+#### 2. **Scroll Event Handling within a ListView Widget:**
+   - The application incorporates a `NotificationListener` wrapped around a `ListView` widget to capture scroll events initiated by the user.
+
+#### 3. **Scroll Direction Detection:**
+   - The `onNotification` callback is triggered when a `UserScrollNotification` is received, allowing for the determination of the scroll direction.
+   - If the direction is forward (upward), an event with the name 'Scroll_Up_Sreen_Name' is logged.
+   - If the direction is reverse (downward), an event with the name 'Scroll_Down_Sreen_Name' is logged.
+
+#### 4. **Non-blocking Logging funtions :**
+   - `logEvent` function is designed to be non-blocking to prevent slowing down the application's main thread.
+   - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.  
+
+### Screen Time Logging:
+
+#### 1. **`logScreenTime` Method:**
+   - The `logScreenTime` method is responsible for updating the usability dataset with screen time information.
+   - It first queries the Firestore database to check if a document with the user's email exists.
+   - If the document doesn't exist, a new document is created with user details and an initial screen time entry.
+   - If the document exists, the screen time entry is added to the existing `screenTimes` array.
+
+#### 2. **`didPush` Override:**
+   - Triggered when a new screen is pushed onto the navigator.
+   - Captures the start time when a screen is entered.
+   - Calculates and logs screen time for the previous screen(to handle case of back-to-back pushing to the navigation stack).
+
+#### 3. **`didPop` Override:**
+   - Triggered when a screen is popped from the navigator.
+   - Captures the exit time when a screen is exited.
+   - Calculates and logs screen time for the popped screen.
+   - Captures the start time of the screen(route) that is currently at the top of navigation stack after popping.
+
+#### 4. **`didReplace` Override:**
+   - Triggered when a new screen replaces an existing screen.
+   - Captures the exit time when a screen is replaced.
+   - Calculates and logs screen time for the replaced screen.
+   - Captures the start time of the screen(route) that is currently at the top of navigation stack after replacing.
+
+#### 5. **Screen Time Calculation:**
+   - The duration of screen time is calculated by taking the difference between the exit and enter times.
+   - If the duration is zero seconds, the logging is skipped to avoid recording insignificant screen times, possibly caused by rapid navigation changes or logging out as logout function pops out all the routes in the navigation stack.
+
+#### 6. **Additional Considerations:**
+   - The screen name includes additional information for profile screens with visited user emails if it exists to distinguish whether the user surfing his own profile or others.
+
+#### 7. **Integration with NavigatorObservers:**
+   - The `UsabilityProvider` is integrated into the Flutter application as a `NavigatorObserver`, ensuring that the defined methodologies for screen time logging are seamlessly executed throughout the app's navigation flow.
+
+#### 8. **Non-blocking Logging funtions :**
+   - `logScreenTime` function is designed to be non-blocking to prevent slowing down the application's main thread.
+   - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.   
+
+This methodology ensures accurate and detailed tracking of user interactions and screen times, providing valuable data for usability analysis within the application.
+It's a common practice to avoid blocking the main thread by not awaiting certain asynchronous functions, especially if they are not critical to the immediate user experience.
+
+### Screnshots:
+<img src="./screenshots/Usability.JPG" style="width: 300px; ">
+<img src="./screenshots/Usability 2.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 3.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 4.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 5.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 6.JPG" style="width: 300px; "> 
+<img src="./screenshots/Usability 7.JPG" style="width: 300px; "> 
+---
 
 ### ⚠️ Disclaimer
 
