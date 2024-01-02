@@ -29,22 +29,25 @@ void main() {
       password: 'abcdef1',
     );
     Confession c = Confession(
-      isAnonymous: false,
-      content: 'confession',
-      sender: user,
-      createdAt: DateTime.now(),
-      comments: [],
-      likes: {}
-    );
+        isAnonymous: false,
+        content: 'confession',
+        sender: user,
+        createdAt: DateTime.now(),
+        comments: [],
+        likes: {});
     NewsEventClub n = NewsEventClub(
         reason: "reason",
         content: "content",
         sender: user,
         createdAt: DateTime.now(),
-        likes:{},
+        likes: {},
         comments: []);
     AcademicQuestion aq = AcademicQuestion(
-        content: "content", sender: user, createdAt: DateTime.now(), likes: {}, comments: []);
+        content: "content",
+        sender: user,
+        createdAt: DateTime.now(),
+        likes: {},
+        comments: []);
     LostAndFound lf = LostAndFound(
         contact: "contact",
         content: "content",
@@ -65,14 +68,6 @@ void main() {
     AcademicQuestion res1 = (await aqProvider.getQuestions())[0];
     Confession res2 = (await confessionProvider.getConfessions())[0];
     NewsEventClub res3 = (await necProvider.getPosts())[0];
-    print("res");
-    print(res);
-    print("res1");
-    print(res1);
-    print("res2");
-    print(res2);
-    print("res3");
-    print(res3);
     expect(res.likes.length, 0);
     expect(res1.likes.length, 0);
     expect(res2.likes.length, 0);

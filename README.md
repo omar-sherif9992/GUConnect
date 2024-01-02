@@ -5,9 +5,6 @@
 <div align="center">
     <img src="./app/assets/images/GUConnect-Logo.png" alt="Logo" width="150" height="140">
 
-
-
-
   <p align="center">
  Student and Staff App is a multifunctional platform catering to the German University in Cairo community, integrating essential features like anonymous confessions, academic queries, lost and found, location services, and user-controlled news/events, while tracking usability data for continual improvement.
 	  <br />
@@ -26,123 +23,124 @@
   </p>
 </div>
 
-
-
 ## 💡 Description
+
 The GUConnect is a Student and Staff App that is a dynamic platform tailored for the German University in Cairo community. Emphasizing user engagement and utility, the app requires GUC email verification for signup and includes an admin account. Its versatile features encompass Confessions for anonymous posts, academic inquiries with image uploads and ratings, Lost and Found, location services for university offices and outlets, essential phone number databases, and an editable News/Events section managed by approved users. The app's intuitive design strategically organizes functions while ensuring push notifications for updates. Admin control can be managed within the app. Crucially, the app collects usability data, tracking user interactions and behaviors to enhance functionality and user experience continually.
 
-
 ### Open the App
-- clone the repo ```git clone```
 
-- ```cd app```
+- clone the repo `git clone`
 
-- Install dependencies ``` flutter pub get```
+- `cd app`
 
-- run the project ```flutter run```
+- Install dependencies ` flutter pub get`
 
+- run the project `flutter run`
 
 ### 📷 Screenshots
+
 - Splash screen(Loading Screen)
-<img src="./screenshots/SplashScreen.jpg" style="width: 375px; "> 
+  <img src="./screenshots/SplashScreen.jpg" style="width: 375px; ">
 - User can signup to the app with his university email (student or stuff), and chooses the username he likes.
-<img src="./screenshots/signup.jpg" style="width: 375px; ">
+  <img src="./screenshots/signup.jpg" style="width: 375px; ">
 
 - User can login to the app with his university mail and password.
-<img src="./screenshots/login.jpg" style="width: 375px; ">
+  <img src="./screenshots/login.jpg" style="width: 375px; ">
 
 - User can preview his own profile with all posts he has shared in all the sections.
-<img src="./screenshots/profile.jpg" style="width: 375px; ">
+  <img src="./screenshots/profile.jpg" style="width: 375px; ">
 
 - Drawer menu
-<img src="./screenshots/drawer.jpg" style="width: 375px; ">
+  <img src="./screenshots/drawer.jpg" style="width: 375px; ">
 - News Events and Clubs Sections
-<img src="./screenshots/NewsEventsandClubs.jpg" style="width: 375px; ">
+  <img src="./screenshots/NewsEventsandClubs.jpg" style="width: 375px; ">
 
 - Lost and Found Section
-<img src="./screenshots/LF.jpg" style="width: 375px; ">
+  <img src="./screenshots/LF.jpg" style="width: 375px; ">
 
 - User can call the person posting Lost and Found post (if the persons shared his number)
-<img src ="./screenshots/LF2.jpg" style="width: 375px; ">
+  <img src ="./screenshots/LF2.jpg" style="width: 375px; ">
 
 - User can report any post in any section or comment.
-<img src="./screenshots/report1.jpg" style="width: 375px; ">
-<img src="./screenshots/report2.jpg" style="width: 375px; ">
+  <img src="./screenshots/report1.jpg" style="width: 375px; ">
+  <img src="./screenshots/report2.jpg" style="width: 375px; ">
 
 - Academic related questions section
-<image src="./screenshots/academic.jpg" style="width: 375px; ">
+  <image src="./screenshots/academic.jpg" style="width: 375px; ">
 
 - User can add a comment on any post in all the sections.
-<img src = "./screenshots/comment.jpg" style="width: 375px; ">
+  <img src = "./screenshots/comment.jpg" style="width: 375px; ">
 
 - Confessions section (Confessions can be posted anonymously or public) and users can mention each others.
-<image src ="./screenshots/confessions.jpg" style="width: 375px; ">
+  <image src ="./screenshots/confessions.jpg" style="width: 375px; ">
 
 - User can search for all the offices in the university and knows their location through the app.
-<image src = "./screenshots/offices.jpg" style="width: 375px; ">
+  <image src = "./screenshots/offices.jpg" style="width: 375px; ">
 
 - User can search for all the food outlets in the university and knows their location through the app.
-<image src ="./screenshots/outlets.jpg" style="width: 375px; ">
+  <image src ="./screenshots/outlets.jpg" style="width: 375px; ">
 
 - Using the direction button, the user can have the exact location of the office or his destination.
-<img src = "./screenshots/Directions.jpg" style="width: 375px; ">
+  <img src = "./screenshots/Directions.jpg" style="width: 375px; ">
 
 - User can search for Important phone numbers and call them directly through the app.
-<img src = "./screenshots/IMPPhone.jpg" style="width: 375px; ">
+  <img src = "./screenshots/IMPPhone.jpg" style="width: 375px; ">
 
 - Users can search for Important emails in the university.
-<img src = "./screenshots/IMPEmails.jpg" style="width: 375px; ">
-<img src = "./screenshots/IMPEmailsSearch.jpg" style="width: 375px; ">
+  <img src = "./screenshots/IMPEmails.jpg" style="width: 375px; ">
+  <img src = "./screenshots/IMPEmailsSearch.jpg" style="width: 375px; ">
 
 - User can search for professors and Tas through the app.
-<img src="./screenshots/SearchStaff.jpg" style="width: 375px; ">
-<img src="./screenshots/SearchStaff2.jpg" style="width: 375px; ">
+  <img src="./screenshots/SearchStaff.jpg" style="width: 375px; ">
+  <img src="./screenshots/SearchStaff2.jpg" style="width: 375px; ">
 
 - User can view professor mail, office and avg. rating and he can rate a professor as well.
+
   - Adding a new rating.
-  <img src = "./screenshots/profRate2.jpg" style="width: 300px; ">
+    <img src = "./screenshots/profRate2.jpg" style="width: 300px; ">
   - Remove or see his old rating.
-  <img src = "./screenshots/profRate.jpg" style="width: 300px; ">
+    <img src = "./screenshots/profRate.jpg" style="width: 300px; ">
 
 - User can search for courses taught in the university.
-<img src= "./screenshots/SearchCourses.jpg" style="width: 300px; ">
-<img src= "./screenshots/SearchCourses2.jpg" style="width: 300px; ">
+  <img src= "./screenshots/SearchCourses.jpg" style="width: 300px; ">
+  <img src= "./screenshots/SearchCourses2.jpg" style="width: 300px; ">
 
 - User can preview course page and rate a specific course.
-<img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
+  <img src="./screenshots/CoursePage.jpg" style="width: 300px; ">
 
 - User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
-<img sc="./screenshots/notification.jpg" style="width: 300px; ">
-<img src="./screenshots/Notifications.jpg" style="width: 300px; "> 
-<img src="./screenshots/Notifications (2).jpg" style="width: 300px; "> 
+  <img sc="./screenshots/notification.jpg" style="width: 300px; ">
+  <img src="./screenshots/Notifications.jpg" style="width: 300px; ">
+  <img src="./screenshots/Notifications (2).jpg" style="width: 300px; ">
 
 - User can edit his profile, changing his iamge, or password, or username and bio.
-<img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
-<img src="./screenshots/EditProfile2.jpg" style="width: 300px; ">
+  <img src="./screenshots/EditProfile.jpg" style="width: 300px; ">
+  <img src="./screenshots/EditProfile2.jpg" style="width: 300px; ">
 
 - Settings screen
-<img src="./screenshots/Settings.jpg" style="width: 300px; ">
+  <img src="./screenshots/Settings.jpg" style="width: 300px; ">
+
   - About us page
-  <img src="./screenshots/AboutUs.jpg" style="width: 300px; ">
-  - Logout 
-  <img src="./screenshots/Logout.jpg" style="width: 300px; ">
+    <img src="./screenshots/AboutUs.jpg" style="width: 300px; ">
+  - Logout
+    <img src="./screenshots/Logout.jpg" style="width: 300px; ">
 
 - Admin can add course
-<img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">  
-<img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Course (2).jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Course.jpg" style="width: 300px; ">
 
 - Admin can add important contacts
-<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
-<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
 
 - Admin can add office/outlet
-<img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
-<img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Important Contacts.jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Important Contacts (2).jpg" style="width: 300px; ">
 
 - Admin can add staff
-<img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
-<img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
-<img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Staff (4).jpg" style="width: 300px; ">  
+  <img src="./screenshots/Admin Add Staff (3).jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin Add Staff.jpg" style="width: 300px; ">
 
 - Admin can view pending reports
 <img src="./screenshots/Admin View Pending Confession Reports.png" style="width: 300px; ">  
@@ -150,45 +148,50 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 <img src="./screenshots/Admin View Pending Comment Reports.png" style="width: 300px; ">
 
 - Admin can approve/disapprove pending reports
-<img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
-<img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
-<img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
+  <img src="./screenshots/Admin Approve_Reject Confession Report.png" style="width: 300px; ">  
+  <img src="./screenshots/Admin Approve_Reject Post Report.png" style="width: 300px; ">
+  <img src="./screenshots/Admin Approve_Reject Comment Report.png" style="width: 300px; ">
 
 - Admin can view/aprrove&reject pending post requests in club/news and events section
-<img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
-<img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
+  <img src="./screenshots/Admin View Post Requests.png" style="width: 300px; ">
+  <img src="./screenshots/Admin Approve_Reject Post.jpg" style="width: 300px; ">
 
+### Objectives:
 
-### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
 - Functionality and Utility: Providing diverse functionalities catering to academic, social, and emergency needs within the GUC community.
-- Administrative Control: Efficient admin tools to add, edit, delete university staff and course information,  manage, moderate, and approve user-generated content.
+- Administrative Control: Efficient admin tools to add, edit, delete university staff and course information, manage, moderate, and approve user-generated content.
 - Usability Enhancement: Gathering and analyzing user behavior data to enhance app usability and user experience over time.
 
 ### Motivation:
+
 - Enhancing Campus Life: Empowering students and staff by providing a central platform for various needs.
 - Encouraging Participation: Fostering a sense of community and collaboration within the GUC.
 - Improving User Experience: Continuously evolving and adapting the app based on user behavior insights for a more user-friendly experience.
 
 ### 💻️ Languages & Libraries Used
+
 - Flutter: is Google's open-source UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase, using the Dart programming language.
 
 - Firebase SDK: is a comprehensive platform by Google that offers tools and services for mobile and web app development, including authentication, Firestore (a NoSQL cloud database), cloud functions, and more, simplifying backend infrastructure management.
-	- Firestore is Firebase's NoSQL cloud database that provides real-time data synchronization and querying capabilities, allowing developers to structure and manage app data efficiently across various devices.
 
-	- Firebase Authentication (FireAuth): is a secure authentication system within Firebase SDK, enabling easy integration of user authentication methods like email/password, social logins, and phone number authentication into mobile and web applications.
+  - Firestore is Firebase's NoSQL cloud database that provides real-time data synchronization and querying capabilities, allowing developers to structure and manage app data efficiently across various devices.
 
-	- Cloud Functions: is a serverless computing service that allows developers to execute backend code in response to events triggered by Firebase features or HTTP requests, enabling custom server-side logic without managing servers directly.
- - 
-	- Local Notifications: are alerts triggered and displayed directly on a user's device, enhancing user engagement by providing timely updates, reminders, or alerts within the app without requiring a server.
-	- Google Maps: is a mapping service that, when integrated into Flutter using google_maps_flutter package, offers interactive maps, markers, routing, and geolocation services, enabling users to explore locations and navigate within mobile applications.
+  - Firebase Authentication (FireAuth): is a secure authentication system within Firebase SDK, enabling easy integration of user authentication methods like email/password, social logins, and phone number authentication into mobile and web applications.
 
+  - Cloud Functions: is a serverless computing service that allows developers to execute backend code in response to events triggered by Firebase features or HTTP requests, enabling custom server-side logic without managing servers directly.
+
+- - Local Notifications: are alerts triggered and displayed directly on a user's device, enhancing user engagement by providing timely updates, reminders, or alerts within the app without requiring a server.
+  - Google Maps: is a mapping service that, when integrated into Flutter using google_maps_flutter package, offers interactive maps, markers, routing, and geolocation services, enabling users to explore locations and navigate within mobile applications.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Database Structures and Firebase Schema
+
 The database will store user profiles, posts (confessions, academic queries, lost and found items, news, events), admin approvals, user behavior logs, and other necessary data to support the functionalities mentioned above.
+
 ### CustomUser Class
+
 - Description: Represents a user in the application.
 - Schema:
   - fullName: String
@@ -207,6 +210,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Comment Class
+
 - Description: Represents a comment made by a user on a post.
 - Schema:
   - id: String
@@ -221,6 +225,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Confession Class
+
 - Description: Represents a confession made by a user.
 - Schema:
   - isAnonymous: bool
@@ -231,8 +236,9 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Collection: confessions
   - Document fields: isAnonymous, mentionedPeople, comments, likes
   - Restriction: Only authorized users can read and write to this collection.
-    
+
 ### Rating Class
+
 - Description: Represents the ratings for a course or staff.
 - Schema:
   - id: String
@@ -245,6 +251,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Course Class
+
 - Description: Represents a course in the application.
 - Schema:
   - courseCode: String
@@ -258,6 +265,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### ImportantEmail Class
+
 - Description: Represents an important email contact for staff.
 - Schema:
   - title: String
@@ -268,6 +276,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### ImportantPhoneNumber Class
+
 - Description: Represents an important phone number contact.
 - Schema:
   - title: String
@@ -278,6 +287,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### LostAndFound Class
+
 - Description: Represents a lost and found item.
 - Schema:
   - contact: String (optional)
@@ -289,6 +299,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### OfficeAndLocation Class
+
 - Description: Represents an office location.
 - Schema:
   - name: String
@@ -302,6 +313,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Post Class
+
 - Description: Represents a post made by a user.
 - Schema:
   - content: String
@@ -317,6 +329,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Report Class
+
 - Description: Represents a report made by a user.
 - Schema:
   - id: String
@@ -334,6 +347,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### Staff Class
+
 - Description: Represents a staff member in the application.
 - Schema:
   - fullName: String
@@ -352,6 +366,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### UserRating Class
+
 - Description: Represents a user rating for a course or staff member.
 - Schema:
   - id: String
@@ -366,6 +381,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### AcademicQuestion Class
+
 - Description: Represents an academic question posted by a user.
 - Schema:
   - likes: Set<String>
@@ -376,6 +392,7 @@ The database will store user profiles, posts (confessions, academic queries, los
   - Restriction: Only authorized users can read and write to this collection.
 
 ### ScreenTime Class
+
 - Description: Represents the screen time for usability tracking.
 - Schema:
   - screenName: String
@@ -384,12 +401,14 @@ The database will store user profiles, posts (confessions, academic queries, los
   - duration: double
 
 ### UserEvent Class
+
 - Description: Represents a user event for usability tracking.
 - Schema:
   - eventName: String
   - timeStampe: DateTime
 
 ### Usability Class
+
 - Description: Represents the usability data for a user.
 - Schema:
   - user_email: String
@@ -537,10 +556,12 @@ The database will store user profiles, posts (confessions, academic queries, los
 The usability dataset captures essential user interactions and screen time data within our application, enabling a comprehensive analysis of user behavior and engagement. The dataset includes three main components:
 
 1. **User Information:**
+
    - **User Email:** This field serves as a unique identifier for users.
    - **User Type:** Specifies the type of user, providing insights into different user categories or roles.
 
 2. **User Events:**
+
    - **Event Name:** Describes various user interactions, such as button clicks and scrolls.
    - **Timestamp:** Records the exact date and time when the event occurred. This information is crucial for understanding the temporal aspects of user engagement.
 
@@ -550,69 +571,82 @@ The usability dataset captures essential user interactions and screen time data 
    - **End Time:** Indicates when the user navigates away from the screen.
    - **Duration:** Measures the time spent on a given screen, providing insights into user engagement and preferences.
 
-*User Events* encompass actions like button clicks and scrolls, offering valuable data on user interactions and preferences. This information is vital for assessing user engagement patterns and optimizing the user interface for enhanced usability.
+_User Events_ encompass actions like button clicks and scrolls, offering valuable data on user interactions and preferences. This information is vital for assessing user engagement patterns and optimizing the user interface for enhanced usability.
 
 ### Logging User Events (Clicks and Scrolls):
 
 #### 1. **Click/Scroll Event Logging:**
-   - For user clicks and scrolls, a dedicated `logEvent` method is employed, capturing the user's email and the specific event type (e.g., button click/scroll) along with timestamp when the event happened.
-   - This logging is strategically implemented on significant buttons throughout the app to capture user interactions.
+
+- For user clicks and scrolls, a dedicated `logEvent` method is employed, capturing the user's email and the specific event type (e.g., button click/scroll) along with timestamp when the event happened.
+- This logging is strategically implemented on significant buttons throughout the app to capture user interactions.
 
 #### 2. **Scroll Event Handling within a ListView Widget:**
-   - The application incorporates a `NotificationListener` wrapped around a `ListView` widget to capture scroll events initiated by the user.
+
+- The application incorporates a `NotificationListener` wrapped around a `ListView` widget to capture scroll events initiated by the user.
 
 #### 3. **Scroll Direction Detection:**
-   - The `onNotification` callback is triggered when a `UserScrollNotification` is received, allowing for the determination of the scroll direction.
-   - If the direction is forward (upward), an event with the name 'Scroll_Up_Sreen_Name' is logged.
-   - If the direction is reverse (downward), an event with the name 'Scroll_Down_Sreen_Name' is logged.
+
+- The `onNotification` callback is triggered when a `UserScrollNotification` is received, allowing for the determination of the scroll direction.
+- If the direction is forward (upward), an event with the name 'Scroll_Up_Sreen_Name' is logged.
+- If the direction is reverse (downward), an event with the name 'Scroll_Down_Sreen_Name' is logged.
 
 #### 4. **Non-blocking Logging funtions :**
-   - `logEvent` function is designed to be non-blocking to prevent slowing down the application's main thread.
-   - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.  
+
+- `logEvent` function is designed to be non-blocking to prevent slowing down the application's main thread.
+- This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.
 
 ### Screen Time Logging:
 
 #### 1. **`logScreenTime` Method:**
-   - The `logScreenTime` method is responsible for updating the usability dataset with screen time information.
-   - It first queries the Firestore database to check if a document with the user's email exists.
-   - If the document doesn't exist, a new document is created with user details and an initial screen time entry.
-   - If the document exists, the screen time entry is added to the existing `screenTimes` array.
+
+- The `logScreenTime` method is responsible for updating the usability dataset with screen time information.
+- It first queries the Firestore database to check if a document with the user's email exists.
+- If the document doesn't exist, a new document is created with user details and an initial screen time entry.
+- If the document exists, the screen time entry is added to the existing `screenTimes` array.
 
 #### 2. **`didPush` Override:**
-   - Triggered when a new screen is pushed onto the navigator.
-   - Captures the start time when a screen is entered.
-   - Calculates and logs screen time for the previous screen(to handle case of back-to-back pushing to the navigation stack).
+
+- Triggered when a new screen is pushed onto the navigator.
+- Captures the start time when a screen is entered.
+- Calculates and logs screen time for the previous screen(to handle case of back-to-back pushing to the navigation stack).
 
 #### 3. **`didPop` Override:**
-   - Triggered when a screen is popped from the navigator.
-   - Captures the exit time when a screen is exited.
-   - Calculates and logs screen time for the popped screen.
-   - Captures the start time of the screen(route) that is currently at the top of navigation stack after popping.
+
+- Triggered when a screen is popped from the navigator.
+- Captures the exit time when a screen is exited.
+- Calculates and logs screen time for the popped screen.
+- Captures the start time of the screen(route) that is currently at the top of navigation stack after popping.
 
 #### 4. **`didReplace` Override:**
-   - Triggered when a new screen replaces an existing screen.
-   - Captures the exit time when a screen is replaced.
-   - Calculates and logs screen time for the replaced screen.
-   - Captures the start time of the screen(route) that is currently at the top of navigation stack after replacing.
+
+- Triggered when a new screen replaces an existing screen.
+- Captures the exit time when a screen is replaced.
+- Calculates and logs screen time for the replaced screen.
+- Captures the start time of the screen(route) that is currently at the top of navigation stack after replacing.
 
 #### 5. **Screen Time Calculation:**
-   - The duration of screen time is calculated by taking the difference between the exit and enter times.
-   - If the duration is zero seconds, the logging is skipped to avoid recording insignificant screen times, possibly caused by rapid navigation changes or logging out as logout function pops out all the routes in the navigation stack.
+
+- The duration of screen time is calculated by taking the difference between the exit and enter times.
+- If the duration is zero seconds, the logging is skipped to avoid recording insignificant screen times, possibly caused by rapid navigation changes or logging out as logout function pops out all the routes in the navigation stack.
 
 #### 6. **Additional Considerations:**
-   - The screen name includes additional information for profile screens with visited user emails if it exists to distinguish whether the user surfing his own profile or others.
+
+- The screen name includes additional information for profile screens with visited user emails if it exists to distinguish whether the user surfing his own profile or others.
 
 #### 7. **Integration with NavigatorObservers:**
-   - The `UsabilityProvider` is integrated into the Flutter application as a `NavigatorObserver`, ensuring that the defined methodologies for screen time logging are seamlessly executed throughout the app's navigation flow.
+
+- The `UsabilityProvider` is integrated into the Flutter application as a `NavigatorObserver`, ensuring that the defined methodologies for screen time logging are seamlessly executed throughout the app's navigation flow.
 
 #### 8. **Non-blocking Logging funtions :**
-   - `logScreenTime` function is designed to be non-blocking to prevent slowing down the application's main thread.
-   - This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.   
+
+- `logScreenTime` function is designed to be non-blocking to prevent slowing down the application's main thread.
+- This non-blocking approach allows the app to continue processing user interactions and UI updates without waiting for database operations to complete.
 
 This methodology ensures accurate and detailed tracking of user interactions and screen times, providing valuable data for usability analysis within the application.
 It's a common practice to avoid blocking the main thread by not awaiting certain asynchronous functions, especially if they are not critical to the immediate user experience.
 
 ### Screnshots:
+
 <img src="./screenshots/Usability.JPG" style="width: 300px; ">
 <img src="./screenshots/Usability 2.JPG" style="width: 300px; "> 
 <img src="./screenshots/Usability 3.JPG" style="width: 300px; "> 
@@ -621,6 +655,193 @@ It's a common practice to avoid blocking the main thread by not awaiting certain
 <img src="./screenshots/Usability 6.JPG" style="width: 300px; "> 
 <img src="./screenshots/Usability 7.JPG" style="width: 300px; "> 
 ---
+
+### Unit Testing
+
+providers were unit tested using a fake firebase firestore below are sample cases and the others are in the test folder.
+
+##### 1- User Provider
+
+```
+test('Login with valid credentials should succeed', () async {
+// Mock Firebase Authentication if needed
+final mockFirebaseAuth = MockFirebaseAuth();
+
+      // Define test user credentials
+      final email = 'test@example.com';
+      final password = 'testpassword';
+
+      // Simulate successful login
+      bool userCredential = await userProvider.login(email, password);
+
+      // Login using your actual implementation
+
+      // Verify successful login
+      expect(userCredential, isNotNull);
+    });
+```
+
+##### 2- Academic/Club/Confession/L&F Provider
+
+```
+test("create a post and make sure it is saved as mine and delete it",
+      () async {
+    final AcademicQuestionProvider provider =
+        AcademicQuestionProvider(instance);
+
+    final CustomUser user = CustomUser(
+      fullName: 'a b c',
+      userName: 'abc',
+      email: 'a@guc.edu.eg',
+      password: 'abcdef1',
+    );
+    AcademicQuestion q = AcademicQuestion(
+      content: 'academic question',
+      sender: user,
+      createdAt: DateTime.now(),
+      comments: [],
+      likes: {}
+    );
+
+    await provider.askQuestion(q);
+    expect(await provider.getQuestions(), isNotEmpty);
+    List<AcademicQuestion> myQuestions =
+        await provider.getMyQuestions('a@guc.edu.eg');
+    expect(myQuestions, isNotEmpty);
+    await provider.deleteQuestion(q.id);
+    List<AcademicQuestion> l = await provider.getQuestions();
+    expect(l, isEmpty);
+  });
+```
+
+##### 3- Likes/Comments Provider
+
+```
+test("like and dislike all post types", () async {
+final CustomUser user = CustomUser(
+fullName: 'a b c',
+userName: 'abc',
+email: 'a@guc.edu.eg',
+password: 'abcdef1',
+);
+Confession c = Confession(
+isAnonymous: false,
+content: 'confession',
+sender: user,
+createdAt: DateTime.now(),
+comments: [],
+likes: {});
+NewsEventClub n = NewsEventClub(
+reason: "reason",
+content: "content",
+sender: user,
+createdAt: DateTime.now(),
+likes: {},
+comments: []);
+AcademicQuestion aq = AcademicQuestion(
+content: "content",
+sender: user,
+createdAt: DateTime.now(),
+likes: {},
+comments: []);
+LostAndFound lf = LostAndFound(
+contact: "contact",
+content: "content",
+createdAt: DateTime.now(),
+image: "some image",
+sender: user,
+likes: {},
+comments: []);
+await confessionProvider.addConfession(c);
+await necProvider.postContent(n);
+await aqProvider.askQuestion(aq);
+await lfProvider.postItem(lf);
+await likesProvider.likePost(n.id, user.user_id, 0);
+await likesProvider.likePost(lf.id, user.user_id, 1);
+await likesProvider.likePost(aq.id, user.user_id, 2);
+await likesProvider.likePost(c.id, user.user_id, 3);
+LostAndFound res = (await lfProvider.getItems())[0];
+AcademicQuestion res1 = (await aqProvider.getQuestions())[0];
+Confession res2 = (await confessionProvider.getConfessions())[0];
+NewsEventClub res3 = (await necProvider.getPosts())[0];
+expect(res.likes.length, 0);
+expect(res1.likes.length, 0);
+expect(res2.likes.length, 0);
+expect(res3.likes.length, 1);
+await likesProvider.dislike(n.id, user.user_id, 0);
+await likesProvider.dislike(lf.id, user.user_id, 1);
+await likesProvider.dislike(aq.id, user.user_id, 2);
+await likesProvider.dislike(c.id, user.user_id, 3);
+res = (await lfProvider.getItems())[0];
+res1 = (await aqProvider.getQuestions())[0];
+res2 = (await confessionProvider.getConfessions())[0];
+res3 = (await necProvider.getPosts())[0];
+expect(res.likes.length, 0);
+expect(res1.likes.length, 0);
+expect(res2.likes.length, 0);
+expect(res3.likes.length, 0);
+});
+```
+
+##### 4- Reports Provider
+
+```
+test("report a confession and a comment and delete them", () async {
+final ReportsProvider p = ReportsProvider(instance);
+final CustomUser user = CustomUser(
+fullName: 'a b c',
+userName: 'abc',
+email: 'a@guc.edu.eg',
+password: 'abcdef1',
+);
+Confession c = Confession(
+isAnonymous: false,
+content: 'confession',
+sender: user,
+createdAt: DateTime.now(),
+comments: [],
+likes: {}
+);
+
+    Report r = Report(
+        reportedContentId: c.id,
+        reportedUser: c.sender,
+        reportedContent: c.content,
+        reportType: "confession",
+        createdAt: DateTime.now(), reason: 'Other');
+    Comment c2 = Comment(
+        content: "comment",
+        commenter: user,
+        createdAt: DateTime.now(),
+        postType: 0);
+    expect(await p.getCommentReports(), isEmpty);
+    expect(await p.getConfessionReports(), isEmpty);
+    await p.reportContent(r);
+    expect(await p.getConfessionReports(), isNotEmpty);
+
+    Report r2 = Report(
+        reportedContentId: c2.id,
+        reportedUser: c2.commenter,
+        reportedContent: c2.content,
+        reportType: "comment",
+        createdAt: DateTime.now(), reason: 'Harrasment');
+    await p.reportContent(r2);
+    expect(await p.getCommentReports(), isNotEmpty);
+
+    await p.approveReport(r);
+    expect(await p.getConfessionReports(), isEmpty);
+    await p.approveReport(r2);
+    expect(await p.getCommentReports(), isEmpty);
+
+    await p.reportContent(r);
+    await p.reportContent(r2);
+    await p.disapproveReport(r);
+    expect(await p.getConfessionReports(), isEmpty);
+    await p.disapproveReport(r2);
+    expect(await p.getCommentReports(), isEmpty);
+
+});
+```
 
 ### ⚠️ Disclaimer
 
