@@ -43,6 +43,87 @@ The GUConnect is a Student and Staff App that is a dynamic platform tailored for
 
 
 ### 📷 Screenshots
+- Splash screen(Loading Screen)
+<img src="./screenshots/SplashScreen.jpg"> 
+- User can signup to the app with his university email (student or stuff), and chooses the username he likes.
+<img src="./screenshots/signup.jpg">
+
+- User can login to the app with his university mail and password.
+<img src="./screenshots/login.jpg">
+
+- User can preview his own profile with all posts he has shared in all the sections.
+<img src="./screenshots/profile.jpg">
+
+- Drawer menu
+<img src="./screenshots/drawer.jpg">
+- News Events and Clubs Sections
+<img src="./screenshots/NewsEventsandClubs.jpg">
+
+- Lost and Found Section
+<img src="./screenshots/LF.jpg">
+
+- User can call the person posting Lost and Found post (if the persons shared his number)
+<img src ="./screenshots/LF2.jpg">
+
+- User can report any post in any section or comment.
+<img src="./screenshots/report1.jpg">
+<img src="./screenshots/report2.jpg">
+
+- Academic related questions section
+<image src="./screenshots/academic.jpg">
+
+- User can add a comment on any post in all the sections.
+<img src = "./screenshots/comment.jpg">
+
+- Confessions section (Confessions can be posted anonymously or public) and users can mention each others.
+<image src ="./screenshots/confessions.jpg">
+
+- User can search for all the offices in the university and knows their location through the app.
+<image src = "./screenshots/offices.jpg">
+
+- User can search for all the food outlets in the university and knows their location through the app.
+<image src ="./screenshots/outlets.jpg">
+
+- Using the direction button, the user can have the exact location of the office or his destination.
+<img src = "./screenshots/Directions.jpg">
+
+- User can search for Important phone numbers and call them directly through the app.
+<img src = "./screenshots/IMPPhone.jpg">
+
+- Users can search for Important emails in the university.
+<img src = "./screenshots/IMPEmails.jpg">
+<img src = "./screenshots/IMPEmailsSearch.jpg">
+
+- User can search for professors and Tas through the app.
+<img src="./screenshots/SaerchStaff.jpg">
+<img src="./screenshots/SearchStaff2.jpg">
+
+- User can view professor mail, office and avg. rating and he can rate a professor as well.
+  - Adding a new rating.
+  <img src = "./screenshots/profRate2.jpg">
+  - Remove or see his old rating.
+  <img src = "./screenshots/profRate.jpg">
+
+- User can search for courses taught in the university.
+<img src= "./screenshots/SearchCourses.jpg">
+<img src= "./screenshots/SearchCourses2.jpg">
+
+- User can preview course page and rate a specific course.
+<img src="./screenshots/CoursePage.jpg">
+
+- User can receive a notification on special events as someone likes/comments his post, someone mentions him in a post or an anouncment is posted in the app.
+<img src="./screenshots/notification.jpg"> 
+
+- User can edit his profile, changing his iamge, or password, or username and bio.
+<img src="./screenshots/EditProfile.jpg">
+<img src="./screenshots/EditProfile2.jpg">
+
+- Settings screen
+<img src="./screenshots/Settings.jpg">
+  - About us page
+  <img src="./screenshots/AboutUs.jpg">
+  - Logout 
+  <img src="./screenshots/Logout.jpg">
 
 ### Objectives: 
 - User Engagement: To create an app that appeals to GUC students and staff, encouraging active participation and usage.
